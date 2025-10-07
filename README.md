@@ -178,7 +178,6 @@ sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
 sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc 
 ```
 
-
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
 O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
 ```
@@ -213,8 +212,12 @@ $ echo $XDG_DATA_DIRS
 ```
 Mas calma, isso já foi feito, acontece que os caminhos indicados só serão vistos depois que você fizer o logout e login. Então faça isso.  
 
-
-No exemplo acima, esta variavel esta vazia, vamos corrigir isso, execute:
+Depois de encerrar a sessão e fazer um novo login, vamos testar novamente:
+```
+$ echo $XDG_DATA_DIRS
+/home/gsantana/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+```
+Ai está, tudo certo! Mas digamos que continua a retornar vazio, então vamos corrigir isso, execute:
 ```
 nano ~/.bash_profile
 ```  
@@ -223,27 +226,25 @@ e acrescente as seguintes linhas no final:
 export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"  
 ```
 Salve o arquivo e saia do editor.
-Depos, feche seu terminal e abra-o novamente, e então repita o comando:
+
+Depois, encerre a sua sessão e faça um novo login, notará que agora, esses caminhos estão atualizados:
 ```
 $ echo $XDG_DATA_DIRS
-
-
+/home/gsantana/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 ```
-
-
-
-
-
-
-Não é uma boa ideia instalar programas do flathub que são fornecidos por também pelo desenvolvedor original, por exemplo:  
+### IMPORTANTE
+Não é uma boa ideia instalar programas do flathub que são fornecidos por também pelos desenvolvedores originais, por exemplo:  
 * Google Chrome, o próprio Google os fornece diretamente  
-* Mozilla Firefox, a própria Mozilla o fornece diretamente  
-Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade que pode diferir do autor original com alguma mistura de plugins adicionais ou modificações que carecem de verificação.  
+Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade que pode diferir do autor original com alguma mistura de plugins adicionais ou modificações que carecem de verificação. 
+Mas também há desenvolvedores que publicam seu próprio programa no flathub, exemplo:  
+* Mozilla Firefox, a própria Mozilla publica seu software no flathub
+* Telegram, a própria Telegram publica seu software no flathub
+ 
 
-Agora, temos mais um repositório de programas. Os programas instalados do flathub rodam sob container, assim, depois de instalados, seus arquivos vão parar em:  
+Se não houver desconfiança sob quem publica os programas no flathub, geralmente tais programas são mais seguros porque rodam sob container, isto é, estão limitados a pastas como:  
 ~/.local  
 ~/.var  
-E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda.  
+E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
 
 
 ## DOMINIO DE REDE LOCAL  
