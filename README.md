@@ -211,6 +211,9 @@ $ echo $XDG_DATA_DIRS
 
 
 ```
+Mas calma, isso já foi feito, acontece que os caminhos indicados só serão vistos depois que você fizer o logout e login. Então faça isso.  
+
+
 No exemplo acima, esta variavel esta vazia, vamos corrigir isso, execute:
 ```
 nano ~/.bash_profile
