@@ -11,7 +11,7 @@ Nome do dominio local: localdomain.lan
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 ```
-$ *sudo apt update -y*
+$ sudo apt update -y
 Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
 Atingido:2 http://deb.debian.org/debian trixie InRelease
 Atingido:3 http://deb.debian.org/debian trixie-updates InRelease
@@ -242,9 +242,13 @@ sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc
 O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
 ```  
 sudo apt install -y flatpak
-# para GNOME, instale também:
+```  
+Para o ambiente GNOME, instale também:
+```  
 sudo apt install gnome-software-plugin-flatpak
-# para KDE, instale também:
+```  
+Para o ambiente KDE, instale também:
+```  
 sudo apt install plasma-discover-backend-flatpak
 ```
 Os pacotes alternativos para GNOME ou KDE são para maior integração dessas DE's ao flathub.
