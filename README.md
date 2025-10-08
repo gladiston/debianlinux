@@ -418,7 +418,19 @@ sudo apt install locales task-laptop task-portuguese task-portuguese-desktop
 💡 O pacote locales fornece os idiomas do sistema; os pacotes task-* completam tradução de menus, ajuda e aplicativos do ambiente gráfico.
 
 Se usa KDE, GNOME, XFCE etc., vá em Configurações do sistema>Região e Idioma>Idioma>Português (Brasil):  
-![Mudando ou atualizando o idioma](debian-regiao-idioma.png)
+![Mudando ou atualizando o idioma](debian-regiao-idioma.png)  
+Você pode aproveitar o momento e remover os idiomas desnecessários, mas não remova o inglês, poderemos requerer ele em algum momento, por exemplo, verificação ortográfica de um texto escrito em inglês.  
+
+Depois disso, vá em Configurações do sistema>Região e Idioma>Idioma>Verificação ortográfica e:  
+* Idioma padrão: Português(Brasil)  
+* Ativar detecção automática de idioma: Ligado  
+* Verificação ortográfica automática ativada por padrão: Ligado  
+* Ignorar palavras com toda as letras em maiúsculo: Desligado  
+* Ignorar palavras coladas: Ligado  
+Como visto nesta imagem:
+
+![Ativando correção ortográfica(debian-regiao-idioma-ortografica.png)  
+
 Depois, encerre e entre novamente na sessão.  
 
 ## GIT
