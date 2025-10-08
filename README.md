@@ -747,7 +747,7 @@ Agora vamos editar o arquivo /etc/fstab e então acrescentar após a última lin
 # Minha partição NTFS de label “DADOS”
 UUID="1EB4CCF2B4CCCE09" /media/label_dados ntfs-3g windows_names,nosuid,nodev,nofail,rw,user,gid=users,noauto 0 0
 ```
-Explicando os demais parâmetros:
+Parametro|Explicação
 |:--|:--|
 users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
 rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
@@ -812,6 +812,7 @@ Salve o arquivo e depois execute:
 sudo systemctl daemon-reload
 
 ### Explicando os parâmetros de montagem mais utilizados:  
+Parametro|Explicação
 |:--|:--|
 users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
 rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
@@ -862,7 +863,7 @@ O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será
 ```
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils dnsmasq-base ovmf
 ```
-Onde: 
+Parametro|Explicação
 |:--|:--|
 Pacote|Função  
 libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.  
