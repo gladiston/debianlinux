@@ -142,6 +142,67 @@ Obtidos 933 kB em 1s (1.856 kB/s)
 Todos os pacotes estão atualizados.  
 ```
 
+## INCLUINDO O REPOSITÓRIO DO VSCODE
+O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
+Não vamos instalá-lo agora, vamos apenas incluir seu repositório, execute os procedimentos abaixo:
+```
+# Atualiza a lista de pacotes
+sudo apt update
+
+# Adiciona a chave pública da Microsoft
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | \
+  sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
+
+# Adiciona o repositório do VS Code
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
+  sudo tee /etc/apt/sources.list.d/vscode.list
+
+# Atualiza os repositórios e instala o VS Code
+sudo apt update
+```  
+
+
+## INCLUINDO O REPOSITÓRIO DA MICROSOFT
+Sim, a Microsoft tem um repositório para distribuições Debian.
+Não vamos instalar nada de lá ainda, vamos apenas incluir seu repositório e por mais paradoxo que seja, há um download e instalação para que tenhamos tal repositório, execute os procedimentos abaixo:
+```
+# Baixa o pacote de configuração da Microsoft
+wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+
+# Instala o pacote, que adiciona automaticamente o repositório oficial
+sudo dpkg -i  /tmp/packages-microsoft-prod.deb
+
+# Atualiza os repositórios
+sudo apt update
+```  
+Isso produzirá um arquivo em /etc/apt/sources.list.d/microsoft-prod.list que apontará para o repositório oficial da Microsoft.
+Está curioso para saber o que a Microsoft está compartilhando? Então execute:
+```  
+$apt-cache policy | grep packages.microsoft.com
+ 500 https://packages.microsoft.com/repos/code stable/main amd64 Packages
+     origin packages.microsoft.com
+ 500 https://packages.microsoft.com/debian/13/prod trixie/main all Packages
+     origin packages.microsoft.com
+```  
+Isso confirma que o repositório foi reconhecido, agora vamos listar o que tem lá, execute:
+```  
+ apt list -a | grep microsoft
+(...)
+libmono-microsoft-build-engine4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-build-framework4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-build-tasks-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-build-utilities-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-build4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-csharp4.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-visualc10.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-microsoft-web-infrastructure1.0-cil/stable 6.12.0.199+dfsg-6 all
+libmono-system-json-microsoft4.0-cil/stable 6.12.0.199+dfsg-6 all
+lomiri-online-accounts-plugin-microsoft/stable 0.20-1 all
+packages-microsoft-prod/trixie,now 1.1-debian13 all [instalado]
+php-symfony-microsoft-teams-notifier/stable 6.4.21+dfsg-2 all
+```  
+É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada.
+
 
 ## ATUALIZAÇÃO DE REPOSITÓRIO
 Vamos atualizar o repositório de programas:  
@@ -494,39 +555,12 @@ sudo apt install -y kde-full
 Depois disso, *recomendo que reinicie o computador*.
 
 
-
-# DAQUI EM DIANTE ESTÁ EM PROCESSO DE REVISÃO, READAPTADO DO FEDORA
-
-## HABILITANDO AREA DE TRABALHO REMOTA
-Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:
-
-![Habilitando area de trabalho remota](kde_area_trabalho_remota.png)
-
-Quando precisar acessar sua estação de trabalho remota você poderá usar aplicativos como o remmina. Bastará fornecer a URL que indica seu computador como mostrado acima em destaque e então fornecer as credenciais fornecidas.  
-💡 DICA:  
-Mesmo que você não pretenda ativar o compartilhamento de arquivos, é seguro instalar esses pacotes apenas para obter acesso ao painel de configuração e alterar o hostname de forma visual.  
-
-
-## COMPARTILHAMENTO DE MULTIMEDIA
-Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento de multimedia, que na verdade é uma seção para escolher o que devo compartilhar, enquanto a seção HABILITANDO O COMPARTILHAMENTO DE ARQUIVOS habilita o compartilhamento de arquivos, a seção COMPARTILHAMENTO DE MULTIMEDIA determina o que deve ser compartilhado:
-
-![Escolhendo o que devo compartilhar](./compartilhar_arquivos_selecionar_pastas.png)
-
-Note na imagem que também é possivel acrescentar outras pastas.
-Normalmente, estes compartilhamento são visiveis a partir de outras estações linux e também estações windows. A partir de estações Windows basta chamar como \\computador e os compartilhamentos que houverem no computador serão exibidos.
-
-## HABILITANDO SESSÃO REMOTA
-Carregue o programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Queremos no momento ativar o compartilhamento de sessão remota, isto é, permitir que outras pessoas na rede possam abrir uma sessão via ssh ou display grafico (ssh -X) neste computador:
-
-![Habilitando sessão remota](./sessao_remota_ativar.png)
-
-Note que na imagem é mostrado um exemplo de como posso usar o ssh para abrir uma sessão.
-
 ## PRELOAD
 Se estiver usando discos mecanicos, provavelmente sente muita latencia para carregar certos progrmas. Numa situação assim, é bom instalar um serviço chamado 'preload', ele monitora os programas que você mais utiliza e durante o boot já os carrega para você. A vantagem é a velocidadade para carregá-los na memória, note porém que tais programas SEMPRE ESTARÃO NA MEMÓRIA e com isso, o tamanho da sua memória irá abaixar, por isso, só recomendo que use este programa com moderação e com discos mecânicos que são lentos, não há vantagens em discos SSD ou NVME. Para instalar:
 ```
 sudo apt install -y preload
 ```
+
 
 ## INSTALANDO PERFIS DE USO (TUNED)
 O tunned é um programa que permite trocar em tempo real o perfil de desempenho do compuador, por exemplo, posso usar o perfil de desempenho balanceado quando quero navegar na internet e de um momento para outro trocar o perfil de desempenho para 'realtime' quando quero maximimizar a performance. Há outros perfis prontos para usar maquinas virtuais, economia de energia, etc... O programa tem muitos perfís e é altamente recomendado, vamos a instalação:
@@ -661,7 +695,10 @@ git config --global user.email "seu.email@dominio.com"
 ```
 
 Recentemente, o github fez alterações em seu sistema onde a instrução:
-git config credential.helper 'cache --timeout=28800' 
+```
+git config --global credential.helper 'cache --timeout=28800'
+```
+
 Será ignorada completamente ou terminará em erro e a tentativa de login resultará neste erro:
 **Fatal Authentication Failed for: site.com.br**
 
@@ -736,6 +773,34 @@ sudo ntfsfix /dev/disk/by-label/DADOS
 Alternativas: Existe um serviço chamado AutoFS, ele implementa uma solução onde você indica pastas e apenas quando você acessá-las, ele as monta. Serve para discos externos, partições internas e também para compartilhamentos remotos. Esta última, é o motivo pelo qual é mais usado visto que auto-montar pastas que já estão em nosso domínio é mais fácil usando o fstab. AutoFS é um pouco mais complicado que usar /etc/fstab, mas nem tanto depois que você entende como ele funciona. Eu tenho receio de utilizá-lo em ambientes com pouco controle porque se houver programas que vasculhem discos eles irão montar todas as pastas que encontrarem na configuração para auto montar, talvez  voce pense na situação de vírus de computador, mas ocorreria algo similar em softwares de backups que podem erroneamente incluir pastas que não deveriam. Se quiser estudar o AutoFS:
 
 https://devconnected.com/how-to-install-autofs-on-linux/
+
+---
+# DAQUI EM DIANTE ESTÁ EM PROCESSO DE REVISÃO, READAPTADO DO FEDORA
+---
+## HABILITANDO AREA DE TRABALHO REMOTA
+Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:
+
+![Habilitando area de trabalho remota](kde_area_trabalho_remota.png)
+
+Quando precisar acessar sua estação de trabalho remota você poderá usar aplicativos como o remmina. Bastará fornecer a URL que indica seu computador como mostrado acima em destaque e então fornecer as credenciais fornecidas.  
+💡 DICA:  
+Mesmo que você não pretenda ativar o compartilhamento de arquivos, é seguro instalar esses pacotes apenas para obter acesso ao painel de configuração e alterar o hostname de forma visual.  
+
+
+## COMPARTILHAMENTO DE MULTIMEDIA
+Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento de multimedia, que na verdade é uma seção para escolher o que devo compartilhar, enquanto a seção HABILITANDO O COMPARTILHAMENTO DE ARQUIVOS habilita o compartilhamento de arquivos, a seção COMPARTILHAMENTO DE MULTIMEDIA determina o que deve ser compartilhado:
+
+![Escolhendo o que devo compartilhar](./compartilhar_arquivos_selecionar_pastas.png)
+
+Note na imagem que também é possivel acrescentar outras pastas.
+Normalmente, estes compartilhamento são visiveis a partir de outras estações linux e também estações windows. A partir de estações Windows basta chamar como \\computador e os compartilhamentos que houverem no computador serão exibidos.
+
+## HABILITANDO SESSÃO REMOTA
+Carregue o programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Queremos no momento ativar o compartilhamento de sessão remota, isto é, permitir que outras pessoas na rede possam abrir uma sessão via ssh ou display grafico (ssh -X) neste computador:
+
+![Habilitando sessão remota](./sessao_remota_ativar.png)
+
+Note que na imagem é mostrado um exemplo de como posso usar o ssh para abrir uma sessão.
 
 ## HABILITANDO OS ÍCONES DA BANDEJA NO GNOME
 O GNOME nas suas últimas opções não vem mais com a bandeja do sistema(tray) e por isso algumas programas que antes usavam ela para ancorar opções podem deixar de funcionar. Para tê-la de volta será necessário instalar extensões do GNOME. Essas extensões na maior parte das vezes são instaladas diretamente do site oficial, mas por algumas serem tão populares também estão nos repositórios e pré-instaladas, então você já tem elas instaladas.
