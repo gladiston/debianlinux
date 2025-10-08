@@ -337,7 +337,8 @@ Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado q
 ### Instalando o SAMBA
 Execute:
 ```  
-sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba 
+sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba
+sudo apt install -y cifs-utils kio-fuse
 ```
 As vezes, dependendo do perfil de instação, ele pode já ter sido instalado.
 
