@@ -413,11 +413,12 @@ Exemplo: servidor KVM que hospeda várias VMs RT, como sistemas de automação o
 ## COMPLETANDO O IDIOMA PORTUGUÊS
 O idioma português-brasil não está completamente instalado, para isso execute o programa “system-config-language”, porém ele não está instalado por padrão, execute:
 ```
-sudo dnf install system-config-language
+sudo apt install locales task-laptop task-portuguese task-portuguese-desktop
 ```
-e depois finalmente execute “system-config-language”:
-![Fig](./fig.png)
-Apenas escolha o idioma “Portugues do Brasil” e clique em “OK” e o sistema se certificará que todos os pacotes de idiomas estão instalados.
+💡 O pacote locales fornece os idiomas do sistema; os pacotes task-* completam tradução de menus, ajuda e aplicativos do ambiente gráfico.
+
+Se usa KDE, GNOME, XFCE etc., vá em Configurações do sistema>Região e Idioma>Idioma>Português (Brasil)
+Depois, encerre e entre novamente na sessão.  
 
 ## GIT
 Vamos ajustar nosso ambiente com o GIT com os comandos:
