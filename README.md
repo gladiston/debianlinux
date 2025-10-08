@@ -736,10 +736,11 @@ A partição do meu Linux usar o NVME, assim o disco adicional que tenho está e
 
 Primeiro, vamos criar uma pasta vazia para montagem:  
 ```
-mkdir -p /mnt/ti-01-disco2 
-chmod 1777 /mnt/ti-01-disco2 
+sudo mkdir -p /mnt/ti-01-disco2
+sudo chown -R $USER:$USER /mnt/ti-01-disco2
+sudo chmod -R 2777 /mnt/ti-01-disco2
 ```
-Depois vamos editar o arquivo /etc/fstab, acrescentando a seguinte linha:
+Os comandos acima, também garantirão pleno acesso ao conteúdo do que for montado. Depois vamos editar o arquivo /etc/fstab, acrescentando a seguinte linha:
 Exemplo usando o LABEL para montar o disco:  
 ```
 LABEL=ti-01-disco2  /mnt/ti-01-disco2  ext4  rw,user,exec,umask=000  0  0
@@ -760,6 +761,7 @@ UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/ti-01-disco2  ext4  rw,user,exec
 
 Parametro|Explicação
 |:--|:--|
+ext2,ext3,ext4...|Tipo de partição que pretende montar, aceita-se muitos tipos de partições incluindo as de windows como vfat e ntfs. Dependendo do tipo partição, as outras opções de montagem podem variar.
 users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
 rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
 user,exec,umask=000|Monta com permissões abertas (qualquer usuário pode ler/gravar/executar).  
@@ -775,6 +777,12 @@ Toda vez que modificar o arquivo 'fstab', precisará executar um comando para qu
 ```
 sudo systemctl daemon-reload
 ```
+Reinicie o computador para testar a montagem.
+Se perceber que não tem acesso a modificação ao conteúdo disco montado, provavelmente é porque haviam permissões pré-existentes indicando outro usuário, isso pode ser corrigido repetindo o comando:  
+```
+sudo chown -R $USER:$USER /mnt/ti-01-disco2
+sudo chmod -R 2777 /mnt/ti-01-disco2
+```
 
 ## ACESSAR PARTIÇÕES NTFS NO SISTEMA
 Se utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, você pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser. Contudo, se você tem que ir para o terminal e acessá-lo dali então lhe seria conveniente criar uma pasta vazia que ao entrar nela você já observasse o conteúdo dessa partição, se você gostou da idéia então vamos implementá-la.  
@@ -789,7 +797,7 @@ No exemplo anterior, o disco desejado tem o LABEL=DADOS e UUID="1EB4CCF2B4CCCE09
 A vantagem de ficar em $HOME é que com os cuidados necessários apenas você terá acesso a ela, mas se prefere disponibilizar a partição para todos então tente:
 ```
 sudo mkdir -p /media/label_dados
-sudo chmod 1777 /media/label_dados
+sudo chmod 2777 /media/label_dados
 sudo chmod +s /bin/ntfs-3g
 sudo usermod -aG disk $USER 
 ```
@@ -854,7 +862,12 @@ sftp://nas01/mnt/po_nas01/pub # ou sftp://gsantana[:senha]@nas01/mnt/po_nas01/pu
 Mas em algumas oportunidades, queremos acessar isso pelo terminal, o que fazer?
 Simplesmente ir para o terminal e executar:
 ```
-sudo mount -t cifs //nas01/pub /mnt/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+# Criando a pasta e ajustando permissões
+sudo mkdir -p /media/pub 
+sudo chown $USER:$USER /media/pub 
+sudo chmod 2777 /media/pub
+# Montando a pasta
+sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
 ```
 Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então incluir:
 ```
@@ -1019,20 +1032,38 @@ Neste caso, precisaremos incluir um novo poll:
 ```
 mkdir -p /home/$USER/libvirt/images
 ```
-Se a pasta acima estiver num tipo de partição btrfs precisamos tomar um cuidado, este tipo de partição faz uma série de operações no disco, uma delas é compactação e subalocamente de cluster que embora economine espaço em disco causará uma sobrecarga de I/O para nossas VMs armazenadas ali, então precisamos desativar essas funcionalidades, mas apenas para essa pasta, execute:
+### Localização das VMs numa partição btrfs
+Se a pasta acima estiver num tipo de partição btrfs, este tipo de partição faz uma série de operações no disco, uma delas é o CoW e a compressão que embora sejam algo excelente, causará uma sobrecarga de I/O para nossas VMs armazenadas ali, então precisamos desativar essas funcionalidades, mas apenas para essa pasta que criamos para nossas VMs, execute:
 ```
-xxxx
+# Desabilitando CoW
+chattr +C /home/$USER/libvirt/images
+# Desabilitando a compressão
+sudo btrfs property set /home/$USER/libvirt/images compression none
 ```
+ATENÇÃO: Os comandos acima só funcionam para pastas vazias, se a pasta já tiver um conteúdo, os comandos acima não funcionarão.
 
-E então redirecionar este pool para lá:  
+Agora que a pasta foi criada com sucesso, então redirecionar o pool de imagens para lá:  
 ```
 virsh pool-define-as vm dir - - - - "/home/$USER/libvirt/images"
 ```
+Algo também muito recomendado é a desfragmentação da pasta, pois desligamos algumas propriedades do btrfs e as imagens de VMs costumam ser grandes. Isso pode ser feito com o comando:  
+```
+sudo btrfs filesystem defragment -r "/home/$USER/libvirt/images"
+```
+Se for possivel, use o agendador de tarefsa do Linux para rodá-lo num horário programado, execute o comando 'sudo crontab -e' e adicione a linha:
+```
+0 12 * * * btrfs filesystem defragment -r  "/home/gsantana/libvirt/images"
+```
+O comando acima, no horário 12:00 (almoço) fará a desfragmentação da pasta mencionada.
+
+### Localização das ISOs
 Também precisaremos de um repositório para guardar nossas isos, escolha o diretorio que desejar:  
 ```
 mkdir -p /home/$USER/WinSrv/isos
 virsh pool-define-as isos dir - - - - "/home/$USER/WinSrv/isos"
 ```
+
+### Virtualização de Windows
 Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema, eles contêm drivers de sistema convidado:  
 ```
 cd /home/$USER/WinSrv/isos
@@ -1042,45 +1073,15 @@ wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable
 Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:
 https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
 
-
----
-# DAQUI EM DIANTE ESTÁ EM PROCESSO DE REVISÃO, READAPTADO DO FEDORA
----
 ## HABILITANDO AREA DE TRABALHO REMOTA
-Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:
-
-![Habilitando area de trabalho remota](kde_area_trabalho_remota.png)
-
-Quando precisar acessar sua estação de trabalho remota você poderá usar aplicativos como o remmina. Bastará fornecer a URL que indica seu computador como mostrado acima em destaque e então fornecer as credenciais fornecidas.  
-💡 DICA:  
-Mesmo que você não pretenda ativar o compartilhamento de arquivos, é seguro instalar esses pacotes apenas para obter acesso ao painel de configuração e alterar o hostname de forma visual.  
+(todo)
 
 
 ## COMPARTILHAMENTO DE MULTIMEDIA
-Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento de multimedia, que na verdade é uma seção para escolher o que devo compartilhar, enquanto a seção HABILITANDO O COMPARTILHAMENTO DE ARQUIVOS habilita o compartilhamento de arquivos, a seção COMPARTILHAMENTO DE MULTIMEDIA determina o que deve ser compartilhado:
-
-![Escolhendo o que devo compartilhar](./compartilhar_arquivos_selecionar_pastas.png)
-
-Note na imagem que também é possivel acrescentar outras pastas.
-Normalmente, estes compartilhamento são visiveis a partir de outras estações linux e também estações windows. A partir de estações Windows basta chamar como \\computador e os compartilhamentos que houverem no computador serão exibidos.
+(todo)
 
 ## HABILITANDO SESSÃO REMOTA
-Carregue o programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Queremos no momento ativar o compartilhamento de sessão remota, isto é, permitir que outras pessoas na rede possam abrir uma sessão via ssh ou display grafico (ssh -X) neste computador:
-
-![Habilitando sessão remota](./sessao_remota_ativar.png)
-
-Note que na imagem é mostrado um exemplo de como posso usar o ssh para abrir uma sessão.
-
-## HABILITANDO OS ÍCONES DA BANDEJA NO GNOME
-O GNOME nas suas últimas opções não vem mais com a bandeja do sistema(tray) e por isso algumas programas que antes usavam ela para ancorar opções podem deixar de funcionar. Para tê-la de volta será necessário instalar extensões do GNOME. Essas extensões na maior parte das vezes são instaladas diretamente do site oficial, mas por algumas serem tão populares também estão nos repositórios e pré-instaladas, então você já tem elas instaladas.
-Visite o site(será preciso abrir uma conta):
-https://addons.mozilla.org/en-US/firefox/addon/gnome-shell-integration/
-Se achar a tela abaixo, então a mesma já está em seu sistema, caso contrário instale-a:
-![Figura](./fig.png)
-
-Outra extensão altamente recomendada é essa:
-https://extensions.gnome.org/extension/2890/tray-icons-reloaded/
-https://extensions.gnome.org/extension/615/appindicator-support/
+(todo)
 
 ## BLOQUEIO DE TELA AUTOMÁTICO
 O sistema normalmente é ajustado automaticamente para bloquear após 5 minutos de atividade, mas ‘falta de atividade’ é um termo incorreto, o correto seria ‘tempo sem interatividade’, isto é, o tempo que você fica sem ter que interagir com o computador. Às vezes estamos processando algo demorado e temos de esperar ou acompanhar a movimentação de log de status e o computador durante este tempo estará tendo muito trabalho, porém com pouca interatividade a tela será bloqueada. Então precisamos saber quanto tempo precisamos nas tarefas do dia a dia ou então desligá-la.
@@ -1159,19 +1160,6 @@ A partir de agora, quando abrir o terminal, seu prompt será assim:
 ![Novo prompt](./mudando_prompt06.png)  
 Muito bacana, hein?
 
-
-## INTEGRAÇÃO DO GNOME SHELL COM O FIREFOX
-As integrações dos navegadores com o ambiente GNOME é permitida através de extensões, com elas instaladas você pode fazer mudanças no ambiente gnome shell como alterar o papel de parede do gnome ao visitar a página gnome-look.org ou instalar extensões em extensions.gnome.org. 
-Instale a extensão para o Firefox:
-https://addons.mozilla.org/pt-BR/firefox/addon/gnome-shell-integration/
-
-## ALGUMAS EXTENSÕES ÚTEIS (GNOME)
-As extensões a seguir lhe serão úteis *SE ESTIVER USANDO O GNOME*:
-```
-sudo dnf install -y gnome-extensions-app gnome-tweaks
-~sudo dnf install -y gnome-shell-extension-appindicator~
-```
-
 ## PARA TREINAMENTO
 Para criar material de treinamento que incluirá vídeo é sugerível instalar a seguinte extensão Draw On Your Screen cuja instrução para instalação se encontra em:
 https://codeberg.org/som/DrawOnYourScreen
@@ -1180,26 +1168,6 @@ https://codeberg.org/som/DrawOnYourScreen
 git clone https://codeberg.org/som/DrawOnYourScreen --depth=1 --single-branch --branch face ~/.local/share/gnome-shell/extensions/draw-on-your-screen@som.codeberg.org
 ```
 Depois vá até .local/share/gnome-shell/extensions e abra o arquivo metadata.json e adicione "41" e então reinicie o gnome-shell.
-
-
-## GNOME DASH TO DOCK
-O GNOME não possui uma dock, isto é, um local para repousar os aplicativos favoritos ou atualmente carregados. O time do GNOME espera que você use o botão super ou ALT+TAB para listá-los ou carregá-los de seu painel de programas. Porém, muitos estão acostumados a uma dock, se você é uma delas então instale a extensão dash to dock:
-
-https://extensions.gnome.org/extension/307/dash-to-dock/
-
-
-## HABILITANDO OS ÍCONES DA BANDEJA NO GNOME
-Outra extensão altamente recomendada é essa:
-https://extensions.gnome.org/extension/2890/tray-icons-reloaded/
-https://extensions.gnome.org/extension/615/appindi	cator-support/
-
-
-## GERENCIANDO A CLIPBOARD
-(todo)
-
-
-## GNOME-TWEAKS
-(todo)
 
 
 ## INSTALAÇÃO DE FONTES DE CARACTERES ADICIONAIS
@@ -1244,85 +1212,6 @@ fc-cache -f -v
 fc-list | grep "Consolas"
 ```
 
-
-## EXTENSÕES DO GNOME SHELL
-Extensões do GNOME SHELL acrescentam funcionalidades ou mudam comportamento. A partir do GNOME 41 muitas extensões listadas abaixo deixaram de funcionar, mas deixo elas listadas porque em algum momento poderão voltar a funcionar. Alguns são considerados necessários, outros opcionais e ainda outros são bem específicos. Coloquei aqui algumas que considero necessários e opcionais.
-Extensões necessárias:
-Para áudio (escolha apenas uma):
-~https://extensions.gnome.org/exten sion/906/sound-output-device-chooser/~
-**Outras**
-https://extensions.gnome.org/extension/19/user-themes/
-https://extensions.gnome.org/extension/36/lock-keys/
-https://extensions.gnome.org/extension/779/clipboard-indicator/
-https://extensions.gnome.org/extension/1460/vitals/
-https://extensions.gnome.org/extension/3902/eye-and-mouse-extended/
-
-**Outras que são opcionalmente úteis:**
-https://extensions.gnome.org/extension/690/easyscreencast/
-https://extensions.gnome.org/extension/945/cpu-power-manager/ (testar melhor)
-https://extensions.gnome.org/extension/750/openweather/
-https://extensions.gnome.org/extension/1238/time/
-
-IMPORTANTE: Se por acaso alguma extensão se comportar mal, use o programa  “gnome-extensions-app” para removê-la ou configurá-la de forma diferente.
-
-
-## USANDO O THEMAS VARIADOS DO GNOME SHELL
-O GNome Shell usa um conjunto de critérios para focar no que você está fazendo e evitar distrações, mas nada disso adianta se não nos comprometermos em saber como as coisas funcionam. Por isso recomendo que leiam e vejam os vídeos contidos na página:
-https://material-shell.com/
-
-Se você usa muito o computador, recomendo que dê atenção às teclas de atalho:
-https://material-shell.com/#hotkeys
-
-## USANDO O TERMINAIS VIRTUAIS DO GNOME SHELL
-Quem vem do ambiente Windows parece odiar o GNOME justamente porque é muito diferente do Windows, afinal cadê o minimizar, maximizar, painel inferior, menu iniciar, bandeja, etc… porém, se você se habituar a utilizar algumas janelas lado a lado ou sempre maximizados então terá de se acostumar a alguns atalhos:
-
-Super+Shift+PageDown[PageUp] para descer[ou sumir] a aplicação para a workspace abaixo[ou acima]
-Super+PageDown[PageUp] para descer ou subir entre as workspaces
-Super+AWSD permite movimentar-se entre as áreas virtuais. AWSD podem ser substituídas pelas setas, quem usa notebook com teclados que combinam as setas com Fn ficará mais à vontade em usar AWSD.
-Não uso tanto, mas são poucos conhecidos.
-Print Screen copia a tela inteira e grava-a na pasta Imagens
-Alt+Print Screen copia a janela do aplicativo que estiver ativo grava-o na pasta Imagens
-Shft+Print Screen permite selecionar a área que deseja gravar e  grava-o na pasta Imagens
-
-
-
-## INSTALAR O GOOGLE CHROME
-Apesar do Firefox ser um excelente navegador, muitas vezes precisaremos do Google Chrome, para baixá-lo use a loja de software (Programas) e procure por “Google Chrome” e instale-o.
-
-
-
-## INTEGRAÇÃO DO GNOME SHELL COM O CHROMIUM 
-As integrações dos navegadores com o ambiente GNOME é permitida através de extensões, com elas instaladas você pode fazer mudanças no ambiente gnome shell como alterar o papel de parede do gnome ao visitar a página gnome-look.org ou instalar extensões em extensions.gnome.org. 
-Também aplica-se a variações, incluindo o Google Chrome, execute no terminal:
-```
-sudo dnf install chrome-gnome-shell
-```
-## Visual Studio Code (repositório e instalação)
-
-Para instalar visite:
-https://code.visualstudio.com/docs/setup/linux
-
-E siga as instruções, mas basicamente é:
-
-Para acrescentar o repositório oficial do VS Code:
-```
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
-sudo dnf check-update
-sudo dnf install -y code
-```
-Relata-se um problema ao sincronizar configurações e extensões com o vscode:
-**“Visual Studio Code is unable to watch for file changes in this large workspace” (error ENOSPC)**
-Na internet encontrei o seguinte workaround que resolve tal problema:
-```
-sudo -i
-echo 'fs.inotify.max_user_watches = 524288' >> /etc/sysctl.conf
-sysctl -p
-```
-Se esta for sua primeira instalação visite novamente a página:
-https://code.visualstudio.com/download
-
-Nessa página há uma seção intitulada ‘Top Extensions’, guie-se por ela para instalar os plugins mais efetivos para cada linguagem que for utilizar.
 
 
 ## ZOOM CLOUD MEETINGS
