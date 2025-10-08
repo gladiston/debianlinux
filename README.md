@@ -167,13 +167,22 @@ Processando gatilhos para man-db (2.13.1-1) ...
 ```  
 No exemplo acima, apenas o google-chrome requer atualização.
 
-## INSTALANDO PROGRAMAS BASICOS
-Estes programas considero essenciais no sistema, são programas utilitários que ajudam a resolver problemas:
+## INSTALANDO O SILVERSEARCH-AG(ag)
+O Silversearcher-ag, também conhecido apenas como ag, é uma ferramenta de busca extremamente rápida para código-fonte e arquivos de texto.
+Ele é similar ao comando grep, porém muito mais veloz e prático, sendo ideal para desenvolvedores e administradores que precisam localizar trechos de texto em grandes projetos.
 ```
-sudo apt install -y silversearcher-ag # um super grep
-sudo apt install -y wget curl # downloaders
-sudo apt install -y lzip tar unzip squashfs-tools # [des]compactadores
+sudo apt install -y silversearcher-ag
 ```
+
+## INSTALAÇÃO DE FERRAMENTAS DE DOWNLOAD (WGET E CURL)
+O comando abaixo instala duas ferramentas essenciais para realizar downloads e requisições web diretamente pelo terminal Linux:    
+```
+sudo apt install -y wget curl 
+```
+Descrição dos componentes:
+* WGET: Utilitário simples e confiável para baixar arquivos via HTTP, HTTPS e FTP.
+* CURL: Ferramenta mais avançada para transferir dados ou interagir com APIs usando diversos protocolos (HTTP, HTTPS, FTP, SCP, etc.).
+Esses programas são amplamente usados em scripts, automações e testes de conectividade.
 
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
 Os utilitários de compactação e descompactação não vêm todos instalados por padrão em uma instalação mínima do Debian.
