@@ -216,10 +216,17 @@ sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
 sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc 
 ```
 
+## OBTENHA O KDE COMPLETO
+O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, por exemplo, não acompanha o modulo de compartilhamento de arquivos que muitas vezes pode ser necessário para desenvolvedores e administradores de sistemas, então se desejar um KDE mais cheio de funções, execute:
+```  
+sudo apt install -y kde-full
+```
+Depois disso, *recomendo que reinicie o computador*.
+
 
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
 O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
-```
+```  
 sudo apt install -y flatpak
 # para GNOME, instale também:
 sudo apt install gnome-software-plugin-flatpak
@@ -313,7 +320,9 @@ sudo hostnamectl set-hostname novo-nome
 ## HABILITANDO O MÓDULO “COMPARTILHAMENTO” NO KDE  
 Por padrão, o Debian com KDE (Plasma) não exibe a opção “Compartilhamento” nas Configurações do Sistema, diferentemente do Fedora, onde ela vem habilitada. Isso ocorre porque o módulo depende de pacotes adicionais que não são instalados automaticamente, para habilitar o módulo, instale os pacotes abaixo:
 ``` 
-sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba
+sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba 
+
+sudo systemctl start samba
 ``` 
 Depois, encerre a sessão e a inicie novamnete.  
 Agora vá em Configurações do Sistema>Compartilhamento>Compartilhamento de Arquivos, o módulo agora estará disponível e exibirá também o campo “Nome do Computador (Hostname)”, permitindo alterar o nome da máquina de forma gráfica:  
@@ -326,6 +335,9 @@ Ainda no programa “Configurações”, então procure por “host” ou “com
 ![Habilitando area de trabalho remota](./area_trabalho_remota.png)
 
 Quando precisar acessar sua estação de trabalho remota você poderá usar aplicativos como o remmina. Bastará fornecer a URL que indica seu computador como mostrado acima em destaque e então fornecer as credenciais fornecidas.  
+💡 DICA:  
+Mesmo que você não pretenda ativar o compartilhamento de arquivos, é seguro instalar esses pacotes apenas para obter acesso ao painel de configuração e alterar o hostname de forma visual.  
+
 
 ## COMPARTILHAMENTO DE MULTIMEDIA
 Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento de multimedia, que na verdade é uma seção para escolher o que devo compartilhar, enquanto a seção HABILITANDO O COMPARTILHAMENTO DE ARQUIVOS habilita o compartilhamento de arquivos, a seção COMPARTILHAMENTO DE MULTIMEDIA determina o que deve ser compartilhado:
