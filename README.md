@@ -366,7 +366,7 @@ sudo systemctl start smbd nmbd
 
 
 ## INSTALANDO O VSCODE
-O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.
+O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
 Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como autocompletar inteligente (IntelliSense), debug integrado, controle de versão com Git, e uma ampla variedade de extensões para praticamente qualquer linguagem. O VS Code não está nos repositórios padrão do Debian, mas pode ser instalado diretamente do repositório oficial da Microsoft, dessa forma precisaremos incluí-lo, execute os procedimentos abaixo:
 ```
 # Atualiza a lista de pacotes
@@ -386,6 +386,7 @@ sudo apt install -y code
 ```  
 EXTENSÕES SUGERIDAS:
 ### NODE.JS
+É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension waderyan.nodejs-extension-pack \
      --install-extension dbaeumer.vscode-eslint \
@@ -394,6 +395,7 @@ code --install-extension waderyan.nodejs-extension-pack \
      --install-extension ms-vscode.node-debug2
 ```
 ### JAVA
+É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension vscjava.vscode-java-pack \
      --install-extension redhat.java \
@@ -402,11 +404,12 @@ code --install-extension vscjava.vscode-java-pack \
      --install-extension vscjava.vscode-maven
 ```
 ### FREE PASCAL E DELPHI
+É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo, isso também inclui o Lazarus, IDE para programação usando freepascal:  
 ```
 code --install-extension Wosi.omnipascal \
      --install-extension alefragnani.pascal
 ```
-💡 Dica: no Debian, é recomendável ter o Free Pascal (fpc) e o Lazarus IDE instalados para compilar e testar diretamente seus projetos.
+💡 Dica: no Debian, é recomendável ter o Free Pascal (fpc) e o Lazarus IDE instalados para compilar e testar diretamente seus projetos.  
 
 
 ### EXTENSÕES PARA HTML, CSS E JAVASCRIPT
@@ -418,6 +421,7 @@ code --install-extension ecmel.vscode-html-css \
      --install-extension xabikos.JavaScriptSnippets
 ```
 ### EXTENSÕES PARA PYTHON
+É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension ms-python.python \
      --install-extension ms-python.vscode-pylance \
@@ -435,11 +439,11 @@ code --install-extension mtxr.sqltools \
      --install-extension cweijan.vscode-database-client2
 ```
 ⚙️ COMO USAR
-Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).
-Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).
-Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.
-Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.
-💡 Dica: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.
+Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).  
+Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).  
+Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.  
+Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.  
+💡 Dica: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.  
 
 
 ### EXTENSÕES PARA BASH SCRIPT E TERMINAL
@@ -453,8 +457,7 @@ code --install-extension mads-hartmann.bash-ide-vscode \
 ```
 ⚙️ CONFIGURAÇÕES RECOMENDADAS
 
-Após instalar as extensões, adicione estas configurações no arquivo
-~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
+Após instalar as extensões, use Ctrl + , e depois Abrir Configurações JSON, acrescente:
 ```
 {
   "editor.formatOnSave": true,
