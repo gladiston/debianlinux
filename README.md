@@ -127,11 +127,10 @@ Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalaç�
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
-O comando htop lm-sensors  strace não são instalados por padrão, mas é muito util para gerenciar tarefas em execução pelo terminal, eles servem para:
-
-htop: gerenciar tarefas pelo terminal similar ao 'top', porém muito melhor.  
-lm-sensors: ler os dados de sensores que o computador dispuser.  
-strace: verificar quem está bloqueando ou acessando algum recurso, por exemplo, quem está com o arquivo 'xxx.doc' em aberto.
+Os comandos htop, lm-sensors e strace não vêm instalados por padrão, mas são muito úteis para gerenciar e diagnosticar o sistema diretamente pelo terminal. Eles servem para:  
+* htop: gerencia tarefas no terminal, semelhante ao top, porém com interface mais amigável e interativa.
+* lm-sensors: lê e exibe dados de sensores de temperatura, voltagem e ventoinhas disponíveis no hardware.
+* strace: monitora chamadas de sistema e sinais usados por um processo — útil, por exemplo, para descobrir qual programa está acessando ou bloqueando um arquivo como arquivo.docx.
 
 Gostou deles? Então execute:  
 ```  
@@ -248,17 +247,23 @@ Mas também há desenvolvedores que publicam seu próprio programa no flathub, e
 * Telegram, a própria Telegram publica seu software no flathub
  
 
-Se não houver desconfiança sob quem publica os programas no flathub, geralmente tais programas são mais seguros porque rodam sob container, isto é, estão limitados a pastas como:  
+Se não houver desconfiança sob quem publica os programas no flathub, geralmente tais programas são mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
+```
 ~/.local  
-~/.var  
+~/.var
+```  
 E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
 
 
 ## DOMINIO DE REDE LOCAL  
 Se tiver um dominio de rede, edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
-WORKGROUP = WORKGROUP  
+```  
+WORKGROUP = WORKGROUP
+```  
 e troque por:  
-WORKGROUP = meudominioderedelocal.lan  
+```  
+WORKGROUP = meudominioderedelocal.lan
+```  
 Salve e saia do editor.  
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos.  
 
@@ -296,9 +301,6 @@ Carregue o programa “Configurações”, então procure por “host” ou “c
 ![Habilitando sessão remota](./sessao_remota_ativar.png)
 
 Note que na imagem é mostrado um exemplo de como posso usar o ssh para abrir uma sessão.
-
-
-
 
 ## PRELOAD
 Se estiver usando discos mecanicos, provavelmente sente muita latencia para carregar certos progrmas. Numa situação assim, é bom instalar um serviço chamado 'preload', ele monitora os programas que você mais utiliza e durante o boot já os carrega para você. A vantagem é a velocidadade para carregá-los na memória, note porém que tais programas SEMPRE ESTARÃO NA MEMÓRIA e com isso, o tamanho da sua memória irá abaixar, por isso, só recomendo que use este programa com moderação e com discos mecânicos que são lentos, não há vantagens em discos SSD ou NVME. Para instalar:
@@ -406,9 +408,6 @@ Exemplo: uma VM rodando um sistema de controle de robô industrial, ou processam
 Uso: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
 O que faz: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
 Exemplo: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.
-
-
-
 
 
 ## COMPLETANDO O IDIOMA PORTUGUÊS
