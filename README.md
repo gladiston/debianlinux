@@ -322,6 +322,15 @@ Se não houver desconfiança sob quem publica os programas no flathub, geralment
 ```  
 E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
 
+
+## MUDANDO O NOME DO HOST  
+Durante a instalação do Debian, você provavelmente definiu um nome para o seu computador (hostname).
+Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
+Pelo ambiente gráfico (KDE ou GNOME), abra o aplicativo Configurações do Sistema, e na barra de pesquisa, digite “host”, "sistema" ou algo similar e essas informações serão exibidas e passiveis de modificações. A cada versão do KDE e GNOME, essas opções mudam de lugar ou são traduzidas de forma diferente o que impede de trazer um screenshot. Mas pelo terminal, é bem mais eficiente, basta executar:  
+``` 
+sudo hostnamectl set-hostname novo-nome
+``` 
+
 ## COMPARTILHAMENTO DE ARQUIVOS
 Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado que carece de alguns ajustes.
 
@@ -341,7 +350,7 @@ e troque por:
 ```  
 WORKGROUP = LOCALDOMAIN.LAN
 ```  
-O nome do dominio deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
+O nome do dominio (LOCALDOMAIN.LAN, mas use o nome de seu dominio local) deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
 
 no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
@@ -457,7 +466,7 @@ code --install-extension mads-hartmann.bash-ide-vscode \
 ```
 ⚙️ CONFIGURAÇÕES RECOMENDADAS
 
-Após instalar as extensões, use Ctrl + , e depois Abrir Configurações JSON, acrescente:
+Após instalar as extensões, adicione estas configurações no arquivo ~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
 ```
 {
   "editor.formatOnSave": true,
@@ -482,16 +491,6 @@ O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, 
 sudo apt install -y kde-full
 ```
 Depois disso, *recomendo que reinicie o computador*.
-
-
-## MUDANDO O NOME DO HOST  
-Durante a instalação do Debian, você provavelmente definiu um nome para o seu computador (hostname).
-Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
-Pelo ambiente gráfico (KDE ou GNOME), abra o aplicativo Configurações do Sistema, e na barra de pesquisa, digite “host”, "sistema" ou algo similar e essas informações serão exibidas e passiveis de modificações. A cada versão do KDE e GNOME, essas opções mudam de lugar ou são traduzidas de forma diferente o que impede de trazer um screenshot. Mas pelo terminal, é bem mais eficiente, basta executar:  
-``` 
-sudo hostnamectl set-hostname novo-nome
-``` 
-
 
 
 ## HABILITANDO AREA DE TRABALHO REMOTA
