@@ -9,6 +9,12 @@ Nome do usuário: gsantana
 IP: 192.168.1.5  
 Nome do dominio local: local.lan  
 
+Os comandos que precisam ser executados no terminal serão precedidos de $, exemplo:  
+```
+$ sudo apt update -y
+(qualquer texto a seguir que não seja precedido por "$" são apenas mensagens de textos)
+```
+
 
 ## INSTALAÇÃO
 Nada de especial aqui, mas recomendo que tenha a partição / (root) em BTRFS. Este sistema de arquivos é uma mão na roda para programadores porque poderá ser habilitado snaphots no sistema de boot e arquivos importantes que você crie.
@@ -66,8 +72,9 @@ A linha abaixo esta comentada porque se for liberada, nenhum comando 'sudo' prec
 ```
 Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho, poderá fazê-lo, mas tenha certeza de que seu   computador é um computador zé-roela que não oferece nenhum risco.  
 
-## INSTALANDO GOOGLE CHROME
-O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
+## INSTALANDO O GOOGLE CHROME
+O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.
+No entanto, o Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
 [Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
 Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.
 
@@ -80,45 +87,54 @@ nano /etc/apt/sources.list
 ```
 A depender do repositório que escolheu durante a instalação, o sources.list estará parecido como este:
 ```
-deb http://mirrors.ic.unicamp.br/debian/ trixie main non-free-firmware
-deb-src http://mirrors.ic.unicamp.br/debian/ trixie main non-free-firmware
+deb http://deb.debian.org/debian/ trixie main non-free-firmware
+deb-src http://deb.debian.org/debian/ trixie main non-free-firmware
 
 deb http://security.debian.org/debian-security trixie-security main non-free-firmware
 deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware
 
 # trixie-updates, to get updates before a point release is made;
 # see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
-deb http://mirrors.ic.unicamp.br/debian/ trixie-updates main non-free-firmware
-deb-src http://mirrors.ic.unicamp.br/debian/ trixie-updates main non-free-firmware
+deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware
+deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware
 ```
 
 Como poderá notar, cada linha cita 'main non-free-firmware', precisamos acrescenter 'contrib' e 'non-free' à essas linhas ficando assim:
 ```
-deb http://mirrors.ic.unicamp.br/debian/ trixie main non-free-firmware contrib non-free  
-deb-src http://mirrors.ic.unicamp.br/debian/ trixie main non-free-firmware contrib non-free   
+deb http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
+deb-src http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
 
-deb http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free  
-deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free  
+deb http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free 
+deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free 
 
 # trixie-updates, to get updates before a point release is made;
 # see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
-deb http://mirrors.ic.unicamp.br/debian/ trixie-updates main non-free-firmware contrib non-free  
-deb-src http://mirrors.ic.unicamp.br/debian/ trixie-updates main non-free-firmware contrib non-free  
+deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware contrib non-free 
+deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware contrib non-free 
 ```
-
-Agora, temos um repositório mais amplo e por isso precisaremos atualizá-lo:  
+Se não pretende fazer construção de pacotes (build) a partir dos fontes, poderá comentar a linhas que começam com 'deb-src', isso tornará os comandos de atualização mais rápidos. Enfim, agora precisaremos atualizar o banco de dados de pacotes, execute:  
 ```
 $ sudo apt update -y
 Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
-Atingido:2 http://mirrors.ic.unicamp.br/debian trixie InRelease               
-Atingido:3 http://mirrors.ic.unicamp.br/debian trixie-updates InRelease       
-Obter:4 http://security.debian.org/debian-security trixie-security/main Sources [56,0 kB]
-Obter:5 http://mirrors.ic.unicamp.br/debian trixie/non-free Sources [75,8 kB]   
-Obter:6 http://mirrors.ic.unicamp.br/debian trixie/contrib Sources [52,3 kB]                          
-Obter:7 http://mirrors.ic.unicamp.br/debian trixie/main Sources [10,5 MB]      
-Atingido:8 https://dl.google.com/linux/chrome/deb stable InRelease                                   
-Obter:9 http://mirrors.ic.unicamp.br/debian trixie/non-free-firmware Sources [6.536 B]
-Obtidos 10,7 MB em 1s (12,0 MB/s)
+Atingido:2 http://deb.debian.org/debian trixie InRelease     
+Atingido:3 http://deb.debian.org/debian trixie-updates InRelease              
+Obter:4 http://deb.debian.org/debian trixie/non-free Sources [75,8 kB]        
+Obter:5 http://deb.debian.org/debian trixie/contrib Sources [52,3 kB]          
+Obter:6 http://deb.debian.org/debian trixie/contrib amd64 Packages [53,8 kB]
+Obter:7 http://deb.debian.org/debian trixie/contrib Translation-en [49,6 kB]                           
+Obter:8 http://deb.debian.org/debian trixie/contrib amd64 Components [41,5 kB]                                
+Obter:9 http://deb.debian.org/debian trixie/contrib Icons (48x48) [60,1 kB]                                           
+Obter:10 http://deb.debian.org/debian trixie/contrib Icons (64x64) [132 kB]                      
+Obter:11 http://deb.debian.org/debian trixie/contrib Icons (128x128) [281 kB]               
+Obter:12 http://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]                  
+Obter:13 http://deb.debian.org/debian trixie/non-free Translation-en [67,1 kB]               
+Obter:14 http://deb.debian.org/debian trixie/non-free amd64 Components [3.784 B]              
+Obter:15 http://deb.debian.org/debian trixie/non-free Icons (48x48) [578 B]                       
+Obter:16 http://deb.debian.org/debian trixie/non-free Icons (64x64) [10,4 kB]            
+Obter:17 http://deb.debian.org/debian trixie/non-free Icons (128x128) [2.167 B]             
+Obter:18 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]          
+Obter:19 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1.206 B]
+Obtidos 933 kB em 1s (1.856 kB/s)      
 Todos os pacotes estão atualizados.  
 ```
 
