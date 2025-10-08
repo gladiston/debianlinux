@@ -858,27 +858,51 @@ Então significa que usuário, senha ou dominio estão errados. Para uso do domi
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
 ### Vamos instalar os pacotes principais:  
 ```
-sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virt-manager bridge-utils dnsmasq-base ovmf
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils dnsmasq-base ovmf
 ```
 Onde:  
-Pacote|Função
-libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.
-libvirt-clients|Ferramentas CLI (virsh, virt-install, etc.).
-dnsmasq-bas|Fornece DHCP/NAT automáticos para redes virtuais.
-ovmf|Permite boot UEFI em VMs (necessário para Windows/modernos).
+Pacote|Função  
+libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.  
+libvirt-clients|Ferramentas CLI (virsh, virt-install, etc.).  
+dnsmasq-bas|Fornece DHCP/NAT automáticos para redes virtuais.  
+ovmf|Permite boot UEFI em VMs (necessário para Windows/modernos).  
 
 ### Permitir uso sem root
 Adicione seu usuário ao grupo libvirt (e kvm):
 ```  
-sudo usermod -aG libvirt,kvm $USER
+sudo usermod -aG kvm $USER
+sudo usermod -aG libvirt $USER
 ```  
+
+### Para uso em Desktops
+Por tratar-se de um desktop, faça a instalação mais completa:
+```  
+sudo apt install -y virt-manager virtiofsd
+```
+Onde:  
+virt-manager|Para uso em desktop ou estação de trabalho, o virt-manager é praticamente indispensável.  
+virtiofsd|O pacote virtiofsd fornece o daemon do Virtio-FS, que é o método moderno (e mais rápido) para compartilhar pastas entre host e VMs Linux.  
+
+3. Conferindo o KVM
+Agora, verifique se os módulos do KVM estão carregados no kernel do Fedora:
+lsmod | grep kvm
+kvm_amd               204800  0
+kvm                  1376256  1 kvm_amd
+irqbypass              12288  1 kvm
+ccp                   155648  1 kvm_amd
+Se constar na lista o módulo ‘kvm’, tá tudo certo.
+
+
+
 Depois, reinicie o computador.
 Depois do login, verifique se realmente estou nestes grupos:
 ```  
 groups
 ```  
 Você deve ver:
-gsantana : gsantana kvm libvirt …
+```  
+gsantana (...) libvirt kvm (...)
+```
 
 
 
