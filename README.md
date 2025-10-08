@@ -119,6 +119,19 @@ Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemo
 $ sudo apt install libavcodec-extra ffmpeg vlc -y
 ```
 
+## INSTALANDO GOOGLE CHROME
+O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
+Acesse a página de download dos pacotes do navegador Chrome e clique em Fazer o download do Google Chrome:
+[https://www.google.com/chrome/?platform=linux](Download)
+Faça o download do pacote para sua plataforma Linux:
+Pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
+
+
+```
+xxx
+```
+
+
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
 O comando htop lm-sensors  strace não são instalados por padrão, mas é muito util para gerenciar tarefas em execução pelo terminal, eles servem para:
 
