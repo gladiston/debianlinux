@@ -178,7 +178,7 @@ No exemplo acima, apenas o google-chrome requer atualização.
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
 $ sudo apt install libavcodec-extra ffmpeg vlc -y
-```
+```por também
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
@@ -288,13 +288,12 @@ Agora enxergaremos:
 
 ### IMPORTANTE
 Não é uma boa ideia instalar programas do flathub que são fornecidos pelos desenvolvedores originais em local diferente, por exemplo:  
-* Google Chrome, o próprio Google os fornece diretamente em seu site oficial 
-Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade cujo resultado final pode diferir do autor original, por exemplo, com alguma mistura de plugins adicionais ou modificações. Essas adaptações carecem de verificação pela comunidade e até que isso aconteça, pode ser inseguro. 
-Mas também há desenvolvedores que publicam seu próprio programa no flathub,e neste caso, são confiáveis, por exemplo:  
-* Mozilla Firefox, a própria Mozilla publica seu software no flathub
-* Telegram, a própria Telegram publica seu software no flathub
+* Google Chrome, o próprio Google os fornece diretamente em seu site oficial  
+Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade cujo resultado final pode diferir do autor original, por exemplo, com alguma mistura de plugins adicionais ou modificações. Essas adaptações carecem de verificação pela comunidade e até que isso aconteça, pode ser inseguro.   
+Mas também há desenvolvedores que publicam seu próprio programa no flathub,e neste caso, são confiáveis, por exemplo:    
+* Mozilla Firefox, a própria Mozilla publica seu software no flathub  
+* Telegram, a própria Telegram publica seu software no flathub  
  
-
 Se não houver desconfiança sob quem publica os programas no flathub, geralmente tais programas são mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
 ```
 ~/.local  
@@ -303,10 +302,9 @@ Se não houver desconfiança sob quem publica os programas no flathub, geralment
 E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
 
 ## COMPARTILHAMENTO DE ARQUIVOS
-Aparentemente, o SAMBA vem pré instalado no Debin, no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
-```  
-sudo systemctl disable samba-ad-dc
-```
+Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado que carece de alguns ajustes.
+
+### Ajustando workgroup ou dominio
 Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
 ```  
 WORKGROUP = WORKGROUP
@@ -318,6 +316,20 @@ WORKGROUP = meudominioderedelocal.lan
 Salve e saia do editor.  
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
 
+no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
+
+### Desativando o controlador de dominio
+Em algumas situações, o controlador de dominio foi instalado. Ele não deve ser instalado em desktops, caso isso tenha acontecido, execute:  
+```  
+sudo systemctl disable samba-ad-dc
+```
+Se o comando acima responder:
+```
+Failed to disable unit: Unit samba-ad-dc.service does not exist
+```
+Então parabens! O controlador de dominio não esta instalado e poderá prosseguir.
+
+### Ativando o compartilhamento de arquivos
 Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
 ```  
 sudo systemctl enable smbd nmbd
