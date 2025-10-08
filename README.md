@@ -273,37 +273,24 @@ aparecer em sua área de trabalho até que a sessão seja reiniciada.
 ```
 Essa advertência nos instrui a incluir as pastas citadas na variavel de ambiente XDG_DATA_DIRS. E se executar o comando:
 ```
-$ echo $XDG_DATA_DIRS
-
-
+echo $XDG_DATA_DIRS
 ```
-Realmente parece que tem uma falha, mas calma lá, acontece que os caminhos indicados só serão vistos depois que você *reiniciar seu sistema*, então faça isso.  
+Não aparecerá saída de texto nenhuma, e realmente parece que tem uma falha a ser corrigida, mas calma lá, acontece que os caminhos indicados só serão vistos depois que você *reiniciar sua sessão* e refazer o login, então faça isso.  
 
 Depois de logar-se, vamos testar novamente:
 ```
-$ echo $XDG_DATA_DIRS
+echo $XDG_DATA_DIRS
+```
+Agora enxergaremos:
+```
 /home/gsantana/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 ```
-Ai está, tudo certo! Mas digamos que continua a retornar vazio, então vamos corrigir isso, execute:
-```
-nano ~/.bash_profile
-```  
-e acrescente as seguintes linhas no final:
-```
-export XDG_DATA_DIRS="/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share:$XDG_DATA_DIRS"  
-```
-Salve o arquivo e saia do editor.
 
-Depois, encerre a sua sessão e faça um novo login, notará que agora, esses caminhos estão atualizados:
-```
-$ echo $XDG_DATA_DIRS
-/home/gsantana/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
-```
 ### IMPORTANTE
-Não é uma boa ideia instalar programas do flathub que são fornecidos por também pelos desenvolvedores originais, por exemplo:  
-* Google Chrome, o próprio Google os fornece diretamente  
-Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade que pode diferir do autor original com alguma mistura de plugins adicionais ou modificações que carecem de verificação. 
-Mas também há desenvolvedores que publicam seu próprio programa no flathub, exemplo:  
+Não é uma boa ideia instalar programas do flathub que são fornecidos pelos desenvolvedores originais em local diferente, por exemplo:  
+* Google Chrome, o próprio Google os fornece diretamente em seu site oficial 
+Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade cujo resultado final pode diferir do autor original, por exemplo, com alguma mistura de plugins adicionais ou modificações. Essas adaptações carecem de verificação pela comunidade e até que isso aconteça, pode ser inseguro. 
+Mas também há desenvolvedores que publicam seu próprio programa no flathub,e neste caso, são confiáveis, por exemplo:  
 * Mozilla Firefox, a própria Mozilla publica seu software no flathub
 * Telegram, a própria Telegram publica seu software no flathub
  
