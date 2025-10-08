@@ -717,8 +717,66 @@ git config --global credential.helper /usr/share/doc/git/contrib/credential/libs
 ```
 Agora, você precisa saber que o método de autenticação mudou, você não usa mais o “username+ senha” do seu usuario git, mas “username+token”. O token é criado na página do github, no menu de sua profile->Settings->Developer settings->Personal access tokens->Tokens(classic) e então criar um token. Este token será o substituto de sua senha git no terminal.
 
+## ACESSAR PARTIÇÕES LINUX NO SISTEMA
+Se utiliza uma ou mais partições Linux que não estão automaticamente montadas você pode usar o gerenciador de arquivos do KDE ou GNOME para acessá-la, mas toda vez que fizer isso, provavelmente lhe será pedido uma senha e isso cansa a vida do desenvolvedor. Minha recomendação é deixar essas partições já montadas e disponiveis imediatamente após o boot. Para conseguir isso, vamos a um exemplo:
+```
+$ lsblk -f
+NAME        FSTYPE FSVER LABEL        UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                       
+└─sda1      ext4   1.0   ti-01-disco2 b2154643-7b94-42a1-8146-267bb88ba833                
+sdb                                                                                       
+nvme0n1                                                                                   
+├─nvme0n1p1 vfat   FAT32              6A74-6D36                             575,1M     4% /boot/efi
+├─nvme0n1p2 ext4   1.0   #boot        9c192eeb-6654-4240-8664-2cb927276c6c  681,1M    19% /boot
+├─nvme0n1p3 swap   1                  94efa4f5-d69f-4da2-9cc6-339545576110                [SWAP]
+└─nvme0n1p4 btrfs        #home        c045fd1f-7c4f-4ec3-84d9-ec79f8859adf  917,8G     2% /
+```
+Veja que minhas partições tem label, assim fica muito mais fácil de identificar do que se guiar por sda1, sda2, etc...   
+A partição do meu Linux usar o NVME, assim o disco adicional que tenho está em /dev/sda1, cujo label é 'ti-01-disco2' e o UUID é 'b2154643-7b94-42a1-8146-267bb88ba833'.   
 
-## PARTIÇÕES NTFS NO SISTEMA
+Primeiro, vamos criar uma pasta vazia para montagem:  
+```
+mkdir -p /mnt/ti-01-disco2 
+chmod 1777 /mnt/ti-01-disco2 
+```
+Depois vamos editar o arquivo /etc/fstab, acrescentando a seguinte linha:
+Exemplo usando o LABEL para montar o disco:  
+```
+LABEL=ti-01-disco2  /mnt/ti-01-disco2  ext4  rw,user,exec,umask=000  0  0
+```
+Exemplo usando o UUID para montar o disco:  
+```
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/ti-01-disco2  ext4  rw,user,exec,auto,umask=000  0  0
+```
+Salve o arquivo, saia do editor e depois execute:
+```
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/ti-01-disco2  ext4  rw,user,exec,auto,umask=000  0  0
+```  
+### Diferença entre /mnt e /media
+|Diretório|Propósito oficial|Uso recomendado                                                                    |
+| **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
+| **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media.
+
+
+Parametro|Explicação
+|:--|:--|
+users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
+rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
+user,exec,umask=000|Monta com permissões abertas (qualquer usuário pode ler/gravar/executar).  
+nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.  
+nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.  
+file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.  
+dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
+auto|Faz a montagem diretamente no boot  
+noauto|Não faz a montagem automática durante o boot  
+zero e zero no final da linha|Desativa dump e fsck automático.  
+
+Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
+```
+sudo systemctl daemon-reload
+```
+
+## ACESSAR PARTIÇÕES NTFS NO SISTEMA
 Se utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, você pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser. Contudo, se você tem que ir para o terminal e acessá-lo dali então lhe seria conveniente criar uma pasta vazia que ao entrar nela você já observasse o conteúdo dessa partição, se você gostou da idéia então vamos implementá-la.  
 Primeiro, identifique corretamente qual é o seu disco/partição com NTFS, execute no terminal:  
 ```
@@ -757,7 +815,7 @@ file_mode=0777|Define as permissões para arquivos dentro do compartilhamento mo
 dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
 auto|Faz a montagem diretamente no boot  
 noauto|Não faz a montagem automática durante o boot  
-zero e zero no final da linha: todo  
+zero e zero no final da linha|Desativa dump e fsck automático.  
 
 
 Uma outra forma de escrever essa linha no fstab seria:
@@ -822,6 +880,7 @@ file_mode=0777|Define as permissões para arquivos dentro do compartilhamento mo
 dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
 auto|Faz a montagem diretamente no boot  
 noauto|Não faz a montagem automática durante o boot  
+zero e zero no final da linha|Desativa dump e fsck automático.  
 
 Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
 ```
@@ -863,9 +922,8 @@ O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será
 ```
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils dnsmasq-base ovmf
 ```
-Parametro|Explicação
+Pacote|Explicação
 |:--|:--|
-Pacote|Função  
 libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.  
 libvirt-clients|Ferramentas CLI (virsh, virt-install, etc.).  
 dnsmasq-bas|Fornece DHCP/NAT automáticos para redes virtuais.  
@@ -883,22 +941,27 @@ Por tratar-se de um desktop, faça a instalação mais completa:
 ```  
 sudo apt install -y virt-manager virtiofsd
 ```
-Onde:  
+
+Pacote|Explicação
+|:--|:--| 
 virt-manager|Para uso em desktop ou estação de trabalho, o virt-manager é praticamente indispensável.  
 virtiofsd|O pacote virtiofsd fornece o daemon do Virtio-FS, que é o método moderno (e mais rápido) para compartilhar pastas entre host e VMs Linux.  
 
 3. Conferindo o KVM
-Agora, verifique se os módulos do KVM estão carregados no kernel do Fedora:
+Agora, verifique se os módulos do KVM estão carregados no kernel:
+```
 lsmod | grep kvm
-kvm_amd               204800  0
-kvm                  1376256  1 kvm_amd
+```
+Uma saída aceitável seria:  
+```
+kvm_amd               217088  0
+kvm                  1396736  1 kvm_amd
 irqbypass              12288  1 kvm
-ccp                   155648  1 kvm_amd
-Se constar na lista o módulo ‘kvm’, tá tudo certo.
+ccp                   163840  1 kvm_amd
+```
+Se constar na lista o módulo ‘kvm’, então tá tudo certo.
 
-
-
-Depois, reinicie o computador.
+Depois, *reinicie o computador*.
 Depois do login, verifique se realmente estou nestes grupos:
 ```  
 groups
@@ -908,6 +971,76 @@ Você deve ver:
 gsantana (...) libvirt kvm (...)
 ```
 
+### Programando o início do serviço
+Se os módulos acima aparecem então agora é o momento de prepará-los para iniciar-se como serviço durante o boot, assim, inicie o serviço do libvirtd com:  
+```
+sudo systemctl start libvirtd
+```
+E para iniciar o serviço durante o boot, execute:
+```
+$ sudo systemctl enable libvirtd
+Synchronizing state of libvirtd.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install enable libvirtd
+```
+Confira que o serviço esta ativado:
+```
+$ sudo systemctl status libvirtd
+● libvirtd.service - libvirt legacy monolithic daemon
+     Loaded: loaded (/usr/lib/systemd/system/libvirtd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-10-08 16:26:55 -03; 41s ago
+ Invocation: dfc2bb59b8ae4ab3929c9385a657e489
+TriggeredBy: ● libvirtd-ro.socket
+             ● libvirtd-admin.socket
+             ● libvirtd.socket
+       Docs: man:libvirtd(8)
+             https://libvirt.org/
+   Main PID: 3956 (libvirtd)
+      Tasks: 21 (limit: 32768)
+     Memory: 6.2M (peak: 8M)
+        CPU: 199ms
+     CGroup: /system.slice/libvirtd.service
+             └─3956 /usr/sbin/libvirtd --timeout 120
+
+out 08 16:26:55 ti-01 systemd[1]: Starting libvirtd.service - libvirt legacy monolithic daemon...
+out 08 16:26:55 ti-01 systemd[1]: Started libvirtd.service - libvirt legacy monolithic daemon.
+```
+Se retornou 'Active: active' então tá tudo certo.
+
+### Localização das VMs
+Por padrão a localização a localização das máquinas virtuais fica em:
+```
+/var/lib/libvirt/images
+```
+Pessoalmente, este não é o local mais adequado, digamos que desejemos que por default nossas imagens fiquem guardadas em:  
+```
+/home/$USER/libvirt
+```
+Neste caso, precisaremos incluir um novo poll:  
+```
+mkdir -p /home/$USER/libvirt/images
+```
+Se a pasta acima estiver num tipo de partição btrfs precisamos tomar um cuidado, este tipo de partição faz uma série de operações no disco, uma delas é compactação e subalocamente de cluster que embora economine espaço em disco causará uma sobrecarga de I/O para nossas VMs armazenadas ali, então precisamos desativar essas funcionalidades, mas apenas para essa pasta, execute:
+```
+xxxx
+```
+
+E então redirecionar este pool para lá:  
+```
+virsh pool-define-as vm dir - - - - "/home/$USER/libvirt/images"
+```
+Também precisaremos de um repositório para guardar nossas isos, escolha o diretorio que desejar:  
+```
+mkdir -p /home/$USER/WinSrv/isos
+virsh pool-define-as isos dir - - - - "/home/$USER/WinSrv/isos"
+```
+Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema, eles contêm drivers de sistema convidado:  
+```
+cd /home/$USER/WinSrv/isos
+wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
+```
+
+Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:
+https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
 
 
 ---
