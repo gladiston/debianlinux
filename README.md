@@ -13,10 +13,12 @@ Nome do dominio local: local.lan
 ## INSTALAÇÃO
 Nada de especial aqui, mas recomendo que tenha a partição / (root) em BTRFS. Este sistema de arquivos é uma mão na roda para programadores porque poderá ser habilitado snaphots no sistema de boot e arquivos importantes que você crie.
 
+
 ## Notebooks da série ACER NITRO
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
 
 [Se tiver um ACER NITRO, siga as instruções em:  ](https://github.com/gladiston/fedorainstallonacernitro)
+
 
 ## SUDO
 Por padrão, o usuario comum não é do mesmo grupo "sudo", isso impossibilitará usar o comando "sudo", vamos resolver essa situação, execute:
@@ -114,6 +116,7 @@ Obtidos 10,7 MB em 1s (12,0 MB/s)
 Todos os pacotes estão atualizados.  
 ```
 
+
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
@@ -137,9 +140,9 @@ Gostou deles? Então execute:
 sudo apt install -y htop lm-sensors  strace
 ```
 
+
 ## ATUALIZAÇÃO DE REPOSITÓRIO
 Vamos atualizar o repositório de programas:  
-
 ```  
 $ sudo apt -y update
 ```  
@@ -167,12 +170,14 @@ Processando gatilhos para man-db (2.13.1-1) ...
 ```  
 No exemplo acima, apenas o google-chrome requer atualização.
 
+
 ## INSTALANDO O SILVERSEARCH-AG(ag)
 O Silversearcher-ag, também conhecido apenas como ag, é uma ferramenta de busca extremamente rápida para código-fonte e arquivos de texto.
 Ele é similar ao comando grep, porém muito mais veloz e prático, sendo ideal para desenvolvedores e administradores que precisam localizar trechos de texto em grandes projetos.
 ```
 sudo apt install -y silversearcher-ag
 ```
+
 
 ## INSTALAÇÃO DE FERRAMENTAS DE DOWNLOAD (WGET E CURL)
 O comando abaixo instala duas ferramentas essenciais para realizar downloads e requisições web diretamente pelo terminal Linux:    
@@ -183,6 +188,7 @@ Descrição dos componentes:
 * WGET: Utilitário simples e confiável para baixar arquivos via HTTP, HTTPS e FTP.
 * CURL: Ferramenta mais avançada para transferir dados ou interagir com APIs usando diversos protocolos (HTTP, HTTPS, FTP, SCP, etc.).
 Esses programas são amplamente usados em scripts, automações e testes de conectividade.
+
 
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
 Os utilitários de compactação e descompactação não vêm todos instalados por padrão em uma instalação mínima do Debian.
@@ -200,6 +206,7 @@ p7zip-rar, rar, unrar|Suporte a arquivos .rar
 lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux
 squashfs-tools|Criação e extração de arquivos .squashfs
 
+
 ## INSTALANDO PROGRAMAS BASICOS PARA RECOMPILAR
 Os pacotes a seguir servem para quem pretende compilar algo no ambiente Linux. Se você pretende instalar o driver proprietário da NVIDIA fornecido pela NVIDIA você também precisará deles:
 ```
@@ -208,6 +215,7 @@ sudo apt install -y dh-make exuberant-ctags dpkg-dev debhelper fakeroot
 sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
 sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc 
 ```
+
 
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
 O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
@@ -292,17 +300,24 @@ WORKGROUP = meudominioderedelocal.lan
 Salve e saia do editor.  
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos.  
 
+
 ## MUDANDO O NOME DO HOST  
-Provavelmente, você instalou dando o nome certo ao seu host, mas caso queira modificar então carregue o programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Não queremos no momento ativar o compartilhamento arquivos, mas desejamos apenas modificar o nome do computador por algo que represente melhor o nome do nosso computador que não seja o padrão de instalação que não será muito intuitivo:  
+Durante a instalação do Debian, você provavelmente definiu um nome para o seu computador (hostname).
+Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
+Pelo ambiente gráfico (KDE ou GNOME), abra o aplicativo Configurações do Sistema, e na barra de pesquisa, digite “host”, "sistema" ou algo similar e essas informações serão exibidas e passiveis de modificações. A cada versão do KDE e GNOME, essas opções mudam de lugar ou são traduzidas de forma diferente o que impede de trazer um screenshot. Mas pelo terminal, é bem mais eficiente, basta executar:  
+``` 
+sudo hostnamectl set-hostname novo-nome
+``` 
 
-![Mudando o nome do host](./mudando_nome_do_host.png)
 
-## HABILITANDO O COMPARTILHAMENTO DE ARQUIVOS   
-Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:  
-
-![Habilitando o compartilhamento de arquivos](./compartilhar_arquivos_ativar.png)  
-
-Quando precisar acessar arquivos neste computador a partir de outro computador, basta ter acesso ao navegador e indicar a URL que aparece na imagem e digitar a senha que você forneceu. Simples assim.  
+## HABILITANDO O MÓDULO “COMPARTILHAMENTO” NO KDE  
+Por padrão, o Debian com KDE (Plasma) não exibe a opção “Compartilhamento” nas Configurações do Sistema, diferentemente do Fedora, onde ela vem habilitada. Isso ocorre porque o módulo depende de pacotes adicionais que não são instalados automaticamente, para habilitar o módulo, instale os pacotes abaixo:
+``` 
+sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba
+``` 
+Depois, encerre a sessão e a inicie novamnete.  
+Agora vá em Configurações do Sistema>Compartilhamento>Compartilhamento de Arquivos, o módulo agora estará disponível e exibirá também o campo “Nome do Computador (Hostname)”, permitindo alterar o nome da máquina de forma gráfica:  
+![Habilitando o compartilhamento de arquivos](kde-ativar-compatilhamento.png)  
 
 
 ## HABILITANDO AREA DE TRABALHO REMOTA
