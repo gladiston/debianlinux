@@ -14,7 +14,7 @@ Nome do dominio local: local.lan
 Nada de especial aqui, mas recomendo que tenha a partição / (root) em BTRFS. Este sistema de arquivos é uma mão na roda para programadores porque poderá ser habilitado snaphots no sistema de boot e arquivos importantes que você crie.
 
 
-## Notebooks da série ACER NITRO
+## NOTEBOOKs DA LINHA ACER NITRO
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
 
 [Se tiver um ACER NITRO, siga as instruções em:  ](https://github.com/gladiston/fedorainstallonacernitro)
@@ -65,6 +65,12 @@ A linha abaixo esta comentada porque se for liberada, nenhum comando 'sudo' prec
 #gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
 Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho, poderá fazê-lo, mas tenha certeza de que seu   computador é um computador zé-roela que não oferece nenhum risco.  
+
+## INSTALANDO GOOGLE CHROME
+O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
+[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
+Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.
+
 
 ## ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE'
 Execute:
@@ -122,11 +128,6 @@ Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemo
 ```
 $ sudo apt install libavcodec-extra ffmpeg vlc -y
 ```
-
-## INSTALANDO GOOGLE CHROME
-O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
-[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
-Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
