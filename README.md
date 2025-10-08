@@ -215,6 +215,13 @@ sudo apt install -y silversearcher-ag
 ```
 
 
+## INSTALANDO ADICIONAIS PARA O APT
+O programa 'apt' está instalado, mas para algumas operações ele precisa de alguns extras, eles são obrigatórios em minha opinão:  
+```
+sudo apt install -y apt-transport-https gpg
+```
+
+
 ## INSTALAÇÃO DE FERRAMENTAS DE DOWNLOAD (WGET E CURL)
 O comando abaixo instala duas ferramentas essenciais para realizar downloads e requisições web diretamente pelo terminal Linux:    
 ```
@@ -332,9 +339,9 @@ WORKGROUP = WORKGROUP
 ```  
 e troque por:  
 ```  
-WORKGROUP = meudominioderedelocal.lan
+WORKGROUP = LOCALDOMAIN.LAN
 ```  
-Salve e saia do editor. 
+O nome do dominio deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
 
 no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
@@ -356,6 +363,114 @@ Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes servi�
 sudo systemctl enable smbd nmbd
 sudo systemctl start smbd nmbd
 ```
+
+
+## INSTALANDO O VSCODE
+O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.
+Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como autocompletar inteligente (IntelliSense), debug integrado, controle de versão com Git, e uma ampla variedade de extensões para praticamente qualquer linguagem. O VS Code não está nos repositórios padrão do Debian, mas pode ser instalado diretamente do repositório oficial da Microsoft, dessa forma precisaremos incluí-lo, execute os procedimentos abaixo:
+```
+# Atualiza a lista de pacotes
+sudo apt update
+
+# Adiciona a chave pública da Microsoft
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | \
+  sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
+
+# Adiciona o repositório do VS Code
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
+  sudo tee /etc/apt/sources.list.d/vscode.list
+
+# Atualiza os repositórios e instala o VS Code
+sudo apt update
+sudo apt install -y code
+```  
+EXTENSÕES SUGERIDAS:
+### NODE.JS
+```
+code --install-extension waderyan.nodejs-extension-pack \
+     --install-extension dbaeumer.vscode-eslint \
+     --install-extension christian-kohler.npm-intellisense \
+     --install-extension christian-kohler.path-intellisense \
+     --install-extension ms-vscode.node-debug2
+```
+### JAVA
+```
+code --install-extension vscjava.vscode-java-pack \
+     --install-extension redhat.java \
+     --install-extension vscjava.vscode-java-debug \
+     --install-extension vscjava.vscode-java-test \
+     --install-extension vscjava.vscode-maven
+```
+### FREE PASCAL E DELPHI
+```
+code --install-extension Wosi.omnipascal \
+     --install-extension alefragnani.pascal
+```
+💡 Dica: no Debian, é recomendável ter o Free Pascal (fpc) e o Lazarus IDE instalados para compilar e testar diretamente seus projetos.
+
+
+### EXTENSÕES PARA HTML, CSS E JAVASCRIPT
+```
+code --install-extension ecmel.vscode-html-css \
+     --install-extension esbenp.prettier-vscode \
+     --install-extension ritwickdey.LiveServer \
+     --install-extension formulahendry.auto-rename-tag \
+     --install-extension xabikos.JavaScriptSnippets
+```
+### EXTENSÕES PARA PYTHON
+```
+code --install-extension ms-python.python \
+     --install-extension ms-python.vscode-pylance \
+     --install-extension ms-toolsai.jupyter \
+     --install-extension ms-python.debugpy
+```
+### EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS
+```
+code --install-extension mtxr.sqltools \
+     --install-extension mtxr.sqltools-driver-mysql \
+     --install-extension mtxr.sqltools-driver-pg \
+     --install-extension mtxr.sqltools-driver-sqlite \
+     --install-extension mtxr.sqltools-driver-firebird \
+     --install-extension adpyke.vscode-sql-formatter \
+     --install-extension cweijan.vscode-database-client2
+```
+⚙️ COMO USAR
+Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).
+Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).
+Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.
+Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.
+💡 Dica: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.
+
+
+### EXTENSÕES PARA BASH SCRIPT E TERMINAL
+```
+code --install-extension mads-hartmann.bash-ide-vscode \
+     --install-extension timonwong.shellcheck \
+     --install-extension foxundermoon.shell-format \
+     --install-extension formulahendry.code-runner \
+     --install-extension jeff-hykin.better-shellscript-syntax \
+     --install-extension formulahendry.terminal
+```
+⚙️ CONFIGURAÇÕES RECOMENDADAS
+
+Após instalar as extensões, adicione estas configurações no arquivo
+~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
+```
+{
+  "editor.formatOnSave": true,
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "code-runner.executorMap": {
+    "bash": "bash"
+  },
+  "shellformat.flag": "-i 2"
+}
+```
+Essas opções ativam:
+* Formatação automática ao salvar
+* Execução direta de scripts (Ctrl+Alt+N)
+* Indentação de 2 espaços padrão
 
 
 ## OBTENHA O KDE COMPLETO
