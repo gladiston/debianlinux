@@ -375,17 +375,6 @@ sudo hostnamectl set-hostname novo-nome
 ``` 
 
 
-## HABILITANDO O MÓDULO “COMPARTILHAMENTO” NO KDE  
-Por padrão, o Debian com KDE (Plasma) não exibe a opção “Compartilhamento” nas Configurações do Sistema, diferentemente do Fedora, onde ela vem habilitada. Isso ocorre porque o módulo depende de pacotes adicionais que não são instalados automaticamente, para habilitar o módulo, instale os pacotes abaixo:
-``` 
-sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba 
-
-sudo systemctl start samba
-``` 
-Depois, encerre a sessão e a inicie novamnete.  
-Agora vá em Configurações do Sistema>Compartilhamento>Compartilhamento de Arquivos, o módulo agora estará disponível e exibirá também o campo “Nome do Computador (Hostname)”, permitindo alterar o nome da máquina de forma gráfica:  
-![Habilitando o compartilhamento de arquivos](kde-ativar-compatilhamento.png)  
-
 
 ## HABILITANDO AREA DE TRABALHO REMOTA
 Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:
@@ -721,8 +710,8 @@ As integrações dos navegadores com o ambiente GNOME é permitida através de e
 Instale a extensão para o Firefox:
 https://addons.mozilla.org/pt-BR/firefox/addon/gnome-shell-integration/
 
-## ALGUMAS EXTENSÕES ÚTEIS
-As extensões a seguir lhe serão úteis
+## ALGUMAS EXTENSÕES ÚTEIS (GNOME)
+As extensões a seguir lhe serão úteis *SE ESTIVER USANDO O GNOME*:
 ```
 sudo dnf install -y gnome-extensions-app gnome-tweaks
 ~sudo dnf install -y gnome-shell-extension-appindicator~
