@@ -178,7 +178,8 @@ No exemplo acima, apenas o google-chrome requer atualização.
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
 $ sudo apt install libavcodec-extra ffmpeg vlc -y
-```por também
+```
+
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
