@@ -257,8 +257,11 @@ Caso as instrções acima não funcionem, visite a página com informações atu
 [https://flatpak.org/setup/Debian](https://flatpak.org/setup/Debian)  
 
 Depois disso, adicionamos enfim, o repositório:
+```  
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
-$ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+Provavelmente aparecerá a seguinte mensagem de texto:
+```
 Note que os diretórios 
 
 '/var/lib/flatpak/exports/share'
@@ -268,15 +271,15 @@ não estão no caminho de pesquisa definido pela variável de ambiente
 XDG_DATA_DIRS, portanto, os aplicativos instalados pelo Flatpak podem não
 aparecer em sua área de trabalho até que a sessão seja reiniciada.
 ```
-Note a advertência, precisamos incluir as pastas citadas na variavel de ambiente XDG_DATA_DIRS, para testar, execute:
+Essa advertência nos instrui a incluir as pastas citadas na variavel de ambiente XDG_DATA_DIRS. E se executar o comando:
 ```
 $ echo $XDG_DATA_DIRS
 
 
 ```
-Mas calma, isso já foi feito, acontece que os caminhos indicados só serão vistos depois que você fizer o logout e login. Então faça isso.  
+Realmente parece que tem uma falha, mas calma lá, acontece que os caminhos indicados só serão vistos depois que você *reiniciar seu sistema*, então faça isso.  
 
-Depois de encerrar a sessão e fazer um novo login, vamos testar novamente:
+Depois de logar-se, vamos testar novamente:
 ```
 $ echo $XDG_DATA_DIRS
 /home/gsantana/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
