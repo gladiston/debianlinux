@@ -173,6 +173,19 @@ Processando gatilhos para man-db (2.13.1-1) ...
 No exemplo acima, apenas o google-chrome requer atualização.
 
 
+## EDITOR DE TEXTO VIM
+O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, que acompanha praticamente todas as distribuições Unix e Linux. Ele é amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível até em ambientes sem interface gráfica. Ele está presente em praticamente todos os sistemas Linux e Unix, o que garante familiaridade e portabilidade. Permite editar arquivos de configuração diretamente pelo terminal, mesmo em sistemas mínimos ou em modo de recuperação. Possui atalhos de teclado eficientes, syntax highlight, e modos de operação (comando, inserção e visualização) que tornam a edição ágil e precisa. Pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.
+No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:
+
+```  
+sudo apt install -y vim
+```  
+
+Para confirmar a instalação e ver a versão instalada:
+```  
+vim --version
+```
+
 
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
@@ -305,6 +318,13 @@ E esses programas geralmente não tem acesso ao seu $HOME a menos que você os c
 ## COMPARTILHAMENTO DE ARQUIVOS
 Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado que carece de alguns ajustes.
 
+### Instalando o SAMBA
+Execute:
+```  
+sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba 
+```
+As vezes, dependendo do perfil de instação, ele pode já ter sido instalado.
+
 ### Ajustando workgroup ou dominio
 Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
 ```  
@@ -314,13 +334,13 @@ e troque por:
 ```  
 WORKGROUP = meudominioderedelocal.lan
 ```  
-Salve e saia do editor.  
+Salve e saia do editor. 
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
 
 no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
 
 ### Desativando o controlador de dominio
-Em algumas situações, o controlador de dominio foi instalado. Ele não deve ser instalado em desktops, caso isso tenha acontecido, execute:  
+Em algumas situações, o controlador de dominio foi instalado e daí o comportamento do SAMBA é totalmente diferente. Ele não deve ser instalado em desktops, caso isso tenha acontecido, execute:  
 ```  
 sudo systemctl disable samba-ad-dc
 ```
