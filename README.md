@@ -216,14 +216,6 @@ sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
 sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc 
 ```
 
-## OBTENHA O KDE COMPLETO
-O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, por exemplo, não acompanha o modulo de compartilhamento de arquivos que muitas vezes pode ser necessário para desenvolvedores e administradores de sistemas, então se desejar um KDE mais cheio de funções, execute:
-```  
-sudo apt install -y kde-full
-```
-Depois disso, *recomendo que reinicie o computador*.
-
-
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
 O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
 ```  
@@ -294,9 +286,12 @@ Se não houver desconfiança sob quem publica os programas no flathub, geralment
 ```  
 E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
 
-
-## DOMINIO DE REDE LOCAL  
-Se tiver um dominio de rede, edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
+## COMPARTILHAMENTO DE ARQUIVOS
+Aparentemente, o SAMBA vem pré instalado no Debin, no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
+```  
+sudo systemctl disable samba-ad-dc
+```
+Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
 ```  
 WORKGROUP = WORKGROUP
 ```  
@@ -305,7 +300,21 @@ e troque por:
 WORKGROUP = meudominioderedelocal.lan
 ```  
 Salve e saia do editor.  
-Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos.  
+Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
+
+Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
+```  
+sudo systemctl enable smbd nmbd
+sudo systemctl start smbd nmbd
+```
+
+
+## OBTENHA O KDE COMPLETO
+O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, apenas os mais comuns e mesmo assim, eles só aparecem quando os serviços e dependencias necessários tornam o módulo elegível, por exemplo, o modulo de compartilhamento de arquivos só será exibido se o serviço 'samba' estiver rodando. E ainda há muito mais coisas, então se desejar um KDE mais cheio de funções, execute:
+```  
+sudo apt install -y kde-full
+```
+Depois disso, *recomendo que reinicie o computador*.
 
 
 ## MUDANDO O NOME DO HOST  
