@@ -7,12 +7,16 @@ Para o correto entendimento, usarei alguns padrões:
 Nome do host: ti-01  
 Nome do usuário: gsantana  
 IP: 192.168.1.5  
-Nome do dominio local: local.lan  
+Nome do dominio local: localdomain.lan  
 
-Os comandos que precisam ser executados no terminal serão precedidos de $, exemplo:  
+As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 ```
-$ sudo apt update -y
-(qualquer texto a seguir que não seja precedido por "$" são apenas mensagens de textos)
+$ *sudo apt update -y*
+Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
+Atingido:2 http://deb.debian.org/debian trixie InRelease
+Atingido:3 http://deb.debian.org/debian trixie-updates InRelease
+Atingido:4 https://dl.google.com/linux/chrome/deb stable InRelease
+Todos os pacotes estão atualizados.
 ```
 
 
@@ -139,25 +143,6 @@ Todos os pacotes estão atualizados.
 ```
 
 
-## INSTALANDO CODECS
-Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
-```
-$ sudo apt install libavcodec-extra ffmpeg vlc -y
-```
-
-
-## INSTALANDO O HTOP, LMSENSORS e STRACE
-Os comandos htop, lm-sensors e strace não vêm instalados por padrão, mas são muito úteis para gerenciar e diagnosticar o sistema diretamente pelo terminal. Eles servem para:  
-* htop: gerencia tarefas no terminal, semelhante ao top, porém com interface mais amigável e interativa.
-* lm-sensors: lê e exibe dados de sensores de temperatura, voltagem e ventoinhas disponíveis no hardware.
-* strace: monitora chamadas de sistema e sinais usados por um processo — útil, por exemplo, para descobrir qual programa está acessando ou bloqueando um arquivo como arquivo.docx.
-
-Gostou deles? Então execute:  
-```  
-sudo apt install -y htop lm-sensors  strace
-```
-
-
 ## ATUALIZAÇÃO DE REPOSITÓRIO
 Vamos atualizar o repositório de programas:  
 ```  
@@ -186,6 +171,26 @@ Processando gatilhos para mailcap (3.74) ...
 Processando gatilhos para man-db (2.13.1-1) ...
 ```  
 No exemplo acima, apenas o google-chrome requer atualização.
+
+
+
+## INSTALANDO CODECS
+Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
+```
+$ sudo apt install libavcodec-extra ffmpeg vlc -y
+```
+
+
+## INSTALANDO O HTOP, LMSENSORS e STRACE
+Os comandos htop, lm-sensors e strace não vêm instalados por padrão, mas são muito úteis para gerenciar e diagnosticar o sistema diretamente pelo terminal. Eles servem para:  
+* htop: gerencia tarefas no terminal, semelhante ao top, porém com interface mais amigável e interativa.
+* lm-sensors: lê e exibe dados de sensores de temperatura, voltagem e ventoinhas disponíveis no hardware.
+* strace: monitora chamadas de sistema e sinais usados por um processo — útil, por exemplo, para descobrir qual programa está acessando ou bloqueando um arquivo como arquivo.docx.
+
+Gostou deles? Então execute:  
+```  
+sudo apt install -y htop lm-sensors  strace
+```
 
 
 ## INSTALANDO O SILVERSEARCH-AG(ag)
