@@ -122,16 +122,8 @@ $ sudo apt install libavcodec-extra ffmpeg vlc -y
 
 ## INSTALANDO GOOGLE CHROME
 O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
-Acesse a página de download dos pacotes do navegador Chrome e clique em Fazer o download do Google Chrome:  
-
-[https://www.google.com/chrome/?platform=linux](Download)
-Faça o download do pacote para sua plataforma Linux:
-Pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
-
-
-```
-xxx
-```
+[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
+Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
