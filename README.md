@@ -702,20 +702,24 @@ git config --global credential.helper 'cache --timeout=28800'
 Será ignorada completamente ou terminará em erro e a tentativa de login resultará neste erro:
 **Fatal Authentication Failed for: site.com.br**
 
-Para solucionar o problema, precisará instalar e configurar o ‘Git Credential Manager’ (GCM):
+Para solucionar o problema, precisará de mais alguns pacotes:
 ```
-sudo dnf install -y seahorse
-sudo dnf install -y git-credential-libsecret
+sudo apt install -y libsecret-1-0 libsecret-tools libsecret-1-dev build-essential
+```
+E depois compilar:
+```
+cd /usr/share/doc/git/contrib/credential/libsecret
+sudo make
 ```
 Após, o git só precisará dessa configuração adicional:
 ```
-git config --global credential.helper /usr/libexec/git-core/git-credential-libsecret
+git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 ```
 Agora, você precisa saber que o método de autenticação mudou, você não usa mais o “username+ senha” do seu usuario git, mas “username+token”. O token é criado na página do github, no menu de sua profile->Settings->Developer settings->Personal access tokens->Tokens(classic) e então criar um token. Este token será o substituto de sua senha git no terminal.
 
 
 ## PARTIÇÕES NTFS NO SISTEMA
-Se utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, você pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME para entrar e sair do disco NTFS quando quiser. Contudo, se você tem que ir para o terminal e acessá-lo dali então lhe seria conveniente criar uma pasta vazia que ao entrar nela você já observasse o conteúdo dessa partição, se você gostou da idéia então vamos implementá-la.  
+Se utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, você pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser. Contudo, se você tem que ir para o terminal e acessá-lo dali então lhe seria conveniente criar uma pasta vazia que ao entrar nela você já observasse o conteúdo dessa partição, se você gostou da idéia então vamos implementá-la.  
 Primeiro, identifique corretamente qual é o seu disco/partição com NTFS, execute no terminal:  
 ```
 sudo blkid |grep ntfs
@@ -773,6 +777,81 @@ sudo ntfsfix /dev/disk/by-label/DADOS
 Alternativas: Existe um serviço chamado AutoFS, ele implementa uma solução onde você indica pastas e apenas quando você acessá-las, ele as monta. Serve para discos externos, partições internas e também para compartilhamentos remotos. Esta última, é o motivo pelo qual é mais usado visto que auto-montar pastas que já estão em nosso domínio é mais fácil usando o fstab. AutoFS é um pouco mais complicado que usar /etc/fstab, mas nem tanto depois que você entende como ele funciona. Eu tenho receio de utilizá-lo em ambientes com pouco controle porque se houver programas que vasculhem discos eles irão montar todas as pastas que encontrarem na configuração para auto montar, talvez  voce pense na situação de vírus de computador, mas ocorreria algo similar em softwares de backups que podem erroneamente incluir pastas que não deveriam. Se quiser estudar o AutoFS:
 
 https://devconnected.com/how-to-install-autofs-on-linux/
+
+## ACESSAR COMPARTILHAMENTOS NA REDE
+Os gerenciadores de arquivos para linux acessam redes remotas, não importa o tipo, através de prefixos no inicio de URI, por exemplo, compartilhamentos smb/cifs:  
+```
+smb://nas01/pub # ou smb://gsantana[:senha]@nas01/pub
+```
+E não seria diferente se fosse um outro protocolo como ftp, sftp(ftp_ssh) ou nfs, exemplo:
+```
+sftp://nas01/mnt/po_nas01/pub # ou sftp://gsantana[:senha]@nas01/mnt/po_nas01/pub
+```
+Mas em algumas oportunidades, queremos acessar isso pelo terminal, o que fazer?
+Simplesmente ir para o terminal e executar:
+```
+sudo mount -t cifs //nas01/pub /mnt/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+```
+Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então incluir:
+```
+//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+```
+
+Você olha para a linha acima e já vê o problema, usuário e senha ficam expostos, então vamos tentar de outra forma, vamos incluir a linha acima da seguinte forma:
+```
+# Montando pasta pub
+//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,noauto 0 0
+```
+Salve o arquivo e depois execute:
+sudo systemctl daemon-reload
+
+Explicando os parâmetros de montagem mais utilizados:
+users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).
+rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.
+nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.
+nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.
+file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.
+dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.
+auto|Faz a montagem diretamente no boot
+noauto|Não faz a montagem automática durante o boot
+
+Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
+```
+sudo systemctl daemon-reload
+```
+Salve o arquivo fstab e saia do editor. Como pode notar, no lugar de usuario+senha informamos um arquivo, será este arquivo que fornecerá as autenticações necessárias. Então vamos editar e/ou criar o arquivo /etc/cifs-credentials.gsantana.localdomain.lan:
+```
+sudo nano /etc/cifs-credentials.gsantana.localdomain.lan
+```
+E acrescente as linhas a este arquivo:
+```
+username=gsantana
+password=suasenha
+domain=localdomain
+```
+E mudamos a permissão do arquivo acima para que outras pessoas não consigam ler este arquivo e descobrir nossas credenciais:
+```
+sudo chmod 600 /etc/cifs-credentials.gsantana.localdomain.lan
+```
+Agora vamos testar, primeiro vamos cria a(s) pasta(s) de montagem(ns):
+```
+sudo mkdir -p /media/pub
+sudo chmod 1777 /media/pub
+```
+Agora vamos montar:
+```
+sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+```
+Funmcionou? Espero que sim, mas tome muito cuidado com o arquivo /etc/cifs-credentials.gsantana.localdomain.lan, se houver mensagens como:
+```
+mount error(13): Permission denied
+Refer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log messages (dmesg)
+```
+Então significa que usuário, senha ou dominio estão errados. Para uso do dominio, não se o nome inteiro qualificado, apenas o dominio é o suficiente. Em alguns casos, seria bom que os nomes dos hosts utilizados também estejam discriminados em /etc/hosts.
+
+## VIRTUALIZAÇÃO NATIVA
+O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.
+
 
 ---
 # DAQUI EM DIANTE ESTÁ EM PROCESSO DE REVISÃO, READAPTADO DO FEDORA
