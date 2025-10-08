@@ -417,7 +417,8 @@ sudo apt install locales task-laptop task-portuguese task-portuguese-desktop
 ```
 💡 O pacote locales fornece os idiomas do sistema; os pacotes task-* completam tradução de menus, ajuda e aplicativos do ambiente gráfico.
 
-Se usa KDE, GNOME, XFCE etc., vá em Configurações do sistema>Região e Idioma>Idioma>Português (Brasil)
+Se usa KDE, GNOME, XFCE etc., vá em Configurações do sistema>Região e Idioma>Idioma>Português (Brasil):  
+![Mudando ou atualizando o idioma](debian-regiao-idioma.png)
 Depois, encerre e entre novamente na sessão.  
 
 ## GIT
@@ -597,8 +598,6 @@ Muito bacana, hein?
 As integrações dos navegadores com o ambiente GNOME é permitida através de extensões, com elas instaladas você pode fazer mudanças no ambiente gnome shell como alterar o papel de parede do gnome ao visitar a página gnome-look.org ou instalar extensões em extensions.gnome.org. 
 Instale a extensão para o Firefox:
 https://addons.mozilla.org/pt-BR/firefox/addon/gnome-shell-integration/
-
-
 
 ## ALGUMAS EXTENSÕES ÚTEIS
 As extensões a seguir lhe serão úteis
