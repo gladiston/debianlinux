@@ -747,11 +747,16 @@ Agora vamos editar o arquivo /etc/fstab e então acrescentar após a última lin
 # Minha partição NTFS de label “DADOS”
 UUID="1EB4CCF2B4CCCE09" /media/label_dados ntfs-3g windows_names,nosuid,nodev,nofail,rw,user,gid=users,noauto 0 0
 ```
-Explicando os demais parâmetros:
-nosuid: Bloqueia a operação de bits suid e sgid
-nodev: Não interpreta dispositivos especiais de bloco no sistema de arquivos.
-nofail: faz com que o dispositivo seja montado mesmo que tenha sido marcado com erro. Um drive é marcado com ‘erro’ quando o computador é desligado abruptamente ou quando qualquer unidade listada no fstab não está presente ou falhou na montagem.
-zero e zero no final da linha: todo
+### Explicando os demais parâmetros:
+users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
+rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
+nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.  
+nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.  
+file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.  
+dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
+auto|Faz a montagem diretamente no boot  
+noauto|Não faz a montagem automática durante o boot  
+zero e zero no final da linha: todo  
 
 
 Uma outra forma de escrever essa linha no fstab seria:
@@ -800,20 +805,20 @@ Mas esse linguição ser executados todas as vezes não é uma boa ideia quando 
 Você olha para a linha acima e já vê o problema, usuário e senha ficam expostos, então vamos tentar de outra forma, vamos incluir a linha acima da seguinte forma:
 ```
 # Montando pasta pub
-//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,noauto 0 0
+//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,auto 0 0
 ```
 Salve o arquivo e depois execute:
 sudo systemctl daemon-reload
 
-Explicando os parâmetros de montagem mais utilizados:
-users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).
-rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.
-nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.
-nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.
-file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.
-dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.
-auto|Faz a montagem diretamente no boot
-noauto|Não faz a montagem automática durante o boot
+### Explicando os parâmetros de montagem mais utilizados:  
+users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
+rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
+nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.  
+nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.  
+file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.  
+dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
+auto|Faz a montagem diretamente no boot  
+noauto|Não faz a montagem automática durante o boot  
 
 Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
 ```
@@ -849,8 +854,32 @@ Refer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log mess
 ```
 Então significa que usuário, senha ou dominio estão errados. Para uso do dominio, não se o nome inteiro qualificado, apenas o dominio é o suficiente. Em alguns casos, seria bom que os nomes dos hosts utilizados também estejam discriminados em /etc/hosts.
 
-## VIRTUALIZAÇÃO NATIVA
-O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.
+## VIRTUALIZAÇÃO NATIVA QEMU+KVM
+O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
+### Vamos instalar os pacotes principais:  
+```
+sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients virt-manager bridge-utils dnsmasq-base ovmf
+```
+Onde:  
+Pacote|Função
+libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.
+libvirt-clients|Ferramentas CLI (virsh, virt-install, etc.).
+dnsmasq-bas|Fornece DHCP/NAT automáticos para redes virtuais.
+ovmf|Permite boot UEFI em VMs (necessário para Windows/modernos).
+
+### Permitir uso sem root
+Adicione seu usuário ao grupo libvirt (e kvm):
+```  
+sudo usermod -aG libvirt,kvm $USER
+```  
+Depois, reinicie o computador.
+Depois do login, verifique se realmente estou nestes grupos:
+```  
+groups
+```  
+Você deve ver:
+gsantana : gsantana kvm libvirt …
+
 
 
 ---
