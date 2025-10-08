@@ -41,9 +41,9 @@ exit
 ```  
 Se estiver usando uma maquina de desenvolvimento e deseja relaxar um pouco o 'sudo' então poderá inibir ele de ficar perguntando a senha a todo instante, vá no terminal e execute:  
 ```  
-su root  
+$ su root  
 (precisará digitar a senha)  
-sudo visudo    
+$ sudo visudo    
 ```
 e então procure por:    
 ```
@@ -485,7 +485,7 @@ Essas opções ativam:
 * Indentação de 2 espaços padrão
 
 
-## OBTENHA O KDE COMPLETO
+## OBTENHA O KDE COMPLETO (OPCIONAL)
 O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, apenas os mais comuns e mesmo assim, eles só aparecem quando os serviços e dependencias necessários tornam o módulo elegível, por exemplo, o modulo de compartilhamento de arquivos só será exibido se o serviço 'samba' estiver rodando. E ainda há muito mais coisas, então se desejar um KDE mais cheio de funções, execute:
 ```  
 sudo apt install -y kde-full
@@ -493,10 +493,13 @@ sudo apt install -y kde-full
 Depois disso, *recomendo que reinicie o computador*.
 
 
+
+# DAQUI EM DIANTE ESTÁ EM PROCESSO DE REVISÃO, READAPTADO DO FEDORA
+
 ## HABILITANDO AREA DE TRABALHO REMOTA
 Ainda no programa “Configurações”, então procure por “host” ou “compartilhamento” e então encontre a seção “Compartilhamento”. Neste momento queremos ativar o compartilhamento arquivos:
 
-![Habilitando area de trabalho remota](./area_trabalho_remota.png)
+![Habilitando area de trabalho remota](kde_area_trabalho_remota.png)
 
 Quando precisar acessar sua estação de trabalho remota você poderá usar aplicativos como o remmina. Bastará fornecer a URL que indica seu computador como mostrado acima em destaque e então fornecer as credenciais fornecidas.  
 💡 DICA:  
