@@ -15,6 +15,7 @@ Nada de especial aqui, mas recomendo que tenha a partição / (root) em BTRFS. E
 
 ## Notebooks da série ACER NITRO
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
+
 [Se tiver um ACER NITRO, siga as instruções em:  ](https://github.com/gladiston/fedorainstallonacernitro)
 
 ## SUDO
@@ -121,7 +122,8 @@ $ sudo apt install libavcodec-extra ffmpeg vlc -y
 
 ## INSTALANDO GOOGLE CHROME
 O Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
-Acesse a página de download dos pacotes do navegador Chrome e clique em Fazer o download do Google Chrome:
+Acesse a página de download dos pacotes do navegador Chrome e clique em Fazer o download do Google Chrome:  
+
 [https://www.google.com/chrome/?platform=linux](Download)
 Faça o download do pacote para sua plataforma Linux:
 Pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
