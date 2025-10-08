@@ -175,6 +175,22 @@ sudo apt install -y wget curl # downloaders
 sudo apt install -y lzip tar unzip squashfs-tools # [des]compactadores
 ```
 
+## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
+Os utilitários de compactação e descompactação não vêm todos instalados por padrão em uma instalação mínima do Debian.
+Por isso, é recomendável instalar os pacotes abaixo para garantir suporte aos formatos mais comuns.
+```
+sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools
+```
+
+Pacote|Função / Formato
+|:--|:--|
+tar|Criação e extração de arquivos .tar e .tar.gz
+zip, unzip|Manipulação de arquivos .zip
+p7zip-full|Suporte a arquivos .7z (formato 7-Zip)
+p7zip-rar, rar, unrar|Suporte a arquivos .rar
+lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux
+squashfs-tools|Criação e extração de arquivos .squashfs
+
 ## INSTALANDO PROGRAMAS BASICOS PARA RECOMPILAR
 Os pacotes a seguir servem para quem pretende compilar algo no ambiente Linux. Se você pretende instalar o driver proprietário da NVIDIA fornecido pela NVIDIA você também precisará deles:
 ```
