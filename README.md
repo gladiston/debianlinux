@@ -51,30 +51,30 @@ root    ALL=(ALL:ALL) ALL
 ```  
 E acrescente a seguinte linha abaixo:  
 ```
-gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch  
+gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch, /bin/apt  
 gsantana    ALL=(ALL) NOPASSWD: ALL # precisa de senha para todos, exceto a lista acima  
 #gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
-(Salve o arquivo e saia do editor)  
-exit  
 ```
-Para testar, tente:  
+Salve o arquivo, e então faça o seguinte teste:  
 ```
 sudo touch /tmp/teste.txt    
 ```
 O comando acima só vai criar um arquivo vazio como /tmp/teste.txt, mas note que ele não perguntou a senha porque este comando estava na relação dos comandos permitidos sem uso de senha, isto é: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch...porém qualquer outro comando, ele perguntará a senha, veja:  
 ```
-sudo apt update    
+sudo clear    
 ```
-Não faça isso em computadores de produção, mesmo em desenvolvimento dependendo do comando que foi liberado, pode ser perigoso. Se achar que po risco não vale a pena, simplesmente remova a linha:  
+O comando acima apenas limpa a tela, mas pediu a senha.
+A liberação de comandos usando o 'sudo' sem uso de senhas não é recomendado para computadores de produção, nem mesmo para computadores de desenvolvimento dependendo do que este computador possui em seu sistema, por exemplo, senhas e chaves importantes. Se achar que o relaxamento não vale o risco, simplesmente remova a linha:  
 ```  
-gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch
+gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, (...)
 ```
 E então qualquer comando precisará de senha quando o 'sudo' estiver envolvido.  
-A linha abaixo esta comentada porque se for liberada, nenhum comando 'sudo' precisará mais de senha:  
+
+Agora, vamos a um pequeno comentário sobre a linha abaixo, ela foi comentada porque se liberada, nenhum comando 'sudo' precisará mais de senha para qualquer comando, ela é o sentido inverso de liberar sem senha do tópico anterior, descomentá-la significaria um relaxamento total do comando 'sudo':  
 ```  
 #gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
-Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho, poderá fazê-lo, mas tenha certeza de que seu   computador é um computador zé-roela que não oferece nenhum risco.  
+Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu   computador é um computador _zé-roela_ que não oferece nenhum risco.  
 
 ## INSTALANDO O GOOGLE CHROME
 O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.
