@@ -88,7 +88,7 @@ E então ajuste o tempo:
 ![Opção de privacidade e tela de bloqueio](https://github.com/gladiston/fedoralinux/blob/main/gnome_tela_bloqueio02.png)
 
 ### KDE
-(todo)
+![tela de bloqueio](kde_tela_bloqueio01.png)
 
 Não importa se é GNOME ou KDE, voce também tem a possibilidade de desligá-lo. 
 
