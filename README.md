@@ -76,6 +76,22 @@ Agora, vamos a um pequeno comentário sobre a linha abaixo, ela foi comentada po
 ```
 Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu   computador é um computador _zé-roela_ que não oferece nenhum risco.  
 
+
+## BLOQUEIO DE TELA AUTOMÁTICO
+O sistema normalmente é ajustado automaticamente para bloquear após 5 minutos de atividade, mas ‘falta de atividade’ é um termo incorreto, o correto seria ‘tempo sem interatividade’, isto é, o tempo que você fica sem ter que interagir com o computador. Às vezes estamos processando algo demorado e temos de esperar ou acompanhar a movimentação de log de status e o computador durante este tempo estará tendo muito trabalho, porém com pouca interatividade, a tela será bloqueada. Então precisamos saber quanto tempo precisamos nas tarefas do dia a dia ou então desligá-la.
+
+### GNOME
+Vá em configurações->Privacidade->Tela de bloqueio:
+![Opção de privacidade e tela de bloqueio](https://github.com/gladiston/fedoralinux/blob/main/gnome_tela_bloqueio01.png)
+
+E então ajuste o tempo:
+![Opção de privacidade e tela de bloqueio](https://github.com/gladiston/fedoralinux/blob/main/gnome_tela_bloqueio02.png)
+
+### KDE
+(todo)
+
+Não importa se é GNOME ou KDE, voce também tem a possibilidade de desligá-lo. 
+
 ## INSTALANDO O GOOGLE CHROME
 O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.
 No entanto, o Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
@@ -687,6 +703,24 @@ Como visto nesta imagem:
 
 Depois, encerre e entre novamente na sessão.  
 
+## INSTALANDO A FONTE "CONSOLAS"
+A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento de aplicativos como também no ambiente de terminal. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:
+```
+cd /tmp
+mkdir -p ~/.local/share/fonts
+wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
+unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
+fc-cache -f -v
+```
+Para conferir se foi realmente instalada, execute agora:  
+```
+fc-list | grep "Consolas"
+```
+Se aparacer algo como abaixo, então foi um sucesso:  
+```
+/home/gsantana/.local/share/fonts/YaHei.Consolas.1.12.ttf: YaHei Consolas Hybrid:style=YaHei Consolas Hybrid Regular,Normal,obyčejné,Standard,Κανονικά,Normaali,Normál,Normale,Standaard,Normalny,Обычный,Normálne,Navadno,Arrunta
+```
+
 ## GIT
 Vamos ajustar nosso ambiente com o GIT com os comandos:
 ```
@@ -1099,26 +1133,15 @@ wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable
 Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:
 https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
 
+### Criando máquinas virtuais pelo Virt-Manager
+Instruções de como usar o virt-manager encontra-se na página:
+[Criando máquinas virtuais pelo Virt-Manager](https://sempreupdate.com.br/como-configurar-e-usar-o-virt-manager-para-kvm-no-fedora-ubuntu-debian-e-derivados/#google_vignette)
+
 ## HABILITANDO AREA DE TRABALHO REMOTA
 (todo)
 
 
-## COMPARTILHAMENTO DE MULTIMEDIA
-(todo)
 
-## HABILITANDO SESSÃO REMOTA
-(todo)
-
-## BLOQUEIO DE TELA AUTOMÁTICO
-O sistema normalmente é ajustado automaticamente para bloquear após 5 minutos de atividade, mas ‘falta de atividade’ é um termo incorreto, o correto seria ‘tempo sem interatividade’, isto é, o tempo que você fica sem ter que interagir com o computador. Às vezes estamos processando algo demorado e temos de esperar ou acompanhar a movimentação de log de status e o computador durante este tempo estará tendo muito trabalho, porém com pouca interatividade a tela será bloqueada. Então precisamos saber quanto tempo precisamos nas tarefas do dia a dia ou então desligá-la.
-
-Vá em configurações->Privacidade->Tela de bloqueio:
-![Opção de privacidade e tela de bloqueio](./gnome_tela_bloqueio01.png)
-
-E então ajuste o tempo:
-![Opção de privacidade e tela de bloqueio](./gnome_tela_bloqueio02.png)
-
-Ou até mesmo desligue-o se isso for preciso. Note que na imagem acima, també, foi desligado as notificações, isso é especialmente util quando você deixa o local e outras pessoas podem passar na frente de sua tela e ler suas notificações que seriam exibidas mesmo com a sessão bloqueada.
 
 ## AJUSTANDO O PROMPT NO TERMINAL
 Às vezes o prompt do terminal pode incomodar alguns, por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt seu username e nome do computador:
@@ -1160,7 +1183,7 @@ xterm-256color
 ```
 Agora que sabemos que o nome é xterm-256color então edite o arquivo ~/.bashrc (o til representa a localização da sua pasta $HOME), então editamos este arquivo:  
 ```
-gnome-text-editor ~/.bashrc
+nano ~/.bashrc
 ```
 E ao final do arquivo ou numa localidade melhor, pois alguns .bashrc as vezes tem IFs que discriminam terminal colorido de não colorido vou acrescentar:
 # Meu ajuste de terminal ao estilo old school
@@ -1186,7 +1209,7 @@ A partir de agora, quando abrir o terminal, seu prompt será assim:
 ![Novo prompt](./mudando_prompt06.png)  
 Muito bacana, hein?
 
-## PARA TREINAMENTO
+## SOFTWARE PARA TREINAMENTO
 Para criar material de treinamento que incluirá vídeo é sugerível instalar a seguinte extensão Draw On Your Screen cuja instrução para instalação se encontra em:
 https://codeberg.org/som/DrawOnYourScreen
 
@@ -1209,8 +1232,7 @@ sudo dnf install -y google-roboto-fonts google-roboto-condensed-fonts google-rob
 
 A fonte Hack é bastante apropriada para ser usada para listar codigo fonte de programas ou utilizar o terminal, sua instalação pelo repositório é simples:
 ```
-sudo dnf copr enable zawertun/hack-fonts
-sudo dnf install -y hack-fonts
+sudo apt install -y hack-fonts
 ```
 Mas recomendo sua instalação manual, pois se instalada em $HOME a mesma poderá ser reaproveitada em futuras reinstalações, visite a página:
 https://github.com/source-foundry/Hack
@@ -1228,15 +1250,7 @@ fc-list | grep "Hack"
 Se aparecer o nome da fonte em ~/.local/share/fonts/ttf/Hack-BoldItalic.ttf: Hack:style=Bold Italic e assim por diante é porque a fonte foi instalada com sucesso.
 
 
-## Fonte "CONSOLAS"
-A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento e aplicativos como também no ambiente gráfico. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:
-```
-cd /tmp
-wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
-unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
-fc-cache -f -v
-fc-list | grep "Consolas"
-```
+
 
 
 
