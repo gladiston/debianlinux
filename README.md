@@ -1059,10 +1059,20 @@ Salve e feche o editor, então execute:
 sudo systemctl daemon-reload
 ```
 Note que agora, a compressão zstd para a unidade inteira esta desligada, significando que todos os arquivos ocuparão mais espaços.
-Recomendo que reinicie o computador antes de prosseguir.
+Recomendo que reinicie o computador antes de prosseguir.  
+
+Depois de reiniciar o computador, abra o terminal e execute:
+```
+$ sudo btrfs filesystem df /
+Data, single: total=19.01GiB, used=15.59GiB
+System, DUP: total=8.00MiB, used=16.00KiB
+Metadata, DUP: total=2.00GiB, used=333.94MiB
+GlobalReserve, single: total=35.06MiB, used=0.00B
+```
+Se não aparecer a palavra “*Compressed*”, significa que nenhum dado comprimido está sendo escrito — a compressão está efetivamente desativada.  
 
 
-Algo também muito recomendado é a desfragmentação da pasta, pois desligamos algumas propriedades do btrfs e as imagens de VMs costumam ser grandes. Isso pode ser feito com o comando:  
+Algo também muito recomendado é a desfragmentação da pasta, pois desligamos algumas propriedades do btrfs e as imagens de VMs costumam ser grandes.   Isso pode ser feito com o comando:  
 ```
 sudo btrfs filesystem defragment -r "/home/$USER/libvirt/images"
 ```
