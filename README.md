@@ -262,6 +262,12 @@ Para confirmar a instalação e ver a versão instalada:
 ```  
 vim --version
 ```
+Algo que pode ser um pouco irritamente em usar o vim é que o mouse também é controlado por ele e assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos como copiar/colar não funcionam porque são capturados pelo vim e só funcionarão dentro do vim, impedindo que voce copie algo do texto e cole para fora do terminal. Se você se incomoda com isso basta executar o comando 'set mouse=', no entanto, executar isso todas as vezes cansa, então edite o arquivo ~/.vim e acrescente:  
+```
+set mouse=
+```  
+Salve o arquivo e saia do editor, pronto, as linhas que deixou no arquivo ~/.vim serão usadas todas as vezes que o vim for carregado.  
+
 
 
 ## INSTALANDO CODECS
@@ -314,7 +320,7 @@ Esses programas são amplamente usados em scripts, automações e testes de cone
 Os utilitários de compactação e descompactação não vêm todos instalados por padrão em uma instalação mínima do Debian.
 Por isso, é recomendável instalar os pacotes abaixo para garantir suporte aos formatos mais comuns.
 ```
-sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools
+sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract
 ```
 
 Pacote|Função / Formato
@@ -325,6 +331,13 @@ p7zip-full|Suporte a arquivos .7z (formato 7-Zip)
 p7zip-rar, rar, unrar|Suporte a arquivos .rar
 lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux
 squashfs-tools|Criação e extração de arquivos .squashfs
+
+
+## INSTALANDO O GERENCIADOR DE FONTES
+Normalmente, eles já vem instalados em algumas distros, mas no Debian, geralmente não. Vamos executar:  
+```
+sudo apt install -y  fontconfig fontforge fonttools
+```
 
 
 ## INSTALANDO PROGRAMAS BASICOS PARA RECOMPILAR
@@ -721,6 +734,36 @@ Se aparacer algo como abaixo, então foi um sucesso:
 /home/gsantana/.local/share/fonts/YaHei.Consolas.1.12.ttf: YaHei Consolas Hybrid:style=YaHei Consolas Hybrid Regular,Normal,obyčejné,Standard,Κανονικά,Normaali,Normál,Normale,Standaard,Normalny,Обычный,Normálne,Navadno,Arrunta
 ```
 
+
+## INSTALAÇÃO DE FONTES MICROSOFT
+Vamos adicionar um repositório que nos será util para acrescentar mais fontes ao sistema:
+```
+sudo apt install -y ttf-mscorefonts-installer
+```
+O pacote instalado acima complementará as fontes Microsoft de que alguns programas portados do Windows talvez precisem.
+
+## INSTALAÇÃO DA FONTE ROBOTO
+A fonte ‘fonts-roboto’ é bastante interessante para uso em terminal e IDEs de programação:
+```
+sudo apt install -y fonts-roboto fonts-roboto-fontface  fonts-roboto-slab
+```
+Para conferir se a fonte foi realmente instalada, executamos:
+```
+fc-list | grep "roboto"
+```
+
+## INSTALAÇÃO DA FONTE HACK
+A fonte Hack é bastante apropriada para ser usada para listar codigo fonte de programas ou utilizar o terminal, sua instalação pelo repositório é simples:
+```
+sudo apt install -y fonts-hack-otf fonts-hack-ttf fonts-hack-web
+```
+
+Para conferir se a fonte foi realmente instalada, executamos:
+```
+fc-list | grep "Hack"
+```
+Se aparecer o nome da fonte em ~/.local/share/fonts/ttf/Hack-BoldItalic.ttf: Hack:style=Bold Italic e assim por diante é porque a fonte foi instalada com sucesso.
+
 ## GIT
 Vamos ajustar nosso ambiente com o GIT com os comandos:
 ```
@@ -750,6 +793,75 @@ Após, o git só precisará dessa configuração adicional:
 git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 ```
 Agora, você precisa saber que o método de autenticação mudou, você não usa mais o “username+ senha” do seu usuario git, mas “username+token”. O token é criado na página do github, no menu de sua profile->Settings->Developer settings->Personal access tokens->Tokens(classic) e então criar um token. Este token será o substituto de sua senha git no terminal.
+
+## AJUSTANDO O PROMPT NO TERMINAL
+Às vezes o prompt do terminal pode incomodar alguns, por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt seu username e nome do computador:
+![Prompt normal](./mudando_prompt01.png)
+porém ao usarmos o desktop sabemos quem somos e que computador é, então vamos ajustar o terminal para não mostrar essas duas informações. A variável de ambiente que gostaríamos de modificar que faz o prompt refletir o que desejamos chama-se PS1 e podemos ajustá-la assim::
+```
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] ' 
+```
+Ele deixará nosso prompt "oldschool", colorido:
+![Novo prompt](./mudando_prompt02.png)
+
+Note na imagem acima, nosso prompt deixou de ser o que era antes para ser uma forma verde “oldschool” com o nome da pasta onde estamos, agora não esta mais exibindo username ou computername.
+
+Se você não gosta de exibir o caminho completo do diretório onde você está porque prefere diminuí-lo, então você deve trocar o código \w por \W, a diferença entre eles é que o W maiúsculo mostra apenas o nome do diretório que você está sem o caminho completo. Muitas pessoas preferem desse jeito e caso queiram saber o caminho apenas executam o comando **pwd**.  Vamos mostrar um prompt classico com dois pontos, porém na cor azul:
+
+```
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w:\[\033[00m\] ' 
+```
+![Novo prompt](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt03.png)
+
+Ou se quiser o mesmo prompt acima, mas na classica cor verde:
+```
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] '
+```
+![Novo prompt](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt04.png)
+
+Os “:” no meio da sentença pode ser trocado por um caractere unicode mais bacana:
+```
+export PS1="\e[32;40m\w➤\e[00m "
+```
+![Novo prompt](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt05.png)
+
+Muito melhor, não é mesmo? Há uma página que descreve várias formas de como deixar seu prompt:  
+https://www.ibm.com/developerworks/linux/library/l-tip-prompt/ 
+Experimente todas as opções que puder e ao final determine o prompt que deseja usar. Mas tem um problema, ao definir o tipo de prompt que desejamos, não queremos executar “export PS1=...”  todas as vezes que formos usar o terminal, isso nos daria muito trabalho. Precisamos de um jeito de automatizar isso, então o primeiro passo é descobrir o tipo de terminal que usamos, execute: 
+```
+$ echo $TERM
+xterm-256color
+```
+Agora que sabemos que o nome é xterm-256color então edite o arquivo ~/.bashrc (o til representa a localização da sua pasta $HOME), então editamos este arquivo:  
+```
+nano ~/.bashrc
+```
+E ao final do arquivo ou numa localidade melhor, pois alguns .bashrc as vezes tem IFs que discriminam terminal colorido de não colorido vou acrescentar:
+```
+# Meu ajuste de terminal ao estilo old school
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w➤\[\033[00m\] '
+```
+
+Ficando mais ou menos assim nosso arquivo:  
+```
+(...)  
+# User specific aliases and functions  
+if [ -d ~/.bashrc.d ]; then  
+    for rc in ~/.bashrc.d/*; do  
+        if [ -f "$rc" ]; then  
+            . "$rc"  
+        fi  
+    done  
+fi  
+  
+# Meu ajuste de terminal ao estilo old school  
+export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w➤\[\033[00m\] '
+  
+unset rc
+```
+A partir de agora, quando abrir o terminal, seu prompt será assim:  
+![Novo prompt](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt06.png)
+Muito bacana, hein?
 
 ## ACESSAR PARTIÇÕES LINUX NO SISTEMA
 Se utiliza uma ou mais partições Linux que não estão automaticamente montadas você pode usar o gerenciador de arquivos do KDE ou GNOME para acessá-la, mas toda vez que fizer isso, provavelmente lhe será pedido uma senha e isso cansa a vida do desenvolvedor. Minha recomendação é deixar essas partições já montadas e disponiveis imediatamente após o boot. Para conseguir isso, vamos a um exemplo:
@@ -1141,74 +1253,6 @@ Instruções de como usar o virt-manager encontra-se na página:
 (todo)
 
 
-
-
-## AJUSTANDO O PROMPT NO TERMINAL
-Às vezes o prompt do terminal pode incomodar alguns, por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt seu username e nome do computador:
-![Prompt normal](./mudando_prompt01.png)
-porém ao usarmos o desktop sabemos quem somos e que computador é, então vamos ajustar o terminal para não mostrar essas duas informações. A variável de ambiente que gostaríamos de modificar que faz o prompt refletir o que desejamos chama-se PS1 e podemos ajustá-la assim::
-```
-export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] ' 
-```
-Ele deixará nosso prompt "oldschool", colorido:
-![Novo prompt](./mudando_prompt02.png)
-
-Note na imagem acima, nosso prompt deixou de ser o que era antes para ser uma forma verde “oldschool” com o nome da pasta onde estamos, agora não esta mais exibindo username ou computername.
-
-Se você não gosta de exibir o caminho completo do diretório onde você está porque prefere diminuí-lo, então você deve trocar o código \w por \W, a diferença entre eles é que o W maiúsculo mostra apenas o nome do diretório que você está sem o caminho completo. Muitas pessoas preferem desse jeito e caso queiram saber o caminho apenas executam o comando **pwd**.  Vamos mostrar um prompt classico com dois pontos, porém na cor azul:
-
-```
-export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w:\[\033[00m\] ' 
-```
-![Novo prompt](./mudando_prompt03.png)
-
-Ou se quiser o mesmo prompt acima, mas na classica cor verde:
-```
-export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] '
-```
-![Novo prompt](./mudando_prompt04.png)
-
-Os “:” no meio da sentença pode ser trocado por um caractere unicode mais bacana:
-```
-export PS1="\e[32;40m\w➤\e[00m "
-```
-![Novo prompt](./mudando_prompt05.png)
-
-Muito melhor, não é mesmo? Há uma página que descreve várias formas de como deixar seu prompt:  
-https://www.ibm.com/developerworks/linux/library/l-tip-prompt/ 
-Experimente todas as opções que puder e ao final determine o prompt que deseja usar. Mas tem um problema, ao definir o tipo de prompt que desejamos, não queremos executar “export PS1=...”  todas as vezes que formos usar o terminal, isso nos daria muito trabalho. Precisamos de um jeito de automatizar isso, então o primeiro passo é descobrir o tipo de terminal que usamos, execute: 
-```
-echo $TERM
-xterm-256color
-```
-Agora que sabemos que o nome é xterm-256color então edite o arquivo ~/.bashrc (o til representa a localização da sua pasta $HOME), então editamos este arquivo:  
-```
-nano ~/.bashrc
-```
-E ao final do arquivo ou numa localidade melhor, pois alguns .bashrc as vezes tem IFs que discriminam terminal colorido de não colorido vou acrescentar:
-# Meu ajuste de terminal ao estilo old school
-export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w➤\[\033[00m\] '
-Ficando mais ou menos assim nosso arquivo
-```
-(...)  
-# User specific aliases and functions  
-if [ -d ~/.bashrc.d ]; then  
-    for rc in ~/.bashrc.d/*; do  
-        if [ -f "$rc" ]; then  
-            . "$rc"  
-        fi  
-    done  
-fi  
-  
-# Meu ajuste de terminal ao estilo old school  
-export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w➤\[\033[00m\] '
-  
-unset rc
-```
-A partir de agora, quando abrir o terminal, seu prompt será assim:  
-![Novo prompt](./mudando_prompt06.png)  
-Muito bacana, hein?
-
 ## SOFTWARE PARA TREINAMENTO
 Para criar material de treinamento que incluirá vídeo é sugerível instalar a seguinte extensão Draw On Your Screen cuja instrução para instalação se encontra em:
 https://codeberg.org/som/DrawOnYourScreen
@@ -1217,41 +1261,6 @@ https://codeberg.org/som/DrawOnYourScreen
 git clone https://codeberg.org/som/DrawOnYourScreen --depth=1 --single-branch --branch face ~/.local/share/gnome-shell/extensions/draw-on-your-screen@som.codeberg.org
 ```
 Depois vá até .local/share/gnome-shell/extensions e abra o arquivo metadata.json e adicione "41" e então reinicie o gnome-shell.
-
-
-## INSTALAÇÃO DE FONTES DE CARACTERES ADICIONAIS
-Vamos adicionar um repositório que nos será util para acrescentar mais fontes ao sistema:
-```
-sudo dnf install -y curl cabextract xorg-x11-font-utils fontconfig
-sudo rpm -i https://downloads.sourceforge.net/project/mscorefonts2/rpms/msttcore-fonts-installer-2.6-1.noarch.rpm
-```
-O pacote instalado acima complementará as fontes microsoft de que alguns programas portados do Windows talvez precisem.
-
-A fonte ‘fonts-roboto’ é bastante interessante para uso em terminal e IDEs de programação:
-sudo dnf install -y google-roboto-fonts google-roboto-condensed-fonts google-roboto-mono-fonts google-roboto-slab-fonts
-
-A fonte Hack é bastante apropriada para ser usada para listar codigo fonte de programas ou utilizar o terminal, sua instalação pelo repositório é simples:
-```
-sudo apt install -y hack-fonts
-```
-Mas recomendo sua instalação manual, pois se instalada em $HOME a mesma poderá ser reaproveitada em futuras reinstalações, visite a página:
-https://github.com/source-foundry/Hack
-e siga as instruções, a saber:
-```
-cd /tmp
-wget -vc https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip
-unzip Hack-v3.003-ttf.zip -d ~/.local/share/fonts/
-fc-cache -f -v
-```
-Para conferir se a fonte foi realmente instalada, executamos:
-```
-fc-list | grep "Hack"
-```
-Se aparecer o nome da fonte em ~/.local/share/fonts/ttf/Hack-BoldItalic.ttf: Hack:style=Bold Italic e assim por diante é porque a fonte foi instalada com sucesso.
-
-
-
-
 
 
 ## ZOOM CLOUD MEETINGS
