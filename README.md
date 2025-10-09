@@ -1008,7 +1008,8 @@ ou se souber o label do disco:
 ```
 sudo ntfsfix /dev/disk/by-label/DADOS
 ```
-Alternativas: Existe um serviço chamado AutoFS, ele implementa uma solução onde você indica pastas e apenas quando você acessá-las, ele as monta. Serve para discos externos, partições internas e também para compartilhamentos remotos. Esta última, é o motivo pelo qual é mais usado visto que auto-montar pastas que já estão em nosso domínio é mais fácil usando o fstab. AutoFS é um pouco mais complicado que usar /etc/fstab, mas nem tanto depois que você entende como ele funciona. Eu tenho receio de utilizá-lo em ambientes com pouco controle porque se houver programas que vasculhem discos eles irão montar todas as pastas que encontrarem na configuração para auto montar, talvez  voce pense na situação de vírus de computador, mas ocorreria algo similar em softwares de backups que podem erroneamente incluir pastas que não deveriam. Se quiser estudar o AutoFS:
+Alternativas: Existe um serviço chamado AutoFS, ele implementa uma solução onde você indica pastas e apenas quando você acessá-las, ele as monta.  
+Serve para discos externos, partições internas e também para compartilhamentos remotos. Esta última, é o motivo pelo qual é mais usado visto que auto-montar pastas que já estão em nosso domínio é mais fácil usando o fstab. AutoFS é um pouco mais complicado que usar /etc/fstab, mas nem tanto depois que você entende como ele funciona.  Eu tenho receio de utilizá-lo em ambientes com pouco controle porque se houver programas que vasculhem discos eles irão montar todas as pastas que encontrarem na configuração para auto montar, talvez  voce pense na situação de vírus de computador, mas ocorreria algo similar em softwares de backups que podem erroneamente incluir pastas que não deveriam. Se quiser estudar o AutoFS:
 
 https://devconnected.com/how-to-install-autofs-on-linux/
 
@@ -1372,16 +1373,18 @@ Resynthesizer
 Retire manchas ou outros defeitos de imagens
 https://www.youtube.com/watch?v=n76owcpShqw
 
-## ESPELHAMENTO DE CELULAR
-Usaremos um programa chama scrcpy, para instalar executamos:
+## ESPELHAMENTO DE CELULAR  
+Usaremos um programa chama scrcpy, para instalar executamos:  
+
 ```
 sudo dnf install -y adb android-tools 
 sudo dnf install -y scrcpy scrcpy-server
 ```
-Para usá-lo terá de ativar o modo de depuração de seu celular ou tablet:
-https://developer.android.com/studio/command-line/adb#Enabling
-E em alguns aparelhos também:
-https://github.com/Genymobile/scrcpy/issues/70#issuecomment-373286323
+Para usá-lo terá de ativar o modo de depuração de seu celular ou tablet:  
+(https://developer.android.com/studio/command-line/adb#Enabling)
+
+E em alguns aparelhos também:  
+(https://github.com/Genymobile/scrcpy/issues/70#issuecomment-373286323)
 
 Existe também uma GUI que para alguns simplifica algumas operações, faça a instalação a partir da loja de aplicativos:
 ```
@@ -1413,7 +1416,7 @@ sudo ./install-sound
 E prossiga com a instalação.
 Para ter acesso a webcam, execute no terminal droidcam ou droidcam-cli, haverá as opções de usar o celular como webcam plugado na USB ou via Wifi. Para criar um atalho no ambiente GNOME:
 ```
-gnome-text-editor ~/.local/share/applications/droidcam.desktop
+nano ~/.local/share/applications/droidcam.desktop
 ```
 e então colar:
 ```
@@ -1431,11 +1434,11 @@ Name[it]=droidcam
 Salve e feche o arquivo e a partir de agora encontrará o ícone do DroidCam no seu sistema.
 
 ## OBS STUDIO
-Este é o melhor programa de studio e studio de streaming. É incrível acreditar que é opensource e extremamente profissional. Para instalar basta ir na loja e escolher OBS Studio.
+Este é o melhor programa de studio e studio de streaming. É incrível acreditar que é opensource e extremamente profissional. Para instalar basta ir na loja e escolher OBS Studio.  
 
 
 ## MINDER
-Este é o melhor programa para mapas mentais no formato que roda no modo desktop. Ele é muito similar ao femi. Para instalar:
+Este é o melhor programa para mapas mentais no formato que roda no modo desktop. Ele é muito similar ao femi. Para instalar:  
 ```
 flatpak install --user https://flathub.org/repo/appstream/com.github.phase1geo.minder.flatpakref
 flatpak --user update com.github.phase1geo.minder
@@ -1459,59 +1462,59 @@ sudo apt remove hypnotix*
 ```
 
 ## INSYNC
-Este é o melhor programa cliente de Google Drive, ele simula uma unidade de drive local e comumente é usado para colocar backups no Google Drive sem a necessidade do browser. Para instalar é simples e complicado, simples porque você só tem que dar dois cliques no arquivo e complicado porque se trata dum software proprietário que por não poder ser auditado você terá de confiar no fornecedor. Se você deseja prosseguir assim mesmo então visite a página:
-https://www.insynchq.com/downloads
+Este é o melhor programa cliente de Google Drive, ele simula uma unidade de drive local e comumente é usado para colocar backups no Google Drive sem a necessidade do browser. Para instalar é simples e complicado, simples porque você só tem que dar dois cliques no arquivo e complicado porque se trata dum software proprietário que por não poder ser auditado você terá de confiar no fornecedor. Se você deseja prosseguir assim mesmo então visite a página:  
+(https://www.insynchq.com/downloads)
 
-E baixe o instalador e depois dê dois cliques sobre o arquivo baixado e o processo de instalação se iniciará. Se você deseja instalar a partir do repositório, no link acima eles fornecem instruções para serem executados no terminal e você terá atualizações do insink como qualquer outro programa advindo dos repositórios oficiais, neste caso, oficiais do publicador do insink.
+E baixe o instalador e depois dê dois cliques sobre o arquivo baixado e o processo de instalação se iniciará. Se você deseja instalar a partir do repositório, no link acima eles fornecem instruções para serem executados no terminal e você terá atualizações do insink como qualquer outro programa advindo dos repositórios oficiais, neste caso, oficiais do publicador do insink.  
 
 
 
 ## BLANKET
-Programa para exibir sons no ambiente de fundo, geralmente usado para focar no trabalho, com sons ambiente da natureza ou urbanos como de uma cafeteria. Para instalar basta ir na loja e escolhê-lo pelo nome Blanket.
+Programa para exibir sons no ambiente de fundo, geralmente usado para focar no trabalho, com sons ambiente da natureza ou urbanos como de uma cafeteria. Para instalar basta ir na loja e escolhê-lo pelo nome Blanket.  
 
 
 ## HOMESERVER
-Este programa serve para compartilhar uma ou varias pastas de uma forma simples, voce inicia o programa, indica as pastas a serem compartilhadas e momentaneamente eles estarão disponíveis para os computadores na mesma rede local através do navegador. Para instalar basta ir na loja e escolhê-lo pelo nome homeserver.
+Este programa serve para compartilhar uma ou varias pastas de uma forma simples, voce inicia o programa, indica as pastas a serem compartilhadas e momentaneamente eles estarão disponíveis para os computadores na mesma rede local através do navegador. Para instalar basta ir na loja e escolhê-lo pelo nome homeserver.  
 
 Quando os clientes copiarem o que queriam, você fecha o aplicativo e o compartilhamento estará encerrado ou pode encerrar pasta a pasta.
-Observação: Geralmente se você habilitou o compartilhamento de arquivos, talvez não precise do HOMESERVER.
+Observação: Geralmente se você habilitou o compartilhamento de arquivos, talvez não precise do HOMESERVER.  
 
 
 ## TIMESHIFT
-Este programa serve para backups, especialmente backups incrementais. Para instalar:
+Este programa serve para backups, especialmente backups incrementais. Para instalar:  
 ```
 sudo dnf install -y  timeshift
 ```
 É melhor procurar no youtube em como utilizá-lo:
-https://www.youtube.com/watch?v=tQY5IHOnK9E
+(https://www.youtube.com/watch?v=tQY5IHOnK9E)
 Dá para recuperar tanto arquivos quanto o sistema operacional.
 
 
 
 ## HANDBRAKE
-HandBrake é um dos mais poderosos conversores de vídeo. Para instalar basta ir na loja e escolhê-lo pelo nome handbrake.
+HandBrake é um dos mais poderosos conversores de vídeo. Para instalar basta ir na loja e escolhê-lo pelo nome handbrake.  
 
 
 ## FormatLab
-FormatLab é um dos mais promissores conversores de vídeo após o HandBrake. Ele faz as mesmas atividades do handbrake, porém é mais simples de operar. Para instalar basta ir na loja e escolhê-lo pelo nome FormatLab.
+FormatLab é um dos mais promissores conversores de vídeo após o HandBrake. Ele faz as mesmas atividades do handbrake, porém é mais simples de operar. Para instalar basta ir na loja e escolhê-lo pelo nome FormatLab.  
 
 
 
 ## GPARTED
-GParted é um particionador gráfico para Linux, com ele podemos criar e manipular partições de discos que tenham os mais diversos sistemas operacionais. Muito intuitivo e fácil, torna operações complexas bem mais simples e por isso é importante ter muita cautela. Ele tem um método onde você planeja o que vai fazer, varias tarefas seguidamente mas só o aplica quando você confirmar. Isso é importante porque antes de você executar o procedimento você poderá cancelar a operação, pode parecer simples, mas a maioria dos particionados fazem apenas um passo de cada vez e não tem volta, então o gparted é muito eficiente e fácil. Para instalar basta ir na loja e escolhê-lo pelo nome gparted.
+GParted é um particionador gráfico para Linux, com ele podemos criar e manipular partições de discos que tenham os mais diversos sistemas operacionais. Muito intuitivo e fácil, torna operações complexas bem mais simples e por isso é importante ter muita cautela. Ele tem um método onde você planeja o que vai fazer, varias tarefas seguidamente mas só o aplica quando você confirmar. Isso é importante porque antes de você executar o procedimento você poderá cancelar a operação, pode parecer simples, mas a maioria dos particionados fazem apenas um passo de cada vez e não tem volta, então o gparted é muito eficiente e fácil. Para instalar basta ir na loja e escolhê-lo pelo nome gparted.  
 
 
 ## BLENDER
-Blender, também conhecido como blender3d, é um programa de código aberto, desenvolvido pela Blender Foundation, para modelagem, animação, texturização, composição, renderização, e edição de vídeo.  Para instalar basta ir na loja e escolhê-lo pelo nome blender. Se você não cria animações, ignore a instalação desse programa.
+Blender, também conhecido como blender3d, é um programa de código aberto, desenvolvido pela Blender Foundation, para modelagem, animação, texturização, composição, renderização, e edição de vídeo.  Para instalar basta ir na loja e escolhê-lo pelo nome blender. Se você não cria animações, ignore a instalação desse programa.  
 
 ## VidCutter
 (analogo ao vidcoder para windows)
 
-http://bluegriffon.org/
+(http://bluegriffon.org)
 
 
 ## INKSCAPE
-Para instalar basta ir na loja e escolhê-lo pelo nome INKSCAPE.
+Para instalar basta ir na loja e escolhê-lo pelo nome INKSCAPE.  
 
 
 ## OUTROS TÓPICOS INTERESSANTES
