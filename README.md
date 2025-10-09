@@ -553,11 +553,11 @@ code --install-extension mtxr.sqltools \
      --install-extension adpyke.vscode-sql-formatter \
      --install-extension cweijan.vscode-database-client2
 ```
-⚙️ COMO USAR
+⚙️ COMO USAR  
 Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).  
 Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).  
-Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.  
-Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.  
+Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.   
+Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.   
 💡 Dica: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.  
 
 
@@ -811,13 +811,14 @@ Agora, você precisa saber que o método de autenticação mudou, você não usa
 
 ## AJUSTANDO O PROMPT NO TERMINAL
 Às vezes o prompt do terminal pode incomodar alguns, por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt seu username e nome do computador:
-![Prompt normal](./mudando_prompt01.png)
+![Prompt normal](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt01.png)
+
 porém ao usarmos o desktop sabemos quem somos e que computador é, então vamos ajustar o terminal para não mostrar essas duas informações. A variável de ambiente que gostaríamos de modificar que faz o prompt refletir o que desejamos chama-se PS1 e podemos ajustá-la assim::
 ```
 export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] ' 
 ```
 Ele deixará nosso prompt "oldschool", colorido:
-![Novo prompt](./mudando_prompt02.png)
+![Novo prompt](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt02.png)
 
 Note na imagem acima, nosso prompt deixou de ser o que era antes para ser uma forma verde “oldschool” com o nome da pasta onde estamos, agora não esta mais exibindo username ou computername.
 
