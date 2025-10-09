@@ -1024,28 +1024,44 @@ Por padrão a localização a localização das máquinas virtuais fica em:
 ```
 /var/lib/libvirt/images
 ```
-Pessoalmente, este não é o local mais adequado, digamos que desejemos que por default nossas imagens fiquem guardadas em:  
+Pessoalmente, se você tem /var junto a partição /(root), este não é o local mais adequado, assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu $HOME em:  
 ```
 /home/$USER/libvirt
 ```
-Neste caso, precisaremos incluir um novo poll:  
+Se estiver usando uma partição Btrfs, isso não se aplica e /var/lib/libvirt/images é um bom local, então ignore este subtópico.
+Mas caso não use Btrfs, vamos mudar a localização original das VMs para nsso $HOME, primeiramente precisaremos incluir um novo poll:  
 ```
 mkdir -p /home/$USER/libvirt/images
 ```
-### Localização das VMs numa partição btrfs
-Se a pasta acima estiver num tipo de partição btrfs, este tipo de partição faz uma série de operações no disco, uma delas é o CoW e a compressão que embora sejam algo excelente, causará uma sobrecarga de I/O para nossas VMs armazenadas ali, então precisamos desativar essas funcionalidades, mas apenas para essa pasta que criamos para nossas VMs, execute:
-```
-# Desabilitando CoW
-chattr +C /home/$USER/libvirt/images
-# Desabilitando a compressão
-sudo btrfs property set /home/$USER/libvirt/images compression none
-```
-ATENÇÃO: Os comandos acima só funcionam para pastas vazias, se a pasta já tiver um conteúdo, os comandos acima não funcionarão.
-
 Agora que a pasta foi criada com sucesso, então redirecionar o pool de imagens para lá:  
 ```
 virsh pool-define-as vm dir - - - - "/home/$USER/libvirt/images"
 ```
+Pronto, novas VMs serão criadas no diretório acima.
+
+### Localização das VMs numa partição Btrfs
+Se a pasta acima estiver num tipo de partição Btrfs, este tipo de partição faz uma série de operações no disco e algumas delas são anti-performaticas para carregamento de VMs, são elas:
+* CoW: O Copy-on-Write(CoW) é um recurso do Btrfs que (1) quando um arquivo é modificado, ele não é alterado diretamente e (2) o sistema cria uma nova cópia dos blocos modificados e só depois descarta os antigos e isso protege contra corrupção e permite snapshots, mas também significa que cada gravação cria fragmentação e sobrecarga de I/O. Uma coisa interessante é que o CoW pode ser desligado por pastas, então a pasta que armazena as VMs podemos desligar o CoW.
+  Desabilitando CoW:
+```
+chattr +C /var/lib/libvirt/images
+```
+* Compressão de dados: No seu tempo ocioso, o Btrfs vai compactar seus arquivos, mas em maquinas virtuais que são arquivos grandes e são modificados a todo instante, não parece ser uma boa ideia e para piorar ainda mais, esse recurso não pode ser desligado por pasta, apenas para [sub]volumes inteiros. A solução é (1) você configurar no virtualizador que crie arquivos seguimentados, ao inves de uma única VM de 50GB, separá-los em vários arquivos menores, por exemplo, a medida que um arquivo enche (exemplo) 2GB, cria um arquivo seguinte e vai repetindo o processo e assim a compressão não irá atrapalhar porque o virtualizador nunca sobreescreve os arquivos seguimentados anteriores. A outra solução, (2) é desabilitando a compressão, e nesse caso, vamos pelo jeito mais simples, quando você for mais experiente, crie volumes separados para VMs para não ter que desligar a compressão para a partição/disco inteiro como faremos agora, edite o arquivo /etc/fstab e procure pela representação do seu disco/partição Btrfs, no meu exemplo, esta assim:
+```
+UUID=c045fd1f-7c4f-4ec3-84d9-ec79f8859adf /               btrfs   defaults,subvol=@rootfs 0       0
+```
+Agora, junto com as opções 'default', você acrescenta ',compress=no', ficando assim:
+```
+UUID=c045fd1f-7c4f-4ec3-84d9-ec79f8859adf /               btrfs   defaults,subvol=@rootfs,compress=no 0       0
+```
+Salve e feche o editor, então execute:
+```
+sudo systemctl daemon-reload
+```
+Note que agora, a compressão zstd para a unidade inteira esta desligada, significando que todos os arquivos ocuparão mais espaços.
+Recomendo que reinicie o computador antes de prosseguir.
+
+
 Algo também muito recomendado é a desfragmentação da pasta, pois desligamos algumas propriedades do btrfs e as imagens de VMs costumam ser grandes. Isso pode ser feito com o comando:  
 ```
 sudo btrfs filesystem defragment -r "/home/$USER/libvirt/images"
