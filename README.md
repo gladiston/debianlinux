@@ -93,10 +93,10 @@ E então ajuste o tempo:
 Não importa se é GNOME ou KDE, voce também tem a possibilidade de desligá-lo. 
 
 ## INSTALANDO O GOOGLE CHROME
-O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.
-No entanto, o Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele. 
-[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.
-Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.
+O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.  
+No entanto, o Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele.   
+[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.  
+Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.  
 
 
 ## ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE'
@@ -251,9 +251,11 @@ No exemplo acima, apenas o google-chrome requer atualização.
 
 
 ## EDITOR DE TEXTO VIM
-O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, que acompanha praticamente todas as distribuições Unix e Linux. Ele é amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível até em ambientes sem interface gráfica. Ele está presente em praticamente todos os sistemas Linux e Unix, o que garante familiaridade e portabilidade. Permite editar arquivos de configuração diretamente pelo terminal, mesmo em sistemas mínimos ou em modo de recuperação. Possui atalhos de teclado eficientes, syntax highlight, e modos de operação (comando, inserção e visualização) que tornam a edição ágil e precisa. Pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.
-No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:
+O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, presente em praticamente todas as distribuições Unix e Linux. É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
 
+Ele oferece atalhos de teclado eficientes, realce de sintaxe, e modos de operação distintos (comando, inserção e visualização), que tornam a edição ágil e precisa. Também pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.  
+
+No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:  
 ```  
 sudo apt install -y vim
 ```  
@@ -262,11 +264,24 @@ Para confirmar a instalação e ver a versão instalada:
 ```  
 vim --version
 ```
-Algo que pode ser um pouco irritamente em usar o vim é que o mouse também é controlado por ele e assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos como copiar/colar não funcionam porque são capturados pelo vim e só funcionarão dentro do vim, impedindo que voce copie algo do texto e cole para fora do terminal. Se você se incomoda com isso basta executar o comando 'set mouse=', no entanto, executar isso todas as vezes cansa, então edite o arquivo ~/.vim e acrescente:  
+💡 Dica sobre o uso do mouse
+
+Algo que pode ser um pouco irritante ao usar o Vim é que o mouse também é controlado por ele. Assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos de copiar/colar do terminal podem não funcionar, pois o Vim captura os cliques do mouse.
+
+Se isso te incomoda, basta executar dentro do Vim o comando:
 ```
 set mouse=
 ```  
-Salve o arquivo e saia do editor, pronto, as linhas que deixou no arquivo ~/.vim serão usadas todas as vezes que o vim for carregado.  
+Para tornar essa configuração permanente, edite (ou crie) o arquivo de configuração do Vim:
+```  
+nano ~/.vimrc
+```  
+E adicione a linha:
+```  
+set mouse=
+```  
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
+Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
 
 
