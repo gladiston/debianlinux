@@ -521,10 +521,16 @@ code --install-extension vscjava.vscode-java-pack \
 ### FREE PASCAL E DELPHI
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo, isso também inclui o Lazarus, IDE para programação usando freepascal:  
 ```
-code --install-extension Wosi.omnipascal \
-     --install-extension alefragnani.pascal
+$ sudo apt install -y global exuberant-ctags python3-pygments
+$ code --install-extension Wosi.omnipascal \
+       --install-extension alefragnani.pascal \
+       --install-extension alefragnani.pascal-formatter
 ```
-💡 Dica: no Debian, é recomendável ter o Free Pascal (fpc) e o Lazarus IDE instalados para compilar e testar diretamente seus projetos.  
+💡 Dica: no Debian, é mandatório instalar o Free Pascal (fpc) e o Lazarus IDE para usufruir dessas extensões.  
+Instruções para Omini Pascal: (Instruções para Omini Pascal](https://www.omnipascal.com)  
+Instruções para a Linguagem Pascal: (Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)  
+Instruções para Pascal Formatter: (Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)  
+
 
 
 ### EXTENSÕES PARA HTML, CSS E JAVASCRIPT
