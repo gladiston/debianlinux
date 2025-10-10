@@ -696,43 +696,42 @@ E então o sistema será especializado ou otimizado para ser usado como 'desktop
 
 Perfis muito comuns para quem usa laptop:  
 
-🔌 laptop-ac-powersave - “Optimize for laptop with power savings”    
-Uso: notebook ligado na tomada (AC).  
-Objetivo: manter bom desempenho, mas ainda economizar energia onde possível.  
-Ajustes típicos: Habilita CPU frequency scaling (a CPU reduz clock quando ociosa). Mantém turbo boost ativado para tarefas pesadas. Reduz brilho de tela e consumo de periféricos em idle.  
-Mantém discos e interfaces de rede em modo balanceado.    
-Resumo: bom equilíbrio entre desempenho e economia. 
-📘 Ideal para uso diário com o notebook conectado à energia.  
+🔌 laptop-ac-powersave - “Optimize for laptop with power savings”  
+*Uso*: notebook ligado na tomada (AC).  
+*Objetivo*: manter bom desempenho, mas ainda economizar energia onde possível.   
+*Ajustes típicos*: Habilita CPU frequency scaling (a CPU reduz clock quando ociosa). Mantém turbo boost ativado para tarefas pesadas. Reduz brilho de tela e consumo de periféricos em idle.   
+Mantém discos e interfaces de rede em modo balanceado.     
+*Resumo*: bom equilíbrio entre desempenho e economia.  Ideal para uso diário com o notebook conectado à energia.  
 
 🔋 laptop-battery-powersave - “Optimize laptop profile with more aggressive power saving”
-Uso: notebook usando bateria.  
-Objetivo: maximizar autonomia, mesmo sacrificando desempenho.  
-Ajustes típicos: CPU limitada a clocks mais baixos. Desativa turbo boost e núcleos ociosos. Reduz brilho e tempo de suspensão automática. Interfaces Wi-Fi e Bluetooth podem entrar em modos de economia agressiva. Discos mecânicos são parados rapidamente quando inativos.  
-Resumo: desempenho menor, mas maior duração de bateria.  
-📘 Ideal para uso em viagens, reuniões ou campo.
+*Uso*: notebook usando bateria.  
+*Objetivo*: maximizar autonomia, mesmo sacrificando desempenho.  
+*Ajustes típicos*: CPU limitada a clocks mais baixos. Desativa turbo boost e núcleos ociosos. Reduz brilho e tempo de suspensão automática. Interfaces Wi-Fi e Bluetooth podem entrar em modos de economia agressiva. Discos mecânicos são parados rapidamente quando inativos.  
+*Resumo*: desempenho menor, mas maior duração de bateria.  
+Ideal para uso em viagens, reuniões ou campo.  
 
-⚙️ latency-performance - “Optimize for deterministic performance at the cost of increased power consumption”
-Uso: servidores ou estações de trabalho que exigem baixa latência e previsibilidade (mas não tempo real).
-Objetivo: garantir resposta consistente, mesmo com maior consumo de energia.
-Ajustes típicos: Desativa CPU frequency scaling → clock fixo máximo. Desativa C-states profundos e economias de energia. Ajusta IRQs e afinidade de CPU para reduzir jitter. Mantém memória e dispositivos em estado ativo constante.
-Resumo: máxima estabilidade e latência previsível, sem foco em economia.
-📘 Ideal para bancos de dados, servidores de aplicações ou jogos que exigem resposta constante.
+⚙️ latency-performance - “Optimize for deterministic performance at the cost of increased power consumption”  
+*Uso*: servidores ou estações de trabalho que exigem baixa latência e previsibilidade (mas não tempo real).  
+*Objetivo*: garantir resposta consistente, mesmo com maior consumo de energia.  
+*Ajustes típicos*: Desativa CPU frequency scaling → clock fixo máximo. Desativa C-states profundos e economias de energia. Ajusta IRQs e afinidade de CPU para reduzir jitter. Mantém memória e dispositivos em estado ativo constante.  
+*Resumo*: máxima estabilidade e latência previsível, sem foco em economia.  
+Ideal para bancos de dados, servidores de aplicações ou jogos que exigem resposta constante.  
 
 Outros perfis muito uteis para desenvolvedores são:
-🕒 realtime - “Optimize for realtime workloads”
-Uso: sistemas físicos (bare metal) com necessidades críticas de tempo real.
-O que faz: Reduz a latência ao máximo. Ajusta o escalonador de CPU para favorecer tarefas de tempo real. Desativa power saving features (como C-states e turbo boost). Fixa frequências da CPU em nível máximo. Ajusta IRQs e prioridade de processos.
-Exemplo de uso: estações de áudio profissional (JACK), robótica, processamento de sinais, sistemas de controle industrial.
+🕒 realtime - “Optimize for realtime workloads”  
+*Uso*: sistemas físicos (bare metal) com necessidades críticas de tempo real.  
+*O que faz*: Reduz a latência ao máximo. Ajusta o escalonador de CPU para favorecer tarefas de tempo real. Desativa power saving features (como C-states e turbo boost). Fixa frequências da CPU em nível máximo. Ajusta IRQs e prioridade de processos.  
+Exemplo de uso: estações de áudio profissional (JACK), robótica, processamento de sinais, sistemas de controle industrial.  
 
-🧩 realtime-virtual-guest - “Optimize for realtime workloads running within a KVM guest”
-Uso: máquinas virtuais (guests) executando workloads de tempo real dentro de um host KVM.
-O que faz: Aplica otimizações similares ao perfil realtime, mas levando em conta que o controle de hardware é mediado pelo hipervisor. Ajusta parâmetros de temporização (clocksource, tickless, etc.) para sincronizar com o host. Minimiza interferência do kernel convidado.
-Exemplo: uma VM rodando um sistema de controle de robô industrial, ou processamento de áudio, dentro de um servidor KVM.
+🧩 realtime-virtual-guest - “Optimize for realtime workloads running within a KVM guest”  
+*Uso*: máquinas virtuais (guests) executando workloads de tempo real dentro de um host KVM.  
+*O que faz*: Aplica otimizações similares ao perfil realtime, mas levando em conta que o controle de hardware é mediado pelo hipervisor. Ajusta parâmetros de temporização (clocksource, tickless, etc.) para sincronizar com o host. Minimiza interferência do kernel convidado.  
+*Exemplo*: uma VM rodando um sistema de controle de robô industrial, ou processamento de áudio, dentro de um servidor KVM.  
 
 🖥️ realtime-virtual-host - “Optimize for KVM guests running realtime workloads”
-Uso: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
-O que faz: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
-Exemplo: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.
+*Uso*: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
+*O que faz*: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
+*Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.  
 
 
 ## COMPLETANDO O IDIOMA PORTUGUÊS
