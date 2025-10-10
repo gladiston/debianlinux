@@ -764,7 +764,6 @@ cd /tmp
 mkdir -p ~/.local/share/fonts
 wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
 unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
-fc-cache -f -v
 ```
 Para conferir se foi realmente instalada, execute agora:  
 ```
@@ -824,9 +823,12 @@ Para solucionar o problema, precisará de mais alguns pacotes:
 ```
 sudo apt install -y libsecret-1-0 libsecret-tools libsecret-1-dev build-essential
 ```
-E depois compilar:
+Agora vamos até o código fonte:  
 ```
 cd /usr/share/doc/git/contrib/credential/libsecret
+```
+E depois compilar:
+```
 sudo make
 ```
 Após, o git só precisará dessa configuração adicional:
