@@ -952,6 +952,8 @@ sudo systemctl daemon-reload
 ```
 Alguns vão sugerir 'trocar' o 'defaults' por 'rw,user,exec,auto,umask=000', mas isso nem sempre funciona porque pode variar do tipo de partição que irá usar. Melhor deixar 'defaults' e usar ACLs de permissão de acesso com os comandos chown/chmod.  
 
+Reinicie o sistema, depois de fazer o login, observe agora seu gerenciador de arquivos:  
+![Gerenciador de disco mostrando as etiquetas fornecidas](debian-gerenciador-discos-montados.png)
 
 
 ### Diferença entre /mnt e /media
