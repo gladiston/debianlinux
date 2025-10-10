@@ -1082,13 +1082,13 @@ sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha
 Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então a solução seria incluir:
 |/etc/fstab|
 |:--|
-|//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777|  
+|//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,auto,nosuid,nodev,file_mode=0777,dir_mode=0777|  
 
 
 Você olha para a linha acima e já vê o problema, usuário e senha ficam expostos, então vamos tentar de outra forma, vamos incluir a linha acima da seguinte forma:
 ```
 # Montando pasta pub
-//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,auto 0 0
+//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,auto,nosuid,nodev,file_mode=0777,dir_mode=0777,auto 0 0
 ```
 Salve o arquivo fstab e saia do editor. 
 Novamente, toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:  
