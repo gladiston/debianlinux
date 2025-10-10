@@ -910,7 +910,10 @@ Muito bacana, hein?
 ## ACESSAR PARTIÇÕES LINUX NO SISTEMA
 Se utiliza uma ou mais partições Linux que não estão automaticamente montadas você pode usar o gerenciador de arquivos do KDE ou GNOME para acessá-la, mas toda vez que fizer isso, provavelmente lhe será pedido uma senha e isso cansa a vida do desenvolvedor. Minha recomendação é deixar essas partições já montadas e disponiveis imediatamente após o boot. Para conseguir isso, vamos a um exemplo:
 ```
-$ lsblk -f
+lsblk -f
+```
+E então verá algo parecido com isso:  
+```
 NAME        FSTYPE FSVER LABEL        UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
 sda                                                                                       
 └─sda1      ext4   1.0   ti-01-disco2 b2154643-7b94-42a1-8146-267bb88ba833                
