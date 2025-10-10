@@ -111,19 +111,19 @@ Depois edite o arquivo sources.list:
 ```
 sudo nano /etc/apt/sources.list
 ```
-A depender do repositório que escolheu durante a instalação, o sources.list estará parecido como este:
-```
-deb http://deb.debian.org/debian/ trixie main non-free-firmware
-deb-src http://deb.debian.org/debian/ trixie main non-free-firmware
 
-deb http://security.debian.org/debian-security trixie-security main non-free-firmware
-deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware
+A depender do repositório que escolheu durante a instalação, o sources.list estará parecido como este:   
+|:--|
+|deb http://deb.debian.org/debian/ trixie main non-free-firmware
+|deb-src http://deb.debian.org/debian/ trixie main non-free-firmware
+|deb http://security.debian.org/debian-security trixie-security main non-free-firmware
+|deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware
+| 
+|# trixie-updates, to get updates before a point release is made;
+|# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
+|deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware
+|deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware  
 
-# trixie-updates, to get updates before a point release is made;
-# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
-deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware
-deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware
-```
 
 Como poderá notar, cada linha cita 'main non-free-firmware', precisamos acrescenter 'contrib' e 'non-free' à essas linhas ficando assim:
 ```
