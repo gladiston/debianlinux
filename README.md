@@ -957,9 +957,10 @@ Reinicie o sistema, depois de fazer o login, observe agora seu gerenciador de ar
 
 
 ### Diferença entre /mnt e /media
-|Diretório|Propósito oficial|Uso recomendado                                                                    |
+|:--|:--|
+|Diretório|Propósito oficial|Uso recomendado|
 | **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
-| **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media.
+| **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media|
 
 
 Parametro|Explicação
