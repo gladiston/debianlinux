@@ -6,7 +6,6 @@ Serão muitas instruções a seguir, mas vale a pena ir até o final, mas fique 
 Para o correto entendimento, usarei alguns padrões:  
 Nome do host: ti-01  
 Nome do usuário: gsantana  
-IP: 192.168.1.5  
 Nome do dominio local: localdomain.lan  
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
