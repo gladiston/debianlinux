@@ -933,19 +933,27 @@ sudo mkdir -p /mnt/disco2
 sudo chown -R $USER:$USER /mnt/disco2
 sudo chmod -R 2777 /mnt/disco2
 ```
-Os comandos acima, também garantirão pleno acesso ao conteúdo do que for montado. Depois vamos editar o arquivo /etc/fstab, acrescentando a seguinte linha:
-Exemplo usando o LABEL para montar o disco:  
+Os comandos acima garantirão pleno acesso ao conteúdo do que for montado. Depois vamos editar o arquivo /etc/fstab:
 ```
-LABEL=#disco2  /mnt/disco2  ext4  rw,user,exec,umask=000  0  0
+sudo nano /etc/fstab
 ```
-Exemplo usando o UUID para montar o disco:  
+E acrescentamos a seguinte linha usando como exemplo a etiqueta(label) do disco:    
+```
+# Meu disco#2
+LABEL=#disco2  /mnt/disco2  ext4  defaults  0  0
+```
+Usar etiquetas(LABEL) é interessante, mas o nome da etiqueta pode ser trocado a qualquer instante, mas digamos que o disco seja para ser usado como destino de backup e você não deseja que a troca da etiqueta afete seus scripts de backup? Sua solução neste caso é usar UUID, veja este exemplo:  
 ```
 UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/disco2  ext4  rw,user,exec,auto,umask=000  0  0
 ```
 Salve o arquivo, saia do editor e depois execute:
 ```
-UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/ti-01-disco2  ext4  rw,user,exec,auto,umask=000  0  0
-```  
+sudo systemctl daemon-reload
+```
+Alguns vão sugerir 'trocar' o 'defaults' por 'rw,user,exec,auto,umask=000', mas isso nem sempre funciona porque pode variar do tipo de partição que irá usar. Melhor deixar 'defaults' e usar ACLs de permissão de acesso com os comandos chown/chmod.  
+
+
+
 ### Diferença entre /mnt e /media
 |Diretório|Propósito oficial|Uso recomendado                                                                    |
 | **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
