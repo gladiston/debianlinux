@@ -168,33 +168,42 @@ Todos os pacotes estão atualizados.
 O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
 Não vamos instalá-lo agora, vamos apenas incluir seu repositório, execute os procedimentos abaixo:
 ```
-# Atualiza a lista de pacotes
+Atualiza a lista de pacotes:
+```
 sudo apt update
+```
 
-# Adiciona a chave pública da Microsoft
+Adiciona a chave pública da Microsoft:
+```
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | \
   sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
-
-# Adiciona o repositório do VS Code
+```
+Adiciona o repositório do VS Code:  
+```
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
   sudo tee /etc/apt/sources.list.d/vscode.list
+```
 
-# Atualiza os repositórios e instala o VS Code
+Atualiza os repositórios e instala o VS Code:  
+```
 sudo apt update
 ```  
 
 
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
 Sim, a Microsoft tem um repositório para distribuições Debian.
-Não vamos instalar nada de lá ainda, vamos apenas incluir seu repositório e por mais paradoxo que seja, há um download e instalação para que tenhamos tal repositório, execute os procedimentos abaixo:
+Não vamos instalar nada de lá ainda, vamos apenas incluir seu repositório e por mais paradoxo que seja, há um download e instalação para que tenhamos tal repositório, execute os procedimentos abaixo:  
+
+Baixa o pacote de configuração da Microsoft
 ```
-# Baixa o pacote de configuração da Microsoft
 wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
-
-# Instala o pacote, que adiciona automaticamente o repositório oficial
+```
+Instala o pacote, que adiciona automaticamente o repositório oficial:  
+```
 sudo dpkg -i  /tmp/packages-microsoft-prod.deb
-
-# Atualiza os repositórios
+```
+Atualiza os repositórios:  
+```
 sudo apt update
 ```  
 Isso produzirá um arquivo em /etc/apt/sources.list.d/microsoft-prod.list que apontará para o repositório oficial da Microsoft.
