@@ -125,7 +125,7 @@ sudo nano /etc/apt/sources.list
 |deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware  |
 
 
-Como poderá notar, cada linha cita 'main non-free-firmware', precisamos acrescenter 'contrib' e 'non-free' à essas linhas ficando assim:
+Como poderá notar, em cada linha cita *main* e  *non-free-firmware*, precisaremos acrescenter às essas linhas também os repositórios *contrib* e *non-free* na mesma linha, ficando assim:
 ```
 deb http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
 deb-src http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
