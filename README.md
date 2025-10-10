@@ -169,8 +169,8 @@ Todos os pacotes estão atualizados.
 
 ## INCLUINDO O REPOSITÓRIO DO VSCODE
 O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
-Não vamos instalá-lo agora, vamos apenas incluir seu repositório, execute os procedimentos abaixo:
-```
+Não vamos instalá-lo agora, vamos apenas incluir seu repositório, execute os procedimentos abaixo:  
+
 Atualiza a lista de pacotes:
 ```
 sudo apt update
