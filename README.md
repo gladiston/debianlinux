@@ -946,7 +946,8 @@ Usar etiquetas(LABEL) é interessante, mas o nome da etiqueta pode ser trocado a
 ```
 UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/disco2  ext4  rw,user,exec,auto,umask=000  0  0
 ```
-Salve o arquivo, saia do editor e depois execute:
+Salve o arquivo, saia do editor.  
+Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
 ```
 sudo systemctl daemon-reload
 ```
@@ -979,18 +980,14 @@ Será que tem diferença entre usar /mnt ou /media para suas montagens de disco?
 | **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
 | **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media|
 
-
-
-Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
-```
-sudo systemctl daemon-reload
-```
-Reinicie o computador para testar a montagem.
+### Sem acesso aos discos montados?
 Se perceber que não tem acesso a modificação ao conteúdo disco montado, provavelmente é porque haviam permissões pré-existentes indicando outro usuário, isso pode ser corrigido repetindo o comando:  
 ```
-sudo chown -R $USER:$USER /mnt/ti-01-disco2
-sudo chmod -R 2777 /mnt/ti-01-disco2
+sudo chown -R $USER:$USER /mnt/disco2
+sudo chmod -R 2777 /mnt/disco2
 ```
+Claro, existem outras formas de dar permissão, incluindo ACLs que já são conhecidas no Windows, mas isso é assunto para outro tópico.  
+
 
 ## ACESSAR PARTIÇÕES NTFS NO SISTEMA
 Se utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, você pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser. Contudo, se você tem que ir para o terminal e acessá-lo dali então lhe seria conveniente criar uma pasta vazia que ao entrar nela você já observasse o conteúdo dessa partição, se você gostou da idéia então vamos implementá-la.  
