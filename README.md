@@ -10,14 +10,15 @@ IP: 192.168.1.5
 Nome do dominio local: localdomain.lan  
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
-```
-$ sudo apt update -y
-Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
-Atingido:2 http://deb.debian.org/debian trixie InRelease
-Atingido:3 http://deb.debian.org/debian trixie-updates InRelease
-Atingido:4 https://dl.google.com/linux/chrome/deb stable InRelease
-Todos os pacotes estão atualizados.
-```
+
+Exemplo:  
+|:--|
+$ sudo apt update -y|
+Atingido:1 http://security.debian.org/debian-security trixie-security InRelease|
+Atingido:2 http://deb.debian.org/debian trixie InRelease|
+Atingido:3 http://deb.debian.org/debian trixie-updates InRelease|
+Atingido:4 https://dl.google.com/linux/chrome/deb stable InRelease|
+Todos os pacotes estão atualizados.|
 
 
 ## INSTALAÇÃO
@@ -100,10 +101,14 @@ Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalaç�
 
 
 ## ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE'
-Execute:
+
+Primeiro, vamos fazer um backup do arquivo original sources.list:
 ```
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.ori
-nano /etc/apt/sources.list
+
+Depois edite o arquivo sources.list:
+```
+sudo nano /etc/apt/sources.list
 ```
 A depender do repositório que escolheu durante a instalação, o sources.list estará parecido como este:
 ```
