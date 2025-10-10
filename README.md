@@ -18,7 +18,8 @@ Os comandos serão precedidos de "$", exemplo:
 |Atingido:2 http://deb.debian.org/debian trixie InRelease
 |Atingido:3 http://deb.debian.org/debian trixie-updates InRelease
 |Atingido:4 https://dl.google.com/linux/chrome/deb stable InRelease
-|Todos os pacotes estão atualizados.
+|Todos os pacotes estão atualizados.  
+
 No exemplo acima, apenas a linha #1 é um comando.  
 
 ## INSTALAÇÃO
