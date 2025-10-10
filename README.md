@@ -914,33 +914,33 @@ lsblk -f
 ```
 E então verá algo parecido com isso:  
 ```
-NAME        FSTYPE FSVER LABEL        UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
-sda                                                                                       
-└─sda1      ext4   1.0   ti-01-disco2 b2154643-7b94-42a1-8146-267bb88ba833                
-sdb                                                                                       
-nvme0n1                                                                                   
-├─nvme0n1p1 vfat   FAT32              6A74-6D36                             575,1M     4% /boot/efi
-├─nvme0n1p2 ext4   1.0   #boot        9c192eeb-6654-4240-8664-2cb927276c6c  681,1M    19% /boot
-├─nvme0n1p3 swap   1                  94efa4f5-d69f-4da2-9cc6-339545576110                [SWAP]
-└─nvme0n1p4 btrfs        #home        c045fd1f-7c4f-4ec3-84d9-ec79f8859adf  917,8G     2% /
+NAME        FSTYPE FSVER LABEL   UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                  
+└─sda1      ext4   1.0   #disco2 b2154643-7b94-42a1-8146-267bb88ba833                
+sdb                                                                                  
+nvme0n1                                                                              
+├─nvme0n1p1 vfat   FAT32         CF05-E144                             943,3M     1% /boot/efi
+├─nvme0n1p2 swap   1             14ef5e32-fbfe-4fbe-a10a-25df502a6039                [SWAP]
+├─nvme0n1p3 ext4   1.0   #boot   c279ec54-2e8c-4534-a9de-eeefdbd285c3  684,7M    19% /boot
+└─nvme0n1p4 btrfs        #disco1 7f257ca3-213c-4423-a0b9-8cac39089205  921,7G     1% /
 ```
-Veja que minhas partições tem label, assim fica muito mais fácil de identificar do que se guiar por sda1, sda2, etc...   
-A partição do meu Linux usar o NVME, assim o disco adicional que tenho está em /dev/sda1, cujo label é 'ti-01-disco2' e o UUID é 'b2154643-7b94-42a1-8146-267bb88ba833'.   
+Veja que minhas partições tem etiquetas (label), assim fica muito mais fácil de identificá-las para montagem do que se guiar por nomes como: sda1, sda2, etc...   
+Além da partição NVME onde tem meu sistema inteira instalado, há um disco adicional em /dev/sda1, cujo label é 'ti-01-disco2' e o UUID é 'b2154643-7b94-42a1-8146-267bb88ba833'.   
 
 Primeiro, vamos criar uma pasta vazia para montagem:  
 ```
-sudo mkdir -p /mnt/ti-01-disco2
-sudo chown -R $USER:$USER /mnt/ti-01-disco2
-sudo chmod -R 2777 /mnt/ti-01-disco2
+sudo mkdir -p /mnt/disco2
+sudo chown -R $USER:$USER /mnt/disco2
+sudo chmod -R 2777 /mnt/disco2
 ```
 Os comandos acima, também garantirão pleno acesso ao conteúdo do que for montado. Depois vamos editar o arquivo /etc/fstab, acrescentando a seguinte linha:
 Exemplo usando o LABEL para montar o disco:  
 ```
-LABEL=ti-01-disco2  /mnt/ti-01-disco2  ext4  rw,user,exec,umask=000  0  0
+LABEL=#disco2  /mnt/disco2  ext4  rw,user,exec,umask=000  0  0
 ```
 Exemplo usando o UUID para montar o disco:  
 ```
-UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/ti-01-disco2  ext4  rw,user,exec,auto,umask=000  0  0
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/disco2  ext4  rw,user,exec,auto,umask=000  0  0
 ```
 Salve o arquivo, saia do editor e depois execute:
 ```
