@@ -952,17 +952,6 @@ sudo systemctl daemon-reload
 ```
 Alguns vão sugerir 'trocar' o 'defaults' por 'rw,user,exec,auto,umask=000', mas isso nem sempre funciona porque pode variar do tipo de partição que irá usar. Melhor deixar 'defaults' e usar ACLs de permissão de acesso com os comandos chown/chmod.  
 
-Reinicie o sistema, depois de fazer o login, observe agora seu gerenciador de arquivos:  
-![Gerenciador de disco mostrando as etiquetas fornecidas](debian-gerenciador-discos-montados.png)
-
-
-### Diferença entre /mnt e /media
-|:--|:--|
-|Diretório|Propósito oficial|Uso recomendado|
-| **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
-| **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media|
-
-
 Parametro|Explicação
 |:--|:--|
 ext2,ext3,ext4...|Tipo de partição que pretende montar, aceita-se muitos tipos de partições incluindo as de windows como vfat e ntfs. Dependendo do tipo partição, as outras opções de montagem podem variar.
@@ -976,6 +965,20 @@ dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento 
 auto|Faz a montagem diretamente no boot  
 noauto|Não faz a montagem automática durante o boot  
 zero e zero no final da linha|Desativa dump e fsck automático.  
+
+
+Reinicie o sistema, depois de fazer o login, observe agora seu gerenciador de arquivos:  
+![Gerenciador de disco mostrando as etiquetas fornecidas](debian-gerenciador-discos-montados.png)
+
+
+### Diferença entre /mnt e /media  
+|Pasta|Explicação|
+|:--|:--|
+|Diretório|Propósito oficial|Uso recomendado|
+| **`/mnt`**   | Montagens **manuais ou permanentes** administradas pelo usuário ou pelo sistema.| Ideal para discos fixos, partições internas, volumes que ficam sempre disponíveis. |
+| **`/media`** | Montagens **automáticas e removíveis**, geralmente gerenciadas pelo ambiente gráfico (ex: pendrives, HDs USB, DVDs). | Ideal para mídias removíveis, montadas automaticamente pelo udisks/udev. Também uso ela para unidades de rede. Na prática, tudo que pode ser ejetado, incluindo unidades de rede, eu uso /media|
+
+
 
 Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
 ```
