@@ -1066,13 +1066,17 @@ E não seria diferente se fosse um outro protocolo como ftp, sftp(ftp_ssh) ou nf
 sftp://nas01/mnt/po_nas01/pub # ou sftp://gsantana[:senha]@nas01/mnt/po_nas01/pub
 ```
 Mas em algumas oportunidades, queremos acessar isso pelo terminal, o que fazer?
-Simplesmente ir para o terminal e executar:
+Simplesmente ir para o terminal e criar a pasta:  
 ```
-# Criando a pasta e ajustando permissões
-sudo mkdir -p /media/pub 
+sudo mkdir -p /media/pub
+```
+E depois concedemos acesso a pasta para nós mesmos e com um bitstick "2" para que que subpastas herdem as permissões da pasta-pai:  
+```
 sudo chown $USER:$USER /media/pub 
 sudo chmod 2777 /media/pub
-# Montando a pasta
+```
+Enfim, Montando a pasta:  
+```
 sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
 ```
 Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então incluir:
@@ -1085,31 +1089,12 @@ Você olha para a linha acima e já vê o problema, usuário e senha ficam expos
 # Montando pasta pub
 //nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,auto 0 0
 ```
-Salve o arquivo e depois execute:
-sudo systemctl daemon-reload
-
-### Explicando os parâmetros de montagem mais utilizados:  
-Parametro|Explicação
-|:--|:--|
-users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
-rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
-nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.  
-nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.  
-file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.  
-dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
-auto|Faz a montagem diretamente no boot  
-noauto|Não faz a montagem automática durante o boot  
-zero e zero no final da linha|Desativa dump e fsck automático.  
-
-Toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:
-```
-sudo systemctl daemon-reload
-```
-Salve o arquivo fstab e saia do editor. Como pode notar, no lugar de usuario+senha informamos um arquivo, será este arquivo que fornecerá as autenticações necessárias. Então vamos editar e/ou criar o arquivo /etc/cifs-credentials.gsantana.localdomain.lan:
+Salve o arquivo fstab e saia do editor.  
+Como pode notar, no lugar de usuario+senha informamos um arquivo, será este arquivo que fornecerá as autenticações necessárias. Então vamos editar e/ou criar o arquivo /etc/cifs-credentials.gsantana.localdomain.lan:
 ```
 sudo nano /etc/cifs-credentials.gsantana.localdomain.lan
 ```
-E acrescente as linhas a este arquivo:
+E acrescente as linhas a este arquivo as linhas:  
 ```
 username=gsantana
 password=suasenha
@@ -1119,21 +1104,36 @@ E mudamos a permissão do arquivo acima para que outras pessoas não consigam le
 ```
 sudo chmod 600 /etc/cifs-credentials.gsantana.localdomain.lan
 ```
-Agora vamos testar, primeiro vamos cria a(s) pasta(s) de montagem(ns):
-```
-sudo mkdir -p /media/pub
-sudo chmod 1777 /media/pub
-```
-Agora vamos montar:
+Agora vamos testar a montagem nas pastas recém criadas:  
 ```
 sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
 ```
-Funmcionou? Espero que sim, mas tome muito cuidado com o arquivo /etc/cifs-credentials.gsantana.localdomain.lan, se houver mensagens como:
+Funcionou? Espero que sim, mas tome muito cuidado com o arquivo /etc/cifs-credentials.gsantana.localdomain.lan, se houver mensagens como:
 ```
 mount error(13): Permission denied
 Refer to the mount.cifs(8) manual page (e.g. man mount.cifs) and kernel log messages (dmesg)
 ```
-Então significa que usuário, senha ou dominio estão errados. Para uso do dominio, não se o nome inteiro qualificado, apenas o dominio é o suficiente. Em alguns casos, seria bom que os nomes dos hosts utilizados também estejam discriminados em /etc/hosts.
+Então significa que o usuário e/ou senha e/ou dominio estão errados. Para uso do dominio, não se usa o nome inteiro qualificado como 'localdomain.lan' apenas 'localdomain' será o suficiente. Em alguns casos, seria bom que os nomes de hosts utilizados também estejam discriminados em /etc/hosts.   
+
+### Explicando os parâmetros de montagem mais utilizados:  
+|Parametro|Explicação|
+|:--|:--|
+|users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).|
+|rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.|
+|nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.|
+|nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.|
+|file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.|
+|dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.|
+|auto|Faz a montagem diretamente no boot|
+|noauto|Não faz a montagem automática durante o boot|
+|zero e zero no final da linha|Desativa dump e fsck automático.|
+
+
+Novamente, toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:  
+```
+sudo systemctl daemon-reload
+```
+
 
 ## VIRTUALIZAÇÃO NATIVA QEMU+KVM
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
