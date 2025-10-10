@@ -526,10 +526,12 @@ $ code --install-extension Wosi.omnipascal \
        --install-extension alefragnani.pascal \
        --install-extension alefragnani.pascal-formatter
 ```
-💡 Dica: no Debian, é mandatório instalar o Free Pascal (fpc) e o Lazarus IDE para usufruir dessas extensões. Cada uma dessas extensões carecem de configuração, vejá-os:  
+💡 Dica: no Debian, é mandatório instalar o FreePascal Compiler (fpc) usufruir dessas extensões. Cada uma dessas extensões carecem de configuração, vejá-os:  
 [Instruções para Omini Pascal](https://www.omnipascal.com)   
 [Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)   
 [Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)   
+
+Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
 
 
 ### EXTENSÕES PARA HTML, CSS E JAVASCRIPT
