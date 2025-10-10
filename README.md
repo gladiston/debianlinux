@@ -140,7 +140,10 @@ deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware cont
 ```
 Se não pretende fazer construção de pacotes (build) a partir dos fontes, poderá comentar a linhas que começam com 'deb-src', isso tornará os comandos de atualização mais rápidos. Enfim, agora precisaremos atualizar o banco de dados de pacotes, execute:  
 ```
-$ sudo apt update -y
+sudo apt update -y
+```
+E todos os repositórios seráo verificados, inclusive os recém acrescentados:  
+```
 Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
 Atingido:2 http://deb.debian.org/debian trixie InRelease     
 Atingido:3 http://deb.debian.org/debian trixie-updates InRelease              
