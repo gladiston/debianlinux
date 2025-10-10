@@ -11,7 +11,7 @@ Nome do dominio local: localdomain.lan
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 
-Exemplo:  
+Os comandos serão precedidos de "$", exemplo:  
 |:--|
 |$ sudo apt update -y
 |Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
