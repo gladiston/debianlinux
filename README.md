@@ -1018,17 +1018,17 @@ Agora vamos editar o arquivo /etc/fstab e então acrescentar após a última lin
 # Minha partição NTFS de label “DADOS”
 UUID="1EB4CCF2B4CCCE09" /media/label_dados ntfs-3g windows_names,nosuid,nodev,nofail,rw,user,gid=users,noauto 0 0
 ```
-Parametro|Explicação
+|Parametro|Explicação
 |:--|:--|
-users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).  
-rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.  
-nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.  
-nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.  
-file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.  
-dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.  
-auto|Faz a montagem diretamente no boot  
-noauto|Não faz a montagem automática durante o boot  
-zero e zero no final da linha|Desativa dump e fsck automático.  
+|users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).|
+|rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.|
+|nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.|
+|nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.|
+|file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.|
+|dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.|
+|auto|Faz a montagem diretamente no boot|
+|noauto|Não faz a montagem automática durante o boot|
+|zero e zero no final da linha|Desativa dump e fsck automático.|
 
 
 Uma outra forma de escrever essa linha no fstab seria:
@@ -1079,18 +1079,24 @@ Enfim, Montando a pasta:
 ```
 sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
 ```
-Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então incluir:
-```
-//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
-```
+Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então a solução seria incluir:
+|/etc/fstab|
+|:--|
+|//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777|  
+
 
 Você olha para a linha acima e já vê o problema, usuário e senha ficam expostos, então vamos tentar de outra forma, vamos incluir a linha acima da seguinte forma:
 ```
 # Montando pasta pub
 //nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,auto 0 0
 ```
-Salve o arquivo fstab e saia do editor.  
-Como pode notar, no lugar de usuario+senha informamos um arquivo, será este arquivo que fornecerá as autenticações necessárias. Então vamos editar e/ou criar o arquivo /etc/cifs-credentials.gsantana.localdomain.lan:
+Salve o arquivo fstab e saia do editor. 
+Novamente, toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:  
+```
+sudo systemctl daemon-reload
+```
+
+Mas como poderá notar no arquivo acima, no lugar de usuario+senha informamos um arquivo, será este arquivo que fornecerá as autenticações necessárias. Então vamos editar e/ou criar o arquivo /etc/cifs-credentials.gsantana.localdomain.lan:
 ```
 sudo nano /etc/cifs-credentials.gsantana.localdomain.lan
 ```
@@ -1127,12 +1133,6 @@ Então significa que o usuário e/ou senha e/ou dominio estão errados. Para uso
 |auto|Faz a montagem diretamente no boot|
 |noauto|Não faz a montagem automática durante o boot|
 |zero e zero no final da linha|Desativa dump e fsck automático.|
-
-
-Novamente, toda vez que modificar o arquivo 'fstab', precisará executar um comando para que o sistema reconheça as mudanças, execute então:  
-```
-sudo systemctl daemon-reload
-```
 
 
 ## VIRTUALIZAÇÃO NATIVA QEMU+KVM
