@@ -306,7 +306,7 @@ Pronto — agora o mouse não interferirá mais ao usar o Vim.
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
-$ sudo apt install libavcodec-extra ffmpeg vlc -y
+sudo apt install -y libavcodec-extra ffmpeg vlc
 ```
 
 
@@ -402,7 +402,7 @@ Caso as instrções acima não funcionem, visite a página com informações atu
 
 Depois disso, adicionamos enfim, o repositório:
 ```  
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 Provavelmente aparecerá a seguinte mensagem de texto:
 ```
@@ -466,7 +466,12 @@ sudo apt install -y cifs-utils kio-fuse
 As vezes, dependendo do perfil de instação, ele pode já ter sido instalado.
 
 ### Ajustando workgroup ou dominio
-Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf* e vá até a linha:    
+Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf*:
+```  
+sudo nano /etc/samba/smb.conf
+```  
+
+e vá até a linha:    
 ```  
 WORKGROUP = WORKGROUP
 ```  
@@ -488,7 +493,14 @@ Se o comando acima responder:
 ```
 Failed to disable unit: Unit samba-ad-dc.service does not exist
 ```
-Então parabens! O controlador de dominio não esta instalado e poderá prosseguir.
+Então parabens! O controlador de dominio não esta instalado e poderá prosseguir, mas se mostrar:  
+```
+Synchronizing state of samba-ad-dc.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install disable samba-ad-dc
+Removed '/etc/systemd/system/multi-user.target.wants/samba-ad-dc.service'.
+Removed '/etc/systemd/system/samba.service'.
+```
+Entao é porque você estava com o controlador de dominio instalado e nem fazia ideia. De qualquer forma, desativamos e poderá prosseguir.
 
 ### Ativando o compartilhamento de arquivos
 Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
@@ -501,22 +513,12 @@ sudo systemctl start smbd nmbd
 ## INSTALANDO O VSCODE
 O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
 Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como autocompletar inteligente (IntelliSense), debug integrado, controle de versão com Git, e uma ampla variedade de extensões para praticamente qualquer linguagem. O VS Code não está nos repositórios padrão do Debian, mas pode ser instalado diretamente do repositório oficial da Microsoft, dessa forma precisaremos incluí-lo, execute os procedimentos abaixo:
+
+Nos passos anteriores, instalamos o repositório do vscode, agora basta instalá-lo:  
 ```
-# Atualiza a lista de pacotes
-sudo apt update
-
-# Adiciona a chave pública da Microsoft
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | \
-  sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
-
-# Adiciona o repositório do VS Code
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
-  sudo tee /etc/apt/sources.list.d/vscode.list
-
-# Atualiza os repositórios e instala o VS Code
-sudo apt update
 sudo apt install -y code
 ```  
+
 EXTENSÕES SUGERIDAS:
 ### NODE.JS
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
