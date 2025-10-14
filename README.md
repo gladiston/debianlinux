@@ -361,7 +361,7 @@ alias gbak='/opt/firebird/bin/gbak'
 alias isql='/opt/firebird/bin/isql'
 ```
 Muito util ter seus aliases, não é mesmo?
-Agora *salve* e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
 
 Depois reinicie o seu terminal e para testar um dos aliases, execute:  
 ```  
@@ -375,9 +375,64 @@ drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
-```
+```  
 Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
 
+## ACRESCENTANDO NOVOS DIRETORIOS AO PATH DO SISTEMA
+Vez ou outra, certos programas são instalados em diretórios incomuns e isso inclui seus binários. Um exemplo típico é o banco de dados FirebirdSQL é instalado em /opt/firebird e seus utilitários ficam em /opt/firebird/bin, daí quando você precisa executar um comando como isql ou gbak voce precisa digitar o inteiro comando '/opt/firebird/bin/isql' e como somos programadores, não gostamos muito de digitar comandos assim. Para resolver este tipo de problema você pode (1) criar links simbolicos dos comandos que precisa em /usr/bin ou (2) acrescentar o caminho ao $PATH do sistema. Vou sugerir a segunda opção porque ela é mais completa. Então crie/edite um script-bash como /etc/profile.d/firebird-path.sh:
+```  
+sudo nano /etc/profile.d/999-firebird-path.sh
+```
+O diretorio acima é para acrescentarmos scripts que serão executados no final do boot, eles são executados alfabeticamente, então para nosso script ficar por ultimo usamos o numero '999' como prefixo. Agora coloque o seguinte conteúdo:
+```  
+# Adiciona o Firebird ao PATH do sistema
+# Torna o caminho acessível a todos os usuários de login
+if [ -d /opt/firebird/bin ]; then
+  PATH="$PATH:/opt/firebird/bin"
+  export PATH
+fi
+```
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
+Então, dê permissão de leitura global:
+```  
+sudo chmod 644 /etc/profile.d/999-firebird-path.sh
+```  
+Note que a permissão "644" não dá poder de execução, e a ideia é essa mesmo, o próprio sistema se encarregará de carregá-lo por uma sucessão de scripts, mas não outra pessoa. Para uma outra pessoa poder executar, seria:
+```  
+$ source /etc/profile.d/999-firebird-path.sh
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/firebird/bin
+```  
+
+
+## VARIAVEIS DE AMBIENTE
+Voce pode criar variaveis dentro do ambiente Linux, essas variaveis poderão ser usadas por programas instalados ou até seus próprios programas. Há um habito de programadores em seus ambientes de testes, criarem suas próprias variaveis para serem usadas pelos seus programas que podem determinar uma ação, um exemplo para isso, é a colocação de autenticações. ao inves de logar-se digitando a senha, simplesmente coloquem usuário e a senha numa variavel de ambiente que apenas o perfil daquele usuário será capaz de ver, você pode achar que isso é um risco, mas o perfil de um usuário, somente ele ou root tem acesso então não há riscos. Vamos usar o exemplo do banco de dados FirebirdSQL, ele possui variaiveis como ISC_USER, ISC_PASSWORD que suprimem a necessidade de ficar indicamente usuario e senha toda vez que conectarmos ao banco. Edite o arquivo ~/.bash_profile:
+```  
+sudo nano ~/.bash_profile
+```
+E acrescente as linhas:  
+```  
+export FIREBIRD_MSG=/opt/firebird
+export ISC_USER=SYSDBA
+export ISC_PASSWORD=masterkey
+```  
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, toda vez que logar-se as variaveis acima já estarão prontas.  
+Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de definir seus parametros porque comandos como o 'ps auxwww' poderia revelá-los.  
+
+
+### VARIAVEIS DE AMBIENTE GLOBAIS
+Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis, vamos a um exemplo, novamente usaremos o FirebirdSQL. Edite o arquivo /etc/environment.d/999-firebird.conf:
+```  
+sudo nano /etc/environment.d/999-firebird.conf 
+```
+A pasta /etc/environment.d contêm arquivos .conf que o sistema lerá durante o processo de boot, novamente colocamos o prefixo "999" porque a lista de arquivos é lida alfabeticamente e desejamos que nosso arquivo fique por ultimo. Depois acrescente as linhas:  
+```  
+FIREBIRD_MSG=/opt/firebird
+ISC_USER=SYSDBA
+ISC_PASSWORD=masterkey
+```  
+Não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis para nós.
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema!
 
 
 ## INSTALANDO CODECS
