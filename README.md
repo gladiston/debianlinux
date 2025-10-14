@@ -696,14 +696,18 @@ Current active profile: balanced
 ```
 No exemplo acima, estou usando o perfil 'balanced', caso ele não apareça, use:
 ```
-$sudo tuned-adm active
+$ sudo tuned-adm active
 Current active profile: balanced
 ```
 O modo 'balanceado' é o modo não especializado, se desejar especializar seu computador em algo, por exemplo, para usar o desktop, execute:  
 ```
 sudo tuned-adm profile desktop  
 ```  
-E então o sistema será especializado ou otimizado para ser usado como 'desktop'.   
+E então o sistema será especializado ou otimizado para ser usado como 'desktop'. É importante saber que carregar o perfil errado, torna tudo errado, por exemplo, se executar:
+```
+sudo tuned-adm profile virtual-guest  
+```
+Ou seja, especializando-se em uso de VMs, mas não usufruindo de VMs, seu ambiente de destkop terá uma performance rebaixada, em poucas palavras, o que quer irá usar no KDE, GNOME,...terá performance menor do que deveria ter. Então se pretende usar este programa, deverá entrar no seu fluxo de trabalho ficar trocando de perfil quando troca de um momento para outro. Mais tarde, veja se seu ambiente gráfico KDE ou GNOME possuem plugins para usufruir do 'tuned' e tornar mais fácil essas trocas.
 
 Perfis muito comuns para quem usa laptop:  
 
