@@ -354,8 +354,16 @@ alias h='history'              # Mostra histórico
 alias j='jobs -l'              # Lista jobs atuais
 alias v='vim'                  # Abre o Vim rapidamente
 ```
-Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
-Depois reinicie o seu terminal e para testar um dos aliases, execute:
+Se você tiver comandos muito longos, por exemplo, os utilitarios do Firebird(banco de dados) que ficam num caminho fora do $PATH, pode acrescentá-los também:  
+```
+# Firebird
+alias gbak='/opt/firebird/bin/gbak'
+alias isql='/opt/firebird/bin/isql'
+```
+Muito util ter seus aliases, não é mesmo?
+Agora *salve* e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
+
+Depois reinicie o seu terminal e para testar um dos aliases, execute:  
 ```  
 $ l
 total 0
