@@ -434,6 +434,12 @@ ISC_PASSWORD=masterkey
 Não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis para nós.
 Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema!
 
+Para testar, execute:
+```  
+$ echo $ISC_USER
+SYSDBA
+```  
+
 
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
