@@ -618,7 +618,7 @@ Essas opções ativam:
 
 
 ## OBTENHA O KDE COMPLETO (OPCIONAL)
-O KDE que acompanha o Debian é uma versão leve, sem todos os módulos do KDE, apenas os mais comuns e mesmo assim, eles só aparecem quando os serviços e dependencias necessários tornam o módulo elegível, por exemplo, o modulo de compartilhamento de arquivos só será exibido se o serviço 'samba' estiver rodando. E ainda há muito mais coisas, então se desejar um KDE mais cheio de funções, execute:
+O KDE que acompanha o Debian é uma versão leve e personalizada para o Debian(wallpapers, logos, etc...), sem todos os módulos e personalizações idealizados pelo time do KDE, se desejar a versão idealizada pelo time do KDE, execute:
 ```  
 sudo apt install -y kde-full
 ```
@@ -626,11 +626,23 @@ Depois disso, *recomendo que reinicie o computador*.
 
 
 ## PRELOAD
-Se estiver usando discos mecanicos, provavelmente sente muita latencia para carregar certos progrmas. Numa situação assim, é bom instalar um serviço chamado 'preload', ele monitora os programas que você mais utiliza e durante o boot já os carrega para você. A vantagem é a velocidadade para carregá-los na memória, note porém que tais programas SEMPRE ESTARÃO NA MEMÓRIA e com isso, o tamanho da sua memória irá abaixar, por isso, só recomendo que use este programa com moderação e com discos mecânicos que são lentos, não há vantagens em discos SSD ou NVME. Para instalar:
+Se estiver usando discos mecanicos, provavelmente sente muita latencia para carregar certos progrmas. Numa situação assim, é bom instalar um serviço chamado 'preload', ele monitora os programas que você mais utiliza e durante o boot já os carrega para você. A vantagem é a velocidadade para carregá-los da primeira vez, no entanto, tem o lado negativo, tais programas SEMPRE ESTARÃO NA MEMÓRIA logo após o boot e com isso, o tamanho da sua memória principal após o boot será menor porque esse grupo de programas já estarão na memória. Então a minha recomendação do uso do préload é de apenas usar se (1) usa discos mecânicos e (2) e se tem um fluxo de trabalho consistente e repetitivo com o mesmo grupo de programas. Se depois de avaliar, decidir que o 'preload' é para você, então execute::
 ```
 sudo apt install -y preload
 ```
-
+Quando instalar, ele se ativará sozinho como serviço e nada mais precisa ser feito, mesmo assim é bom conferir:
+```
+sudo systemctl status preload
+```
+Depois disso, o serviço estiver desativado, então:
+```
+sudo systemctl start preload
+```
+E para iniciar o serviço durante o boot, execute:
+```
+sudo systemctl enable preload
+```
+Se achar que não houve vantagens, poderá desinstalá-lo pela interface KDE ou GNOME.
 
 ## INSTALANDO PERFIS DE USO (TUNED)
 O tunned é um programa que permite trocar em tempo real o perfil de desempenho do compuador, por exemplo, posso usar o perfil de desempenho balanceado quando quero navegar na internet e de um momento para outro trocar o perfil de desempenho para 'realtime' quando quero maximimizar a performance. Há outros perfis prontos para usar maquinas virtuais, economia de energia, etc... O programa tem muitos perfís e é altamente recomendado, vamos a instalação:
