@@ -1402,6 +1402,36 @@ https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
 Instruções de como usar o virt-manager encontra-se na página:
 [Criando máquinas virtuais pelo Virt-Manager](https://sempreupdate.com.br/como-configurar-e-usar-o-virt-manager-para-kvm-no-fedora-ubuntu-debian-e-derivados/#google_vignette)
 
+## VIRTUALIZAÇÃO NATIVA QEMU+KVM JUNTO COM O VIRTUALBOX
+Usar o QEMU+KVM junto ou simultaneamente com o VirtualBox não é possivel, mas é possivel chavear o uso, como assim? É possivel usar o VirtualBox enquanto não usar QEMU+KVM. Funciona assim, quando você dá boot no sistema, um dos modulos do kernel é requisitado pelo QEMU+KVM e este módulo carregado interompe a virtuaização de VMs pelo VirtualBox, então o que precisa fazer é, antes de chamar o virtualbox, descarregar este modulo da memória, execute:  
+```
+sudo systemctl stop libvirtd # para o serviço libvirtd
+#sudo systemctl disable libvirtd # desabilitar durante o boot
+sudo modprobe -r kvm kvm_amd 
+```
+Se for Intel, use kvm_intel em vez de kvm_amd, como fiz acima. Depois, confirme que o módulo saiu:  
+```
+lsmod | grep kvm
+```
+Se irá usar o VirtualBox por um certo tempo é chato ficar executando os comandos acima todas as vezes, então neste caso, edite o arquivo blacklist-kvm.conf, execute:
+```
+sudo nano /etc/modprobe.d/blacklist-kvm.conf
+```
+E acrescente as linhas:
+```
+# Impede o carregamento automático do KVM para uso do VirtualBox
+blacklist kvm
+blacklist kvm_amd
+# Para processadores Intel, troque por:
+# blacklist kvm_intel
+```
+Salve (Ctrl+O, Enter, Ctrl+X) e depois atualize o initramfs:
+```
+sudo update-initramfs -u
+```
+Depois poderá reiniciar o sistema com 'sudo reboot' e notará que o VirtualBox funcionará de primeira.
+Se quiser reverter, apenas comente as linhas no arquivo 'blacklist-kvm.conf' e repita 'sudo update-initramfs -u' e a seguir o kvm se ligará novamente ao qemu.
+
 ## HABILITANDO AREA DE TRABALHO REMOTA
 (todo)
 
