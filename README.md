@@ -301,6 +301,76 @@ Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
 Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
 
+## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
+Aliases não é um nome de programa, é um recurso que as distros possuem para abreviar ou facilitar uso de comandos repetitivos, por exemplo, se eu quero listar os arquivos de uma pasta de forma colorida e com os tamanhos de arquivos, ao inves de bytes, em conotação mais humana como MB ou GB eu teria de executar todas as vezes:
+
+```  
+ls -lh --color=auto'
+```  
+
+Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o comando acima? É isso que faremos agora, execute:  
+```  
+nano ~/.bashrc
+```
+O arquivo acima é um arquivo de autoexecução que é rodado sembre que você usa o terminal bash, acrescente ao final deste arquivo seus aliases, por exemplo:
+```  
+alias l='ls -lh --color=auto'
+```
+Vamos a algumas sugestões minhas, algumas delas ao editar o ~/bashrc verá que sua distro já os tem ou estão comentadas.  
+```
+###
+### Meus aliases
+### 
+# Navegação e listagem:
+alias l='ls -lh --color=auto'        # Lista detalhada, tamanhos legíveis, com cores (comentaada no debian)
+alias la='ls -lha --color=auto'      # Lista tudo, incluindo arquivos ocultos  (comentaada no debian)
+alias ll='ls -lh --color=auto'       # Lista longa, mas ignora ocultos (comentaada no debian)
+alias ls='ls --color=auto'           # Força o uso de cores sempre (comentaada no debian)
+alias ..='cd ..'                     # Volta um diretório
+alias ...='cd ../..'                 # Volta dois diretórios
+alias ....='cd ../../..'             # Volta três diretórios
+alias c='clear'                      # Limpa o terminal
+
+# Sistema e administração
+alias update='sudo apt update && sudo apt upgrade -y'   # Atualiza o sistema
+alias install='sudo apt install -y '                    # Instala pacotes rapidamente
+alias remove='sudo apt remove '                         # Remove pacotes
+alias purge='sudo apt purge '                           # Remove pacotes + configs
+alias cls='clear'                                       # Outra forma de limpar tela
+alias df='df -h'                                        # Exibe uso de disco em formato legível
+alias du='du -h -d 1'                                   # Mostra tamanho de pastas
+alias free='free -h'                                    # Memória RAM legível
+
+# Rede
+alias ping='ping -c 5'             # Faz 5 pings e para
+alias myip='curl ifconfig.me'      # Mostra seu IP público
+alias ports='sudo netstat -tulanp' # Lista portas em uso
+
+# Vida longa ao sysadmin
+alias grep='grep --color=auto' # Cores no grep
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias h='history'              # Mostra histórico
+alias j='jobs -l'              # Lista jobs atuais
+alias v='vim'                  # Abre o Vim rapidamente
+```
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
+Depois reinicie o seu terminal e para testar um dos aliases, execute:
+```  
+$ l
+total 0
+drwxr-xr-x 1 gsantana gsantana 20 out 10 17:37 'Área de trabalho'
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Documentos
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  Downloads
+drwxr-xr-x 1 gsantana gsantana 32 out 10 18:48  Imagens
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
+```
+Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
+
+
 
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
