@@ -1493,6 +1493,34 @@ sudo update-initramfs -u
 Depois poderá reiniciar o sistema com 'sudo reboot' e notará que o VirtualBox funcionará de primeira.
 Se quiser reverter, apenas comente as linhas no arquivo 'blacklist-kvm.conf' e repita 'sudo update-initramfs -u' e a seguir o kvm se ligará novamente ao qemu.
 
+## BANCO DE DADOS FIREBIRD
+Vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/downloads) e baixe a ultima versão para Linux:  
+
+![Download do Firebird](firebird-download.png)
+
+Digamos que tenha baixado em ~/Downloads, vamos descompactá-lo:
+
+```
+$ tar zxvf Firebird-5.0.3.1683-0-linux-x64.tar.gz 
+Firebird-5.0.3.1683-0-linux-x64/
+Firebird-5.0.3.1683-0-linux-x64/manifest.txt
+Firebird-5.0.3.1683-0-linux-x64/buildroot.tar.gz
+Firebird-5.0.3.1683-0-linux-x64/install.sh
+```
+A descompressão irá criar uma subpasta, vamos entrar nela e executar o instalador:  
+```
+$ cd Firebird-5.0.3.1683-0-linux-x64/
+$ sudo ./install.sh
+```
+Durante a instalação lhe será questionado qual será a senha do SYSDBA, informe o que desejar, inclusive 'masterkey' se for desenvolvimento.
+A instalação será feita em /opt/firebird e já será iniciado por padrão.
+
+### Variaveis de ambiente para o FirebirdSQL
+
+### Ajustando o PATH
+
+
+
 ## HABILITANDO AREA DE TRABALHO REMOTA
 (todo)
 
@@ -1549,9 +1577,10 @@ $ sudo firewall-cmd --runtime-to-permanent
 
 ## VIRTUALBOX
 O VirtualBox é essencial para o pleno funcionamento do ambiente de desenvolvimento para instalar, precisaremos incluir o repositório oficial do Vitualbox. O virtualbox pode ser obtido diretamente no site:
-https://www.virtualbox.org/
-Sua instalação é simples, basta baixar o arquivo com a extensão .rpm e dar duplo clique nele.
-Também é necessário abaixar “VirtualBox Oracle VM VirtualBox Extension Pack” que entrega alguns recursos extras.
+(https://www.virtualbox.org/)
+Sua instalação é simples, basta baixar o arquivo com a extensão .rpm e dar duplo clique nele.  
+Também é necessário abaixar “VirtualBox Oracle VM VirtualBox Extension Pack” que entrega alguns recursos extras.  
+Relembre os passos anteriores de que não é possivel ter o qemu+kvm e o VirtualBox ao mesmo tempo.   
 
 
 
