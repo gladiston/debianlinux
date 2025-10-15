@@ -67,32 +67,21 @@ e então procure por:
 ```
 root    ALL=(ALL:ALL) ALL  
 ```  
-E acrescente a seguinte linha abaixo:  
+Comente essa linha acrescentando "#" no inicio dela e escolha uma dessas opções para colocar na linha abaixo dela:  
 ```
-gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch, /bin/apt, /sbin/reboot, /sbin/poweroff  
+gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch, /bin/apt, /sbin/reboot, /sbin/poweroff
 gsantana    ALL=(ALL) NOPASSWD: ALL # precisa de senha para todos, exceto a lista acima  
-#gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
-Salve o arquivo, e então faça o seguinte teste:  
+As linhas acima, liberam o sudo sem senha apenas alguns comandos, os demais precisarão da digitação da senha.
+A outra opção, abaixo, libera qualquer comando sem o uso da senha:
 ```
-sudo touch /tmp/teste.txt    
+gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
-O comando acima só vai criar um arquivo vazio como /tmp/teste.txt, mas note que ele não perguntou a senha porque este comando estava na relação dos comandos permitidos sem uso de senha, isto é: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch...porém qualquer outro comando, ele perguntará a senha, veja:  
-```
-sudo clear    
-```
-O comando acima apenas limpa a tela, mas pediu a senha.
-A liberação de comandos usando o 'sudo' sem uso de senhas não é recomendado para computadores de produção, nem mesmo para computadores de desenvolvimento dependendo do que este computador possui em seu sistema, por exemplo, senhas e chaves importantes. Se achar que o relaxamento não vale o risco, simplesmente remova a linha:  
-```  
-gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, (...)
-```
-E então qualquer comando precisará de senha quando o 'sudo' estiver envolvido.  
+> **IMPORTANTE**: A linha acima pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu computador é um **zé-roela** que não oferece nenhum risco, isto é, não tem chaves de segurança que possam ser roubadas ou arquivos valiosos.  
 
-Agora, vamos a um pequeno comentário sobre a linha abaixo, ela foi comentada porque se liberada, nenhum comando 'sudo' precisará mais de senha para qualquer comando, ela é o sentido inverso de liberar sem senha do tópico anterior, descomentá-la significaria um relaxamento total do comando 'sudo':  
-```  
-#gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
+
+Salve o arquivo e saida do editor.
 ```
-Então isso pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu   computador é um computador _zé-roela_ que não oferece nenhum risco.  
 
 
 ## BLOQUEIO DE TELA AUTOMÁTICO
