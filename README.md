@@ -581,7 +581,7 @@ sudo apt install -y  fontconfig fontforge fonttools
 ```
 
 
-## INSTALANDO PROGRAMAS BASICOS PARA RECOMPILAR
+## INSTALANDO PROGRAMAS BASICOS PARA COMPILAÇÃO DE FONTES
 Os pacotes a seguir servem para quem pretende compilar algo no ambiente Linux. Se você pretende instalar o driver proprietário da NVIDIA fornecido pela NVIDIA você também precisará deles:
 ```
 sudo apt install -y build-essential
