@@ -380,7 +380,7 @@ sudo firewall-cmd --add-port=3050/tcp
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
 $ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 3050/tcp
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp
 ```
 Esses comandos aplicam as regras apenas no modo temporário (até reiniciar o firewalld ou o sistema). 
 
@@ -397,7 +397,7 @@ sudo firewall-cmd --reload
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
 $ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 3050/tcp
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 
 ```
 Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
 
@@ -1641,26 +1641,6 @@ banco.link = /var/banco/banco.fdb
 ```  
 E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.  
 
-## FIREWALL 
-Em sistemas baseados em Firewalld, as regras de firewall são organizadas em zonas e podem ser aplicadas temporariamente (modo runtime) ou de forma permanente (modo permanent). Um sistema de Firewall não vem instalada por padrão em muitas distribuições, portanto, o primeiro passo é instalar o pacote. Vamos escolher o 'Firewalld' porque é o padrão também no Fedora, RHEL, CentOS, openSUSE e totalmente suportado no Debian e Ubuntu.
-
-Instale o Firewalld:  
-```
-sudo apt install -y firewalld
-```
-Em seguida, habilite e inicie o serviço:
-```
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-```
-Verifique as portas atualmente liberadas:  
-```  
-sudo firewall-cmd --list-ports
-```
-Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir de exemplo.  
-
-
-
 ### BANCO DE DADOS FIREBIRD - LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
 Caso tenha instalado o firewalld, sistema de firewalling, então precisaremos liberar a porta usada por este serviço, mas qual porta? Paa descobrir qual porta o Firebird usa, execute:  
 ```
@@ -1679,7 +1659,7 @@ success
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
 $ sudo firewall-cmd --list-ports
-3050/tcp 8050/tcp
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp
 ```
 Esses comandos aplicam as regras apenas no modo temporário até reiniciar o firewalld ou o sistema. Para que elas fiquem permanentes, execute:  
 ```
@@ -1693,7 +1673,7 @@ sudo firewall-cmd --reload
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
 $ sudo firewall-cmd --list-ports
-3050/tcp 8050/tcp
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp
 ```
 Como pode observar acima, as regras não sumiram. Então, este procedimento foi concluido com sucesso.   
 
