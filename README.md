@@ -477,11 +477,24 @@ drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
 Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
 
 ## ACRESCENTANDO NOVOS DIRETORIOS AO PATH DO SISTEMA
-Vez ou outra, certos programas são instalados em diretórios incomuns e isso inclui seus binários. Um exemplo típico é o banco de dados FirebirdSQL é instalado em /opt/firebird e seus utilitários ficam em /opt/firebird/bin, daí quando você precisa executar um comando como isql ou gbak voce precisa digitar o inteiro comando '/opt/firebird/bin/isql' e como somos programadores, não gostamos muito de digitar comandos assim. Para resolver este tipo de problema você pode (1) criar links simbolicos dos comandos que precisa em /usr/bin ou (2) acrescentar o caminho ao $PATH do sistema. Vou sugerir a segunda opção porque ela é mais completa. Então crie/edite um script-bash como /etc/profile.d/firebird-path.sh:
+Vez ou outra, alguns programas são instalados em diretórios não convencionais, e isso inclui seus binários executáveis.
+Um exemplo típico é o FirebirdSQL, que é instalado em /opt/firebird, e seus utilitários (como isql e gbak) ficam em /opt/firebird/bin.
+
+O problema é que, ao tentar executar um desses utilitários, você precisa digitar o caminho completo, por exemplo:
+```
+/opt/firebird/bin/isql
+```
+Como bons programadores, sabemos que digitar caminhos longos repetidamente não é nada prático.  
+Para resolver isso, existem duas abordagens:  
+1. Criar links simbólicos dos executáveis em /usr/bin; ou  
+2. Acrescentar o diretório dos binários ao $PATH do sistema.  
+
+A segunda opção é a mais limpa e flexível, pois o caminho será reconhecido automaticamente por todos os usuários e sessões.
+Para configurá-la, crie (ou edite) um script Bash em: 
 ```  
 sudo nano /etc/profile.d/999-firebird-path.sh
 ```
-O diretorio acima é para acrescentarmos scripts que serão executados no final do boot, eles são executados alfabeticamente, então para nosso script ficar por ultimo usamos o numero '999' como prefixo. Agora coloque o seguinte conteúdo:
+E insira o seguinte conteúdo:
 ```  
 # Adiciona o Firebird ao PATH do sistema
 # Torna o caminho acessível a todos os usuários de login
@@ -495,13 +508,16 @@ Então, dê permissão de leitura global:
 ```  
 sudo chmod 644 /etc/profile.d/999-firebird-path.sh
 ```  
-Note que a permissão "644" não dá poder de execução, e a ideia é essa mesmo, o próprio sistema se encarregará de carregá-lo por uma sucessão de scripts, mas não outra pessoa. Para uma outra pessoa poder executar, seria:
+Note que a permissão "644" não dá poder de execução, e a ideia é essa mesma, o próprio sistema se encarregará de carregá-lo por uma sucessão de scripts, não precisando de "alguém" para executá-lo. Para uma outra pessoa poder executar, seria:
 ```  
-$ source /etc/profile.d/999-firebird-path.sh
+source /etc/profile.d/999-firebird-path.sh
+```
+Agora vamos conferir o PATH, execute:  
+```  
 $ echo $PATH
 /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/firebird/bin
 ```  
-
+Se '/opt/firebird/bin' apareceu então este tópico foi concluido com sucesso.
 
 ## VARIAVEIS DE AMBIENTE
 Voce pode criar variaveis dentro do ambiente Linux, essas variaveis poderão ser usadas por programas instalados ou até seus próprios programas. Há um habito de programadores em seus ambientes de testes, criarem suas próprias variaveis para serem usadas pelos seus programas que podem determinar uma ação, um exemplo para isso, é a colocação de autenticações. ao inves de logar-se digitando a senha, simplesmente coloquem usuário e a senha numa variavel de ambiente que apenas o perfil daquele usuário será capaz de ver, você pode achar que isso é um risco, mas o perfil de um usuário, somente ele ou root tem acesso então não há riscos. Vamos usar o exemplo do banco de dados FirebirdSQL, ele possui variaiveis como ISC_USER, ISC_PASSWORD que suprimem a necessidade de ficar indicamente usuario e senha toda vez que conectarmos ao banco. Edite o arquivo ~/.bash_profile:
