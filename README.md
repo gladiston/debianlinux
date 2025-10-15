@@ -77,11 +77,9 @@ A outra opção, abaixo, libera qualquer comando sem o uso da senha:
 ```
 gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
+Salve o arquivo e saida do editor.  
+
 > **IMPORTANTE**: A linha acima pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu computador é um **zé-roela** que não oferece nenhum risco, isto é, não tem chaves de segurança que possam ser roubadas ou arquivos valiosos.  
-
-
-Salve o arquivo e saida do editor.
-```
 
 
 ## BLOQUEIO DE TELA AUTOMÁTICO
