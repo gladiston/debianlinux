@@ -358,7 +358,7 @@ Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir 
 ### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
 Para liberar portas, precisamos de um exemplo, neste caso escolhi liberar as portas:
 |Serviço|Porta|Descrição|
-|:--||:--|
+|:--||:--||:--|
 |HTTP|80|Tráfego web padrão (sites sem HTTPS)|
 |HTTPS|443|Tráfego web seguro (SSL/TLS)|
 |SSH|22|Acesso remoto seguro a servidores Linux|
