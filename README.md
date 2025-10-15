@@ -1882,8 +1882,10 @@ Você irá baixar a versão .deb, e dar um duplo clique no arquivo e seguir as i
 Depois de instalado, você volta a página de download e procura por "VirtualBox Extension Pack", baixe ele:
 ![VirtualBox Extension Pack](virtualbox-extension-pack.png)  
 
-Depois dê duplo clique nele e o próprio VirtualBox instalará ele. O "VirtualBox Extension Pack" é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão, por exemplo, a VM acessa dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.) e também o acesso remoto via VRDP que é similar ao RDP da Microsoft, tem acesso a WebCAM do hospedeiro e encriptação de disco, e tem outras coisas também, mas você terá de ler diretamente no site.  
-O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas tem uma licença diferente chamada de PUEL – Personal Use and Evaluation License) o que impede das distros empacotarem ele ou até remover completamente o VirtualBox de seus repositórios.  
+Depois dê duplo clique nele e o próprio VirtualBox o instalará.  
+O "VirtualBox Extension Pack" é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão, por exemplo, a VM acessa dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.), acesso remoto via VRDP que é similar ao RDP da Microsoft, acesso a WebCAM do hospedeiro, encriptação de disco e tem outras coisas também, mas você terá de ler diretamente no site.  
+
+O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas tem uma licença diferente chamada de PUEL – Personal Use and Evaluation License) o que impede das distros empacotarem ele ou até remover completamente o VirtualBox de seus repositórios. Se você usar o virtualBox dentro de uma empresa, **uso pessoal** poderá ser questionável.  
 
 Uma vez que tanto o **VirtualBox** como também o **Extension Pack** estão instalados, agora vamos fazer alguns ajustes.  
 
