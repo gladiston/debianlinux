@@ -337,7 +337,7 @@ newgrp systemd-journal  # ou faça logout/login
 Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
 
 ## FIREWALL 
-Em sistemas baseados em Firewalld, as regras de firewall são organizadas em zonas e podem ser aplicadas temporariamente (modo runtime) ou de forma permanente (modo permanent). OUm sistema de Firewall não vem instalada por padrão em muitas distribuições, portanto, o primeiro passo é instalar o pacote. Vamos escolher o 'Firewalld' porque é o padrão também no Fedora, RHEL, CentOS, openSUSE e totalmente suportado no Debian e Ubuntu.
+Em sistemas baseados em Firewalld, as regras de firewall são organizadas em zonas e podem ser aplicadas temporariamente (modo runtime) ou de forma permanente (modo permanent). Um sistema de Firewall não vem instalada por padrão em muitas distribuições, portanto, o primeiro passo é instalar o pacote. Vamos escolher o 'Firewalld' porque é o padrão também no Fedora, RHEL, CentOS, openSUSE e totalmente suportado no Debian e Ubuntu.
 
 Instale o Firewalld:  
 ```
