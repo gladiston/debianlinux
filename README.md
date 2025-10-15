@@ -1902,11 +1902,18 @@ Para testar, plugue um pen drive>abra o menu Dispositivos>USB dentro da janela d
 Ele deve desaparecer do sistema host e aparecer dentro da VM.
 
 ### VIRTUALBOX - CONFLITO COM A INTEGRAÇÃO DO MOUSE
-Pois é, talvez devido a mudança do **Xorg** para **Wayland**, algumas coisa podem empacar. Às vezes a integração com o mouse se perde, isto é, o mouse dentro da VM deixa de existir ou fica parado. Isso acontece especialmente quando está em tela cheia(FullScreen). Nesta situação recomendo desligar o minitoolbar, vá no menu escolha a VM, vá em configurações>interface de usuário e na opção **Minibarra de Ferramentas** e deixar **desligado**.  
+Pois é, talvez por causa da transição do Xorg para o Wayland, algumas coisas ainda possam apresentar pequenos travamentos ou falhas de integração.
+Um problema comum é a perda da integração do mouse dentro da máquina virtual — o ponteiro pode ficar travado, desaparecer ou não responder corretamente, especialmente quando a VM está em tela cheia (Full Screen).  
 
-Um outro ajuste é ir em Configurações da VM>Geral>Avançado e na opção **Arrastar e Soltar** e deixar **desligado**.  
-Com esses ajustes, esse problema praticamente some.  
+Quando isso acontecer, uma boa solução é desativar a MiniBarra de Ferramentas do VirtualBox, para isso:   
+1. Selecione a sua máquina virtual no VirtualBox.  
+2. Vá em Configurações → Interface do Usuário.  
+3. Localize a opção MiniBarra de Ferramentas e desative.  
+Com isso, a interação entre o mouse e a VM tende a voltar ao normal, mesmo em tela cheia.  
 
+Outro ajuste que ajuda bastante é desativar o recurso de Arrastar e Soltar (Drag and Drop) da VM. Para isso, vá em Configurações>Geral>Avançado e, na opção Arrastar e Soltar, selecione **Desligado**.
+
+Com essa configuração, junto com a MiniBarra de Ferramentas desativada, o problema de travamento do mouse praticamente desaparece — mesmo em modo Tela Cheia (Full Screen).
 
 
 ### VIRTUALBOX - CONFLITO COM O KVM
