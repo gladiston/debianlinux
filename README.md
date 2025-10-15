@@ -298,8 +298,6 @@ Para confirmar a instalação e ver a versão instalada:
 ```  
 vim --version
 ```
-💡 Dica sobre o uso do mouse
-
 Algo que pode ser um pouco irritante ao usar o Vim é que o mouse também é controlado por ele. Assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos de copiar/colar do terminal podem não funcionar, pois o Vim captura os cliques do mouse.
 
 Se isso te incomoda, basta executar dentro do Vim o comando:
