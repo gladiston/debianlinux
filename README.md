@@ -1849,7 +1849,8 @@ Para instalar é fácil, similar ao Google Chrome, você precisa acessar a pági
 (https://www.virtualbox.org/)
 
 Você irá baixar a versão .deb, e dar um duplo clique no arquivo e seguir as instruções na tela.  
-Depois de instalado, você volta a página de download e procura por "VirtualBox Extension Pack", baixe ele, dê duplo clique e o próprio VirtualBox instalará ele. O Extension Pack é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão. Ele é gratuito para uso pessoal e educacional, mas tem licença diferente (PUEL – Personal Use and Evaluation License) para outras formas de uso. Com ele, a VM acesse dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.) e também o acesso remoto via VRDP que é similar ao RDP da Microsoft, acesso a WebCAM, e encriptação de disco e tem outras coisas também, mas você terá de ler diretamente no site.  
+Depois de instalado, você volta a página de download e procura por "VirtualBox Extension Pack", baixe ele, dê duplo clique e o próprio VirtualBox instalará ele. O Extension Pack é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão.  
+O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas tem licença diferente (PUEL – Personal Use and Evaluation License) para outras formas de uso. Com ele, a VM acessa dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.) e também o acesso remoto via VRDP que é similar ao RDP da Microsoft, tem acesso a WebCAM do hospedeiro e encriptação de disco, e tem outras coisas também, mas você terá de ler diretamente no site.  
 
 Uma vez que tanto o **VirtualBox** como também o **Extension Pack** estão instalados, agora vamos fazer alguns ajustes.  
 
@@ -1899,6 +1900,14 @@ sudo udevadm trigger
 ```
 Para testar, plugue um pen drive>abra o menu Dispositivos>USB dentro da janela da VM>selecione seu dispositivo.
 Ele deve desaparecer do sistema host e aparecer dentro da VM.
+
+### VIRTUALBOX - CONFLITO COM A INTEGRAÇÃO DO MOUSE
+Pois é, talvez devido a mudança do **Xorg** para **Wayland**, algumas coisa podem empacar. Às vezes a integração com o mouse se perde, isto é, o mouse dentro da VM deixa de existir ou fica parado. Isso acontece especialmente quando está em tela cheia(FullScreen). Nesta situação recomendo desligar o minitoolbar, vá no menu escolha a VM, vá em configurações>interface de usuário e na opção **Minibarra de Ferramentas** e deixar **desligado**.  
+
+Um outro ajuste é ir em Configurações da VM>Geral>Avançado e na opção **Arrastar e Soltar** e deixar **desligado**.  
+Com esses ajustes, esse problema praticamente some.  
+
+
 
 ### VIRTUALBOX - CONFLITO COM O KVM
 Se ao executar uma VM, aparecer a mensagem:  
