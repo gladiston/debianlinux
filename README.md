@@ -336,10 +336,7 @@ newgrp systemd-journal  # ou faça logout/login
 Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
 
 ## FIREWALL 
-Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop.  
-Por isso, o primeiro passo é instalá-lo manualmente.  
-  
-Vamos optar pelo Firewalld, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu.  
+Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop. Por isso, o primeiro passo é instalá-lo manualmente. Vamos optar pelo Firewalld, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu.  
 Essa escolha garante comandos consistentes e portabilidade entre diferentes ambientes Linux.  
   
 Muitas pessoas argumentam que um firewall é desnecessário em estações de trabalho Linux, e até certo ponto isso é verdade para uso doméstico.  
