@@ -2026,17 +2026,12 @@ Para baixá-lo use a loja de software (Programas) e procure por “Zoom” e ins
 (todo)
 
 
-
-
-
-
 ## LEITOR DE CERTIFICADO DIGITAL
 Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um howto na internet apropriado.
 
 
 
 ## MICROSOFT OFFICE (web apps)
-
 Visite a página a seguir usando um navegador Google Chrome(ou compatível com webapps):
 [Site do office.com](office.com)   
 E autentique-se com uma conta live da Microsoft.
@@ -2104,7 +2099,7 @@ Instruções: https://www.dev47apps.com/droidcam/linux/
 No celular Android instale o app DroidCam.
 No terminal, execute:
 ```
-sudo dnf install -y adb android-tools
+sudo apt install -y android-tools-adb
 cd /tmp
 wget https://files.dev47apps.net/linux/droidcam_latest.zip
 unzip droidcam_latest.zip -d droidcam
@@ -2201,7 +2196,7 @@ Dá para recuperar tanto arquivos quanto o sistema operacional.
 HandBrake é um dos mais poderosos conversores de vídeo. Para instalar basta ir na loja e escolhê-lo pelo nome handbrake.  
 
 
-## FormatLab
+## FORMATLAB
 FormatLab é um dos mais promissores conversores de vídeo após o HandBrake. Ele faz as mesmas atividades do handbrake, porém é mais simples de operar. Para instalar basta ir na loja e escolhê-lo pelo nome FormatLab.  
 
 
@@ -2213,7 +2208,7 @@ GParted é um particionador gráfico para Linux, com ele podemos criar e manipul
 ## BLENDER
 Blender, também conhecido como blender3d, é um programa de código aberto, desenvolvido pela Blender Foundation, para modelagem, animação, texturização, composição, renderização, e edição de vídeo.  Para instalar basta ir na loja e escolhê-lo pelo nome blender. Se você não cria animações, ignore a instalação desse programa.  
 
-## VidCutter
+## VIDCUTTER
 (analogo ao vidcoder para windows)
 
 (http://bluegriffon.org)
@@ -2224,8 +2219,6 @@ Para instalar basta ir na loja e escolhê-lo pelo nome INKSCAPE.
 
 
 ## OUTROS TÓPICOS INTERESSANTES
-* Virtualização
-* Instalando o banco de dados FirebirdSQL
 * Ambiente de programação FreePascal/Lazarus
 * Ambiente de programação JAVA
 * Ambiente de programação Python
