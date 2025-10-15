@@ -16,7 +16,7 @@ Ao concluir, você terá um ambiente coerente, reduzindo a necessidade de “for
 ### Resultado esperado
 Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e virtualização.
 
-### Os padrões usados
+### Os padrões usados neste HowTo
 Para o correto entendimento deste HowTo, usarei alguns padrões:  
 Nome do host: ti-01  
 Nome do usuário: gsantana  
@@ -24,7 +24,7 @@ Nome do dominio local: localdomain.lan
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 
-Os comandos serão precedidos de "$", exemplo:  
+Os comandos que serão seguidos por textos serão precedidos de "$", exemplo:  
 |:--|
 |$ sudo apt update -y
 |Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
@@ -33,16 +33,18 @@ Os comandos serão precedidos de "$", exemplo:
 |Atingido:4 https://dl.google.com/linux/chrome/deb stable InRelease
 |Todos os pacotes estão atualizados.  
 
-No exemplo acima, apenas a linha #1 é um comando.  
+No exemplo acima, apenas a linha #1 é um comando e o restante são textos resultantes do comando.  
 
-## INSTALAÇÃO
-Nada de especial aqui, mas recomendo que tenha a partição / (root) em BTRFS. Este sistema de arquivos é uma mão na roda para programadores porque poderá ser habilitado snaphots no sistema de boot e arquivos importantes que você crie.
-
-
-## NOTEBOOKs DA LINHA ACER NITRO
+### NOTEBOOKs DA LINHA ACER NITRO
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
 
 [Se tiver um ACER NITRO, siga as instruções em:  ](https://github.com/gladiston/fedorainstallonacernitro)
+
+
+## INSTALAÇÃO
+Nada de especial aqui, mas se usar o sistema de arquivos Btrfs terá um trabalho extra se for utilizar VMs. Este sistema de arquivos é uma mão na roda para programadores porque usando snaphots você recupera qualquer arquivo apagado ou sobreescrito sem recorrer a backups, além disso a compactação é muito útil para quem usa NVME ou SSD com tamanho escasso. Recomendo /home e /var como uma subpartição do Btrfs.  
+
+Caso pretenda usar ext4 - que é mais performática que Btrfs na minha opinião e usando bem menos memória - se possível, mantenha / e /home em partições separadas.   
 
 
 ## SUDO
