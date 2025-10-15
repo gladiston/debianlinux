@@ -378,7 +378,7 @@ sudo firewall-cmd --add-port=3050/tcp
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ $ sudo firewall-cmd --list-ports
+$ sudo firewall-cmd --list-ports
 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 3050/tcp
 ```
 Esses comandos aplicam as regras apenas no modo temporário (até reiniciar o firewalld ou o sistema). 
