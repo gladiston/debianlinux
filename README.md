@@ -1889,8 +1889,9 @@ O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas te
 
 Uma vez que tanto o **VirtualBox** como também o **Extension Pack** estão instalados, agora vamos fazer alguns ajustes.  
 
->**IMPORTANTE**: O principal concorrente do VirtualBox é o **VMWare WorkStation** que recentemente também tornou-se gratuito. A licença do **VMWare WorkStation** é menos restritiva do que a do VirtualBox. Conteudo, também sofre de alguns bugs nesta transição de Xorg para Wayland.
->
+>**IMPORTANTE**: O principal concorrente do VirtualBox é o **VMWare WorkStation** que recentemente também tornou-se gratuito para alguns fins, então, também sofre de alguns bugs nesta transição de Xorg para Wayland. O **VMWare WorkStation** é um pouco chato de instalar porque qualquer atualização de kernel, seus módulos precisam ser recompiados e nem sempre terá a versão para o kernel atualizado em especíco, em distros baseadas em Debian é até tranquilo, mas distros blending-edge como o Fedora, sua manutenção é um inferno.  
+
+
 
 ### VIRTUALBOX - ACESSO AO GRUPO 'VBOXUSERS'
 Você precisa adicionar o usuário ao grupo ‘vboxusers’ para que ele tenha permissão de acessar dispositivos USB, configurar redes em modo bridge e usar outros recursos específicos do VirtualBox. Sem isso, o VirtualBox não consegue gerenciar esses recursos de forma segura e controlada. Assim precisaremos executar:  
