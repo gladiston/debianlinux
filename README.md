@@ -370,7 +370,7 @@ Agora vamos repetir a verificação das portas atualmente liberadas:
 $ sudo firewall-cmd --list-ports
 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp
 ```
-Esses comandos aplicam as regras apenas no modo temporário até reiniciar o firewalld ou o sistema. 
+Isso significa que obtivemos sucesso, no entanto, essas regras são temporarias até reiniciar o firewalld ou o sistema. 
 
 ### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
 Como vimos no passo anterior, as regras são temporarias, elas valem apenas até reiniciar o firewalld ou o sistema. Para torná-las permanentes, execute:  
