@@ -632,7 +632,7 @@ Qual a diferença de um pacote tradicional para um pacote advindo do flathub? Os
 ```
 ~/.var/app
 ```
-Alguns programas adquiridos do flathub pedem autorização para acessar seu $HOME, quando isso acontece, geralmente eles perguntam para o usuário que pode conceder o acesso ou não. Mas independentemente de rodarem sob container, dependendo do programa isto não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua sua parte e em descobrir o que é viável instalar do flathub e o que não é.  
+Alguns programas adquiridos do flathub pedem autorização para acessar seu $HOME ou algo restrito do seu sistema, quando isso acontece, geralmente eles perguntam para o usuário, que pode conceder o acesso ou não. Mas independentemente de rodarem sob container, dependendo do programa escolhido, o uso de containeres não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua parte e em descobrir o que é viável instalar do flathub e o que não é, em especial, duvide de aplicativos onde o desenvolvedor e o publicador não são a mesma entidade.  
 
 
 ## MUDANDO O NOME DO HOST  
