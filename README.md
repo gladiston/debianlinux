@@ -8,6 +8,7 @@ Escopo:
 ### Sobre o particionamento (Btrfs vs ext4)
 Se o seu foco for virtualização e você pretende usar snapshots (recurso em que o Btrfs brilha), o Btrfs pode ser excelente — mas há nuances para VMs (desempenho, CoW, layout de subvolumes) que exigem atenção.
 Se você não precisa de snapshots ou prefere o caminho mais simples, ext4 é uma escolha direta e estável. No tópico específico de Btrfs explico quando e por que usá-lo (e como ajustar para VMs).
+Se possivel, todas as partições que contêm dados importantes devem ter um *label* como #disco1, #disco2, #home e assim por diante, sempre sendo fáceis de serem identificados quando executarmos o comando **lsblk -f**. Colocar labels em disco é vida!  
 
 ### Como usar este guia
 Siga até o fim, mas pule seções que não se aplicam ao seu cenário.  
