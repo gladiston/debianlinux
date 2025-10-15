@@ -395,10 +395,11 @@ sudo firewall-cmd --zone=public --add-port=8050/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
-Aproveite este momento e veja quais portas precisa serem liberadas e as aplique. Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, ela não deveria ser opcional para programadores e administradores de sistema, pois seus serviços serão testados em ambientes mais controlados e por isso, firewall não é opcional.
+Aproveite este momento e veja quais portas precisa serem liberadas e as aplique. Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, ela não deveria ser opcional para programadores e administradores de sistema, pois seus serviços serão testados em ambientes mais controlados e por isso, firewall não é opcional.  
+
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
-Aliases não é um nome de programa, é um recurso que as distros possuem para abreviar ou facilitar uso de comandos repetitivos, por exemplo, se eu quero listar os arquivos de uma pasta de forma colorida e com os tamanhos de arquivos, ao inves de bytes, em conotação mais humana como MB ou GB eu teria de executar todas as vezes:
+Aliases não é um nome de programa, é um recurso que as distros possuem para abreviar ou facilitar uso de comandos repetitivos, por exemplo, se eu quero listar os arquivos de uma pasta de forma colorida e com os tamanhos de arquivos, ao inves de bytes, em conotação mais humana como MB ou GB eu teria de executar todas as vezes:  
 
 ```  
 ls -lh --color=auto'
@@ -476,91 +477,12 @@ drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
 ```  
 Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
 
-## ACRESCENTANDO NOVOS DIRETORIOS AO PATH DO SISTEMA
-Vez ou outra, alguns programas são instalados em diretórios não convencionais, e isso inclui seus binários executáveis.
-Um exemplo típico é o FirebirdSQL, que é instalado em /opt/firebird, e seus utilitários (como isql e gbak) ficam em /opt/firebird/bin.
-
-O problema é que, ao tentar executar um desses utilitários, você precisa digitar o caminho completo, por exemplo:
-```
-/opt/firebird/bin/isql
-```
-Como bons programadores, sabemos que digitar caminhos longos repetidamente não é nada prático.  
-Para resolver isso, existem duas abordagens:  
-1. Criar links simbólicos dos executáveis em /usr/bin; ou  
-2. Acrescentar o diretório dos binários ao $PATH do sistema.  
-
-A segunda opção é a mais limpa e flexível, pois o caminho será reconhecido automaticamente por todos os usuários e sessões.
-Para configurá-la, crie (ou edite) um script Bash em: 
-```  
-sudo nano /etc/profile.d/999-firebird-path.sh
-```
-E insira o seguinte conteúdo:
-```  
-# Adiciona o Firebird ao PATH do sistema
-# Torna o caminho acessível a todos os usuários de login
-if [ -d /opt/firebird/bin ]; then
-  PATH="$PATH:/opt/firebird/bin"
-  export PATH
-fi
-```
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
-Então, dê permissão de leitura global:
-```  
-sudo chmod 644 /etc/profile.d/999-firebird-path.sh
-```  
-Note que a permissão "644" não dá poder de execução, e a ideia é essa mesma, o próprio sistema se encarregará de carregá-lo por uma sucessão de scripts, não precisando de "alguém" para executá-lo. Para uma outra pessoa poder executar, seria:
-```  
-source /etc/profile.d/999-firebird-path.sh
-```
-Agora vamos conferir o PATH, execute:  
-```  
-$ echo $PATH
-/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/firebird/bin
-```  
-Se '/opt/firebird/bin' apareceu então este tópico foi concluido com sucesso.
-
-## VARIAVEIS DE AMBIENTE
-Voce pode criar variaveis dentro do ambiente Linux, essas variaveis poderão ser usadas por programas instalados ou até seus próprios programas. Há um habito de programadores em seus ambientes de testes, criarem suas próprias variaveis para serem usadas pelos seus programas que podem determinar uma ação, um exemplo para isso, é a colocação de autenticações. ao inves de logar-se digitando a senha, simplesmente coloquem usuário e a senha numa variavel de ambiente que apenas o perfil daquele usuário será capaz de ver, você pode achar que isso é um risco, mas o perfil de um usuário, somente ele ou root tem acesso então não há riscos. Vamos usar o exemplo do banco de dados FirebirdSQL, ele possui variaiveis como ISC_USER, ISC_PASSWORD que suprimem a necessidade de ficar indicamente usuario e senha toda vez que conectarmos ao banco. Edite o arquivo ~/.bash_profile:
-```  
-sudo nano ~/.bash_profile
-```
-E acrescente as linhas:  
-```  
-export FIREBIRD_MSG=/opt/firebird
-export ISC_USER=SYSDBA
-export ISC_PASSWORD=masterkey
-```  
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, toda vez que logar-se as variaveis acima já estarão prontas.  
-Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de definir seus parametros porque comandos como o 'ps auxwww' poderia revelá-los.  
-
-
-### VARIAVEIS DE AMBIENTE GLOBAIS
-Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis, vamos a um exemplo, novamente usaremos o FirebirdSQL. Edite o arquivo /etc/environment.d/999-firebird.conf:
-```  
-sudo nano /etc/environment.d/999-firebird.conf 
-```
-A pasta /etc/environment.d contêm arquivos .conf que o sistema lerá durante o processo de boot, novamente colocamos o prefixo "999" porque a lista de arquivos é lida alfabeticamente e desejamos que nosso arquivo fique por ultimo. Depois acrescente as linhas:  
-```  
-FIREBIRD_MSG=/opt/firebird
-ISC_USER=SYSDBA
-ISC_PASSWORD=masterkey
-```  
-Não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis para nós.
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema!
-
-Para testar, execute:
-```  
-$ echo $ISC_USER
-SYSDBA
-```  
-
 
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
 sudo apt install -y libavcodec-extra ffmpeg vlc
 ```
-
 
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
@@ -1656,6 +1578,55 @@ firebird cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpa
 ```
 Se o nome 'firebird' aparecer na relação então é um indicativo que a operação foi realizada com sucesso.   
 
+### BANCO DE DADOS FIREBIRD - PERMISSÕES
+Se for copiar arquivos de banco de dados - geralmente .fdb - para seu sistema, não os copie para seu $HOME, pois o firebird não tem acesso lá, ele até poderia se ajustado de acordo, mas isso violaria a parte de segurança. Então sempre que for copiar arquivos .fdb para este servidor, localize uma pasta externa ao $HOME, por exemplo, /var/banco, se ele não existir, crie-o:  
+```  
+sudo mkdir -p /var/banco
+```  
+Vamos dar permissão com bitstick para que subpastas herdem a pasta do pai, mas permissões não incluem "outros", apenas o firebird, execute:
+```  
+sudo chmod -R 2660 /var/banco
+sudo chown -R firebird:firebird /var/banco
+```  
+Pronto, agora você pode copiar arquivos .fdb para essa pasta, em alguns casos, depois que copiar, é muito provavel que também precise repetir este comando:
+```  
+sudo chown -R firebird:firebird /var/banco
+```  
+Pois o arquivo copiado pode ter outro 'dono' e este mantêm-se ao invés de ter como dono, o usuário 'firebird'.  
+
+### BANCO DE DADOS FIREBIRD - ALIASES PARA ESCONDER OS BANCOS
+Ao conectar-se ao banco de dados, geralmente usamos algo como:
+|String de conexão:|
+|:--|
+|localhost/3050:/var/banco/banco.fdb|
+ 
+Qual o problema disso? Essa string revela de forma cruel onde nosso banco de dados está localizado dentro do servidor. Qual a maneira correta? A maneira correta é criar um alias e usá-lo na string de conexão do banco no lugar do caminho do banco. 
+Edite o arquivo /opt/firebird/databases.conf, execute:  
+```  
+sudo nano /opt/firebird/databases.conf
+```  
+E acrescente ao final do arquivo:  
+```  
+banco.link = /var/banco/banco.fdb 
+```  
+Agora, poderá usar a seguinte string de conexão:  
+|String de conexão:|
+|:--|
+|localhost/3050:banco.link|
+
+E assim, nenhum camiho de nossos arquivos de dados serão revelados.  Caso seu banco de dados precise de parametros de ajustes, o /opt/firebird/databases.conf pode ser acrescido seu banco de dados assim:  
+```  
+banco.link = /var/banco/banco.fdb 
+{
+  RemoteAccess = true
+  DefaultDbCachePages = 131072
+  LockMemSize = 30M
+  TempCacheLimit  = 512M  
+  StatementTimeout = 0 # 0=ilimitado
+}
+```  
+E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.  
+
 
 ### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
 Essas variaveis serão usadas para ao inves de logar-se digitando a usuário e senha, elas sejam suprimidas, você pode achar que isso é um risco, mas o vamos colocá-la no nosso perfil onde somente nós mesmos e o root tem acesso, então não há riscos. Edite o arquivo ~/.bash_profile:
@@ -1687,8 +1658,8 @@ FIREBIRD_MSG=/opt/firebird
 ISC_USER=SYSDBA
 ISC_PASSWORD=masterkey
 ```  
-Não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis para nós.
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema!
+Note que não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis de ambiente para nós durante o boot.
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema para que as modificações entrem em vigor, depois disso, se quiser testar, execute:
 
 Para testar, execute:
 ```  
@@ -1698,11 +1669,121 @@ SYSDBA
 
 
 ### BANCO DE DADOS FIREBIRD - AJUSTANDO PATH
+Vez ou outra, alguns programas são instalados em diretórios não convencionais, e isso inclui seus binários executáveis.
+Um exemplo típico é o FirebirdSQL, que é instalado em /opt/firebird, e seus utilitários (como isql e gbak) ficam em /opt/firebird/bin.
 
+O problema é que, ao tentar executar um desses utilitários, você precisa digitar o caminho completo e as vezes usando 'sudo', por exemplo:
+```
+sudo /opt/firebird/bin/gbak (...)
+```
+Como bons programadores, sabemos que digitar caminhos longos repetidamente não é nada prático.  
+Para resolver isso, existem duas abordagens:  
+1. Criar links simbólicos dos executáveis em /usr/bin; ou  
+2. Acrescentar o diretório dos binários ao $PATH do sistema.  
+
+A segunda opção é a mais limpa e flexível, pois o caminho será reconhecido automaticamente por todos os usuários e sessões.
+Para configurá-la, crie (ou edite) um script Bash em: 
+```  
+sudo nano /etc/profile.d/999-firebird-path.sh
+```
+E insira o seguinte conteúdo:
+```  
+# Adiciona o Firebird ao PATH do sistema
+# Torna o caminho acessível a todos os usuários de login
+if [ -d /opt/firebird/bin ]; then
+  PATH="$PATH:/opt/firebird/bin"
+  export PATH
+fi
+```
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
+Então, dê permissão de leitura global:
+```  
+sudo chmod 644 /etc/profile.d/999-firebird-path.sh
+```  
+Note que a permissão "644" não dá poder de execução, e a ideia é essa mesma, o próprio sistema se encarregará de carregá-lo por uma sucessão de scripts, não precisando de "alguém" para executá-lo. Para uma outra pessoa poder executar manualmente, seria:
+```  
+source /etc/profile.d/999-firebird-path.sh
+```
+Agora vamos conferir o PATH, execute:  
+```  
+$ echo $PATH
+/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/firebird/bin
+```  
+Se '/opt/firebird/bin' apareceu então este tópico foi concluido com sucesso.
 
 
 ## HABILITANDO AREA DE TRABALHO REMOTA
-(todo)
+Vez ou outra precisaremos acessar nossa area de trabalho, as mais experientes recomendarão usar o 'ssh -x' ou usar 'xserver' e logar-se no ip de nosso desktop, no entanto, isso não é tão simples para novos usuários do linux e também não permite o acesso onde a origem é um desktop Windows. Portanto, minha recomendação é instalar o xrdp, um protocolo de compartilhamento de sessões compativel com o 'rdp' da Microsoft e assim poderemos acessar nosso terminal Linux até mesmo de um Windows através do programa 'Remote Deskop'. Para instalar:  
+```  
+sudo apt install -y xrdp remmina
+```
+Verifique se o grupo 'ssl-cert' existe, execute:
+```  
+$ getent group ssl-cert
+ssl-cert:x:105:
+```
+Se a resposta for afirmativa como acima, então agora verifique se o usuário 'xrdp' também exista. execute:
+```  
+$ getent passwd xrdp
+xrdp:x:111:116::/run/xrdp:/usr/sbin/nologin
+```
+Agora que sabemos que o grupo 'ssl-cert' exste, e o usuário 'xrdp' também, então adicione o usuário 'xrdp' ao grupo 'ssl-cert' para permitir que o serviço xrdp acesse as chaves SSL corretamente, execute:
+```  
+sudo usermod -aG ssl-cert xrdp
+```
+Agora precisaremos atualizar as permissões imediatamente, execute:
+```
+sudo systemctl restart xrdp
+```
+Ou, se preferir, reinicie o sistema (o login de grupo é aplicado na próxima sessão).  
+Agora o serviço xrdp pode acessar os certificados em /etc/ssl/private/, permitindo conexões seguras via TLS sem erros.  
+
+### HABILITANDO AREA DE TRABALHO REMOTA - CRIANDO UM CERTIFICADO SSK OARA I XRDP
+1. Gere o certificado e a chave privada
+Use o openssl para criar um certificado autoassinado válido por 10 anos (ajuste conforme quiser):
+```
+sudo openssl req -x509 -newkey rsa:4096 -sha256 -days 3650 -nodes \
+  -keyout /etc/ssl/private/xrdp.key \
+  -out /etc/ssl/certs/xrdp.crt \
+  -subj "/CN=$(hostname)"
+```
+Explicação:  
+* -x509 → cria um certificado autoassinado
+* -newkey rsa:4096 → gera uma nova chave RSA de 4096 bits
+* -nodes → não criptografa a chave com senha (requerida para uso automático)
+* -subj → define o nome comum (CN) com o hostname do servidor
+
+2. Ajuste as permissões corretamente, somente root e membros do grupo ssl-cert devem ter acesso:
+```
+sudo chown root:ssl-cert /etc/ssl/private/xrdp.key
+sudo chmod 640 /etc/ssl/private/xrdp.key
+sudo chmod 644 /etc/ssl/certs/xrdp.crt
+```
+
+3. Configure o XRDP para usar o novo certificado, edite o arquivo /etc/xrdp/xrdp.ini:
+```
+sudo nano /etc/xrdp/xrdp.ini
+```
+E inclua o seguinte conteúdo:  
+```  
+certificate=/etc/ssl/certs/xrdp.crt
+key_file=/etc/ssl/private/xrdp.key
+```
+4. Reinicie o serviço XRDP, execute:
+```  
+sudo systemctl restart xrdp
+sudo systemctl status xrdp
+```
+Agora, ao se conectar via RDP (Windows, Remmina, etc.), o XRDP usará seu certificado SSL personalizado. Mas vamos validar o certificado manualmente, execute:  
+```  
+openssl x509 -in /etc/ssl/certs/xrdp.crt -text -noout
+```
+Pronto, agora o resultado esperado é:  
+* Conexão RDP criptografada com TLS
+* Nenhum erro relacionado a certificado inválido ou permissão negada  
+* Logs limpos em /var/log/xrdp-sesman.log e /var/log/xrdp.log  
+
+Este certificado local funcionará em sua rede local, mas se for para um acesso externo, precisará do 'certbot' que crescente uma seção opcional com integração via certificado Let’s Encrypt (SSL público e renovável) para uso remoto pela internet.
 
 
 ## SOFTWARE PARA TREINAMENTO
