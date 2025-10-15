@@ -628,12 +628,11 @@ Mas também há desenvolvedores que publicam seu próprio programa no flathub,e 
 * Mozilla Firefox, a própria Mozilla publica seu software no flathub  
 * Telegram, a própria Telegram publica seu software no flathub  
  
-Qual a diferença de um pacote tradicional para um pacote advindo do flathub? Os pacotes tradicionais são inspecionados pela própria distribuição e instalados de maneira tradicional em seus respectivos diretorios. Já os pacotes adquiridos do flathub são mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
+Qual a diferença de um pacote tradicional para um pacote advindo do flathub? Os pacotes tradicionais são inspecionados pela própria distribuição e instalados de maneira tradicional em seus respectivos diretorios. Já os pacotes adquiridos do flathub são produzidos pela própria comunidade e considerados mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
 ```
-~/.local  
-~/.var
+~/.var/app
 ```
-Mas dependendo do programa isto não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua sua parte e em descobrir o que é viável instalar do flathub e o que não é.  
+Alguns programas adquiridos do flathub pedem autorização para acessar seu $HOME, quando isso acontece, geralmente eles perguntam para o usuário que pode conceder o acesso ou não. Mas independentemente de rodarem sob container, dependendo do programa isto não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua sua parte e em descobrir o que é viável instalar do flathub e o que não é.  
 
 
 ## MUDANDO O NOME DO HOST  
