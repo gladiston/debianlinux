@@ -236,7 +236,7 @@ lomiri-online-accounts-plugin-microsoft/stable 0.20-1 all
 packages-microsoft-prod/trixie,now 1.1-debian13 all [instalado]
 php-symfony-microsoft-teams-notifier/stable 6.4.21+dfsg-2 all
 ```  
-É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada. O time da Microsoft não conheçe a oração dos programadores em C/C++ 'salve-nos da recursividade; main(()'. hahahhahahah.
+É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada. O time da Microsoft não conheçe a oração dos programadores em C/C++ 'salve-nos da recursividade; main()'. hahahhahahah.
 
 
 ## ATUALIZAÇÃO DE REPOSITÓRIO
