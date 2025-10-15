@@ -1718,9 +1718,8 @@ Depois do login, verifique se realmente estou nestes grupos:
 groups
 ```  
 Você deve ver:
-```  
-gsantana (...) libvirt kvm (...)
-```
+>**gsantana** (...) **libvirt** **kvm** (...)
+
 
 ### Programando o início do serviço
 Se os módulos acima aparecem então agora é o momento de prepará-los para iniciar-se como serviço durante o boot, assim, inicie o serviço do libvirtd com:  
