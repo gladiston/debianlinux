@@ -143,30 +143,30 @@ Se não pretende fazer construção de pacotes (build) a partir dos fontes, pode
 ```
 sudo apt update -y
 ```
-E todos os repositórios seráo verificados, inclusive os recém acrescentados:  
-```
-Atingido:1 http://security.debian.org/debian-security trixie-security InRelease
-Atingido:2 http://deb.debian.org/debian trixie InRelease     
-Atingido:3 http://deb.debian.org/debian trixie-updates InRelease              
-Obter:4 http://deb.debian.org/debian trixie/non-free Sources [75,8 kB]        
-Obter:5 http://deb.debian.org/debian trixie/contrib Sources [52,3 kB]          
-Obter:6 http://deb.debian.org/debian trixie/contrib amd64 Packages [53,8 kB]
-Obter:7 http://deb.debian.org/debian trixie/contrib Translation-en [49,6 kB]                           
-Obter:8 http://deb.debian.org/debian trixie/contrib amd64 Components [41,5 kB]                                
-Obter:9 http://deb.debian.org/debian trixie/contrib Icons (48x48) [60,1 kB]                                           
-Obter:10 http://deb.debian.org/debian trixie/contrib Icons (64x64) [132 kB]                      
-Obter:11 http://deb.debian.org/debian trixie/contrib Icons (128x128) [281 kB]               
-Obter:12 http://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]                  
-Obter:13 http://deb.debian.org/debian trixie/non-free Translation-en [67,1 kB]               
-Obter:14 http://deb.debian.org/debian trixie/non-free amd64 Components [3.784 B]              
-Obter:15 http://deb.debian.org/debian trixie/non-free Icons (48x48) [578 B]                       
-Obter:16 http://deb.debian.org/debian trixie/non-free Icons (64x64) [10,4 kB]            
-Obter:17 http://deb.debian.org/debian trixie/non-free Icons (128x128) [2.167 B]             
-Obter:18 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]          
-Obter:19 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1.206 B]
-Obtidos 933 kB em 1s (1.856 kB/s)      
-Todos os pacotes estão atualizados.  
-```
+E todos os repositórios seráo verificados, inclusive os recém acrescentados:   
+
+>Atingido:1 http://security.debian.org/debian-security trixie-security InRelease  
+>Atingido:2 http://deb.debian.org/debian trixie InRelease      
+>Atingido:3 http://deb.debian.org/debian trixie-updates InRelease              
+>Obter:4 http://deb.debian.org/debian trixie/non-free Sources [75,8 kB]        
+>Obter:5 http://deb.debian.org/debian trixie/contrib Sources [52,3 kB]          
+>Obter:6 http://deb.debian.org/debian trixie/contrib amd64 Packages [53,8 kB]  
+>Obter:7 http://deb.debian.org/debian trixie/contrib Translation-en [49,6 kB]                            
+>Obter:8 http://deb.debian.org/debian trixie/contrib amd64 Components [41,5 kB]                                  
+>Obter:9 http://deb.debian.org/debian trixie/contrib Icons (48x48) [60,1 kB]                                           
+>Obter:10 http://deb.debian.org/debian trixie/contrib Icons (64x64) [132 kB]                      
+>Obter:11 http://deb.debian.org/debian trixie/contrib Icons (128x128) [281 kB]               
+>Obter:12 http://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]                  
+>Obter:13 http://deb.debian.org/debian trixie/non-free Translation-en [67,1 kB]               
+>Obter:14 http://deb.debian.org/debian trixie/non-free amd64 Components [3.784 B]              
+>Obter:15 http://deb.debian.org/debian trixie/non-free Icons (48x48) [578 B]                       
+>Obter:16 http://deb.debian.org/debian trixie/non-free Icons (64x64) [10,4 kB]            
+>Obter:17 http://deb.debian.org/debian trixie/non-free Icons (128x128) [2.167 B]             
+>Obter:18 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]          
+>Obter:19 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1.206 B]
+>Obtidos 933 kB em 1s (1.856 kB/s)      
+>Todos os pacotes estão atualizados.  
+
 
 ## INCLUINDO O REPOSITÓRIO DO VSCODE
 O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
@@ -226,7 +226,7 @@ Isso confirma que o repositório foi reconhecido, agora vamos listar o que tem l
  apt list -a | grep microsoft
 ```  
 E então, observe o resultado:  
->(...)
+>(...)  
 >libmono-microsoft-build-engine4.0-cil/stable 6.12.0.199+dfsg-6 all  
 >libmono-microsoft-build-framework4.0-cil/stable 6.12.0.199+dfsg-6 all  
 >libmono-microsoft-build-tasks-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all  
@@ -1114,7 +1114,7 @@ export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w➤\[\033[00m\] '
 
 Ficando mais ou menos assim nosso arquivo:  
 ```
-(...)  
+(...)   
 # User specific aliases and functions  
 if [ -d ~/.bashrc.d ]; then  
     for rc in ~/.bashrc.d/*; do  
