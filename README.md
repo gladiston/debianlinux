@@ -1861,9 +1861,10 @@ sudo usermod -a -G vboxusers $USER
 ```
 Para verificar se você mesmo foi incluído no grupo ‘vboxusers’, execute:
 ```
-$ groups $USER
-gsantana : gsantana cdrom floppy audio dip video plugdev users systemd-journal netdev scanner bluetooth lpadmin firebird vboxusers
+groups $USER
 ```
+> gsantana : gsantana cdrom floppy audio dip video plugdev users systemd-journal netdev scanner bluetooth lpadmin firebird vboxusers
+
 Se aparecer seu login(gsantana), depois do comando acima, então tá tudo certo, vamos prosseguir.
 
 ### VIRTUALBOX - HABILITAR O SERVIÇO 'VBOXDRV'
