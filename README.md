@@ -623,16 +623,17 @@ Agora enxergaremos:
 Não é uma boa ideia instalar programas do flathub que são fornecidos pelos desenvolvedores originais em local diferente, por exemplo:  
 * Google Chrome, o próprio Google os fornece diretamente em seu site oficial  
 Isto acontece porque geralmente os pacotes fornecidos pelo flathub são feitos pela comunidade cujo resultado final pode diferir do autor original, por exemplo, com alguma mistura de plugins adicionais ou modificações. Essas adaptações carecem de verificação pela comunidade e até que isso aconteça, pode ser inseguro.   
+
 Mas também há desenvolvedores que publicam seu próprio programa no flathub,e neste caso, são confiáveis, por exemplo:    
 * Mozilla Firefox, a própria Mozilla publica seu software no flathub  
 * Telegram, a própria Telegram publica seu software no flathub  
  
-Se não houver desconfiança sob quem publica os programas no flathub, geralmente tais programas são mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
+Qual a diferença de um pacote tradicional para um pacote advindo do flathub? Os pacotes tradicionais são inspecionados pela própria distribuição e instalados de maneira tradicional em seus respectivos diretorios. Já os pacotes adquiridos do flathub são mais seguros porque rodam sob container, isto é, estão limitados a pastas como: 
 ```
 ~/.local  
 ~/.var
-```  
-E esses programas geralmente não tem acesso ao seu $HOME a menos que você os conceda, e neste caso um link simbolico nas pastas acima irão apontar para seu $HOME para que o aplicativo tenha acesso a ele.  
+```
+Mas dependendo do programa isto não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua sua parte e em descobrir o que é viável instalar do flathub e o que não é.  
 
 
 ## MUDANDO O NOME DO HOST  
