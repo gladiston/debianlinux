@@ -355,6 +355,7 @@ Para liberar portas, precisamos listar os serviços que iremos usar, alguns pode
 |PostgreSQL   |5432   |Banco de dados|
 |Firebird     |3050   |Banco de dados|
 
+Com base na lista acima, os comandos seriam:  
 ```
 sudo firewall-cmd --add-port=80/tcp
 sudo firewall-cmd --add-port=443/tcp
