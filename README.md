@@ -302,7 +302,8 @@ Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
 ## PERMISSÃO AO JOURNAL
 O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros.
-Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.
+Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.  
+Essa restrição afeta alguns comandos como o 'systemctrl status \[serviço\]', veja este exemplo:  
 ```  
 systemctl status systemd-journald
 ```
