@@ -1597,14 +1597,17 @@ Verifique se o grupo 'ssl-cert' existe, execute:
 getent group ssl-cert
 ```
 Observe o resultado:  
->**ssl-cert**\:x\:105:  
-
+```
+ssl-cert:x:105:  
+```
 Se a resposta for afirmativa como acima, então agora verifique se o usuário 'xrdp' também exista. execute:
 ```  
 $ getent passwd xrdp  
 ```
 E observe o resultado:  
->**xrdp**\:x\:111:116::/run/xrdp:/usr/sbin/nologin  
+```
+xrdp:x:111:116::/run/xrdp:/usr/sbin/nologin  
+```
 
 Agora que sabemos que o grupo 'ssl-cert' exste, e o usuário 'xrdp' também, então adicione o usuário 'xrdp' ao grupo 'ssl-cert' para permitir que o serviço xrdp acesse as chaves SSL corretamente, execute:
 ```  
