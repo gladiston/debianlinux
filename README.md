@@ -410,14 +410,29 @@ $ sudo firewall-cmd --list-ports
 Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
 
 ### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
-Assim como em outros firewalls, é possivel usufruir da técnica de perfis de firewall. Funciona assim, quando você vai trabalhar com virtualização voce ativa um perfil especifico de firewall onde encerra o perfil atual e carrega um novo perfil com um conjunto de regras diferentes, então você tem um perfil para cada atividade que for executar. O 'firewalld' não vem com nenhum perfil especifico por padrão com exceção do 'public' que por padrão não tem regras, então se você acrescentar ao 'public' certas regras, qualquer perfil que for usar, as regras do public se acrescentam também e isso nos é muito util, por exemplo, vamos acrescentar a porta **3389** (rdp), faça assim:
+Assim como outros sistemas de firewall, o Firewalld trabalha com o conceito de perfis, chamados de zonas (zones).  
+A ideia é simples: cada zona representa um conjunto de regras de segurança.  
+  
+Por exemplo, você pode ter uma zona para virtualização, outra para desenvolvimento e outra para uso pessoal.  
+Quando muda de zona, o Firewalld desativa as regras da anterior e aplica as novas, permitindo perfis de rede específicos para cada tipo de tarefa.  
+  
+Por padrão, o Firewalld traz apenas uma zona ativa chamada public, que não possui regras liberadas inicialmente.  
+No entanto, essa zona é herdada por todas as outras, ou seja, qualquer regra adicionada a public se aplicará às demais zonas também.  
+  
+Isso é bastante útil — por exemplo, se você quiser liberar a porta 3389 (RDP) para acesso remoto, basta adicioná-la à zona public e ela valerá para todos os perfis.  No exemplo abaixo vamos acrescentar a porta **3389** a zona 'public' de forma permanente:    
 ```
 sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
-Aproveite este momento e veja quais portas precisa serem liberadas e as aplique, as que forem comuns em qualquer perfil, acrescente ao perfil 'public'.  
-**IMPORTANTE**: Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, eu discordo. No entando, sob nenhuma hipo que incluem o firewalling.  
+Aproveite este momento para identificar quais portas precisam ser liberadas e aplique-as conforme sua necessidade.  
+As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas à zona public, garantindo que estejam disponíveis independentemente do perfil ativo.  
+
+|⚠️ IMPORTANTE:
+|Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente.  
+|Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  
+|  
+|No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
 
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
