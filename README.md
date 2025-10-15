@@ -476,12 +476,6 @@ alias v='vim'                  # Abre o Vim rapidamente
 ```
 Se você tiver comandos muito longos, por exemplo, os utilitarios do Firebird(banco de dados) que ficam num caminho fora do $PATH e geralmente só usamos com 'sudo', pode acrescentá-los também:  
 ```
-# Firebird
-alias gbak='sudo /opt/firebird/bin/gbak -v'
-alias isql='sudo /opt/firebird/bin/isql'
-```
-O exemplo acima é apenas para ser didático, pessoalmente eu preferiria colocar o /opt/firebird/bin no $PATH do sistema, mas você entendeu a ideia, não é mesmo?  
-
 Muito util ter seus aliases, não é mesmo?
 Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
 
