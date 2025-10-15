@@ -319,7 +319,7 @@ Pronto — agora o mouse não interferirá mais ao usar o Vim.
 O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros.
 Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.
 ```  
-systemctl status firebird
+systemctl status systemd-journald
 ```
 você poderá ver um aviso como:
 ```  
