@@ -213,59 +213,66 @@ sudo apt update
 Isso produzirá um arquivo em /etc/apt/sources.list.d/microsoft-prod.list que apontará para o repositório oficial da Microsoft.
 Está curioso para saber o que a Microsoft está compartilhando? Então execute:
 ```  
-$apt-cache policy | grep packages.microsoft.com
- 500 https://packages.microsoft.com/repos/code stable/main amd64 Packages
-     origin packages.microsoft.com
- 500 https://packages.microsoft.com/debian/13/prod trixie/main all Packages
-     origin packages.microsoft.com
+apt-cache policy | grep packages.microsoft.com
 ```  
-Isso confirma que o repositório foi reconhecido, agora vamos listar o que tem lá, execute:
+E então, observe o resultado:  
+> 500 https://packages.microsoft.com/repos/code stable/main amd64 Packages  
+>     origin packages.microsoft.com  
+> 500 https://packages.microsoft.com/debian/13/prod trixie/main all Packages  
+>     origin packages.microsoft.com  
+
+Isso confirma que o repositório foi reconhecido, agora vamos listar o que tem lá, execute:  
 ```  
  apt list -a | grep microsoft
-(...)
-libmono-microsoft-build-engine4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-build-framework4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-build-tasks-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-build-utilities-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-build4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-csharp4.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-visualc10.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-microsoft-web-infrastructure1.0-cil/stable 6.12.0.199+dfsg-6 all
-libmono-system-json-microsoft4.0-cil/stable 6.12.0.199+dfsg-6 all
-lomiri-online-accounts-plugin-microsoft/stable 0.20-1 all
-packages-microsoft-prod/trixie,now 1.1-debian13 all [instalado]
-php-symfony-microsoft-teams-notifier/stable 6.4.21+dfsg-2 all
 ```  
+E então, observe o resultado:  
+>(...)
+>libmono-microsoft-build-engine4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-build-framework4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-build-tasks-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-build-utilities-v4.0-4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-build4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-csharp4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-visualc10.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-microsoft-web-infrastructure1.0-cil/stable 6.12.0.199+dfsg-6 all  
+>libmono-system-json-microsoft4.0-cil/stable 6.12.0.199+dfsg-6 all  
+>lomiri-online-accounts-plugin-microsoft/stable 0.20-1 all  
+>packages-microsoft-prod/trixie,now 1.1-debian13 all [instalado]  
+>php-symfony-microsoft-teams-notifier/stable 6.4.21+dfsg-2 all  
+
 É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada. O time da Microsoft não conheçe a oração dos programadores em C/C++ 'salve-nos da recursividade; main()'. hahahhahahah.
 
 
 ## ATUALIZAÇÃO DE REPOSITÓRIO
 Vamos atualizar o repositório de programas:  
 ```  
-$ sudo apt -y update
+sudo apt -y update
 ```  
 
 Agora, vamos atualizar o sistema:  
 ```  
-$ sudo apt -y upgrade
-Atualizando:                                
-  google-chrome-stable
+sudo apt -y upgrade
+```
+E então observe o resultado:  
 
-Resumo:
-  Atualizando: 1, Instalando: 0, Removendo: 0, Não atualizando: 0
-  Tamanho de download: 121 MB
-  Espaço necessário: 7.168 B / 997 GB disponível
+>Atualizando:  
+>  google-chrome-stable  
+>  
+>Resumo:  
+>  Atualizando: 1, Instalando: 0, Removendo: 0, Não atualizando: 0   
+>  Tamanho de download: 121 MB  
+>  Espaço necessário: 7.168 B / 997 GB disponível    
+>    
+>Obter:1 https://dl.google.com/linux/chrome/deb stable/main amd64 google-chrome-stable amd64 141.0.7390.65-1 [121 MB]  
+>Obtidos 121 MB em 5s (23,1 MB/s)  
+>apt-listchanges: Lendo logs de mudanças...  
+>(Lendo banco de dados ... 202444 arquivos e diretórios atualmente instalados).  
+>Preparando para desempacotar .../google-chrome-stable_141.0.7390.65-1_amd64.deb ...  
+>Desempacotando google-chrome-stable (141.0.7390.65-1) sobre (141.0.7390.54-1) ...  
+>Configurando google-chrome-stable (141.0.7390.65-1) ...  
+>Processando gatilhos para mailcap (3.74) ...  
+>Processando gatilhos para man-db (2.13.1-1) ...  
 
-Obter:1 https://dl.google.com/linux/chrome/deb stable/main amd64 google-chrome-stable amd64 141.0.7390.65-1 [121 MB]
-Obtidos 121 MB em 5s (23,1 MB/s)               
-apt-listchanges: Lendo logs de mudanças...
-(Lendo banco de dados ... 202444 arquivos e diretórios atualmente instalados).
-Preparando para desempacotar .../google-chrome-stable_141.0.7390.65-1_amd64.deb ...
-Desempacotando google-chrome-stable (141.0.7390.65-1) sobre (141.0.7390.54-1) ...
-Configurando google-chrome-stable (141.0.7390.65-1) ...
-Processando gatilhos para mailcap (3.74) ...
-Processando gatilhos para man-db (2.13.1-1) ...
-```  
 No exemplo acima, apenas o google-chrome requer atualização.
 
 
@@ -367,9 +374,11 @@ sudo firewall-cmd --add-port=3050/tcp
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp
+sudo firewall-cmd --list-ports
 ```
+E observe o resultado:  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp  
+  
 Isso significa que obtivemos sucesso, no entanto, essas regras são temporarias até reiniciar o firewalld ou o sistema.  
 
 ### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
@@ -732,15 +741,18 @@ code --install-extension vscjava.vscode-java-pack \
 ### FREE PASCAL E DELPHI
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo, isso também inclui o Lazarus, IDE para programação usando freepascal:  
 ```
-$ sudo apt install -y global exuberant-ctags python3-pygments
+sudo apt install -y global exuberant-ctags python3-pygments
+```
+Depois:  
+```
 $ code --install-extension Wosi.omnipascal \
        --install-extension alefragnani.pascal \
        --install-extension alefragnani.pascal-formatter
 ```
-💡 Dica: no Debian, é mandatório instalar o FreePascal Compiler (fpc) usufruir dessas extensões. Cada uma dessas extensões carecem de configuração, vejá-os:  
-[Instruções para Omini Pascal](https://www.omnipascal.com)   
-[Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)   
-[Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)   
+> 💡 Dica: no Debian, é mandatório instalar o FreePascal Compiler (fpc) usufruir dessas extensões. Cada uma dessas extensões carecem de configuração, vejá-os:  
+> [Instruções para Omini Pascal](https://www.omnipascal.com)     
+> [Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)     
+> [Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)     
 
 Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
 
@@ -843,7 +855,10 @@ sudo apt install -y tuned
 ```
 Liste os perfís de otimização existentes:
 ```
-$ sudo tuned-adm list
+sudo tuned-adm list
+```
+Observe as opções listadas:  
+```
 Available profiles:
 - accelerator-performance     - Throughput performance based tuning with disabled higher latency STOP states
 - atomic-guest                - Optimize virtual guests based on the Atomic variant
@@ -888,9 +903,11 @@ Current active profile: balanced
 ```
 No exemplo acima, estou usando o perfil 'balanced', caso ele não apareça, use:
 ```
-$ sudo tuned-adm active
-Current active profile: balanced
+sudo tuned-adm active
 ```
+Observe o resultado do comando:  
+> Current active profile: balanced  
+
 O modo 'balanceado' é o modo não especializado, se desejar especializar seu computador em algo, por exemplo, para usar o desktop, execute:  
 ```
 sudo tuned-adm profile desktop  
@@ -903,21 +920,21 @@ Ou seja, especializando-se em uso de VMs, mas não usufruindo de VMs, seu ambien
 
 Perfis muito comuns para quem usa laptop:  
 
-🔌 laptop-ac-powersave - “Optimize for laptop with power savings”  
+**laptop-ac-powersave** - “Optimize for laptop with power savings”  
 *Uso*: notebook ligado na tomada (AC).  
 *Objetivo*: manter bom desempenho, mas ainda economizar energia onde possível.   
 *Ajustes típicos*: Habilita CPU frequency scaling (a CPU reduz clock quando ociosa). Mantém turbo boost ativado para tarefas pesadas. Reduz brilho de tela e consumo de periféricos em idle.   
 Mantém discos e interfaces de rede em modo balanceado.     
 *Resumo*: bom equilíbrio entre desempenho e economia.  Ideal para uso diário com o notebook conectado à energia.  
 
-🔋 laptop-battery-powersave - “Optimize laptop profile with more aggressive power saving”
+**laptop-battery-powersave** - “Optimize laptop profile with more aggressive power saving”
 *Uso*: notebook usando bateria.  
 *Objetivo*: maximizar autonomia, mesmo sacrificando desempenho.  
 *Ajustes típicos*: CPU limitada a clocks mais baixos. Desativa turbo boost e núcleos ociosos. Reduz brilho e tempo de suspensão automática. Interfaces Wi-Fi e Bluetooth podem entrar em modos de economia agressiva. Discos mecânicos são parados rapidamente quando inativos.  
 *Resumo*: desempenho menor, mas maior duração de bateria.  
 Ideal para uso em viagens, reuniões ou campo.  
 
-⚙️ latency-performance - “Optimize for deterministic performance at the cost of increased power consumption”  
+**latency-performance** - “Optimize for deterministic performance at the cost of increased power consumption”  
 *Uso*: servidores ou estações de trabalho que exigem baixa latência e previsibilidade (mas não tempo real).  
 *Objetivo*: garantir resposta consistente, mesmo com maior consumo de energia.  
 *Ajustes típicos*: Desativa CPU frequency scaling → clock fixo máximo. Desativa C-states profundos e economias de energia. Ajusta IRQs e afinidade de CPU para reduzir jitter. Mantém memória e dispositivos em estado ativo constante.  
@@ -925,17 +942,17 @@ Ideal para uso em viagens, reuniões ou campo.
 Ideal para bancos de dados, servidores de aplicações ou jogos que exigem resposta constante.  
 
 Outros perfis muito uteis para desenvolvedores são:
-🕒 realtime - “Optimize for realtime workloads”  
+**realtime** - “Optimize for realtime workloads”  
 *Uso*: sistemas físicos (bare metal) com necessidades críticas de tempo real.  
 *O que faz*: Reduz a latência ao máximo. Ajusta o escalonador de CPU para favorecer tarefas de tempo real. Desativa power saving features (como C-states e turbo boost). Fixa frequências da CPU em nível máximo. Ajusta IRQs e prioridade de processos.  
 Exemplo de uso: estações de áudio profissional (JACK), robótica, processamento de sinais, sistemas de controle industrial.  
 
-🧩 realtime-virtual-guest - “Optimize for realtime workloads running within a KVM guest”  
+**realtime-virtual-guest** - “Optimize for realtime workloads running within a KVM guest”  
 *Uso*: máquinas virtuais (guests) executando workloads de tempo real dentro de um host KVM.  
 *O que faz*: Aplica otimizações similares ao perfil realtime, mas levando em conta que o controle de hardware é mediado pelo hipervisor. Ajusta parâmetros de temporização (clocksource, tickless, etc.) para sincronizar com o host. Minimiza interferência do kernel convidado.  
 *Exemplo*: uma VM rodando um sistema de controle de robô industrial, ou processamento de áudio, dentro de um servidor KVM.  
 
-🖥️ realtime-virtual-host - “Optimize for KVM guests running realtime workloads”
+**realtime-virtual-host** - “Optimize for KVM guests running realtime workloads”
 *Uso*: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
 *O que faz*: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
 *Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.  
@@ -1080,9 +1097,11 @@ Muito melhor, não é mesmo? Há uma página que descreve várias formas de como
 https://www.ibm.com/developerworks/linux/library/l-tip-prompt/ 
 Experimente todas as opções que puder e ao final determine o prompt que deseja usar. Mas tem um problema, ao definir o tipo de prompt que desejamos, não queremos executar “export PS1=...”  todas as vezes que formos usar o terminal, isso nos daria muito trabalho. Precisamos de um jeito de automatizar isso, então o primeiro passo é descobrir o tipo de terminal que usamos, execute: 
 ```
-$ echo $TERM
-xterm-256color
+echo $TERM
 ```
+Observe o resultado:  
+>xterm-256color  
+
 Agora que sabemos que o nome é xterm-256color então edite o arquivo ~/.bashrc (o til representa a localização da sua pasta $HOME), então editamos este arquivo:  
 ```
 nano ~/.bashrc
@@ -1357,16 +1376,21 @@ Agora vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/downlo
 Digamos que tenha baixado em ~/Downloads, vamos descompactá-lo:
 
 ```
-$ tar zxvf Firebird-5.0.3.1683-0-linux-x64.tar.gz 
-Firebird-5.0.3.1683-0-linux-x64/
-Firebird-5.0.3.1683-0-linux-x64/manifest.txt
-Firebird-5.0.3.1683-0-linux-x64/buildroot.tar.gz
-Firebird-5.0.3.1683-0-linux-x64/install.sh
+tar zxvf Firebird-5.0.3.1683-0-linux-x64.tar.gz
 ```
+E então alguns arquivos serão extraídos:  
+>Firebird-5.0.3.1683-0-linux-x64/
+>Firebird-5.0.3.1683-0-linux-x64/manifest.txt
+>Firebird-5.0.3.1683-0-linux-x64/buildroot.tar.gz
+>Firebird-5.0.3.1683-0-linux-x64/install.sh
+
 A descompressão irá criar uma subpasta, vamos entrar nela e executar o instalador:  
 ```
-$ cd Firebird-5.0.3.1683-0-linux-x64/
-$ sudo ./install.sh
+cd Firebird-5.0.3.1683-0-linux-x64/
+```
+E executo o instalador:  
+```
+sudo ./install.sh
 ```
 Durante a instalação lhe será questionado qual será a senha do SYSDBA, informe o que desejar, inclusive 'masterkey' se for usá-lo como desenvolvimento.
 A instalação será feita em /opt/firebird e já será iniciado por padrão, mas se preferir conferir, execute:
@@ -1388,9 +1412,11 @@ newgrp firebird
 ```
 Agora, para conferir, execute:
 ```  
-$ groups
-firebird cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpadmin gsantana
+groups
 ```
+Observe o resultado do comando:  
+> **firebird** cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpadmin gsantana
+
 Se o nome 'firebird' aparecer na relação então é um indicativo que a operação foi realizada com sucesso.   
 
 ### BANCO DE DADOS FIREBIRD - PERMISSÕES
@@ -1445,27 +1471,28 @@ E assim, cada banco de dados, além de possuir seu alias, terá também sua para
 ### BANCO DE DADOS FIREBIRD - LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
 Caso tenha instalado o firewalld, sistema de firewalling, então precisaremos liberar a porta usada por este serviço, mas qual porta? Paa descobrir qual porta o Firebird usa, execute:  
 ```
-$ sudo cat /opt/firebird/firebird.conf |ag RemoteServicePort
-# found in the 'services.' file), then the 'RemoteServicePort'.
-RemoteServicePort = 3050
+sudo cat /opt/firebird/firebird.conf |ag RemoteServicePort
 ```
+E observe o resultado:   
+>\# found in the 'services.' file), then the 'RemoteServicePort'.  
+>>RemoteServicePort = 3050  
+
 No exemplo acima, a nossa porta é **3050**, se for um desktop de desenvolvimento, sugiro que troque por **8050**, isso evita acidentes onde o sujeito esqueceu de mudar o nome de host e aplicou o que não deveria em servidor de produção achando que era desenvolvimento, siga esta dica, não use as mesmas portas que um servidor de produção usaria. Muito bem, agora que sabemos o numero da porta, e neste exemplo, vamos usar tanto a **3050** como também a **8050**, execute:
 
 ```
-$ sudo firewall-cmd --add-port=3050/tcp
-success
-$ sudo firewall-cmd --add-port=8050/tcp
-success
+sudo firewall-cmd --add-port=3050/tcp
+sudo firewall-cmd --add-port=8050/tcp
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp
+sudo firewall-cmd --list-ports
 ```
+E observe o resultado:  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp  
+
 Esses comandos aplicam as regras apenas no modo temporário até reiniciar o firewalld ou o sistema. Para que elas fiquem permanentes, execute:  
 ```
-$ sudo firewall-cmd --runtime-to-permanent
-success
+sudo firewall-cmd --runtime-to-permanent
 ```
 Agora, vamos reiniciar o firewall:  
 ```
@@ -1473,9 +1500,11 @@ sudo firewall-cmd --reload
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp
+sudo firewall-cmd --list-ports
 ```
+E observe o resultado:  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 8050/tcp
+
 Como pode observar acima, as regras não sumiram. Então, este procedimento foi concluido com sucesso.   
 
 
@@ -1494,9 +1523,11 @@ Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pront
 Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de agendar a execução no inicio do boot e os seus parametros porque esses comandos com o uso de uma 'ps auxwww' seriam revelá-los e se houverem parametros de usuário e senha, então seriam revelados.  
 Para testar, execute:  
 ```  
-$ echo $ISC_USER
-SYSDBA
-```  
+echo $ISC_USER
+```
+Observe o resultado:  
+> SYSDBA  
+Indicando que a variavel já está com cnoteúdo.  
 
 ### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE GLOBAIS
 Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis. Edite o arquivo /etc/environment.d/999-firebird.conf:
@@ -1514,9 +1545,11 @@ Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pront
 
 Para testar, execute:
 ```  
-$ echo $ISC_USER
-SYSDBA
-```  
+echo $ISC_USER
+```
+Observe o resultado:  
+> SYSDBA  
+Indicando que a variavel já está com cnoteúdo.  
 
 
 ### BANCO DE DADOS FIREBIRD - AJUSTANDO PATH
@@ -1557,9 +1590,11 @@ source /etc/profile.d/999-firebird-path.sh
 ```
 Agora vamos conferir o PATH, execute:  
 ```  
-$ echo $PATH
-/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/opt/firebird/bin
-```  
+echo $PATH
+```
+E observe o resultado:  
+>/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:**/opt/firebird/bin**
+
 Se '/opt/firebird/bin' apareceu então este tópico foi concluido com sucesso.
 
 
@@ -1570,14 +1605,18 @@ sudo apt install -y xrdp remmina
 ```
 Verifique se o grupo 'ssl-cert' existe, execute:
 ```  
-$ getent group ssl-cert
-ssl-cert:x:105:
+getent group ssl-cert
 ```
+Observe o resultado:  
+>**ssl-cert**:x:105:  
+
 Se a resposta for afirmativa como acima, então agora verifique se o usuário 'xrdp' também exista. execute:
 ```  
-$ getent passwd xrdp
-xrdp:x:111:116::/run/xrdp:/usr/sbin/nologin
+$ getent passwd xrdp  
 ```
+E observe o resultado:  
+>**xrdp**:x:111:116::/run/xrdp:/usr/sbin/nologin  
+
 Agora que sabemos que o grupo 'ssl-cert' exste, e o usuário 'xrdp' também, então adicione o usuário 'xrdp' ao grupo 'ssl-cert' para permitir que o serviço xrdp acesse as chaves SSL corretamente, execute:
 ```  
 sudo usermod -aG ssl-cert xrdp
@@ -1863,6 +1902,7 @@ Para verificar se você mesmo foi incluído no grupo ‘vboxusers’, execute:
 ```
 groups $USER
 ```
+E então, veja o resultado:  
 > gsantana : gsantana cdrom floppy audio dip video plugdev users systemd-journal netdev scanner bluetooth lpadmin firebird vboxusers
 
 Se aparecer seu login(gsantana), depois do comando acima, então tá tudo certo, vamos prosseguir.
