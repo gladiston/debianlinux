@@ -1889,7 +1889,7 @@ O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas te
 
 Uma vez que tanto o **VirtualBox** como também o **Extension Pack** estão instalados, agora vamos fazer alguns ajustes.  
 
->**IMPORTANTE**: O principal concorrente do VirtualBox é o **VMWare WorkStation** que recentemente também tornou-se gratuito para alguns fins, então, também sofre de alguns bugs nesta transição de Xorg para Wayland. O **VMWare WorkStation** é um pouco chato de instalar porque qualquer atualização de kernel, seus módulos precisam ser recompiados e nem sempre terá a versão para o kernel atualizado em especíco, em distros baseadas em Debian é até tranquilo, mas distros blending-edge como o Fedora, sua manutenção é um inferno.  
+>**IMPORTANTE**: O principal concorrente do VirtualBox é o **VMWare WorkStation** que recentemente também tornou-se gratuito para alguns fins, se você considera instalá-lo, preciso te alertar, também sofre de alguns bugs nesta transição de Xorg para Wayland. Além disso, é fácil de instalar e complicado de manter já que a cada atualização de kernel, seus módulos precisam ser recompilados e nem sempre funcionam na versão recente. Em distros como 'Debian' que tem pouca atualização de kernel - apenas patches - é até um mundo tranquilo para usá-lo, mas em distros _blending-edge_ como o Fedora, é um inferno.  
 
 
 
