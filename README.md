@@ -1391,7 +1391,7 @@ Caso o serviço, por alguma razão estranha não tenha sido iniciado, recomendo 
 sudo systemctl enable firebird
 sudo systemctl start firebird
 ```
-E pronto!, agora repita o comando 'sudo systemctl status firebird' e notará que o serviço já esta habilitado.   
+E pronto, agora repita o comando 'sudo systemctl status firebird' e notará que o serviço já esta habilitado.   
 
 ### BANCO DE DADOS FIREBIRD - GRUPO FIREBIRD
 O serviço de banco de dados FirebirdSQL é mantido por usuário criado com permissões restritas chamado 'firebird', isso é uma medida de segurança em sistemas posix para impedir que um hacker do mal aproveite-se de alguma falha neste serviço e tente escalar permissões maiores. Isso funciona muito bem, porém impede que outras pessoas se conectem localmente (não confundir com acesso ao localhost) a qualquer banco de dados porque apenas o usuário/grupo 'firebird' tem acesso a eles. Para que você possa contornar esta situação, seu login precisa estar no grupo 'firebird', então execute:
@@ -1879,8 +1879,11 @@ Para instalar é fácil, similar ao Google Chrome, você precisa acessar a pági
 (https://www.virtualbox.org/)
 
 Você irá baixar a versão .deb, e dar um duplo clique no arquivo e seguir as instruções na tela.  
-Depois de instalado, você volta a página de download e procura por "VirtualBox Extension Pack", baixe ele, dê duplo clique e o próprio VirtualBox instalará ele. O Extension Pack é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão.  
-O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas tem licença diferente (PUEL – Personal Use and Evaluation License) para outras formas de uso. Com ele, a VM acessa dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.) e também o acesso remoto via VRDP que é similar ao RDP da Microsoft, tem acesso a WebCAM do hospedeiro e encriptação de disco, e tem outras coisas também, mas você terá de ler diretamente no site.  
+Depois de instalado, você volta a página de download e procura por "VirtualBox Extension Pack", baixe ele:
+![VirtualBox Extension Pack](virtualbox-extension-pack.png)  
+
+Depois dê duplo clique nele e o próprio VirtualBox instalará ele. O "VirtualBox Extension Pack" é um pacote adicional oficial da Oracle que amplia as funcionalidades do VirtualBox, adicionando recursos que não vêm na instalação padrão, por exemplo, a VM acessa dispositivos USB mais recentes (pen drives, HDs externos, impressoras, etc.) e também o acesso remoto via VRDP que é similar ao RDP da Microsoft, tem acesso a WebCAM do hospedeiro e encriptação de disco, e tem outras coisas também, mas você terá de ler diretamente no site.  
+O "VirtualBox Extension Pack" é gratuito para uso pessoal e educacional, mas tem uma licença diferente chamada de PUEL – Personal Use and Evaluation License) o que impede das distros empacotarem ele ou até remover completamente o VirtualBox de seus repositórios.  
 
 Uma vez que tanto o **VirtualBox** como também o **Extension Pack** estão instalados, agora vamos fazer alguns ajustes.  
 
