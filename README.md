@@ -426,8 +426,8 @@ As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas
 
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
-Aliases não é um nome de programa, é um recurso que as distros possuem para abreviar ou facilitar uso de comandos repetitivos, por exemplo, se eu quero listar os arquivos de uma pasta de forma colorida e com os tamanhos de arquivos, ao inves de bytes, em conotação mais humana como MB ou GB eu teria de executar todas as vezes:  
-
+Aliases não são programas, e sim um recurso presente em praticamente todas as distribuições Linux que permite abreviar ou simplificar comandos repetitivos. 
+Por exemplo, se você quiser listar os arquivos de uma pasta com cores e tamanhos em formato legível (KB, MB, GB), precisaria digitar algo assim toda vez:
 ```  
 ls -lh --color=auto'
 ```  
@@ -436,7 +436,7 @@ Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o coma
 ```  
 nano ~/.bashrc
 ```
-O arquivo acima é um arquivo de autoexecução que é rodado sembre que você usa o terminal bash, acrescente ao final deste arquivo seus aliases, por exemplo:
+O arquivo acima é um arquivo de autoexecução que é rodado sempre que você acessa o terminal bash, acrescente ao final deste arquivo, seus aliases, por exemplo:
 ```  
 alias l='ls -lh --color=auto'
 ```
@@ -504,13 +504,16 @@ drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
 ```  
 Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
 
+> 💡 Curiosidade histórica:  
+> O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
+
+
 
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
 sudo apt install -y libavcodec-extra ffmpeg vlc
 ```
-
 
 ## INSTALANDO O HTOP, LMSENSORS e STRACE
 Os comandos htop, lm-sensors e strace não vêm instalados por padrão, mas são muito úteis para gerenciar e diagnosticar o sistema diretamente pelo terminal. Eles servem para:  
