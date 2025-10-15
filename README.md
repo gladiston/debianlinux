@@ -1628,7 +1628,7 @@ Agora, poderá usar a seguinte string de conexão:
 |:--|
 |localhost/3050:banco.link|
 
-E assim, nenhum camiho de nossos arquivos de dados serão revelados.  Caso seu banco de dados precise de parametros de ajustes, o /opt/firebird/databases.conf pode ser acrescido seu banco de dados assim:  
+E assim, nenhum caminho para nossos arquivos de dados serão revelados, isso serve muito bem para o ambiente de produção como também o de desenvolvimento porque geralmente desenvolvimento espelha a forma de produção. Caso seu banco de dados precise de parametros de ajustes associados ao banco, o /opt/firebird/databases.conf deverá ser modificado como o exemplo abaixo:  
 ```  
 banco.link = /var/banco/banco.fdb 
 {
