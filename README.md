@@ -358,7 +358,7 @@ Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir 
 
 
 ### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
-Para liberar portas, precisamos de um exemplo, neste caso escolhi liberar as portas:
+Para liberar portas, precisamos listar os serviços que iremos usar, alguns podem nem ter sido instalados ainda, veja esta lista que exemplifica os serviços/portas que pretendemos liberar:  
 |Serviço      |Porta  |Descrição|
 |-------------|:-----:|---------|
 |HTTP         |80     |Tráfego web padrão (sites sem HTTPS)|
