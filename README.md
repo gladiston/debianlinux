@@ -1,13 +1,23 @@
 # INSTALAÇÃO DO DEBIAN E PREPARAÇÃO DO AMBIENTE
-Instalação do Debian e preparação do ambiente de desenvolvimento. Por que Debian? Porque esta distro e a distro-mãe de muitas outras como Ubuntu, Linux Mint, Zorin OS apenas para citar talvez as mais populares e com isso, as mesmas instruções funcionarão nelas com pouca ou nenhuma variação. O mais importante aqui não é a distro em si, mas documentar o que vem primeiro e o que vem depois de uma instalação de distro Linux, assim este documento poderá servir de referencia para qualquer distro Linux.
+Este guia documenta o pós-instalação do Debian com foco em desenvolvedores, administradores de sistemas e entusiastas Linux. Por que Debian? Porque ele é base de várias distros populares (Ubuntu, Linux Mint, Zorin OS, etc.), então as instruções tendem a funcionar nelas com pouca ou nenhuma adaptação. O objetivo não é explorar cada detalhe da instalação, e sim padronizar o que fazer depois para ter um ambiente estável e produtivo.  
+Escopo:  
+* Foco: configuração do sistema após a instalação (pacotes, serviços, rede, segurança, dev tools).  
+* Público-alvo: quem precisa de um passo a passo repetível em máquinas novas ou reinstaladas.  
+* Portabilidade: comandos priorizam Debian; quando houver diferença para Ubuntu/Fedora, aponto variantes.  
 
-O foco dessas instruções não é a instalação, mas a preparação para uso, ou seja, ao invés de instalar a distro e depois ficar lembrando o que fazer depois, deixar documentado o passo a passo com foco para entusiastas do mundo Linux, programadores e administradores de sistemas. 
+### Sobre o particionamento (Btrfs vs ext4)
+Se o seu foco for virtualização e você pretende usar snapshots (recurso em que o Btrfs brilha), o Btrfs pode ser excelente — mas há nuances para VMs (desempenho, CoW, layout de subvolumes) que exigem atenção.
+Se você não precisa de snapshots ou prefere o caminho mais simples, ext4 é uma escolha direta e estável. No tópico específico de Btrfs explico quando e por que usá-lo (e como ajustar para VMs).
 
-De todos os tópicos a seguir, acho o mais complexo, o particionamento Btrfs com foco na Virtualização. Se você pretende criar máquinas virtuais e não se incomoda em usar os snapshots do Btrfs - que convenhamos é incrivel - , então prefira partições ext4 que embora não tenha os mesmos recursos, talvez você nem precise deles. No tópico mencionado, eu explicarei o porquê de usar Btrfs com maquinas virtuais é diferente.
+### Como usar este guia
+Siga até o fim, mas pule seções que não se aplicam ao seu cenário.  
+Ao concluir, você terá um ambiente coerente, reduzindo a necessidade de “formatar/reinstalar” como no Windows — a ideia é evoluir o sistema, não recomeçar do zero.
 
-Serão muitas instruções a seguir, mas vale a pena ir até o final, mas fique liguado para pular as opções que podem não ser necessárias para você. E quando finalmente chegar ao final você será recompensado por não precisar ficar reinstalado o sistema todas as vezes como no Windows e tudo sempre funcionará exatamente como planejado.
+### Resultado esperado
+Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e virtualização.
 
-Para o correto entendimento, usarei alguns padrões:  
+### Os padrões usados
+Para o correto entendimento deste HowTo, usarei alguns padrões:  
 Nome do host: ti-01  
 Nome do usuário: gsantana  
 Nome do dominio local: localdomain.lan  
