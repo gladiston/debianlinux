@@ -356,17 +356,30 @@ Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir 
 
 
 ### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
-Para liberar portas, precisamos de um exemplo, neste caso escolhi liberar as portas 3050 e 8050 que geralmente são as que eu configuro para usufruir do banco de dados FirebirdSQL:
+Para liberar portas, precisamos de um exemplo, neste caso escolhi liberar as portas:
+|Serviço|Porta|Descrição|
+|:--||:--|
+|HTTP|80|Tráfego web padrão (sites sem HTTPS)|
+|HTTPS|443|Tráfego web seguro (SSL/TLS)|
+|SSH|22|Acesso remoto seguro a servidores Linux|
+|RDP|3389|Acesso remoto do Windows (XRDP também usa)|
+|MySQL/MariaDB|3306|Banco de dados |
+|PostgreSQL|5432|Banco de dados|
+|Firebird|3050|Banco de dados|
+
 ```
-$ sudo firewall-cmd --add-port=3050/tcp
-success
-$ sudo firewall-cmd --add-port=8050/tcp
-success
+sudo firewall-cmd --add-port=80/tcp
+sudo firewall-cmd --add-port=443/tcp
+sudo firewall-cmd --add-port=22/tcp
+sudo firewall-cmd --add-port=3389/tcp
+sudo firewall-cmd --add-port=3306/tcp
+sudo firewall-cmd --add-port=5432/tcp
+sudo firewall-cmd --add-port=3050/tcp
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ sudo firewall-cmd --list-ports
-3050/tcp 8050/tcp
+$ $ sudo firewall-cmd --list-ports
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 3050/tcp
 ```
 Esses comandos aplicam as regras apenas no modo temporário (até reiniciar o firewalld ou o sistema). 
 
@@ -383,19 +396,19 @@ sudo firewall-cmd --reload
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
 $ sudo firewall-cmd --list-ports
-3050/tcp 8050/tcp
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 3050/tcp
 ```
 Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
 
 ### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
-Assim como em outros firewalls, é possivel usufruir da técnica de perfis de firewall. Funciona assim, quando você vai trabalhar com virtualização voce ativa um perfl especifico de firewall onde encerra o perfil atual e carrega um novo perfil com um conjunto de regras diferentes, então você tem um perfil para cada atividade que for executar. O 'firewalld' não vem com nenhum perfil especifico por padrão com exceção do 'public' que por padrão não tem regras, então se você trocar para o 'public' tudo provavelmente estará bloqueado. Mas se quiser que o 'public' inclua certas regras, faça assim:
+Assim como em outros firewalls, é possivel usufruir da técnica de perfis de firewall. Funciona assim, quando você vai trabalhar com virtualização voce ativa um perfil especifico de firewall onde encerra o perfil atual e carrega um novo perfil com um conjunto de regras diferentes, então você tem um perfil para cada atividade que for executar. O 'firewalld' não vem com nenhum perfil especifico por padrão com exceção do 'public' que por padrão não tem regras, então se você acrescentar ao 'public' certas regras, qualquer perfil que for usar, as regras do public se acrescentam também e isso nos é muito util, por exemplo, vamos acrescentar a porta **3389** (rdp), faça assim:
 ```
-sudo firewall-cmd --zone=public --add-port=3050/tcp --permanent
-sudo firewall-cmd --zone=public --add-port=8050/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
 sudo firewall-cmd --reload
 ```
 
-Aproveite este momento e veja quais portas precisa serem liberadas e as aplique. Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, ela não deveria ser opcional para programadores e administradores de sistema, pois seus serviços serão testados em ambientes mais controlados e por isso, firewall não é opcional.  
+Aproveite este momento e veja quais portas precisa serem liberadas e as aplique, as que forem comuns em qualquer perfil, acrescente ao perfil 'public'.  
+**IMPORTANTE**: Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, eu discordo. No entando, sob nenhuma hipo que incluem o firewalling.  
 
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
@@ -1626,6 +1639,62 @@ banco.link = /var/banco/banco.fdb
 }
 ```  
 E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.  
+
+## FIREWALL 
+Em sistemas baseados em Firewalld, as regras de firewall são organizadas em zonas e podem ser aplicadas temporariamente (modo runtime) ou de forma permanente (modo permanent). Um sistema de Firewall não vem instalada por padrão em muitas distribuições, portanto, o primeiro passo é instalar o pacote. Vamos escolher o 'Firewalld' porque é o padrão também no Fedora, RHEL, CentOS, openSUSE e totalmente suportado no Debian e Ubuntu.
+
+Instale o Firewalld:  
+```
+sudo apt install -y firewalld
+```
+Em seguida, habilite e inicie o serviço:
+```
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+```
+Verifique as portas atualmente liberadas:  
+```  
+sudo firewall-cmd --list-ports
+```
+Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir de exemplo.  
+
+
+
+### BANCO DE DADOS FIREBIRD - LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
+Caso tenha instalado o firewalld, sistema de firewalling, então precisaremos liberar a porta usada por este serviço, mas qual porta? Paa descobrir qual porta o Firebird usa, execute:  
+```
+$ sudo cat /opt/firebird/firebird.conf |ag RemoteServicePort
+# found in the 'services.' file), then the 'RemoteServicePort'.
+RemoteServicePort = 3050
+```
+No exemplo acima, a nossa porta é **3050**, se for um desktop de desenvolvimento, sugiro que troque por **8050**, isso evita acidentes onde o sujeito esqueceu de mudar o nome de host e aplicou o que não deveria em servidor de produção achando que era desenvolvimento, siga esta dica, não use as mesmas portas que um servidor de produção usaria. Muito bem, agora que sabemos o numero da porta, e neste exemplo, vamos usar tanto a **3050** como também a **8050**, execute:
+
+```
+$ sudo firewall-cmd --add-port=3050/tcp
+success
+$ sudo firewall-cmd --add-port=8050/tcp
+success
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+$ sudo firewall-cmd --list-ports
+3050/tcp 8050/tcp
+```
+Esses comandos aplicam as regras apenas no modo temporário até reiniciar o firewalld ou o sistema. Para que elas fiquem permanentes, execute:  
+```
+$ sudo firewall-cmd --runtime-to-permanent
+success
+```
+Agora, vamos reiniciar o firewall:  
+```
+sudo firewall-cmd --reload
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+$ sudo firewall-cmd --list-ports
+3050/tcp 8050/tcp
+```
+Como pode observar acima, as regras não sumiram. Então, este procedimento foi concluido com sucesso.   
 
 
 ### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
