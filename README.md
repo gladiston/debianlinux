@@ -1,5 +1,9 @@
 # INSTALAÇÃO DO DEBIAN E PREPARAÇÃO DO AMBIENTE
-Instalação do Debian e preparação do ambiente de desenvolvimento.  
+Instalação do Debian e preparação do ambiente de desenvolvimento. Por que Debian? Porque esta distro e a distro-mãe de muitas outras como Ubuntu, Linux Mint, Zorin OS apenas para citar talvez as mais populares e com isso, as mesmas instruções funcionarão nelas com pouca ou nenhuma variação. O mais importante aqui não é a distro em si, mas documentar o que vem primeiro e o que vem depois de uma instalação de distro Linux, assim este documento poderá servir de referencia para qualquer distro Linux.
+
+O foco dessas instruções não é a instalação, mas a preparação para uso, ou seja, ao invés de instalar a distro e depois ficar lembrando o que fazer depois, deixar documentado o passo a passo com foco para entusiastas do mundo Linux, programadores e administradores de sistemas. 
+
+De todos os tópicos a seguir, acho o mais complexo, o particionamento Btrfs com foco na Virtualização. Se você pretende criar máquinas virtuais e não se incomoda em usar os snapshots do Btrfs - que convenhamos é incrivel - , então prefira partições ext4 que embora não tenha os mesmos recursos, talvez você nem precise deles. No tópico mencionado, eu explicarei o porquê de usar Btrfs com maquinas virtuais é diferente.
 
 Serão muitas instruções a seguir, mas vale a pena ir até o final, mas fique liguado para pular as opções que podem não ser necessárias para você. E quando finalmente chegar ao final você será recompensado por não precisar ficar reinstalado o sistema todas as vezes como no Windows e tudo sempre funcionará exatamente como planejado.
 
@@ -300,6 +304,86 @@ set mouse=
 Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
 Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
+## PERMISSÃO AO JOURNAL
+O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros.
+Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.
+```  
+systemctl status firebird
+```
+você poderá ver um aviso como:
+```  
+Warning: some journal files were not opened due to insufficient permissions.
+```
+Para eliminar esse *warning* e permitir acesso completo aos logs, adicione seu usuário atual ao grupo systemd-journal:
+```  
+sudo usermod -aG systemd-journal "$USER"
+```
+Em seguida, atualize sua sessão para que a mudança tenha efeito:  
+```  
+newgrp systemd-journal  # ou faça logout/login
+```
+Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
+
+## FIREWALL 
+Em sistemas baseados em Firewalld, as regras de firewall são organizadas em zonas e podem ser aplicadas temporariamente (modo runtime) ou de forma permanente (modo permanent). OUm sistema de Firewall não vem instalada por padrão em muitas distribuições, portanto, o primeiro passo é instalar o pacote. Vamos escolher o 'Firewalld' porque é o padrão também no Fedora, RHEL, CentOS, openSUSE e totalmente suportado no Debian e Ubuntu.
+
+Instale o Firewalld:  
+```
+sudo apt install -y firewalld
+```
+Em seguida, habilite e inicie o serviço:
+```
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+```
+Verifique as portas atualmente liberadas:  
+```  
+sudo firewall-cmd --list-ports
+```
+Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir de exemplo.  
+
+
+### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
+Para liberar portas, precisamos de um exemplo, neste caso escolhi liberar as portas 3050 e 8050 que geralmente são as que eu configuro para usufruir do banco de dados FirebirdSQL:
+```
+$ sudo firewall-cmd --add-port=3050/tcp
+success
+$ sudo firewall-cmd --add-port=8050/tcp
+success
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+$ sudo firewall-cmd --list-ports
+3050/tcp 8050/tcp
+```
+Esses comandos aplicam as regras apenas no modo temporário (até reiniciar o firewalld ou o sistema). 
+
+### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
+Como vimos no passo anterior, as regras são temporarias, elas valem apenas até reiniciar o firewalld ou o sistema. Para torná-las permanentes, execute:  
+```
+$ sudo firewall-cmd --runtime-to-permanent
+success
+```
+Agora, vamos reiniciar o firewall:  
+```
+sudo firewall-cmd --reload
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+$ sudo firewall-cmd --list-ports
+3050/tcp 8050/tcp
+```
+Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
+
+### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
+Assim como em outros firewalls, é possivel usufruir da técnica de perfis de firewall. Funciona assim, quando você vai trabalhar com virtualização voce ativa um perfl especifico de firewall onde encerra o perfil atual e carrega um novo perfil com um conjunto de regras diferentes, então você tem um perfil para cada atividade que for executar. O 'firewalld' não vem com nenhum perfil especifico por padrão com exceção do 'public' que por padrão não tem regras, então se você trocar para o 'public' tudo provavelmente estará bloqueado. Mas se quiser que o 'public' inclua certas regras, faça assim:
+```
+sudo firewall-cmd --zone=public --add-port=3050/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=8050/tcp --permanent
+sudo firewall-cmd --reload
+```
+
+Aproveite este momento e veja quais portas precisa serem liberadas e as aplique. Embora muita gente considere a carga de um firewall opcional no ambiente Linux Desktop, ela não deveria ser opcional para programadores e administradores de sistema, pois seus serviços serão testados em ambientes mais controlados e por isso, firewall não é opcional.
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
 Aliases não é um nome de programa, é um recurso que as distros possuem para abreviar ou facilitar uso de comandos repetitivos, por exemplo, se eu quero listar os arquivos de uma pasta de forma colorida e com os tamanhos de arquivos, ao inves de bytes, em conotação mais humana como MB ou GB eu teria de executar todas as vezes:
@@ -354,12 +438,14 @@ alias h='history'              # Mostra histórico
 alias j='jobs -l'              # Lista jobs atuais
 alias v='vim'                  # Abre o Vim rapidamente
 ```
-Se você tiver comandos muito longos, por exemplo, os utilitarios do Firebird(banco de dados) que ficam num caminho fora do $PATH, pode acrescentá-los também:  
+Se você tiver comandos muito longos, por exemplo, os utilitarios do Firebird(banco de dados) que ficam num caminho fora do $PATH e geralmente só usamos com 'sudo', pode acrescentá-los também:  
 ```
 # Firebird
-alias gbak='/opt/firebird/bin/gbak'
-alias isql='/opt/firebird/bin/isql'
+alias gbak='sudo /opt/firebird/bin/gbak -v'
+alias isql='sudo /opt/firebird/bin/isql'
 ```
+O exemplo acima é apenas para ser didático, pessoalmente eu preferiria colocar o /opt/firebird/bin no $PATH do sistema, mas você entendeu a ideia, não é mesmo?  
+
 Muito util ter seus aliases, não é mesmo?
 Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
 
@@ -1512,12 +1598,73 @@ A descompressão irá criar uma subpasta, vamos entrar nela e executar o instala
 $ cd Firebird-5.0.3.1683-0-linux-x64/
 $ sudo ./install.sh
 ```
-Durante a instalação lhe será questionado qual será a senha do SYSDBA, informe o que desejar, inclusive 'masterkey' se for desenvolvimento.
-A instalação será feita em /opt/firebird e já será iniciado por padrão.
+Durante a instalação lhe será questionado qual será a senha do SYSDBA, informe o que desejar, inclusive 'masterkey' se for usá-lo como desenvolvimento.
+A instalação será feita em /opt/firebird e já será iniciado por padrão, mas se preferir conferir, execute:
+```
+sudo systemctl status firebird
+```
+Caso o serviço, por alguma razão estranha não tenha sido iniciado, recomendo os comandos que habilitem e iniciem o serviço:  
+```
+sudo systemctl enable firebird
+sudo systemctl start firebird
+```
+E pronto!, agora repita o comando 'sudo systemctl status firebird' e notará que o serviço já esta habilitado.   
 
-### Variaveis de ambiente para o FirebirdSQL
+### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
+Essas variaveis serão usadas para ao inves de logar-se digitando a usuário e senha, elas sejam suprimidas, você pode achar que isso é um risco, mas o vamos colocá-la no perfil de um usuário onde somente ele ou root tem acesso, então não há riscos. Edite o arquivo ~/.bash_profile:
+```  
+sudo nano ~/.bash_profile
+```
+E acrescente as linhas:  
+```  
+export FIREBIRD_MSG=/opt/firebird
+export ISC_USER=SYSDBA
+export ISC_PASSWORD=masterkey
+```  
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, toda vez que logar-se as variaveis acima já estarão prontas.  
+Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de definir seus parametros porque comandos como o 'ps auxwww' poderia revelá-los.  
+Para testar, execute:  
+```  
+$ echo $ISC_USER
+SYSDBA
+```  
+### BANCO DE DADOS FIREBIRD - GRUPO FIREBIRD
+O serviço de banco de dados FirebirdSQL é mantido por usuário criado com permissões restritas chamado 'firebird', isso é uma medida de segurança em sistemas posix para impedir que um hacker do mal aproveite de alguma falha e tente escalar permissões maiores. Isso funciona muito bem, porém impede que outras pessoas se conectem localmente a qualquer banco de dados porque apenas o usuário/grupo 'firebird' tem acesso a eles. Para que você possa fazer conexão local (não confundir com acesso ao localhost) você precisa estar no grupo 'firebird', então execute:
+```  
+sudo usermod -aG firebird "$USER"
+newgrp firebird
+```
+Agora, para conferir, execute:
+```  
+$ groups
+firebird cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpadmin gsantana
+```
+O nome 'firebird' aparecer na relação é um indicativo que a operação foi realizada com sucesso:  
 
-### Ajustando o PATH
+
+
+### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE GLOBAIS
+Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis. Edite o arquivo /etc/environment.d/999-firebird.conf:
+```  
+sudo nano /etc/environment.d/999-firebird.conf 
+```
+A pasta /etc/environment.d contêm arquivos .conf que o sistema lerá durante o processo de boot, novamente colocamos o prefixo "999" porque a lista de arquivos é lida alfabeticamente e desejamos que nosso arquivo fique por ultimo. Depois acrescente as linhas:  
+```  
+FIREBIRD_MSG=/opt/firebird
+ISC_USER=SYSDBA
+ISC_PASSWORD=masterkey
+```  
+Não precisamos do comando "export" porque isso não é um script, mas um arquivo de configuração que criará as variaveis para nós.
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, basta apenas reiniciar o sistema!
+
+Para testar, execute:
+```  
+$ echo $ISC_USER
+SYSDBA
+```  
+
+
+### BANCO DE DADOS FIREBIRD - AJUSTANDO PATH
 
 
 
@@ -1560,20 +1707,6 @@ Para baixá-lo use a loja de software (Programas) e procure por “Zoom” e ins
 (todo)
 
 
-## LIBERANDO PORTAS NO FIREWALL
-Get a list of allowed ports in the current zone:
-```
-$ firewall-cmd --list-ports
-```
-Add a port to the allowed ports to open it for incoming traffic:
-```
-$ sudo firewall-cmd --add-port=port-number/port-type
-```
-Make the new settings persistent:
-```
-$ sudo firewall-cmd --runtime-to-permanent
-```
-
 
 ## VIRTUALBOX
 O VirtualBox é essencial para o pleno funcionamento do ambiente de desenvolvimento para instalar, precisaremos incluir o repositório oficial do Vitualbox. O virtualbox pode ser obtido diretamente no site:
@@ -1602,30 +1735,30 @@ Vá no app  Software e procure por GIMP no repositório do ‘Flathub’:
 
 Clique nas propriedades dele e encontrará alguns plugins(complementos) que também poderá instalar, são eles:
 
-BIMP - Realizar operações em batch com vários arquivos
+### BIMP - Realizar operações em batch com vários arquivos
 https://www.youtube.com/watch?v=CaeTkgPNkkg
 
-FocusBlur - Capacidade de efeito de profundidade
+### FocusBlur - Capacidade de efeito de profundidade
 https://www.youtube.com/watch?v=u-YB-KipWzk
 
-Gimp transformação Fourier
+### Gimp transformação Fourier
 Técnica para remover ou manipular padrões em fotos, geralmente as antigas
 https://www.youtube.com/watch?v=se9I3uGITR0
 
-Gimp Lens Fans
+### Gimp Lens Fans
 Aplicar e corrigir efeitos por lentes
 https://www.youtube.com/watch?v=FQGDgBT1tWk
 
-G’MIC
+### G’MIC
 GRAYC’s Efeitos
 https://www.youtube.com/watch?v=kZnEpkNsDK0
 https://www.youtube.com/watch?v=VOPHbSgJUSI
 
-LiquidRescale
+### LiquidRescale
 Permite remover um elemento e redimensionar uma imagem como se o elemento nunca estivesse existido.
 https://www.youtube.com/watch?v=hhFVWKJA76U
 
-Resynthesizer
+### Resynthesizer
 Retire manchas ou outros defeitos de imagens
 https://www.youtube.com/watch?v=n76owcpShqw
 
