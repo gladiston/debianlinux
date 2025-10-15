@@ -428,11 +428,11 @@ sudo firewall-cmd --reload
 Aproveite este momento para identificar quais portas precisam ser liberadas e aplique-as conforme sua necessidade.  
 As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas à zona public, garantindo que estejam disponíveis independentemente do perfil ativo.  
 
-|⚠️ IMPORTANTE:
-|Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente.  
-|Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  
-|  
-|No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
+>⚠️ IMPORTANTE:
+>Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente.  
+>Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  
+>  
+>No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
 
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
