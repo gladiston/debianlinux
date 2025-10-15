@@ -404,7 +404,7 @@ Aliases não é um nome de programa, é um recurso que as distros possuem para a
 ls -lh --color=auto'
 ```  
 
-Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o comando acima? É isso que faremos agora, execute:  
+Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o comando acima? É isso que faremos agora, execute:
 ```  
 nano ~/.bashrc
 ```
