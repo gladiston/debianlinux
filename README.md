@@ -596,18 +596,15 @@ Depois disso, adicionamos enfim, o repositório:
 ```  
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
-Provavelmente aparecerá a seguinte mensagem de texto:
-```
-Note que os diretórios 
+Provavelmente aparecerá a seguinte mensagem de texto:  
+>Note que os diretórios   
+>  
+>'/var/lib/flatpak/exports/share'  
+>'/home/gsantana/.local/share/flatpak/exports/share'  
+>  
+> não estão no caminho de pesquisa definido pela variável de ambiente XDG_DATA_DIRS, portanto, os aplicativos instalados pelo Flatpak podem não aparecer em sua área de trabalho até que a sessão seja reiniciada.  
 
-'/var/lib/flatpak/exports/share'
-'/home/gsantana/.local/share/flatpak/exports/share'
-
-não estão no caminho de pesquisa definido pela variável de ambiente
-XDG_DATA_DIRS, portanto, os aplicativos instalados pelo Flatpak podem não
-aparecer em sua área de trabalho até que a sessão seja reiniciada.
-```
-Essa advertência nos instrui a incluir as pastas citadas na variavel de ambiente XDG_DATA_DIRS. E se executar o comando:
+Essa advertência nos instrui a incluir as pastas citadas na variavel de ambiente XDG_DATA_DIRS. E se executar o comando:  
 ```
 echo $XDG_DATA_DIRS
 ```
