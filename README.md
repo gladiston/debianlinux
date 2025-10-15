@@ -1889,9 +1889,13 @@ Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um how
 ## MICROSOFT OFFICE (web apps)
 
 Visite a página a seguir usando um navegador Google Chrome(ou compatível com webapps):
-office.com 
+[Site do office.com](office.com)   
 E autentique-se com uma conta live da Microsoft.
-Estando na home da página vá no menu do navegador
+Estando na home da página, precisará de usar o navegador para transformar a página em um aplicativo WEB. Usando o Google Chrome você iria nos 3 pontinhos no canto superior direito>Transmitir, salvar e compartilhar>Instalar página como app...   
+
+![Instalação do app MSOFFICE](app-msoffice-web.png)  
+
+Na realidade, para qualquer aplicativo WEB, você seguiria estas mesmas instruções.  
 
 
 ## INSTALANDO O GIMP
