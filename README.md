@@ -1596,7 +1596,7 @@ Verifique se o grupo 'ssl-cert' existe, execute:
 ```  
 getent group ssl-cert
 ```
-Observe o resultado:  
+Observe o resultado indicando a existencia:  
 ```
 ssl-cert:x:105:  
 ```
@@ -1604,12 +1604,12 @@ Se a resposta for afirmativa como acima, então agora verifique se o usuário 'x
 ```  
 $ getent passwd xrdp  
 ```
-E observe o resultado:  
+E observe o resultado indicando a existencia:  
 ```
 xrdp:x:111:116::/run/xrdp:/usr/sbin/nologin  
 ```
 
-Agora que sabemos que o grupo 'ssl-cert' exste, e o usuário 'xrdp' também, então adicione o usuário 'xrdp' ao grupo 'ssl-cert' para permitir que o serviço xrdp acesse as chaves SSL corretamente, execute:
+Agora que sabemos que o grupo 'ssl-cert' existe, e o usuário 'xrdp' também, então adicione o usuário 'xrdp' ao grupo 'ssl-cert' para permitir que o serviço xrdp acesse as chaves SSL corretamente, execute:
 ```  
 sudo usermod -aG ssl-cert xrdp
 ```
