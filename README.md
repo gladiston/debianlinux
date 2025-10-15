@@ -1609,7 +1609,11 @@ Depois poderá reiniciar o sistema com 'sudo reboot' e notará que o VirtualBox 
 Se quiser reverter, apenas comente as linhas no arquivo 'blacklist-kvm.conf' e repita 'sudo update-initramfs -u' e a seguir o kvm se ligará novamente ao qemu.
 
 ## BANCO DE DADOS FIREBIRD
-Vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/downloads) e baixe a ultima versão para Linux:  
+O FirebirdSQL não é empacotado para Debian, RedHat ou outras distros, isso já aconteceu no passado, mas atualmente o FirebirdSQL inclui seu próprio instalador, mas antes de prosseguir com a instalação dele, vamos instalar a lib 'libtommath' que é uma dependencia, execute:
+```
+sudo apt install-y libtommath-dev
+```
+Agora vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/downloads) e baixe a ultima versão para Linux:  
 
 ![Download do Firebird](firebird-download.png)
 
@@ -1639,26 +1643,8 @@ sudo systemctl start firebird
 ```
 E pronto!, agora repita o comando 'sudo systemctl status firebird' e notará que o serviço já esta habilitado.   
 
-### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
-Essas variaveis serão usadas para ao inves de logar-se digitando a usuário e senha, elas sejam suprimidas, você pode achar que isso é um risco, mas o vamos colocá-la no perfil de um usuário onde somente ele ou root tem acesso, então não há riscos. Edite o arquivo ~/.bash_profile:
-```  
-sudo nano ~/.bash_profile
-```
-E acrescente as linhas:  
-```  
-export FIREBIRD_MSG=/opt/firebird
-export ISC_USER=SYSDBA
-export ISC_PASSWORD=masterkey
-```  
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, toda vez que logar-se as variaveis acima já estarão prontas.  
-Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de definir seus parametros porque comandos como o 'ps auxwww' poderia revelá-los.  
-Para testar, execute:  
-```  
-$ echo $ISC_USER
-SYSDBA
-```  
 ### BANCO DE DADOS FIREBIRD - GRUPO FIREBIRD
-O serviço de banco de dados FirebirdSQL é mantido por usuário criado com permissões restritas chamado 'firebird', isso é uma medida de segurança em sistemas posix para impedir que um hacker do mal aproveite de alguma falha e tente escalar permissões maiores. Isso funciona muito bem, porém impede que outras pessoas se conectem localmente a qualquer banco de dados porque apenas o usuário/grupo 'firebird' tem acesso a eles. Para que você possa fazer conexão local (não confundir com acesso ao localhost) você precisa estar no grupo 'firebird', então execute:
+O serviço de banco de dados FirebirdSQL é mantido por usuário criado com permissões restritas chamado 'firebird', isso é uma medida de segurança em sistemas posix para impedir que um hacker do mal aproveite-se de alguma falha neste serviço e tente escalar permissões maiores. Isso funciona muito bem, porém impede que outras pessoas se conectem localmente (não confundir com acesso ao localhost) a qualquer banco de dados porque apenas o usuário/grupo 'firebird' tem acesso a eles. Para que você possa contornar esta situação, seu login precisa estar no grupo 'firebird', então execute:
 ```  
 sudo usermod -aG firebird "$USER"
 newgrp firebird
@@ -1668,16 +1654,34 @@ Agora, para conferir, execute:
 $ groups
 firebird cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpadmin gsantana
 ```
-O nome 'firebird' aparecer na relação é um indicativo que a operação foi realizada com sucesso:  
+Se o nome 'firebird' aparecer na relação então é um indicativo que a operação foi realizada com sucesso.   
 
 
+### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
+Essas variaveis serão usadas para ao inves de logar-se digitando a usuário e senha, elas sejam suprimidas, você pode achar que isso é um risco, mas o vamos colocá-la no nosso perfil onde somente nós mesmos e o root tem acesso, então não há riscos. Edite o arquivo ~/.bash_profile:
+```  
+sudo nano ~/.bash_profile
+```
+E acrescente as linhas:  
+```  
+export FIREBIRD_MSG=/opt/firebird
+export ISC_USER=SYSDBA
+export ISC_PASSWORD=masterkey
+```  
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X) e estará pronto, toda vez que abrir o terminal 'bash' as variaveis acima já estarão prontas.  
+Inclusive muitos serviços de rest/api são iniciados dessa maneira, usando variaveis de ambiente ao inves de agendar a execução no inicio do boot e os seus parametros porque esses comandos com o uso de uma 'ps auxwww' seriam revelá-los e se houverem parametros de usuário e senha, então seriam revelados.  
+Para testar, execute:  
+```  
+$ echo $ISC_USER
+SYSDBA
+```  
 
 ### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE GLOBAIS
 Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis. Edite o arquivo /etc/environment.d/999-firebird.conf:
 ```  
 sudo nano /etc/environment.d/999-firebird.conf 
 ```
-A pasta /etc/environment.d contêm arquivos .conf que o sistema lerá durante o processo de boot, novamente colocamos o prefixo "999" porque a lista de arquivos é lida alfabeticamente e desejamos que nosso arquivo fique por ultimo. Depois acrescente as linhas:  
+A pasta /etc/environment.d contêm arquivos `.conf` que o sistema lerá durante o processo de boot, novamente colocamos o prefixo "999" porque a lista de arquivos é lida alfabeticamente e desejamos que nosso arquivo fique por ultimo. Depois acrescente as linhas:  
 ```  
 FIREBIRD_MSG=/opt/firebird
 ISC_USER=SYSDBA
