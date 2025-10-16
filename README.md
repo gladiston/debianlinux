@@ -431,7 +431,7 @@ sudo apt install -y code
 ```  
 
 **EXTENSÕES SUGERIDAS:**
-**NODE.JS**
+**NODE.JS**  
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension waderyan.nodejs-extension-pack \
@@ -440,7 +440,7 @@ code --install-extension waderyan.nodejs-extension-pack \
      --install-extension christian-kohler.path-intellisense \
      --install-extension ms-vscode.node-debug2
 ```
-**JAVA**
+**JAVA**  
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension vscjava.vscode-java-pack \
@@ -449,7 +449,7 @@ code --install-extension vscjava.vscode-java-pack \
      --install-extension vscjava.vscode-java-test \
      --install-extension vscjava.vscode-maven
 ```
-**FREE PASCAL E DELPHI**
+**FREE PASCAL E DELPHI**  
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo, isso também inclui o Lazarus, IDE para programação usando freepascal:  
 ```
 sudo apt install -y global exuberant-ctags python3-pygments
@@ -468,7 +468,7 @@ $ code --install-extension Wosi.omnipascal \
 Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
 
 
-**EXTENSÕES PARA HTML, CSS E JAVASCRIPT**
+**EXTENSÕES PARA HTML, CSS E JAVASCRIPT**  
 ```
 code --install-extension ecmel.vscode-html-css \
      --install-extension esbenp.prettier-vscode \
@@ -494,14 +494,14 @@ code --install-extension mtxr.sqltools \
      --install-extension adpyke.vscode-sql-formatter \
      --install-extension cweijan.vscode-database-client2
 ```
->**COMO USAR**:  
+>**COMO USAR**:   
 >Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).   
 >Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).    
 >Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.     
 >Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.     
 >**Dica**: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.    
 
-**EXTENSÕES PARA BASH SCRIPT E TERMINAL**
+**EXTENSÕES PARA BASH SCRIPT E TERMINAL**  
 ```
 code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension timonwong.shellcheck \
@@ -510,7 +510,7 @@ code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension jeff-hykin.better-shellscript-syntax \
      --install-extension formulahendry.terminal
 ```
-**CONFIGURAÇÕES RECOMENDADAS**:
+**CONFIGURAÇÕES RECOMENDADAS**:  
 Após instalar as extensões, adicione estas configurações no arquivo ~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
 ```
 {
@@ -530,7 +530,7 @@ Essas opções ativam:
 * Indentação de 2 espaços padrão
 
 
-## OBTENHA O KDE COMPLETO (OPCIONAL)
+## OBTENHA O KDE COMPLETO (OPCIONAL)  
 O KDE que acompanha o Debian é uma versão leve e personalizada para o Debian(wallpapers, logos, etc...), sem todos os módulos e personalizações idealizados pelo time do KDE, se desejar a versão idealizada pelo time do KDE, execute:
 ```  
 sudo apt install -y kde-full
