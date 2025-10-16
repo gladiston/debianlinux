@@ -54,7 +54,7 @@ Não há nada muito especial na instalação, o ponto mais critico é mesmo o pa
 |ext4   |/                |#root  |100GB     |
 |ext4   |/home            |#disco1|max       |  
 
-Caso prefira usar Btrfs, "/" e "/home" serão uma única partição geral com o tamanho restante que sobrou do particionamento do disco. Subvolumes para "/" e "/home" são recomendados. Este sistema de arquivos é uma mão na roda para programadores porque usando snaphots é facil recupera qualquer arquivo apagado ou sobreescrito sem recorrer a backups, além disso a compactação é muito eficiente. 
+Caso prefira usar Btrfs, "/" e "/home" serão uma única partição geral como "/" formado com o tamanho restante que sobrou do particionamento do disco. Subvolumes para "/" e "/home" são recomendados, mas o instalador do Debian não faz isso. Este sistema de arquivos é uma mão na roda para programadores porque usando snaphots é facil recupera qualquer arquivo apagado ou sobreescrito sem recorrer a backups, além disso a compactação é muito eficiente. 
 >**ALERTA:** Partições Btrfs não podem ter mais de 80% ocupados senão a performance cai por causa do Copy-on-Write(CoW).   
 
 Caso pretenda usar ext4, se possível, mantenha / e /home em partições separadas. Os peritos em virtualização também recomendam /var em separado, no entanto, neste HowTo, as VMs estarão no $HOME.  
