@@ -21,7 +21,8 @@ Um sistema previsível e repetível, com configurações documentadas, pronto pa
 Para o correto entendimento deste HowTo, usarei alguns padrões:  
 Nome do host: ti-01  
 Nome do usuário: gsantana  
-Nome do dominio local: localdomain.lan  
+Nome do dominio local: localdomain.lan
+Debian-Like. É o termo que uso para distro Linux baseadas em Debian que pode se referir a Ubuntu, Linux Mint, Zorin OS,...
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 
@@ -98,9 +99,9 @@ E então ajuste o tempo:
 Não importa se é GNOME ou KDE, voce também tem a possibilidade de desligá-lo. 
 
 ## INSTALANDO O GOOGLE CHROME
-O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido, o Firefox.  
+O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido de isntalação ou distro baseada em Debian, o Firefox.  
 No entanto, o Google Chrome é muito popular e deveras alguns sites só funcionam bem com o motor dele.   
-[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu.  
+[Acesse a página de download dos pacotes do navegador Chrome](https://www.google.com/chrome/?platform=linux) e clique em Fazer o download do Google Chrome. Irá aparecer várias versões para Linux, escolha o pacote .deb de 64 bits para as plataformas Debian e Ubuntu, que serve na realidade para todas as distros derivadas do Debian.  
 Após o Download, dê duplo clique nele e o sistema irá dar inicio a instalação e daí, apenas siga as instruções em tela.  
 
 
@@ -195,7 +196,7 @@ sudo apt update
 
 
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
-Sim, a Microsoft tem um repositório para distribuições Debian.
+Sim, a Microsoft tem um repositório para distribuições Debian-Like.
 Não vamos instalar nada de lá ainda, vamos apenas incluir seu repositório e por mais paradoxo que seja, há um download e instalação para que tenhamos tal repositório, execute os procedimentos abaixo:  
 
 Baixa o pacote de configuração da Microsoft
@@ -327,8 +328,7 @@ Esses programas são amplamente usados em scripts, automações e testes de cone
 
 
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
-Os utilitários de compactação e descompactação não vêm todos instalados por padrão em uma instalação mínima do Debian.
-Por isso, é recomendável instalar os pacotes abaixo para garantir suporte aos formatos mais comuns.
+São instalados poucos formatos, por isso, é recomendável instalar os pacotes abaixo para garantir suporte aos formatos mais comuns e também outros que embora pouco usados por usuários comuns, desenvolvedores costumam usar, por exemplo, o formato RAR.
 ```
 sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract
 ```
@@ -376,6 +376,8 @@ Os pacotes alternativos para GNOME ou KDE são para maior integração dessas DE
 
 Caso as instrções acima não funcionem, visite a página com informações atualizadas:   
 [https://flatpak.org/setup/Debian](https://flatpak.org/setup/Debian)  
+O link acima também é possivel ter outros repositórios mais específicos como o Ubuntu.  
+
 
 Depois disso, adicionamos enfim, o repositório:
 ```  
@@ -423,15 +425,13 @@ Alguns programas adquiridos do flathub pedem autorização para acessar seu $HOM
 
 ## INSTALANDO O VSCODE
 O Visual Studio Code (VS Code) é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
-Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como autocompletar inteligente (IntelliSense), debug integrado, controle de versão com Git, e uma ampla variedade de extensões para praticamente qualquer linguagem. O VS Code não está nos repositórios padrão do Debian, mas pode ser instalado diretamente do repositório oficial da Microsoft, dessa forma precisaremos incluí-lo, execute os procedimentos abaixo:
-
-Nos passos anteriores, instalamos o repositório do vscode, agora basta instalá-lo:  
+Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como autocompletar inteligente (IntelliSense), debug integrado, controle de versão com Git, e uma ampla variedade de extensões para praticamente qualquer linguagem. O VS Code não está nos repositórios padrão de nenhuma distro e por isso incluímos ele nos passos anteriores, dessa forma ficará fácil instalar e receber atualizações, execute:  
 ```
 sudo apt install -y code
 ```  
 
-EXTENSÕES SUGERIDAS:
-### NODE.JS
+**EXTENSÕES SUGERIDAS:**
+**NODE.JS**
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension waderyan.nodejs-extension-pack \
@@ -440,7 +440,7 @@ code --install-extension waderyan.nodejs-extension-pack \
      --install-extension christian-kohler.path-intellisense \
      --install-extension ms-vscode.node-debug2
 ```
-### JAVA
+**JAVA**
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension vscjava.vscode-java-pack \
@@ -449,7 +449,7 @@ code --install-extension vscjava.vscode-java-pack \
      --install-extension vscjava.vscode-java-test \
      --install-extension vscjava.vscode-maven
 ```
-### FREE PASCAL E DELPHI
+**FREE PASCAL E DELPHI**
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo, isso também inclui o Lazarus, IDE para programação usando freepascal:  
 ```
 sudo apt install -y global exuberant-ctags python3-pygments
@@ -468,7 +468,7 @@ $ code --install-extension Wosi.omnipascal \
 Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
 
 
-### EXTENSÕES PARA HTML, CSS E JAVASCRIPT
+**EXTENSÕES PARA HTML, CSS E JAVASCRIPT**
 ```
 code --install-extension ecmel.vscode-html-css \
      --install-extension esbenp.prettier-vscode \
@@ -476,7 +476,7 @@ code --install-extension ecmel.vscode-html-css \
      --install-extension formulahendry.auto-rename-tag \
      --install-extension xabikos.JavaScriptSnippets
 ```
-### EXTENSÕES PARA PYTHON
+**EXTENSÕES PARA PYTHON**
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension ms-python.python \
@@ -484,7 +484,7 @@ code --install-extension ms-python.python \
      --install-extension ms-toolsai.jupyter \
      --install-extension ms-python.debugpy
 ```
-### EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS
+**EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS**
 ```
 code --install-extension mtxr.sqltools \
      --install-extension mtxr.sqltools-driver-mysql \
@@ -494,15 +494,14 @@ code --install-extension mtxr.sqltools \
      --install-extension adpyke.vscode-sql-formatter \
      --install-extension cweijan.vscode-database-client2
 ```
-⚙️ COMO USAR  
-Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).  
-Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).  
-Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.   
-Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.   
-💡 Dica: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.  
+>**COMO USAR**:  
+>Após a instalação, abra o Painel SQLTools (Ctrl+Shift+P → “SQLTools: Show Connections”).   
+>Clique em + New Connection e configure o banco desejado (MySQL, PostgreSQL, Firebird etc.).    
+>Execute consultas com Ctrl+Alt+E ou usando o menu de contexto “Run Query”.     
+>Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.     
+>**Dica**: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.    
 
-
-### EXTENSÕES PARA BASH SCRIPT E TERMINAL
+**EXTENSÕES PARA BASH SCRIPT E TERMINAL**
 ```
 code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension timonwong.shellcheck \
@@ -511,8 +510,7 @@ code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension jeff-hykin.better-shellscript-syntax \
      --install-extension formulahendry.terminal
 ```
-⚙️ CONFIGURAÇÕES RECOMENDADAS
-
+**CONFIGURAÇÕES RECOMENDADAS**:
 Após instalar as extensões, adicione estas configurações no arquivo ~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
 ```
 {
