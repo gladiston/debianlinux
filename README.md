@@ -29,7 +29,8 @@ Para o correto entendimento deste HowTo, usarei alguns padrões:
 |swap   |Nenhum           |Nenhum |mem.atual |
 |ext4   |/boot            |#boot  |1GB       |
 |ext4   |/                |#root  |100GB     |
-|ext4   |/home            |#disco1|max       |
+|ext4   |/home            |#disco1|max       |  
+
 Caso se use Btrfs, "/" e "/home" serão uma única partição geral com o tamanho restante que sobrou do particionamento do disco. Subvolumes para "/" e "/home" são recomendados.  
 >**ALERTA:** Partições Btrfs não podem ter mais de 80% ocupados senão a performance cai por causa do Copy-on-Write(CoW).   
 
