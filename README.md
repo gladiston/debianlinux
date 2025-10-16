@@ -276,6 +276,58 @@ E então observe o resultado:
 No exemplo acima, apenas o google-chrome requer atualização.
 
 
+## CRONTAB
+O crontab é o agendador de tarefas do Linux. Ele permite que comandos ou scripts sejam executados automaticamente em horários ou intervalos definidos, sem a necessidade de intervenção do usuário.
+É extremamente útil para tarefas recorrentes, como backups, limpeza de arquivos temporários, sincronização de dados, atualizações de sistema, entre outras.
+
+O cron daemon (crond) é o serviço que fica em execução em segundo plano e verifica, minuto a minuto, se há alguma tarefa programada a ser executada.
+Cada usuário pode ter seu próprio arquivo de crontab, e o sistema também possui um crontab global em /etc/crontab.
+
+Para editar o agendamento do seu usuário, use:
+```
+crontab -e
+```
+Vamos a um exemplo mais prático, vamos editar o agendamento do seu sistema e para isso repetimos o mesmo comando, porém usando o 'sudo':
+```
+sudo crontab -e
+```
+Mesmo que não use o 'crontab' neste momento, recomendo que cole este cabecalho:  
+```
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Exemplo de definição de tarefa (job):
+# .---------------- minuto (0 - 59)
+# |  .------------- hora (0 - 23)
+# |  |  .---------- dia do mês (1 - 31)
+# |  |  |  .------- mês (1 - 12) OU jan,fev,mar,abr ...
+# |  |  |  |  .---- dia da semana (0 - 6) (domingo=0 ou 7) OU dom,seg,ter,qua,qui,sex,sab
+# |  |  |  |  |
+# *  *  *  *  *  nome-usuario  comando a ser executado
+#
+# Exemplo: executar um backup todos os dias às 2h30 da manhã
+# Também é uma boa prática redirecionar saídas de erro para um log
+# 30 2 * * * root /usr/local/bin/backup-diario.sh >> /var/log/backup.log 2>&1
+```
+Depois salve e saia do editor.  
+Porque deixar as linhas acima? Para que quando você for executar o 'sudo crontab -e' possa lembrar do formato do agendamento.  
+Quando precisar listar num sistema unix os agendamentos que existem no sistema, execute:
+```
+sudo crontab -l # para listar agendamentos globais ou
+crontab -l # para listar seus agendamentos
+```
+Use agendamentos globais para tarefas que envolvam o sistema, tendo ou não usuários conectados, e que possivelmente use comandos que só o root possa executar, por exemplo, desligar o computador as 02h00 da manhã caso eu tenha-o deixado ligado após o expediente:  
+```
+# Desligar às 02:00
+0 2  * * * root /usr/sbin/shutdown -h now
+```
+E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber, mas só vale das 10h até as 18h:
+```
+# Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
+0 10-18/2 * * * root wall "💧 Lembrete: Levante-se um pouco e beba água!"
+```
+O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux.  
+
 ## EDITOR DE TEXTO VIM
 O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, presente em praticamente todas as distribuições Unix e Linux. É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
 
