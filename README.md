@@ -40,7 +40,7 @@ No exemplo acima, apenas a linha #1 é um comando e o restante são textos resul
 ### NOTEBOOKs DA LINHA ACER NITRO
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
 
-[Se tiver um ACER NITRO, siga as instruções em:  ](https://github.com/gladiston/fedorainstallonacernitro)
+[Se tiver um ACER NITRO, siga as instruções aqui](https://github.com/gladiston/fedorainstallonacernitro)
 
 
 ## INSTALAÇÃO
