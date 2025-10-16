@@ -276,284 +276,6 @@ E então observe o resultado:
 No exemplo acima, apenas o google-chrome requer atualização.
 
 
-## CRONTAB
-O crontab é o agendador de tarefas do Linux. Ele permite que comandos ou scripts sejam executados automaticamente em horários ou intervalos definidos, sem a necessidade de intervenção do usuário.
-É extremamente útil para tarefas recorrentes, como backups, limpeza de arquivos temporários, sincronização de dados, atualizações de sistema, entre outras.
-
-O cron daemon (crond) é o serviço que fica em execução em segundo plano e verifica, minuto a minuto, se há alguma tarefa programada a ser executada.
-Cada usuário pode ter seu próprio arquivo de crontab, e o sistema também possui um crontab global em /etc/crontab.
-
-Para editar o agendamento do seu usuário, use:
-```
-crontab -e
-```
-Vamos a um exemplo mais prático, vamos editar o agendamento do seu sistema e para isso repetimos o mesmo comando, porém usando o 'sudo':
-```
-sudo crontab -e
-```
-Mesmo que não use o 'crontab' neste momento, recomendo que cole este cabecalho:  
-```
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-MAILTO=""
-# Exemplo de definição de tarefa (job):
-# .---------------- minuto (0 - 59)
-# |  .------------- hora (0 - 23)
-# |  |  .---------- dia do mês (1 - 31)
-# |  |  |  .------- mês (1 - 12) OU jan,fev,mar,abr ...
-# |  |  |  |  .---- dia da semana (0 - 6) (domingo=0 ou 7) OU dom,seg,ter,qua,qui,sex,sab
-# |  |  |  |  |
-# *  *  *  *  *  nome-usuario  comando a ser executado
-#
-# Exemplo: executar um backup todos os dias às 2h30 da manhã
-# Também é uma boa prática redirecionar saídas de erro para um log
-# 30 2 * * * root /usr/local/bin/backup-diario.sh >> /var/log/backup.log 2>&1
-```
-Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
-Porque deixar as linhas acima? Para que quando você for executar o 'sudo crontab -e' possa lembrar do formato do agendamento.  
-O parametro **SHELL** indica que shell iremos usar, podemos escolher o 'bash' que é mais comum, mas ao usar o 'sh' evitamos a carga do perfil com variaiveis de ambiente, path e outras coisas fazendo com que o agendamento não sofra nenhuma interferencia.  
-O parametro **PATH** é porque ao usar o shell 'sh', ele não tem PATH nenhum e boa parte dos comandos não funcionariam.  
-Em servidores com algum MTA instalado, incluiriamos também **MAILTO** com algum e-mail destacado e assim qualquer tarefa agendada, seu resultado seria enviado para o e-mail indicado, mas não funciona sem um MTA ou SMTP instalado no sistema.  
-
-Vez ou outra irá surgir a necessidade de listar os agendamentos programados então execute:
-```
-sudo crontab -l # para listar agendamentos globais ou
-crontab -l # para listar seus agendamentos
-```
-Use agendamentos globais para tarefas que envolvam o sistema, tendo ou não usuários conectados, e que possivelmente use comandos que só o root possa executar, por exemplo, desligar o computador as 02h00 da manhã caso eu tenha-o deixado ligado após o expediente:  
-```
-# Desligar às 02:00
-0 2  * * * root /usr/sbin/shutdown -h now
-```
-E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber, mas só vale das 10h até as 18h:
-```
-# Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
-0 10-18/2 * * * root wall "💧 Lembrete: Levante-se um pouco e beba água!"
-```
-O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux, mesmo seu computador sendo um desktop faça uso dele. O GNOME, KDE e outras DE's(Desktop Enviroment) tem utilitários para agendamento de maneira visual, mas lembre-se que nesse HowTO, não vamos entregar essas facilidades porque elas variam de DE para DE e o uso do terminal é a maneira mais consistente de explicar.  
-
-
-## EDITOR DE TEXTO VIM
-O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, presente em praticamente todas as distribuições Unix e Linux. É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
-
-Ele oferece atalhos de teclado eficientes, realce de sintaxe, e modos de operação distintos (comando, inserção e visualização), que tornam a edição ágil e precisa. Também pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.  
-
-No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:  
-```  
-sudo apt install -y vim
-```  
-
-Para confirmar a instalação e ver a versão instalada:
-```  
-vim --version
-```
-Algo que pode ser um pouco irritante ao usar o Vim é que o mouse também é controlado por ele. Assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos de copiar/colar do terminal podem não funcionar, pois o Vim captura os cliques do mouse.
-
-Se isso te incomoda, basta executar dentro do Vim o comando (tecle ":"):
-```
-set mouse=
-```  
-Para tornar essa configuração permanente, edite (ou crie) o arquivo de configuração do Vim:
-```  
-nano ~/.vimrc
-```  
-E adicione a linha:
-```  
-set mouse=
-```  
-Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
-Pronto — agora o mouse não interferirá mais ao usar o Vim.
-
-## PERMISSÃO AO JOURNAL
-O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros.
-Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.  
-Essa restrição afeta alguns comandos como o 'systemctrl status \[serviço\]', veja este exemplo:  
-```  
-systemctl status systemd-journald
-```
-você poderá ver um aviso como:
-```  
-Warning: some journal files were not opened due to insufficient permissions.
-```
-Para eliminar esse *warning* e permitir acesso completo aos logs, adicione seu usuário atual ao grupo systemd-journal:
-```  
-sudo usermod -aG systemd-journal "$USER"
-```
-Em seguida, atualize sua sessão para que a mudança tenha efeito:  
-```  
-newgrp systemd-journal  # ou faça logout/login
-```
-Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
-
-## FIREWALL 
-Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop. Por isso, o primeiro passo é instalá-lo manualmente. Vamos optar pelo Firewalld, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu. Essa escolha garante comandos consistentes e portabilidade entre diferentes ambientes Linux.  
-  
-Muitas pessoas argumentam que um firewall é desnecessário em estações de trabalho Linux, e até certo ponto isso é verdade para uso doméstico. Contudo, se você é desenvolvedor ou administrador de sistemas, é essencial que o ambiente de desenvolvimento seja o mais parecido possível com o ambiente de produção — e este quase sempre possui um firewall ativo.  
-Em resumo: instalar o Firewalld no seu ambiente desktop não é apenas por segurança, mas por coerência e preparo profissional.  
-
-Instale o Firewalld:  
-```
-sudo apt install -y firewalld
-```
-Em seguida, habilite e inicie o serviço:
-```
-sudo systemctl enable firewalld
-sudo systemctl start firewalld
-```
-Verifique as portas atualmente liberadas:  
-```  
-sudo firewall-cmd --list-ports
-```
-Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir de exemplo.  
-
-
-### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
-Para liberar portas, precisamos listar os serviços que iremos usar, alguns podem nem ter sido instalados ainda, veja esta lista que exemplifica os serviços/portas que pretendemos liberar:  
-|Serviço      |Porta  |Descrição|
-|-------------|:-----:|---------|
-|HTTP         |80     |Tráfego web padrão (sites sem HTTPS)|
-|HTTPS        |443    |Tráfego web seguro (SSL/TLS)|
-|SSH          |22     |Acesso remoto seguro a servidores Linux|
-|RDP          |3389   |Acesso remoto do Windows (XRDP também usa)|
-|MySQL/MariaDB|3306   |Banco de dados |
-|PostgreSQL   |5432   |Banco de dados|
-|Firebird     |3050   |Banco de dados|
-
-Com base na lista acima, os comandos seriam:  
-```
-sudo firewall-cmd --add-port=80/tcp
-sudo firewall-cmd --add-port=443/tcp
-sudo firewall-cmd --add-port=22/tcp
-sudo firewall-cmd --add-port=3389/tcp
-sudo firewall-cmd --add-port=3306/tcp
-sudo firewall-cmd --add-port=5432/tcp
-sudo firewall-cmd --add-port=3050/tcp
-```
-Agora vamos repetir a verificação das portas atualmente liberadas:  
-```  
-sudo firewall-cmd --list-ports
-```
-E observe o resultado:  
-> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp  
-  
-Isso significa que obtivemos sucesso, no entanto, essas regras são temporarias até reiniciar o firewalld ou o sistema.  
-
-### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
-Como vimos no passo anterior, as regras são temporarias, elas valem apenas até reiniciar o firewalld ou o sistema. Para torná-las permanentes, execute:  
-```
-$ sudo firewall-cmd --runtime-to-permanent
-success
-```
-Agora, vamos reiniciar o firewall:  
-```
-sudo firewall-cmd --reload
-```
-Agora vamos repetir a verificação das portas atualmente liberadas:  
-```  
-$ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 
-```
-Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
-
-### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
-Assim como outros sistemas de firewall, o Firewalld trabalha com o conceito de perfis, chamados de zonas (zones).  
-A ideia é simples: cada zona representa um conjunto de regras de segurança.  
-  
-Por exemplo, você pode ter uma zona para virtualização, outra para desenvolvimento e outra para uso pessoal.  
-Quando muda de zona, o Firewalld desativa as regras da anterior e aplica as novas, permitindo perfis de rede específicos para cada tipo de tarefa.  
-  
-Por padrão, o Firewalld traz apenas uma zona ativa chamada public, que não possui regras liberadas inicialmente.  
-No entanto, essa zona é herdada por todas as outras, ou seja, qualquer regra adicionada a public se aplicará às demais zonas também.  
-  
-Isso é bastante útil — por exemplo, se você quiser liberar a porta 3389 (RDP) para acesso remoto, basta adicioná-la à zona public e ela valerá para todos os perfis.  No exemplo abaixo vamos acrescentar a porta **3389** a zona 'public' de forma permanente:    
-```
-sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
-sudo firewall-cmd --reload
-```
-
-Aproveite este momento para identificar quais portas precisam ser liberadas e aplique-as conforme sua necessidade.  
-As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas à zona public, garantindo que estejam disponíveis independentemente do perfil ativo.  
-
->⚠️ IMPORTANTE:
->Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente. Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
-
-
-## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
-Aliases não são programas, e sim um recurso presente em praticamente todas as distribuições Linux que permite abreviar ou simplificar comandos repetitivos. 
-Por exemplo, se você quiser listar os arquivos de uma pasta com cores e tamanhos em formato legível (KB, MB, GB), precisaria digitar algo assim toda vez:
-```  
-ls -lh --color=auto'
-```  
-
-Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o comando acima? É isso que faremos agora, execute:
-```  
-nano ~/.bashrc
-```
-O arquivo acima é um arquivo de autoexecução que é rodado sempre que você acessa o terminal bash, acrescente ao final deste arquivo, seus aliases, por exemplo:
-```  
-alias l='ls -lh --color=auto'
-```
-Vamos a algumas sugestões minhas, algumas delas ao editar o ~/bashrc verá que sua distro já os tem ou estão comentadas.  
-```
-###
-### Meus aliases
-### 
-# Navegação e listagem:
-alias l='ls -lh --color=auto'        # Lista detalhada, tamanhos legíveis, com cores (comentaada no debian)
-alias la='ls -lha --color=auto'      # Lista tudo, incluindo arquivos ocultos  (comentaada no debian)
-alias ll='ls -lh --color=auto'       # Lista longa, mas ignora ocultos (comentaada no debian)
-alias ls='ls --color=auto'           # Força o uso de cores sempre (comentaada no debian)
-alias ..='cd ..'                     # Volta um diretório
-alias ...='cd ../..'                 # Volta dois diretórios
-alias ....='cd ../../..'             # Volta três diretórios
-alias c='clear'                      # Limpa o terminal
-
-# Sistema e administração
-alias update='sudo apt update && sudo apt upgrade -y'   # Atualiza o sistema
-alias install='sudo apt install -y '                    # Instala pacotes rapidamente
-alias remove='sudo apt remove '                         # Remove pacotes
-alias purge='sudo apt purge '                           # Remove pacotes + configs
-alias cls='clear'                                       # Outra forma de limpar tela
-alias df='df -h'                                        # Exibe uso de disco em formato legível
-alias du='du -h -d 1'                                   # Mostra tamanho de pastas
-alias free='free -h'                                    # Memória RAM legível
-
-# Rede
-alias ping='ping -c 5'             # Faz 5 pings e para
-alias myip='curl ifconfig.me'      # Mostra seu IP público
-alias ports='sudo netstat -tulanp' # Lista portas em uso
-
-# Vida longa ao sysadmin
-alias grep='grep --color=auto' # Cores no grep
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias h='history'              # Mostra histórico
-alias j='jobs -l'              # Lista jobs atuais
-alias v='vim'                  # Abre o Vim rapidamente
-```
-Muito util ter seus aliases, não é mesmo?
-Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
-
-Depois reinicie o seu terminal e para testar um dos aliases, execute:  
-```  
-$ l
-total 0
-drwxr-xr-x 1 gsantana gsantana 20 out 10 17:37 'Área de trabalho'
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Documentos
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  Downloads
-drwxr-xr-x 1 gsantana gsantana 32 out 10 18:48  Imagens
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
-```  
-Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
-
-> 💡 Curiosidade histórica:  
-> O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
-
-
-
 ## INSTALANDO CODECS
 Agora que habilitamos repositórios considerados 'non-free' e 'contrib' poderemos instalar alguns pacotes importantes que liberarão codecs e players de vídeo/musica em nosso sistema:
 ```
@@ -569,6 +291,12 @@ Os comandos htop, lm-sensors e strace não vêm instalados por padrão, mas são
 Gostou deles? Então execute:  
 ```  
 sudo apt install -y htop lm-sensors  strace
+```
+
+## NOTIFY-SEND
+O notify-send é um utilitario geralmente usado para enviar mensagens de um usuário para outro no mesmo sistema, ele é analogo ao comando 'wall' que serve para uso em terminal. Muitos scripts usam ele para entregar notificações em interfaces gráficas, então vamos instalá-lo:
+```
+sudo apt install -y libnotify-bin
 ```
 
 
@@ -691,69 +419,6 @@ Qual a diferença de um pacote tradicional para um pacote advindo do flathub? Os
 ```
 Alguns programas adquiridos do flathub pedem autorização para acessar seu $HOME ou algo restrito do seu sistema, quando isso acontece, geralmente eles perguntam para o usuário, que pode conceder o acesso ou não. Mas independentemente de rodarem sob container, dependendo do programa escolhido, o uso de containeres não é nenhuma vantagem, por exemplo, um navegador baixado do flathub teria acesso ao seu histórico, senhas, etc... então tudo precisa de moderação da sua parte e em descobrir o que é viável instalar do flathub e o que não é, em especial, duvide de aplicativos onde o desenvolvedor e o publicador não são a mesma entidade.  
 
-
-## MUDANDO O NOME DO HOST  
-Durante a instalação do Debian, você provavelmente definiu um nome para o seu computador (hostname).
-Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
-Pelo ambiente gráfico (KDE ou GNOME), abra o aplicativo Configurações do Sistema, e na barra de pesquisa, digite “host”, "sistema" ou algo similar e essas informações serão exibidas e passiveis de modificações. A cada versão do KDE e GNOME, essas opções mudam de lugar ou são traduzidas de forma diferente o que impede de trazer um screenshot. Mas pelo terminal, é bem mais eficiente, basta executar:  
-``` 
-sudo hostnamectl set-hostname novo-nome
-``` 
-
-## COMPARTILHAMENTO DE ARQUIVOS
-Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado que carece de alguns ajustes.
-
-### Instalando o SAMBA
-Execute:
-```  
-sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba
-sudo apt install -y cifs-utils kio-fuse
-```
-As vezes, dependendo do perfil de instação, ele pode já ter sido instalado.
-
-### Ajustando workgroup ou dominio
-Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf*:
-```  
-sudo nano /etc/samba/smb.conf
-```  
-
-e vá até a linha:    
-```  
-WORKGROUP = WORKGROUP
-```  
-e troque por:  
-```  
-WORKGROUP = LOCALDOMAIN.LAN
-```  
-O nome do dominio (LOCALDOMAIN.LAN, mas use o nome de seu dominio local) deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
-Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
-
-no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
-
-### Desativando o controlador de dominio
-Em algumas situações, o controlador de dominio foi instalado e daí o comportamento do SAMBA é totalmente diferente. Ele não deve ser instalado em desktops, caso isso tenha acontecido, execute:  
-```  
-sudo systemctl disable samba-ad-dc
-```
-Se o comando acima responder:
-```
-Failed to disable unit: Unit samba-ad-dc.service does not exist
-```
-Então parabens! O controlador de dominio não esta instalado e poderá prosseguir, mas se mostrar:  
-```
-Synchronizing state of samba-ad-dc.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
-Executing: /usr/lib/systemd/systemd-sysv-install disable samba-ad-dc
-Removed '/etc/systemd/system/multi-user.target.wants/samba-ad-dc.service'.
-Removed '/etc/systemd/system/samba.service'.
-```
-Entao é porque você estava com o controlador de dominio instalado e nem fazia ideia. De qualquer forma, desativamos e poderá prosseguir.
-
-### Ativando o compartilhamento de arquivos
-Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
-```  
-sudo systemctl enable smbd nmbd
-sudo systemctl start smbd nmbd
-```
 
 
 ## INSTALANDO O VSCODE
@@ -1107,6 +772,351 @@ git config --global credential.helper /usr/share/doc/git/contrib/credential/libs
 ```
 Agora, você precisa saber que o método de autenticação mudou, você não usa mais o “username+ senha” do seu usuario git, mas “username+token”. O token é criado na página do github, no menu de sua profile->Settings->Developer settings->Personal access tokens->Tokens(classic) e então criar um token. Este token será o substituto de sua senha git no terminal.
 
+
+## MUDANDO O NOME DO HOST  
+Durante a instalação do Debian, você provavelmente definiu um nome para o seu computador (hostname).
+Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
+Pelo ambiente gráfico (KDE ou GNOME), abra o aplicativo Configurações do Sistema, e na barra de pesquisa, digite “host”, "sistema" ou algo similar e essas informações serão exibidas e passiveis de modificações. A cada versão do KDE e GNOME, essas opções mudam de lugar ou são traduzidas de forma diferente o que impede de trazer um screenshot. Mas pelo terminal, é bem mais eficiente, basta executar:  
+``` 
+sudo hostnamectl set-hostname novo-nome
+``` 
+
+
+## COMPARTILHAMENTO DE ARQUIVOS
+Aparentemente, o SAMBA vem pré instalado no Debian, no entanto, foi observado que carece de alguns ajustes.
+
+### Instalando o SAMBA
+Execute:
+```  
+sudo apt install -y plasma-widgets-addons kdenetwork-filesharing samba
+sudo apt install -y cifs-utils kio-fuse
+```
+As vezes, dependendo do perfil de instação, ele pode já ter sido instalado.
+
+### Ajustando workgroup ou dominio
+Algo que também é eficiente, caso você tenha um dominio em sua rede é fazer um pequeno ajuste no arquivo de configuração do 'samba', edite o arquivo */etc/samba/smb.conf*:
+```  
+sudo nano /etc/samba/smb.conf
+```  
+
+e vá até a linha:    
+```  
+WORKGROUP = WORKGROUP
+```  
+e troque por:  
+```  
+WORKGROUP = LOCALDOMAIN.LAN
+```  
+O nome do dominio (LOCALDOMAIN.LAN, mas use o nome de seu dominio local) deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
+Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
+
+no entanto, o serviço 'samba-ad-dc' não deve ser iniciado, pois ele é destinado a servir como controlador de dominio e essa não é nossa intenção, então desabilite tal serviço:
+
+### Desativando o controlador de dominio
+Em algumas situações, o controlador de dominio foi instalado e daí o comportamento do SAMBA é totalmente diferente. Ele não deve ser instalado em desktops, caso isso tenha acontecido, execute:  
+```  
+sudo systemctl disable samba-ad-dc
+```
+Se o comando acima responder:
+```
+Failed to disable unit: Unit samba-ad-dc.service does not exist
+```
+Então parabens! O controlador de dominio não esta instalado e poderá prosseguir, mas se mostrar:  
+```
+Synchronizing state of samba-ad-dc.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install disable samba-ad-dc
+Removed '/etc/systemd/system/multi-user.target.wants/samba-ad-dc.service'.
+Removed '/etc/systemd/system/samba.service'.
+```
+Entao é porque você estava com o controlador de dominio instalado e nem fazia ideia. De qualquer forma, desativamos e poderá prosseguir.
+
+### Ativando o compartilhamento de arquivos
+Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
+```  
+sudo systemctl enable smbd nmbd
+sudo systemctl start smbd nmbd
+```
+
+
+## CRONTAB
+O crontab é o agendador de tarefas do Linux. Ele permite que comandos ou scripts sejam executados automaticamente em horários ou intervalos definidos, sem a necessidade de intervenção do usuário.
+É extremamente útil para tarefas recorrentes, como backups, limpeza de arquivos temporários, sincronização de dados, atualizações de sistema, entre outras.
+
+O cron daemon (crond) é o serviço que fica em execução em segundo plano e verifica, minuto a minuto, se há alguma tarefa programada a ser executada.
+Cada usuário pode ter seu próprio arquivo de crontab, e o sistema também possui um crontab global em /etc/crontab.
+
+Para editar o agendamento do seu usuário, use:
+```
+crontab -e
+```
+Vamos a um exemplo mais prático, vamos editar o agendamento do seu sistema e para isso repetimos o mesmo comando, porém usando o 'sudo':
+```
+sudo crontab -e
+```
+Mesmo que não use o 'crontab' neste momento, recomendo que cole este cabecalho:  
+```
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+MAILTO=""
+# Exemplo de definição de tarefa (job):
+# .---------------- minuto (0 - 59)
+# |  .------------- hora (0 - 23)
+# |  |  .---------- dia do mês (1 - 31)
+# |  |  |  .------- mês (1 - 12) OU jan,fev,mar,abr ...
+# |  |  |  |  .---- dia da semana (0 - 6) (domingo=0 ou 7) OU dom,seg,ter,qua,qui,sex,sab
+# |  |  |  |  |
+# *  *  *  *  *  nome-usuario  comando a ser executado
+#
+# Exemplo: executar um backup todos os dias às 2h30 da manhã
+# Também é uma boa prática redirecionar saídas de erro para um log
+# 30 2 * * * root /usr/local/bin/backup-diario.sh >> /var/log/backup.log 2>&1
+```
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
+Porque deixar as linhas acima? Para que quando você for executar o 'sudo crontab -e' possa lembrar do formato do agendamento.  
+O parametro **SHELL** indica que shell iremos usar, podemos escolher o 'bash' que é mais comum, mas ao usar o 'sh' evitamos a carga do perfil com variaiveis de ambiente, path e outras coisas fazendo com que o agendamento não sofra nenhuma interferencia.  
+O parametro **PATH** é porque ao usar o shell 'sh', ele não tem PATH nenhum e boa parte dos comandos não funcionariam.  
+Em servidores com algum MTA instalado, incluiriamos também **MAILTO** com algum e-mail destacado e assim qualquer tarefa agendada, seu resultado seria enviado para o e-mail indicado, mas não funciona sem um MTA ou SMTP instalado no sistema.  
+
+Vez ou outra irá surgir a necessidade de listar os agendamentos programados então execute:
+```
+sudo crontab -l # para listar agendamentos globais ou
+crontab -l # para listar seus agendamentos
+```
+Use agendamentos globais para tarefas que envolvam o sistema, tendo ou não usuários conectados, e que possivelmente use comandos que só o root possa executar, por exemplo, desligar o computador as 02h00 da manhã caso eu tenha-o deixado ligado após o expediente:  
+```
+# Desligar às 02:00
+0 2  * * * root /usr/sbin/shutdown -h now
+```
+E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber, mas só vale das 10h até as 18h:
+```
+# Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
+#0 10-18/2 * * * wall "💧 Lembrete: Levante-se um pouco e beba água!"  # terminal texto
+0 10-18/2 * * * export DISPLAY=:0 && notify-send "💧 Lembrete: Levante-se um pouco e beba água!" # KDE, GNOME, etc...
+```
+O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux, mesmo seu computador sendo um desktop faça uso dele. O GNOME, KDE e outras DE's(Desktop Enviroment) tem utilitários para agendamento de maneira visual, mas lembre-se que nesse HowTO, não vamos entregar essas facilidades porque elas variam de DE para DE e o uso do terminal é a maneira mais consistente de explicar.  
+
+
+## EDITOR DE TEXTO VIM
+O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, presente em praticamente todas as distribuições Unix e Linux. É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
+
+Ele oferece atalhos de teclado eficientes, realce de sintaxe, e modos de operação distintos (comando, inserção e visualização), que tornam a edição ágil e precisa. Também pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.  
+
+No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:  
+```  
+sudo apt install -y vim
+```  
+
+Para confirmar a instalação e ver a versão instalada:
+```  
+vim --version
+```
+Algo que pode ser um pouco irritante ao usar o Vim é que o mouse também é controlado por ele. Assim, ao abrir o terminal dentro do KDE ou GNOME, os comandos de copiar/colar do terminal podem não funcionar, pois o Vim captura os cliques do mouse.
+
+Se isso te incomoda, basta executar dentro do Vim o comando (tecle ":"):
+```
+set mouse=
+```  
+Para tornar essa configuração permanente, edite (ou crie) o arquivo de configuração do Vim:
+```  
+nano ~/.vimrc
+```  
+E adicione a linha:
+```  
+set mouse=
+```  
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
+Pronto — agora o mouse não interferirá mais ao usar o Vim.
+
+## PERMISSÃO AO JOURNAL
+O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros.
+Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.  
+Essa restrição afeta alguns comandos como o 'systemctrl status \[serviço\]', veja este exemplo:  
+```  
+systemctl status systemd-journald
+```
+você poderá ver um aviso como:
+```  
+Warning: some journal files were not opened due to insufficient permissions.
+```
+Para eliminar esse *warning* e permitir acesso completo aos logs, adicione seu usuário atual ao grupo systemd-journal:
+```  
+sudo usermod -aG systemd-journal "$USER"
+```
+Em seguida, atualize sua sessão para que a mudança tenha efeito:  
+```  
+newgrp systemd-journal  # ou faça logout/login
+```
+Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
+
+## FIREWALL 
+Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop. Por isso, o primeiro passo é instalá-lo manualmente. Vamos optar pelo Firewalld, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu. Essa escolha garante comandos consistentes e portabilidade entre diferentes ambientes Linux.  
+  
+Muitas pessoas argumentam que um firewall é desnecessário em estações de trabalho Linux, e até certo ponto isso é verdade para uso doméstico. Contudo, se você é desenvolvedor ou administrador de sistemas, é essencial que o ambiente de desenvolvimento seja o mais parecido possível com o ambiente de produção — e este quase sempre possui um firewall ativo.  
+Em resumo: instalar o Firewalld no seu ambiente desktop não é apenas por segurança, mas por coerência e preparo profissional.  
+
+Instale o Firewalld:  
+```
+sudo apt install -y firewalld
+```
+Em seguida, habilite e inicie o serviço:
+```
+sudo systemctl enable firewalld
+sudo systemctl start firewalld
+```
+Verifique as portas atualmente liberadas:  
+```  
+sudo firewall-cmd --list-ports
+```
+Provavelmente não mostrará nada, mas vamos liberar algumas portas para servir de exemplo.  
+
+
+### LIBERANDO TEMPORARIAMENTE PORTAS NO FIREWALL
+Para liberar portas, precisamos listar os serviços que iremos usar, alguns podem nem ter sido instalados ainda, veja esta lista que exemplifica os serviços/portas que pretendemos liberar:  
+|Serviço      |Porta  |Descrição|
+|-------------|:-----:|---------|
+|HTTP         |80     |Tráfego web padrão (sites sem HTTPS)|
+|HTTPS        |443    |Tráfego web seguro (SSL/TLS)|
+|SSH          |22     |Acesso remoto seguro a servidores Linux|
+|RDP          |3389   |Acesso remoto do Windows (XRDP também usa)|
+|MySQL/MariaDB|3306   |Banco de dados |
+|PostgreSQL   |5432   |Banco de dados|
+|Firebird     |3050   |Banco de dados|
+
+Com base na lista acima, os comandos seriam:  
+```
+sudo firewall-cmd --add-port=80/tcp
+sudo firewall-cmd --add-port=443/tcp
+sudo firewall-cmd --add-port=22/tcp
+sudo firewall-cmd --add-port=3389/tcp
+sudo firewall-cmd --add-port=3306/tcp
+sudo firewall-cmd --add-port=5432/tcp
+sudo firewall-cmd --add-port=3050/tcp
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+sudo firewall-cmd --list-ports
+```
+E observe o resultado:  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp  
+  
+Isso significa que obtivemos sucesso, no entanto, essas regras são temporarias até reiniciar o firewalld ou o sistema.  
+
+### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL
+Como vimos no passo anterior, as regras são temporarias, elas valem apenas até reiniciar o firewalld ou o sistema. Para torná-las permanentes, execute:  
+```
+$ sudo firewall-cmd --runtime-to-permanent
+success
+```
+Agora, vamos reiniciar o firewall:  
+```
+sudo firewall-cmd --reload
+```
+Agora vamos repetir a verificação das portas atualmente liberadas:  
+```  
+$ sudo firewall-cmd --list-ports
+22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 
+```
+Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
+
+### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
+Assim como outros sistemas de firewall, o Firewalld trabalha com o conceito de perfis, chamados de zonas (zones).  
+A ideia é simples: cada zona representa um conjunto de regras de segurança.  
+  
+Por exemplo, você pode ter uma zona para virtualização, outra para desenvolvimento e outra para uso pessoal.  
+Quando muda de zona, o Firewalld desativa as regras da anterior e aplica as novas, permitindo perfis de rede específicos para cada tipo de tarefa.  
+  
+Por padrão, o Firewalld traz apenas uma zona ativa chamada public, que não possui regras liberadas inicialmente.  
+No entanto, essa zona é herdada por todas as outras, ou seja, qualquer regra adicionada a public se aplicará às demais zonas também.  
+  
+Isso é bastante útil — por exemplo, se você quiser liberar a porta 3389 (RDP) para acesso remoto, basta adicioná-la à zona public e ela valerá para todos os perfis.  No exemplo abaixo vamos acrescentar a porta **3389** a zona 'public' de forma permanente:    
+```
+sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
+sudo firewall-cmd --reload
+```
+
+Aproveite este momento para identificar quais portas precisam ser liberadas e aplique-as conforme sua necessidade.  
+As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas à zona public, garantindo que estejam disponíveis independentemente do perfil ativo.  
+
+>⚠️ IMPORTANTE:
+>Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente. Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
+
+
+## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
+Aliases não são programas, e sim um recurso presente em praticamente todas as distribuições Linux que permite abreviar ou simplificar comandos repetitivos. 
+Por exemplo, se você quiser listar os arquivos de uma pasta com cores e tamanhos em formato legível (KB, MB, GB), precisaria digitar algo assim toda vez:
+```  
+ls -lh --color=auto'
+```  
+
+Isso é muito comprido, então que tal apenas digitar 'l' e o sistema dar o comando acima? É isso que faremos agora, execute:
+```  
+nano ~/.bashrc
+```
+O arquivo acima é um arquivo de autoexecução que é rodado sempre que você acessa o terminal bash, acrescente ao final deste arquivo, seus aliases, por exemplo:
+```  
+alias l='ls -lh --color=auto'
+```
+Vamos a algumas sugestões minhas, algumas delas ao editar o ~/bashrc verá que sua distro já os tem ou estão comentadas.  
+```
+###
+### Meus aliases
+### 
+# Navegação e listagem:
+alias l='ls -lh --color=auto'        # Lista detalhada, tamanhos legíveis, com cores (comentaada no debian)
+alias la='ls -lha --color=auto'      # Lista tudo, incluindo arquivos ocultos  (comentaada no debian)
+alias ll='ls -lh --color=auto'       # Lista longa, mas ignora ocultos (comentaada no debian)
+alias ls='ls --color=auto'           # Força o uso de cores sempre (comentaada no debian)
+alias ..='cd ..'                     # Volta um diretório
+alias ...='cd ../..'                 # Volta dois diretórios
+alias ....='cd ../../..'             # Volta três diretórios
+alias c='clear'                      # Limpa o terminal
+
+# Sistema e administração
+alias update='sudo apt update && sudo apt upgrade -y'   # Atualiza o sistema
+alias install='sudo apt install -y '                    # Instala pacotes rapidamente
+alias remove='sudo apt remove '                         # Remove pacotes
+alias purge='sudo apt purge '                           # Remove pacotes + configs
+alias cls='clear'                                       # Outra forma de limpar tela
+alias df='df -h'                                        # Exibe uso de disco em formato legível
+alias du='du -h -d 1'                                   # Mostra tamanho de pastas
+alias free='free -h'                                    # Memória RAM legível
+
+# Rede
+alias ping='ping -c 5'             # Faz 5 pings e para
+alias myip='curl ifconfig.me'      # Mostra seu IP público
+alias ports='sudo netstat -tulanp' # Lista portas em uso
+
+# Vida longa ao sysadmin
+alias grep='grep --color=auto' # Cores no grep
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias h='history'              # Mostra histórico
+alias j='jobs -l'              # Lista jobs atuais
+alias v='vim'                  # Abre o Vim rapidamente
+```
+Muito util ter seus aliases, não é mesmo?
+Agora *salve* o arquivo e feche o editor (Ctrl+O, Enter, Ctrl+X).  
+
+Depois reinicie o seu terminal e para testar um dos aliases, execute:  
+```  
+$ l
+total 0
+drwxr-xr-x 1 gsantana gsantana 20 out 10 17:37 'Área de trabalho'
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Documentos
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  Downloads
+drwxr-xr-x 1 gsantana gsantana 32 out 10 18:48  Imagens
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
+```  
+Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
+
+> 💡 Curiosidade histórica:  
+> O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
+
+
+
 ## AJUSTANDO O PROMPT NO TERMINAL
 Às vezes o prompt do terminal pode incomodar alguns, por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt seu username e nome do computador:
 ![Prompt normal](https://github.com/gladiston/fedoralinux/blob/main/mudando_prompt01.png)
@@ -1406,8 +1416,6 @@ Então significa que o usuário e/ou senha e/ou dominio estão errados. Para uso
 |auto|Faz a montagem diretamente no boot|
 |noauto|Não faz a montagem automática durante o boot|
 |zero e zero no final da linha|Desativa dump e fsck automático.|
-
-
 
 
 ## BANCO DE DADOS FIREBIRD
@@ -2047,6 +2055,9 @@ blacklist kvm_amd
 Salve e reinicie o computador, notará que agora é possivel iniciar as VMs dentro do VirtualBox.  
 
 
+---
+## DAQUI EM DIANTE SÃO PROGRAMAS RECOMENDADOS, QUE VOCE PODE OU NAO QUERER USAR
+---
 
 ## SOFTWARE PARA TREINAMENTO
 Para criar material de treinamento que incluirá vídeo é sugerível instalar a seguinte extensão Draw On Your Screen cuja instrução para instalação se encontra em:
