@@ -77,41 +77,25 @@ Se estiver usando uma maquina de desenvolvimento e deseja relaxar um pouco o 'su
 ```  
 $ su root  
 (precisará digitar a senha)  
-$ sudo visudo    
+$ sudo visudo     
 ```
 e então procure por:    
 ```
-root    ALL=(ALL:ALL) ALL  
+%sudo   ALL=(ALL:ALL) ALL
 ```  
-Comente essa linha acrescentando "#" no inicio dela e escolha uma dessas opções para colocar na linha abaixo dela:  
+Agora comente a linha acima colocando "#" no inicio dela e escolha uma dessas opções para colocar na linha logo abaixo:  
 ```
-gsantana    ALL=(ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch, /bin/apt, /sbin/reboot, /sbin/poweroff
-gsantana    ALL=(ALL) NOPASSWD: ALL # precisa de senha para todos, exceto a lista acima  
+%sudo    ALL=(ALL:ALL) NOPASSWD: /bin/mount, /bin/umount, /bin/mkdir, /bin/rm, /bin/cp, /bin/chmod, /bin/chown, /bin/touch, /bin/apt, /sbin/reboot, /sbin/poweroff
+%sudo    ALL=(ALL:ALL) NOPASSWD: ALL # precisa de senha para todos, exceto a lista acima  
 ```
 As linhas acima, liberam o sudo sem senha apenas alguns comandos, os demais precisarão da digitação da senha.
 A outra opção, abaixo, libera qualquer comando sem o uso da senha:
 ```
-gsantana   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
+%sudo   ALL=(ALL:ALL) NOPASSWD: ALL # libera qualquer comando sem usar senha  
 ```
 Salve o arquivo e saida do editor.  
 
 > **IMPORTANTE**: A linha acima pode ser um risco ou não a depender do contexto em que você estiver inserido, se achar apropriado fazer isso na sua estação de trabalho então poderá fazê-lo, mas tenha certeza de que seu computador é um **zé-roela** que não oferece nenhum risco, isto é, não tem chaves de segurança que possam ser roubadas ou arquivos valiosos.  
-
-
-## BLOQUEIO DE TELA AUTOMÁTICO
-O sistema normalmente é ajustado automaticamente para bloquear após 5 minutos de atividade, mas ‘falta de atividade’ é um termo incorreto, o correto seria ‘tempo sem interatividade’, isto é, o tempo que você fica sem ter que interagir com o computador. Às vezes estamos processando algo demorado e temos de esperar ou acompanhar a movimentação de log de status e o computador durante este tempo estará tendo muito trabalho, porém com pouca interatividade, a tela será bloqueada. Então precisamos saber quanto tempo precisamos nas tarefas do dia a dia ou então desligá-la.
-
-### GNOME
-Vá em configurações->Privacidade->Tela de bloqueio:
-![Opção de privacidade e tela de bloqueio](https://github.com/gladiston/fedoralinux/blob/main/gnome_tela_bloqueio01.png)
-
-E então ajuste o tempo:
-![Opção de privacidade e tela de bloqueio](https://github.com/gladiston/fedoralinux/blob/main/gnome_tela_bloqueio02.png)
-
-### KDE
-![tela de bloqueio](kde_tela_bloqueio01.png)
-
-Não importa se é GNOME ou KDE, voce também tem a possibilidade de desligá-lo. 
 
 ## INSTALANDO O GOOGLE CHROME
 O Debian acompanha o navegador de Internet Konqueror, ou dependendo do perfil escolhido de isntalação ou distro baseada em Debian, o Firefox.  
