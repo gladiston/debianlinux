@@ -295,7 +295,7 @@ Mesmo que não use o 'crontab' neste momento, recomendo que cole este cabecalho:
 ```
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
+MAILTO=""
 # Exemplo de definição de tarefa (job):
 # .---------------- minuto (0 - 59)
 # |  .------------- hora (0 - 23)
@@ -309,9 +309,13 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # Também é uma boa prática redirecionar saídas de erro para um log
 # 30 2 * * * root /usr/local/bin/backup-diario.sh >> /var/log/backup.log 2>&1
 ```
-Depois salve e saia do editor.  
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
 Porque deixar as linhas acima? Para que quando você for executar o 'sudo crontab -e' possa lembrar do formato do agendamento.  
-Quando precisar listar num sistema unix os agendamentos que existem no sistema, execute:
+O parametro **SHELL** indica que shell iremos usar, podemos escolher o 'bash' que é mais comum, mas ao usar o 'sh' evitamos a carga do perfil com variaiveis de ambiente, path e outras coisas fazendo com que o agendamento não sofra nenhuma interferencia.  
+O parametro **PATH** é porque ao usar o shell 'sh', ele não tem PATH nenhum e boa parte dos comandos não funcionariam.  
+Em servidores com algum MTA instalado, incluiriamos também **MAILTO** com algum e-mail destacado e assim qualquer tarefa agendada, seu resultado seria enviado para o e-mail indicado, mas não funciona sem um MTA ou SMTP instalado no sistema.  
+
+Vez ou outra irá surgir a necessidade de listar os agendamentos programados então execute:
 ```
 sudo crontab -l # para listar agendamentos globais ou
 crontab -l # para listar seus agendamentos
@@ -326,7 +330,8 @@ E use agendamentos pessoais que só se aplicam quando você estiver conectado ao
 # Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
 0 10-18/2 * * * root wall "💧 Lembrete: Levante-se um pouco e beba água!"
 ```
-O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux.  
+O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux, mesmo seu computador sendo um desktop faça uso dele. O GNOME, KDE e outras DE's(Desktop Enviroment) tem utilitários para agendamento de maneira visual, mas lembre-se que nesse HowTO, não vamos entregar essas facilidades porque elas variam de DE para DE e o uso do terminal é a maneira mais consistente de explicar.  
+
 
 ## EDITOR DE TEXTO VIM
 O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, baseado no clássico Vi, presente em praticamente todas as distribuições Unix e Linux. É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
@@ -356,7 +361,7 @@ E adicione a linha:
 ```  
 set mouse=
 ```  
-Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).
+Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X).  
 Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
 ## PERMISSÃO AO JOURNAL
