@@ -22,22 +22,6 @@ Para o correto entendimento deste HowTo, usarei alguns padrões:
 **Nome do host**: ti-01  
 **Nome do usuário**: gsantana  
 **Nome do dominio local**: localdomain.lan
-**Partições**: Geralmente eu uso as partições da forma amaixo, mas isso é apenas uma recomendação:
-|sistema|Ponto de montagem|rotulo |Tamanho   |   
-|:-----:|:----------------|:------|:--------:|
-|fat32  |/boot/efi        |Nenhum |1GB       |
-|swap   |Nenhum           |Nenhum |mem.atual |
-|ext4   |/boot            |#boot  |1GB       |
-|ext4   |/                |#root  |100GB     |
-|ext4   |/home            |#disco1|max       |  
-
-Caso se use Btrfs, "/" e "/home" serão uma única partição geral com o tamanho restante que sobrou do particionamento do disco. Subvolumes para "/" e "/home" são recomendados.  
->**ALERTA:** Partições Btrfs não podem ter mais de 80% ocupados senão a performance cai por causa do Copy-on-Write(CoW).   
-
-**Swap**: Memória SWAP é uma memória de fuga, é para onde os programas correm quando ficam sem memória, afinal se a memória esgotar tanto o programa como o sistema inteiro pode parar de funcionar. Toda vez que programas usam o SWAP, espera-se que seja apenas um pico e que logo volte a não precisar mais dela. Se o SWAP estiver sempre em uso, recomenda-se que compre mais memória, afinal levar uma "vida _loca_" é desperdicio de tempo e compromete os resultados.  
-
-O tamanho de swap para uma partição Linux não pode ser inferior a memória atual de seu equipamento senão ele não será capaz de hibernar. Mas quanto? Digamos que seu equipamento tenha 16GB de RAM, a pergunta que faço é: "De quanta memória seu computador precisa para uma rota de fuga decente?" e se a resposta for "16GB tá bom" então o ideal de swap é 16GB mesmo, mas se a resposta for 32GB de RAM no geral então voce precisa acrescentar mais 16GB de swap totalizando 32GB de SWAP. Mas, e se o seu computador não irá hibernar? Então a regra de ter o minimo do tamanho da RAM não se aplica mais, apenas o quanto de memória seu computador precisaria ter de RAM como plano de fuga.  
-
 **Debian-Like**: É o termo que uso para distro Linux baseadas em Debian que pode se referir a Ubuntu, Linux Mint, Zorin OS,...
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
@@ -60,9 +44,24 @@ Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga e
 
 
 ## INSTALAÇÃO
-Nada de especial aqui, mas se usar o sistema de arquivos Btrfs terá um trabalho extra se for utilizar VMs. Este sistema de arquivos é uma mão na roda para programadores porque usando snaphots você recupera qualquer arquivo apagado ou sobreescrito sem recorrer a backups, além disso a compactação é muito útil para quem usa NVME ou SSD com tamanho escasso. Recomendo /home e /var como uma subpartição do Btrfs.  
+Não há nada muito especial na instalação, o ponto mais critico é mesmo o particionamento. Esta é uma recomendaçao baseada na minha experiência:   
 
-Caso pretenda usar ext4 - que é mais performática que Btrfs na minha opinião e usando bem menos memória - se possível, mantenha / e /home em partições separadas.   
+|sistema|Ponto de montagem|rotulo |Tamanho   |   
+|:-----:|:----------------|:------|:--------:|
+|fat32  |/boot/efi        |Nenhum |1GB       |
+|swap   |Nenhum           |Nenhum |mem.atual |
+|ext4   |/boot            |#boot  |1GB       |
+|ext4   |/                |#root  |100GB     |
+|ext4   |/home            |#disco1|max       |  
+
+Caso prefira usar Btrfs, "/" e "/home" serão uma única partição geral com o tamanho restante que sobrou do particionamento do disco. Subvolumes para "/" e "/home" são recomendados. Este sistema de arquivos é uma mão na roda para programadores porque usando snaphots é facil recupera qualquer arquivo apagado ou sobreescrito sem recorrer a backups, além disso a compactação é muito eficiente. 
+>**ALERTA:** Partições Btrfs não podem ter mais de 80% ocupados senão a performance cai por causa do Copy-on-Write(CoW).   
+
+Caso pretenda usar ext4, se possível, mantenha / e /home em partições separadas. Os peritos em virtualização também recomendam /var em separado, no entanto, neste HowTo, as VMs estarão no $HOME.  
+
+
+**Swap**: Memória SWAP é uma memória de fuga, é para onde os programas correm quando ficam sem memória, afinal se a memória esgotar tanto o programa como o sistema inteiro pode parar de funcionar. Toda vez que programas usam o SWAP, espera-se que seja apenas um pico e que logo volte a não precisar mais dela. Se o SWAP estiver sempre em uso, recomenda-se que compre mais memória, afinal levar uma "vida _loca_" é desperdicio de tempo e compromete os resultados.  
+O tamanho de swap para uma partição Linux não pode ser inferior a memória atual de seu equipamento senão ele não será capaz de hibernar. Mas quanto? Digamos que seu equipamento tenha 16GB de RAM, a pergunta que faço é: "De quanta memória seu computador precisa para uma rota de fuga decente?" e se a resposta for "16GB tá bom" então o ideal de swap é 16GB mesmo, mas se a resposta for 32GB de RAM no geral então voce precisa acrescentar mais 16GB de swap totalizando 32GB de SWAP. Mas, e se o seu computador não irá hibernar? Então a regra de ter o minimo do tamanho da RAM não se aplica mais, apenas o quanto de memória seu computador precisaria ter de RAM como plano de fuga.  
 
 
 ## SUDO
