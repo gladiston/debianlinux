@@ -476,7 +476,7 @@ code --install-extension ecmel.vscode-html-css \
      --install-extension formulahendry.auto-rename-tag \
      --install-extension xabikos.JavaScriptSnippets
 ```
-**EXTENSÕES PARA PYTHON**
+**EXTENSÕES PARA PYTHON**   
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
 ```
 code --install-extension ms-python.python \
@@ -484,7 +484,7 @@ code --install-extension ms-python.python \
      --install-extension ms-toolsai.jupyter \
      --install-extension ms-python.debugpy
 ```
-**EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS**
+**EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS**  
 ```
 code --install-extension mtxr.sqltools \
      --install-extension mtxr.sqltools-driver-mysql \
