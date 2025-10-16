@@ -890,10 +890,10 @@ Use agendamentos globais para tarefas que envolvam o sistema, tendo ou não usu�
 E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber, mas só vale das 10h até as 18h:
 ```
 # Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
-#0 10-18/2 * * * wall "💧 Lembrete: Levante-se um pouco e beba água!"  # terminal texto
-0 10-18/2 * * * export DISPLAY=:0 && notify-send "💧 Lembrete: Levante-se um pouco e beba água!" # KDE, GNOME, etc...
+#0 10-18/2 * * * wall "Lembrete: Levante-se um pouco e beba água!"  # terminal texto
+0 10-18/2 * * * export DISPLAY=:0 && notify-send "Lembrete: Levante-se um pouco e beba água!" # KDE, GNOME, etc...
 ```
-O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux, mesmo seu computador sendo um desktop faça uso dele. O GNOME, KDE e outras DE's(Desktop Enviroment) tem utilitários para agendamento de maneira visual, mas lembre-se que nesse HowTO, não vamos entregar essas facilidades porque elas variam de DE para DE e o uso do terminal é a maneira mais consistente de explicar.  
+O uso do **crontab** que foi mencionado aqui vale para todas as distribuições Linux, mesmo seu computador sendo um desktop, faça uso dele. O GNOME, KDE e outras DE's(Desktop Enviroment) tem utilitários para agendamento de maneira visual que tornam os agendamentos mais simples, mas lembre-se que nesse HowTO, não vamos entregar essas facilidades porque elas variam de DE para DE e o uso do terminal é a maneira mais consistente de explicar.  
 
 
 ## EDITOR DE TEXTO VIM
