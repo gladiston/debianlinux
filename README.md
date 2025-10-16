@@ -885,7 +885,7 @@ Use agendamentos globais para tarefas que envolvam o sistema, tendo ou não usu�
 # Desligar às 02:00
 0 2  * * * root /usr/sbin/shutdown -h now
 ```
-E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber, mas só vale das 10h até as 18h:
+E use agendamentos pessoais que só se aplicam quando você estiver conectado ao computador, por exemplo, deixar um lembre de se levantar a cada 2h para beber água, mas só vale das 10h até as 18h:
 ```
 # Enviar lembrete para beber água das 10h às 18h, a cada 2 horas
 #0 10-18/2 * * * wall "Lembrete: Levante-se um pouco e beba água!"  # terminal texto
