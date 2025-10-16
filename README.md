@@ -192,26 +192,26 @@ Atualiza os repositórios e instala o VS Code:
 ```
 sudo apt update
 ```  
-
-
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
 Sim, a Microsoft tem um repositório para distribuições Debian-Like.
 Não vamos instalar nada de lá ainda, vamos apenas incluir seu repositório e por mais paradoxo que seja, há um download e instalação para que tenhamos tal repositório, execute os procedimentos abaixo:  
 
-Baixa o pacote de configuração da Microsoft
+Descubra a versão do seu Ubuntu, execute:
 ```
-wget https://packages.microsoft.com/config/debian/13/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb
+$ cat /etc/issue
+Debian 13.0.1 \n \l
 ```
-Instala o pacote, que adiciona automaticamente o repositório oficial:  
+No exemplo acima, a versão é 13, agora visite a página:  
+[Pagina do repositório da Microsoft](https://packages.microsoft.com/config/debian/)
+
+Vá na pasta correspondente a sua versão, e baixe o arquivo 'packages-microsoft-prod.deb', depois dê um duplo clique nele para instalá-lo.             
+
+Atualize os repositórios:  
 ```
-sudo dpkg -i  /tmp/packages-microsoft-prod.deb
-```
-Atualiza os repositórios:  
-```
-sudo apt update
+sudo apt update -y
 ```  
-Isso produzirá um arquivo em /etc/apt/sources.list.d/microsoft-prod.list que apontará para o repositório oficial da Microsoft.
-Está curioso para saber o que a Microsoft está compartilhando? Então execute:
+Isso produzirá um arquivo em /etc/apt/sources.list.d/microsoft-prod.list que apontará para o repositório oficial da Microsoft.   
+Está curioso para saber o que a Microsoft está compartilhando? Então execute:  
 ```  
 apt-cache policy | grep packages.microsoft.com
 ```  
@@ -240,40 +240,24 @@ E então, observe o resultado:
 >packages-microsoft-prod/trixie,now 1.1-debian13 all [instalado]  
 >php-symfony-microsoft-teams-notifier/stable 6.4.21+dfsg-2 all  
 
-É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada. O time da Microsoft não conheçe a oração dos programadores em C/C++ 'salve-nos da recursividade; main()'. hahahhahahah.
+É curioso que a atualização do repositório da Microsoft é mantido por um pacote que precisa ser instalado manualmente e depois ele mesmo será atualizado pelo próprio repositório, isso que é uma implementação diferenciada. O time da Microsoft não conheçe a oração dos programadores em C/C++ 'salve-nos da recursividade; main()'. hahahhahahah.   
 
 
 ## ATUALIZAÇÃO DE REPOSITÓRIO
 Vamos atualizar o repositório de programas:  
 ```  
-sudo apt -y update
+sudo apt update -y  
 ```  
 
 Agora, vamos atualizar o sistema:  
 ```  
-sudo apt -y upgrade
+sudo apt upgrade -y
 ```
 E então observe o resultado:  
+>Resumo:                                     
+>  Atualizando: 0, Instalando: 0, Removendo: 0, Não atualizando: 0
 
->Atualizando:  
->  google-chrome-stable  
->  
->Resumo:  
->  Atualizando: 1, Instalando: 0, Removendo: 0, Não atualizando: 0   
->  Tamanho de download: 121 MB  
->  Espaço necessário: 7.168 B / 997 GB disponível    
->    
->Obter:1 https://dl.google.com/linux/chrome/deb stable/main amd64 google-chrome-stable amd64 141.0.7390.65-1 [121 MB]  
->Obtidos 121 MB em 5s (23,1 MB/s)  
->apt-listchanges: Lendo logs de mudanças...  
->(Lendo banco de dados ... 202444 arquivos e diretórios atualmente instalados).  
->Preparando para desempacotar .../google-chrome-stable_141.0.7390.65-1_amd64.deb ...  
->Desempacotando google-chrome-stable (141.0.7390.65-1) sobre (141.0.7390.54-1) ...  
->Configurando google-chrome-stable (141.0.7390.65-1) ...  
->Processando gatilhos para mailcap (3.74) ...  
->Processando gatilhos para man-db (2.13.1-1) ...  
-
-No exemplo acima, apenas o google-chrome requer atualização.
+No meu exemplo, não há atualizações, mas talvez em seu computador seja direferente.  
 
 
 ## INSTALANDO CODECS
@@ -332,14 +316,14 @@ São instalados poucos formatos, por isso, é recomendável instalar os pacotes 
 sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract
 ```
 
-Pacote|Função / Formato
+|Pacote|Função / Formato|
 |:--|:--|
-tar|Criação e extração de arquivos .tar e .tar.gz
-zip, unzip|Manipulação de arquivos .zip
-p7zip-full|Suporte a arquivos .7z (formato 7-Zip)
-p7zip-rar, rar, unrar|Suporte a arquivos .rar
-lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux
-squashfs-tools|Criação e extração de arquivos .squashfs
+|tar|Criação e extração de arquivos .tar e .tar.gz|
+|zip, unzip|Manipulação de arquivos .zip|
+|p7zip-full|Suporte a arquivos .7z (formato 7-Zip)|
+|p7zip-rar, rar, unrar|Suporte a arquivos .rar|
+|lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux|
+|squashfs-tools|Criação e extração de arquivos .squashfs|
 
 
 ## INSTALANDO O GERENCIADOR DE FONTES
@@ -350,7 +334,7 @@ sudo apt install -y  fontconfig fontforge fonttools
 
 
 ## INSTALANDO PROGRAMAS BASICOS PARA COMPILAÇÃO DE FONTES
-Os pacotes a seguir servem para quem pretende compilar algo no ambiente Linux. Se você pretende instalar o driver proprietário da NVIDIA fornecido pela NVIDIA você também precisará deles:
+Os pacotes a seguir servem para quem pretende compilar algo no ambiente Linux. Neste Howto, vamos precisar, então execute:  
 ```
 sudo apt install -y build-essential
 sudo apt install -y dh-make exuberant-ctags dpkg-dev debhelper fakeroot
@@ -359,7 +343,8 @@ sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc
 ```
 
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
-O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, basta rodar o seguinte comando no terminal:
+O flatpak não está instalado ou habilitado em nosso sistema, para hablitá-lo, precisará visitar a página:
+[site flatpak.org](https://flatpak.org/setup/Debian)  
 ```  
 sudo apt install -y flatpak
 ```  
@@ -371,12 +356,7 @@ Para o ambiente KDE, instale também:
 ```  
 sudo apt install plasma-discover-backend-flatpak
 ```
-Os pacotes alternativos para GNOME ou KDE são para maior integração dessas DE's ao flathub.
-
-Caso as instrções acima não funcionem, visite a página com informações atualizadas:   
-[https://flatpak.org/setup/Debian](https://flatpak.org/setup/Debian)  
-O link acima também é possivel ter outros repositórios mais específicos como o Ubuntu.  
-
+Os pacotes alternativos para GNOME ou KDE são para maior integração dessas DE's ao flathub.  
 
 Depois disso, adicionamos enfim, o repositório:
 ```  
@@ -530,7 +510,8 @@ Essas opções ativam:
 
 
 ## OBTENHA O KDE COMPLETO (OPCIONAL)  
-O KDE que acompanha o Debian é uma versão leve e personalizada para o Debian(wallpapers, logos, etc...), sem todos os módulos e personalizações idealizados pelo time do KDE, se desejar a versão idealizada pelo time do KDE, execute:
+A versão do KDE que acompanha o Debian (ou outras distros) costuma ser uma edição reduzida e personalizada pelo mantenedor da distribuição, contendo apenas os componentes essenciais e alguns ajustes visuais, como papéis de parede, ícones e logotipos próprios. Por isso, muitos módulos e aplicativos originais do projeto KDE não vêm instalados por padrão.   
+A versão completa inclui uma grande variedade de ferramentas — de jogos simples (como Paciência) a programas educativos e utilitários diversos. Embora boa parte deles seja dispensável para programadores e administradores de sistema, ela oferece uma experiência mais rica e próxima do que o time do KDE idealizou, lembrando em alguns aspectos o conforto visual do Windows.
 ```  
 sudo apt install -y kde-full
 ```
@@ -669,9 +650,12 @@ Exemplo de uso: estações de áudio profissional (JACK), robótica, processamen
 ## COMPLETANDO O IDIOMA PORTUGUÊS
 O idioma português-brasil não está completamente instalado, para isso execute o programa “system-config-language”, porém ele não está instalado por padrão, execute:
 ```
-sudo apt install locales task-laptop task-portuguese task-portuguese-desktop
+sudo apt install -y locales task-laptop
+sudo apt install -y task-portuguese task-portuguese-desktop
+sudo apt install -y hunspell-pt-br 
 ```
-💡 O pacote locales fornece os idiomas do sistema; os pacotes task-* completam tradução de menus, ajuda e aplicativos do ambiente gráfico.
+O pacote locales fornece os idiomas do sistema; os pacotes task-* completam tradução de menus, ajuda e aplicativos do ambiente gráfico.  
+Feche a sessão do GNOME ou KDE, caso esteja usando-o e refaça o login.  
 
 Se usa KDE, GNOME, XFCE etc., vá em Configurações do sistema>Região e Idioma>Idioma>Português (Brasil):  
 ![Mudando ou atualizando o idioma](debian-regiao-idioma.png)  
@@ -713,6 +697,14 @@ Vamos adicionar um repositório que nos será util para acrescentar mais fontes 
 sudo apt install -y ttf-mscorefonts-installer
 ```
 O pacote instalado acima complementará as fontes Microsoft de que alguns programas portados do Windows talvez precisem.
+
+## INSTALAÇÃO DE FONTE SIMILAR AO "SEGOI"
+O Linux não tem a fonte SegoiUI idealizada pela Microsoft para o sistema Windows. Essa fonte é realmente muito bela para ser usada dentro da UI dos aplicativos, apesar disso, há uma fonte similar que é tão bela quanto a Segoi, vamos instalá-la:  
+```
+sudo apt install -y fonts-inter fonts-noto
+```
+A 'fonts-inter' é bonita e genérica, mas a fonte 'fonts-noto-ui' é bem impressionante para ser usada dentro da UI de aplicativos.   
+
 
 ## INSTALAÇÃO DA FONTE ROBOTO
 A fonte ‘fonts-roboto’ é bastante interessante para uso em terminal e IDEs de programação:
@@ -802,7 +794,7 @@ WORKGROUP = WORKGROUP
 ```  
 e troque por:  
 ```  
-WORKGROUP = LOCALDOMAIN.LAN
+WORKGROUP = LOCALDOMAIN.LAN # ou apenas LOCALDOMAIN
 ```  
 O nome do dominio (LOCALDOMAIN.LAN, mas use o nome de seu dominio local) deve ser digitado em maiuscula por causa do antigo protocolo WINS ainda em uso no Windows, depois disso salve o arquivo e saia do editor. 
 Com essa modificação, quando acessar uma pasta compartilhada na rede, o nome 'meudominioderedelocal.lan' já aparecerá como padrão na tela de autenticação de usuário e retardará problemas futuros de lesão por esforços repetitivos em seus dedos.  
@@ -828,11 +820,17 @@ Removed '/etc/systemd/system/samba.service'.
 Entao é porque você estava com o controlador de dominio instalado e nem fazia ideia. De qualquer forma, desativamos e poderá prosseguir.
 
 ### Ativando o compartilhamento de arquivos
-Para usar apenas o compartilhamento de arquivos, iniciaremos apenas estes serviços:  
+Caso você precise realmente compartilhar arquivos que estão em seu computador com máquinas Windows, então precisará habilitar alguns serviços, execute:  
 ```  
-sudo systemctl enable smbd nmbd
 sudo systemctl start smbd nmbd
+sudo systemctl enable smbd nmbd
 ```
+Se quer apenas usufruir de arquivos compartilhados em outros computadores, mas não tem interesse os seus arquivos, então desative estes mesmos serviços:  
+```
+sudo systemctl stop smbd nmbd
+sudo systemctl disable smbd nmbd
+```
+Isso deixará o sistema mais leve.  
 
 
 ## CRONTAB
@@ -898,7 +896,7 @@ O Vim (Vi IMproved) é um editor de texto poderoso e altamente configurável, ba
 
 Ele oferece atalhos de teclado eficientes, realce de sintaxe, e modos de operação distintos (comando, inserção e visualização), que tornam a edição ágil e precisa. Também pode ser expandido com plugins e temas, transformando-o em um ambiente completo para programação.  
 
-No Debian 13, o Vim não vem instalado por padrão, mas pode ser adicionado facilmente com o apt:  
+Em algumas distros, o Vim não vem instalado por padrão, por isso vamos instalar, caso já esteja instalado, a instalação será ignorada:   
 ```  
 sudo apt install -y vim
 ```  
@@ -946,12 +944,14 @@ newgrp systemd-journal  # ou faça logout/login
 Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
 
 ## FIREWALL 
-Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop. Por isso, o primeiro passo é instalá-lo manualmente. Vamos optar pelo Firewalld, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu. Essa escolha garante comandos consistentes e portabilidade entre diferentes ambientes Linux.  
+Um sistema de firewall geralmente não vem instalado por padrão em muitas distribuições voltadas para desktop. Isso tem um motivo, o usuário comum terá muitas dificuldades em descobrir porque certas coisas não funcionam como ele quer, e a razão disso pode ser um bloqueio de porta, o exemplo mais típico dentro de empresas são as impressoras de rede, cada modelo como HP, EPSON, XEROX,.. usam portas diferentes para serem encontradas na rede, elas geralmente fazem broadcast para que sistemas operacionais as encontrem e se seu sistema tiver exatamente estas portas bloqueadas, tais impressoras não serão encontradas, por isso, use de cautela se desejar realmente instalar o Firewall, se for iniciante, recomendo que não faça isso.  
+
+Mas se é um desenvolvedor ou administrador de rede e entende os impactos de segurança que um Firewall e concordar com eles, então, o primeiro passo é instalá-lo manualmente. Vamos optar pelo **firewalld**, pois ele é o padrão no Fedora, RHEL, CentOS e openSUSE, além de ser totalmente compatível com Debian e Ubuntu. Interfaces como KDE e GNOME trazem aplicativos visuais para gerenciar e liberar portas. E também, essa escolha garante comandos consistentes e portabilidade entre diferentes ambientes Linux.  
   
 Muitas pessoas argumentam que um firewall é desnecessário em estações de trabalho Linux, e até certo ponto isso é verdade para uso doméstico. Contudo, se você é desenvolvedor ou administrador de sistemas, é essencial que o ambiente de desenvolvimento seja o mais parecido possível com o ambiente de produção — e este quase sempre possui um firewall ativo.  
-Em resumo: instalar o Firewalld no seu ambiente desktop não é apenas por segurança, mas por coerência e preparo profissional.  
+**Em resumo**: instalar o **firewalld** no seu ambiente desktop não é apenas por segurança, mas por coerência e preparo profissional.  
 
-Instale o Firewalld:  
+Instale o **firewalld**:  
 ```
 sudo apt install -y firewalld
 ```
@@ -994,7 +994,7 @@ Agora vamos repetir a verificação das portas atualmente liberadas:
 sudo firewall-cmd --list-ports
 ```
 E observe o resultado:  
-> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp   
   
 Isso significa que obtivemos sucesso, no entanto, essas regras são temporarias até reiniciar o firewalld ou o sistema.  
 
@@ -1010,9 +1010,11 @@ sudo firewall-cmd --reload
 ```
 Agora vamos repetir a verificação das portas atualmente liberadas:  
 ```  
-$ sudo firewall-cmd --list-ports
-22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp 
+sudo firewall-cmd --list-ports
 ```
+E observe o resultado:  
+> 22/tcp 80/tcp 443/tcp 3050/tcp 3306/tcp 3389/tcp 5432/tcp  
+
 Como pode observar acima, as regras não sumiram. Então, quando precisar de regras permanentes faça isso.  
 
 ### LIBERANDO PERMANENTEMENTE PORTAS NO FIREWALL POR PERFIL
@@ -1025,9 +1027,32 @@ Quando muda de zona, o Firewalld desativa as regras da anterior e aplica as nova
 Por padrão, o Firewalld traz apenas uma zona ativa chamada public, que não possui regras liberadas inicialmente.  
 No entanto, essa zona é herdada por todas as outras, ou seja, qualquer regra adicionada a public se aplicará às demais zonas também.  
   
-Isso é bastante útil — por exemplo, se você quiser liberar a porta 3389 (RDP) para acesso remoto, basta adicioná-la à zona public e ela valerá para todos os perfis.  No exemplo abaixo vamos acrescentar a porta **3389** a zona 'public' de forma permanente:    
+Isso é bastante útil — por exemplo, se você quiser liberar as portas usadas pelo CUPS e certas impressoras de rede, basta adicioná-la à zona public e ela valerá para todos os perfis, execute:    
 ```
-sudo firewall-cmd --zone=public --add-port=3389/tcp --permanent
+# IPP e IPPS (CUPS, impressão e status)
+sudo firewall-cmd --zone=public --add-port=631/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=631/udp --permanent
+sudo firewall-cmd --zone=public --add-port=443/tcp --permanent
+
+# Impressão via Windows/SMB
+sudo firewall-cmd --zone=public --add-port=139/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=445/tcp --permanent
+sudo firewall-cmd --zone=public --add-service=samba-client --permanent
+
+# Impressão LPD/LPR
+sudo firewall-cmd --zone=public --add-port=515/tcp --permanent
+
+# Impressão RAW (JetDirect/AppSocket) – HP, Brother, Canon, Epson
+sudo firewall-cmd --zone=public --add-port=9100-9200/tcp --permanent
+
+# Descoberta de impressoras (Bonjour/mDNS)
+sudo firewall-cmd --zone=public --add-port=5353/udp --permanent
+sudo firewall-cmd --zone=public --add-service=mdns --permanent
+
+# Monitoramento SNMP (opcional, para status de impressoras de rede)
+sudo firewall-cmd --zone=public --add-port=161/udp --permanent
+
+# Recarregando o Firewall:
 sudo firewall-cmd --reload
 ```
 
@@ -1035,8 +1060,8 @@ Aproveite este momento para identificar quais portas precisam ser liberadas e ap
 As portas que forem de uso comum a todos os perfis (zonas) devem ser adicionadas à zona public, garantindo que estejam disponíveis independentemente do perfil ativo.  
 
 >⚠️ IMPORTANTE:
->Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente. Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.  
-
+>Embora muitos considerem o uso de um firewall opcional em ambientes Linux de desktop, eu discordo totalmente. Mesmo em estações de trabalho, é fundamental manter um firewall ativo e configurado, pois ele protege serviços locais e deixa seu ambiente mais próximo do ambiente de produção, onde o firewall quase sempre está habilitado.  No entanto, nunca desative o firewall permanentemente ou ignore políticas básicas de segurança — isso elimina uma camada essencial de proteção que o Linux oferece por padrão.
+>
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
 Aliases não são programas, e sim um recurso presente em praticamente todas as distribuições Linux que permite abreviar ou simplificar comandos repetitivos. 
@@ -1107,9 +1132,10 @@ drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
 ```  
-Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.  
+Pronto — agora voce tem comandos mais *breves* para as atividades mais costumeiras.    
+Reinicie a sua sessão para os novos aliases entrarem em ação.  
 
-> 💡 Curiosidade histórica:  
+> **Curiosidade histórica**:  
 > O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
 
 
@@ -1207,7 +1233,13 @@ nvme0n1
 Veja que minhas partições tem etiquetas (label), assim fica muito mais fácil de identificá-las para montagem do que se guiar por nomes como: sda1, sda2, etc...   
 Além da partição NVME onde tem meu sistema inteira instalado, há um disco adicional em /dev/sda1, cujo label é 'ti-01-disco2' e o UUID é 'b2154643-7b94-42a1-8146-267bb88ba833'.   
 
-Primeiro, vamos criar uma pasta vazia para montagem:  
+Primeiro, vamos relaxar as permissões da pasta **/mnt** e **/media** para que usuários comuns possam criar pastas vazias para montagem:  
+```
+sudo chmod 2777 /mnt
+sudo chmod 2777 /media
+```
+
+Depois, vamos criar uma pasta vazia para montagem:  
 ```
 sudo mkdir -p /mnt/disco2
 sudo chown -R $USER:$USER /mnt/disco2
@@ -1357,6 +1389,7 @@ sudo chmod 2777 /media/pub
 ```
 Enfim, Montando a pasta:  
 ```
+sudo systemctl daemon-reload
 sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
 ```
 Mas esse linguição ser executados todas as vezes não é uma boa ideia quando a pasta é recorrente e pelo terminal, então vamos precisar editar o arquivo /etc/fstab e supondo que desejemos incluir um compartilhamento usando o protocolo smb/cifs, então a solução seria incluir:
