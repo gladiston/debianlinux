@@ -300,7 +300,7 @@ sudo apt install -y apt-transport-https gpg
 
 
 ## INSTALAÇÃO DE FERRAMENTAS DE DOWNLOAD (WGET E CURL)
-O comando abaixo instala duas ferramentas essenciais para realizar downloads e requisições web diretamente pelo terminal Linux:    
+O comando abaixo instala duas ferramentas essenciais para realizar  e requisições web diretamente pelo terminal Linux:    
 ```
 sudo apt install -y wget curl 
 ```
@@ -678,7 +678,7 @@ A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvo
 ```
 cd /tmp
 mkdir -p ~/.local/share/fonts
-wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
+wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
 unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
 ```
 Para conferir se foi realmente instalada, execute agora:  
@@ -1125,7 +1125,7 @@ $ l
 total 0
 drwxr-xr-x 1 gsantana gsantana 20 out 10 17:37 'Área de trabalho'
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Documentos
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  Downloads
+drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  
 drwxr-xr-x 1 gsantana gsantana 32 out 10 18:48  Imagens
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
 drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
@@ -1453,7 +1453,7 @@ O FirebirdSQL não é empacotado para Debian, RedHat ou outras distros, isso já
 ```
 sudo apt install-y libtommath-dev
 ```
-Agora vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/downloads) e baixe a ultima versão para Linux:  
+Agora vá até a [página oficial do FirebirdSQL](https://firebirdsql.org/) e baixe a ultima versão para Linux:  
 
 ![Download do Firebird](firebird-download.png)
 
@@ -1981,12 +1981,49 @@ Se for possivel, use o agendador de tarefsa do Linux para rodá-lo num horário 
 ```
 O comando acima, no horário 12:00 (almoço) fará a desfragmentação da pasta mencionada.  
 
+
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Localização das ISOs  
-Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo, execute:   
+Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo, execute:  
+
 ```
-virsh pool-define-as isos dir - - - - "/home/$USER/Downloads"
+mkdir -p /home/gsantana/libvirt/isos
+sudo chown -R libvirt-qemu:kvm /home/gsantana/libvirt/isos
+sudo chmod -R 2775 /home/gsantana/libvirt/isos
 ```
->**DICA**: O caminho acima é apenas uma sugestão, no exemplo acima, a pasta de Download será usada para armazenar as isos, subentende-se de que após o uso da .iso e não precise mais, você possa removê-la.  
+
+Agora que a pasta com as permissões foram criadas, então criamos o pool 'isos', execute:
+```
+sudo virsh pool-define-as isos dir - - - - "/home/gsantana/libvirt/isos"
+```
+
+O pool 'isos' está criado, mas precisa ser construído e iniciado(também autoiniciado após o boot), então execute:  
+```
+sudo virsh pool-build isos
+sudo virsh pool-start isos
+sudo virsh pool-autostart isos
+```
+
+Agora, vamos conferir, execute:  
+```
+$ virsh pool-list --all
+ Nome      Estado   Auto-iniciar
+----------------------------------
+ default   ativo    sim
+ isos      ativo    sim
+```
+Ótimo, o pool 'isos' está pronto, vamos ver mais detalhes dele, execute:
+```
+$ virsh pool-dumpxml "isos" | grep -oP '(?<=<path>).*(?=</path>)'
+/home/gsantana/libvirt/isos
+```
+
+Se no futuro quiser mudar o lugar desse pool, você pode excluir e criar de novo, assim:
+```
+virsh pool-list --all # para listar todos e ter certeza do nome a excluir
+sudo virsh pool-destroy isos  # parar com o uso do pool
+sudo virsh pool-undefine isos # remover a definição do pool
+```
+Essa remoção do pool não mexe com os arquivos que estavam na pasta, se precisar, remova-os manualmente.  
 
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Windows
