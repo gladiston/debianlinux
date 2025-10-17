@@ -1771,7 +1771,7 @@ sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils 
 |Pacote|Explicação|
 |:--|:--|
 |libvirt-daemon-system|Configura o daemon libvirtd para gerenciar VMs via KVM.|  
-|libvirt-clients|Ferramentas CLI (virsh, virt-install, etc.).|  
+|libvirt-clients|Ferramentas CLI (, virt-install, etc.).|  
 |dnsmasq-bas|Fornece DHCP/NAT automáticos para redes virtuais.|  
 |ovmf|Permite boot UEFI em VMs (necessário para Windows modernos).|  
 
@@ -1803,7 +1803,7 @@ Esses acessos são dados para que o usuário possa ter acesso a arquivos e pasta
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Para uso em Desktops
 Por tratar-se de um desktop, faça a instalação mais completa:
 ```  
-sudo apt install -y virt-manager fsd
+sudo apt install -y virt-manager virtiofsd
 ```
 
 |Pacote|Explicação|
@@ -1885,12 +1885,11 @@ $ virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
 Como pode notar, temos o pool **default** que aponta para **/var/lib/libvirt/images**, essa é a localização formal, se estivessemos falando de servidores a partição **/var** seria uma subpartição ou partição separada. Mas em desktops, é muito comum jogarmos /var dentro da partição /(root) que normalmente tem capacidade menor de espaço, e se você seguiu o HowTo até aqui é bem provavel que esteja assim no seu computador também e se isso de fato aconteceu, a localização formal não é o local mais adequado, assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
 ```
 mkdir -p ~/libvirt/images
-sudo chmod -vR 2775 ~/libvirt
-sudo chown -R libvirt-qemu:kvm ~/libvirt
+mkdir -p ~/libvirt/isos
 ```
 Você pode trocar a localização para qualquer outro local, desde que o grupo **libvirt* tenha acesso a ela, por isso, damos permissãoà pasta e subpastas ao libvirt e kvm, execute:  
 ```
-sudo chmod -vR 2775 ~/libvirt
+sudo chmod -R 2775 ~/libvirt
 sudo chown -R libvirt-qemu:kvm ~/libvirt
 ```
 
@@ -1934,7 +1933,6 @@ $ virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
 Isso confirma que realmente mudamos o pool 'default' de lugar.  
 
 Pronto, novas VMs serão criadas no diretório acima.  
- 
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs EM BTRFS
 Se a pasta acima é uma partição ext4, ignore este tópico, pule para o próximo.  
@@ -1942,7 +1940,7 @@ Mas, se a pasta acima estiver num tipo de partição Btrfs, então carece de alg
 
 * **CoW**: O Copy-on-Write(CoW) é um recurso do Btrfs que (1) quando um arquivo é modificado, ele não é alterado diretamente e (2) o sistema cria uma nova cópia dos blocos modificados e só depois descarta os antigos e isso protege contra corrupção e permite que snapshots instantaneos sejam criados, mas também significa que cada gravação cria fragmentação e sobrecarga de I/O. E agora? Uma coisa interessante é que o CoW pode ser desligado por pastas, então vamos fazer isso à pasta onde as imagens serão armazenadas, mas atenção, a pasta deve estar vazia, agora execute:
 ```
-chattr +C ~/libvirt
+sudo chattr +C ~/libvirt
 ```
 * **Compressão de dados**: No seu tempo ocioso, o Btrfs vai compactar seus arquivos e ele faz isso de maneira efetiva sem você perceber, não se preocupe, ele não faz isso nos arquivos em uso, mas em maquinas virtuais que são arquivos grandes e são modificados a todo instante, a ideia de compactar não é boa idéia porque gera mais processamento e I/O que rouba recursos que poderiam estar indo para as VMs em uso, então o que fazer? A solução é (1) você configurar no virtualizador que crie arquivos seguimentados, ao inves de uma única VM de tamanho contiguo. Ativando este recurso, o programa irá separá-los em vários arquivos menorescomo continuação da sessão anterior sem nunca sobregravá-los, o lado ruim desse método é que ele vai ocupar muito, mas muito espaço. A outra solução, (2) é desabilitando a compressão na partição onde as VMs estão localizadas, e nesse caso, vamos pelo jeito mais simples, quando você for mais experiente, crie volumes separados para VMs para não ter que desligar a compressão para a partição/disco inteiro como faremos agora, edite o arquivo /etc/fstab e procure pela representação do seu disco/partição Btrfs, no meu exemplo, esta assim:
   
@@ -1980,7 +1978,6 @@ Se for possivel, use o agendador de tarefsa do Linux para rodá-lo num horário 
 0 12 * * * /bin/bash -c '/usr/bin/btrfs filesystem defragment -r "/home/gsantana/libvirt/images"'
 ```
 O comando acima, no horário 12:00 (almoço) fará a desfragmentação da pasta mencionada.  
-
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Localização das ISOs  
 Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo, execute:  
@@ -2025,16 +2022,18 @@ sudo virsh pool-undefine isos # remover a definição do pool
 ```
 Essa remoção do pool não mexe com os arquivos que estavam na pasta, se precisar, remova-os manualmente.  
 
-
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Windows
-Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema, em nosso exemplo, eles contêm drivers de sistema convidado. Em nosso exemplo anterior, o pool de arquivos .iso é a pasta de ~/Downloads, então vamos baixar este .iso lá, execute:  
+Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema, em nosso exemplo, eles contêm drivers de sistema convidado. Em nosso exemplo anterior, o pool de arquivos .iso é a pasta de ~/libvirt/isos, então vamos baixar este .iso lá, execute:  
 ```
-cd ~/Downloads
+cd ~/libvirt/isos
 wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 ```
 
 Se estiver pensando em ambiente de desenvolvimento, a ISO do Windows Server é melhor, tem menor footprint de consumo de memória e CPU, embora não existe uma .iso em português, mesmo instalando em inglês é possivel modificar o idioma. O link para download é:  
 [Site oficial da Microsoft para baixar o Windows Server](https://www.microsoft.com/pt-br/evalcenter/download-windows-server-2025)  
+
+
+>**ALERTA**: Voce pode usar o virt-manager para criar suas VMs e na tela que você define o tamanho do disco haverá um pseudo-problema, em todas as vezes que crio o disco por esse wizard, os discos virtuais criados serão de tamanho fixo, ou seja, se definir alí que sua VM terá um disco de 200GB, ela terá exatamente 200GB ocupados no sistema operacional. O formato qcow2 aceita usar discos dinamicos, isto é, você cria um disco virtual de 200GB, mas no sistema operacional ele ocupará um tamanho mínimo e crescerá conforme o uso, então como usar discos dinâmicos? Simples, crie primeiro o disco no gerenciador de pools e ele perguntará se deseja um disco de tamanho fixo ou dinâmico e então escolha essa ultima opção e pronto, o arquivo .qcow2 será criado no pool 'default' com tamanho dinâmico. Depois disso, crie sua VM e associe o disco recém-criado com ela.
 
 
 Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:   
@@ -2043,6 +2042,11 @@ https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md
 No vídeo a seguir, uma explicação sobre máquinas virtuais, incluindo várias dicas:  
 [Produtividade com máquinas virtuais](https://youtu.be/8swg8mDQ9SA?si=HZC7vKnrx7ZxmCfE)  
 
+**NÃO ESQUEÇA AO CRIAR UM VM WINDOWS**
+Depois de instalar os drivers de convidado(virtio) numa VM Windows, não esqueça de:
+1. Na configuração da VM, trocar a Placa de rede (NIC) para **virtio**, isso melhorará o desempenho.
+2. Na configuração da VM, trocar a placa de vídeo em **Vídeo QXL** para usar o modelo **virtio**, isso melhorará o desempenho.
+3. O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cliente de sua rede, troque de **NAT** por **bridge** e forneça a conexão bridge criada via bridge-utils ou pela interface do KDE.
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando máquinas virtuais pelo Virt-Manager
 Instruções de como usar o virt-manager encontra-se na página:  
