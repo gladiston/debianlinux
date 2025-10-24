@@ -12,7 +12,7 @@ conectado  completa      missing  habilitado  missing  habilitado  não (adivinh
 ```
 Observe suas conexões atuais:  
 ```bash
-$ nmcli con show
+nmcli con show
 ```
 E observe os resultados:  
 ```
