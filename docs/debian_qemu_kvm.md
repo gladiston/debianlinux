@@ -26,20 +26,22 @@ Observe se existe  o grupo 'kvm', ele não é necessário em algumas distros, ex
 getent group kvm
 ```
 Se ele existir, aparecerá algo como:
-> kvm:x:992:gsantana
+> kvm:x:993:
 
-Em algumas distros, o grupo 'kvm' não existe porque não é necessário, a distro cuida disto de forma diferente, então não se aborreça caso o grupo acima não aparecer em seu sistema, prossiga normalmente, mas se ela existir, então incluímos nosso usuário no grupo 'kvm', execute:
-```  
+Apareceu `kvm`? Entãovamos incluir o nosso usuário no grupo 'kvm', execute:
+```bash
 sudo usermod -aG kvm $USER
 ```
+> **IMPORTANTE**: Em algumas distros, o grupo 'kvm' não existe porque não é necessário, a distro cuida disto de forma diferente, mas no caso do Debian/Ubuntu e derivações, ele precisa existir.  
+
 Depois disso, então repetimos a operação para observar se o grupo 'libvirt' existe:  
 ```  
 getent group libvirt
 ```
 É **obrigatório o grupo libvirt existir**, se não existir, algo deu muito errado nos passos anteriores, deverá aparecer algo como:
-> libvirt:x:122:gsantana
+> libvirt:x:117:   
 
-Agora que sabemos que ele existe, então incluímos nosso usuário no grupo 'libvirt', execute:
+Apareceu `libvirt`? Então agora que sabemos que ele existe, então incluímos nosso usuário no grupo 'libvirt', execute:
 ```  
 sudo usermod -aG libvirt $USER
 ```
