@@ -2,35 +2,17 @@
 O **Visual Studio Code (VS Code)** é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
 Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como **autocompletar inteligente (IntelliSense)**, **depuração integrada**, **controle de versão com Git** e uma ampla variedade de extensões para praticamente qualquer linguagem.  
 
-O VS Code não está nos repositórios padrão de nenhuma distribuição, e por isso vamos precisar habilitar o repositório oficial do vs code.  
+O VS Code tem uma instalação similar ao Google Chrome e Microsoft Edge, tem um .deb disponivel que ao ser instalado pela primeira vez, também acrescenta o repositório oficial. Então visite a página:   
 
-## INCLUINDO O REPOSITÓRIO DO VSCODE
-O **Visual Studio Code (VS Code)** é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
-Não iremos instalá-lo agora — apenas incluir o repositório oficial.  
-Vamos adicionar a chave pública da Microsoft:  
-```bash
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | \
-  sudo tee /usr/share/keyrings/microsoft.gpg > /dev/null
-```
-Agora, vamos incluir o repositório:  
-```bash
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | \
-  sudo tee /etc/apt/sources.list.d/vscode.list
-```
-Agora, atualizamos os nossos repositórios:  
-```
-sudo apt update -y
-```
+[Site oficial para download do vscode][https://code.visualstudio.com/download]
+E faça o download da versão .deb que aparece na tela:  
+[Tela de Download](../img/debian_vscode1.png)  
 
-Pronto, o repositório do **VS Code** está configurado corretamente.   
+Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela e ao final do processo, o vscode estará instalado.  
 
-
-## INSTALANDO O VSCODE VIA REPOSITÓRIO
-Agora que temos o repositório do vscode instalado, podemos prosseguir, execute:  
-```bash
-sudo apt install -y code
-```
-A seguir vamos a algumas extensões sugeridas.  
+## FREE PASCAL E DELPHI
+Caso queira instalar o suporte a pascal no vscode, recomendo que leia as instruções no link abaixo, pois uma de suas seções descreve justamente a personalização do vscode para pascal. Segue o link:   
+[Instalando o suporte a pascal no vscode](debian_lazarus.md)     
 
 ## NODE.JS  
 É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
@@ -50,11 +32,6 @@ code --install-extension vscjava.vscode-java-pack \
      --install-extension vscjava.vscode-java-test \
      --install-extension vscjava.vscode-maven
 ```
-
-## FREE PASCAL E DELPHI
-Caso queira instalar o suporte a pascal no vscode, recomendo que leia as instruções no link abaixo, pois uma de suas seções descreve justamente a personalização do vscode para pascal. Segue o link:   
-[Instalando o suporte a pascal no vscode](debian_lazarus.md)     
-
 
 ## EXTENSÕES PARA HTML, CSS E JAVASCRIPT  
 ```
