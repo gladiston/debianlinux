@@ -1,6 +1,11 @@
 # VIRTUALIZAÇÃO NATIVA QEMU+KVM
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias,  clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
 
+### Vamos fazer o backup?
+Antes de prosseguirmos, que tal fazer o backup da sua configuração de rede original?  Isso é importante porque assim que instalar o `libvirt` ele vai criar uma interface NAT para virtualizar e isso vai mudar o ambiente inicial, se quiser saber como fazer isso, siga as instruções no link a seguir:  
+[Fazendo um backup das configurações de rede](debian_backup_restore_network.md)  
+
+
 ### Vamos instalar os pacotes principais:  
 ```
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients
