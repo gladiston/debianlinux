@@ -49,7 +49,7 @@ Agora, verifique o arquivo que foi gerado:
 ```bash
 ls -lh $BKP/
 ```
-E então analise os arquivos criados:  
+E verá algo similar a isso:
 ```
 -rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-2025-10-22_165719.tgz
 -rw-rw-r-- 1 gsantana gsantana  399 out 23 17:10 netcfg-2025-10-22_165719.tgz.txt
