@@ -59,11 +59,14 @@ Em seguida, clique em `Setup+` para abrir as opções adicionais.
 
 Depois, ajuste as configurações conforme a plataforma que pretende compilar:  
 [Marque as opções que achar apropriado](../img/instalacao_linux_instalador1.png)    
-Marque apenas o que for realmente necessário. A opção `Use System FPC for Lazarus` deve ser usada somente se você já tiver o compilador Free Pascal instalado pelos repositórios — isso economiza tempo e evita downloads desnecessários, geralmente deixo desmarcado e o próprio instalador fará um download e instalação local do **fpc**.
+Marque apenas o que for realmente necessário. A opção `Use System FPC for Lazarus` deve ser usada somente se você já tiver o compilador Free Pascal instalado pelos repositórios — isso economiza tempo e evita downloads desnecessários, geralmente deixo desmarcado e o próprio instalador fará um download e instalação local do **fpc**.  
 
-Você pode fazer algumas outras marcações como definir a plataforma em que pretende compilar:  
+Você pode fazer algumas outras marcações como definir a plataforma em que pretende compilar:   
 [Algumas outras opções também podem ser interessantes](../img/instalacao_linux_fpcupdeluge3.png)    
 Algumas outras opções também podem ser interessantes, explore as opções do ambiente.  
+
+Se você é fã das janelas integradas ao estilo "Delphi" talvez queira ligar essa opção **Docked Lazarus IDE**:   
+[Habilitando janelas docadas na IDE](instalacao_linux_fpcupdeluge5.png)  
 
 Após finalizar os ajustes, clique em `OK` e depois em `Install/Update FPC+Laz` para iniciar a instalação:    
 [Prossiga com a instalação](instalacao_linux_fpcupdeluge4.png)    
