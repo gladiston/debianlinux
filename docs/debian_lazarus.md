@@ -70,7 +70,13 @@ Algumas outras opções também podem ser interessantes, explore as opções do 
 
 Se você é fã das janelas integradas ao estilo "Delphi" talvez queira ligar essa opção **Docked Lazarus IDE**:    
 [Habilitando janelas docadas na IDE](instalacao_linux_fpcupdeluge5.png)   
+
 Pessoalmente, eu gosto de instalar sem a docagem completa, mas depois de instalado, ir na `IDE>Packages>Install Packages` e então instalar as packages `AnchorDocking` e `AnchorDockingDsgn`, o motivo é que esse movimento deixa tudo docado, com exceção do formulário de design e qual a vantagem? Quando preciso usar o formulário de design tenho uma área bem maior do que fosse docado na IDE e se tiver um segundo monitor(e tenho) programar numa tela e fazer o design em outro monitor.   
+
+Uma outra opção interessante é ligar o OPM, veja:   
+[Habilitar ou instalar o OPM)(instalacao_linux_fpcupdeluge6.png)  
+O OPM(Open Package Manager) é um repositório de componentes que nos permite instalar de dentro da IDE pacotes que por padrão não são instalados na IDE.  
+
 
 Após finalizar os ajustes, clique em `OK` e depois em `Install/Update FPC+Laz` para iniciar a instalação:     
 [Prossiga com a instalação](instalacao_linux_fpcupdeluge4.png)     
