@@ -29,16 +29,17 @@ sudo apt install -y libgtk2.0-dev libcanberra-gtk-module
 sudo apt install -y libgtk-3-dev libcanberra-gtk3-module
 ```
 
-Embora a maioria das distros estejam migrando para Wayland, alguns programas ou bibliotecas que iremos usar ainda estão usando libs do Xorg então vamos precisar:  
-```bash
-sudo apt install -y libx11-dev libxext-dev libxtst-dev libxi-dev libxrandr-dev libxinerama-dev libxrender-dev libxt-dev
-```
-Agora, estamos prontos para iniciar a instalação do Lazarus e para isso vamos usar `fpcupdeluxe`, um excelente instalador do Lazarus porque ele baixa-o diretamente doo codigo fonte original **gitlab.net** e traz opções de personalização que incluem o cross-compile.  
-Antes de prosseguir, é sempre bom revisar os passos anteriores, as dicas acima foram retiradas da página oficial:
-[Wiki da página do fpcupdeluxe](https://wiki.lazarus.freepascal.org/fpcupdeluxe)  
-Porque pode acontecer deste tutorial ficar, por isso, sempre confirme as dependencias novamente.
+## FPCUPDELUXE
+Agora que o ambiente já está preparado, podemos iniciar a instalação do Lazarus usando o fpcupdeluxe, um excelente instalador que automatiza todo o processo.
+Ele baixa o código-fonte diretamente do repositório oficial (gitlab.net) e compila tanto o Free Pascal Compiler (FPC) quanto o Lazarus IDE, permitindo personalizações avançadas — incluindo suporte a cross-compile para outras plataformas.   
 
-Agora vamos começar com o download do fpcupdeluxe, visite a página e baixe a versão mais recente para a sua plataforma:  
+As orientações a seguir foram baseadas na documentação oficial:  
+[Wiki da página do fpcupdeluxe](https://wiki.lazarus.freepascal.org/fpcupdeluxe)  
+
+>**Dica**: Com o tempo, os pacotes do sistema e o Lazarus evoluem. Caso este tutorial fique desatualizado, sempre consulte a wiki acima para verificar eventuais mudanças nas dependências ou nas opções do instalador.
+
+
+Para começar, acesse o repositório oficial e baixe a versão mais recente para sua plataforma:  
 [Download da versão recente do fpcupdeluxe](https://github.com/newpascal/fpcupdeluxe/releases/latest)  
 
 Veja o exemplo que serve para GNOME, mas tem para KDE/QT também:  
@@ -49,25 +50,41 @@ Digamos que tenha baixado a versão para GNOME, agora vamos executá-lo:
 chmod +x fpcupdeluxe-x86_64-linux
 ./fpcupdeluxe-x86_64-linux
 ```
-Não é necessário usar “sudo” porque essa será uma instalação homeuser, isto é, não vai requerer permissões administrativas.  
-Na tela seguinte selecione como FPC Version a opção fixes e para Lazarus version também fixes, depois clique em Setup+:  
+Não é necessário usar sudo, pois esta será uma instalação homeuser, ou seja, ficará isolada no diretório do seu usuário e não exigirá privilégios administrativos.    
+Na tela inicial, selecione:  
+* FPC Version: fixes  
+* Lazarus Version: fixes  
+Em seguida, clique em `Setup+` para abrir as opções adicionais.  
 [Clique em Setup++ para ajustar alguns parametros](../img/instalacao_linux_fpcupdeluge2.png)  
 
-Depois faça o seguinte ajuste selecionando a plataforma que deseja compilar seus programas:  
+Depois, ajuste as configurações conforme a plataforma que pretende compilar:  
 [Marque as opções que achar apropriado](../img/instalacao_linux_instalador1.png)    
-Marque as opções que achar apropriado, porém só marque a opção **Use System FPC for Lazarus** se tiver instalado o fpc(FreePascal Compiler) dos repositórios, isto te poupa download e tempo.  
+Marque apenas o que for realmente necessário. A opção `Use System FPC for Lazarus` deve ser usada somente se você já tiver o compilador Free Pascal instalado pelos repositórios — isso economiza tempo e evita downloads desnecessários, geralmente deixo desmarcado e o próprio instalador fará um download e instalação local do **fpc**.
 
 Você pode fazer algumas outras marcações como definir a plataforma em que pretende compilar:  
 [Algumas outras opções também podem ser interessantes](../img/instalacao_linux_fpcupdeluge3.png)    
 Algumas outras opções também podem ser interessantes, explore as opções do ambiente.  
 
-Depois confirme com o Botão OK e então em Install/Update FPC+Laz e prossiga com a instalação:  
-[Prossiga com a instalação](instalacao_linux_fpcupdeluge4.png)  
+Após finalizar os ajustes, clique em `OK` e depois em `Install/Update FPC+Laz` para iniciar a instalação:    
+[Prossiga com a instalação](instalacao_linux_fpcupdeluge4.png)    
 
-Então prepare-se, ela é bastante demorada. Após a conclusão com sucesso será gerado uma entrada no menu do sistema. Agora o Lazarus aparecerá na área de trabalho do seu computador.  
-Também foi gerado o arquivo Lazarus_fpcupdeluxe no pasta HOME do usuário. O Lazarus só funcionará se executar por este script na $HOME ou pelos atalhos recém-criados na área de trabalho, não adianta executá-lo de outra forma.  
+**Atenção**: o processo pode demorar bastante, pois o fpcupdeluxe compila tudo a partir do código-fonte.  
+Ao concluir com sucesso, será criada uma entrada no menu do sistema e um arquivo de inicialização chamado Lazarus_fpcupdeluxe no seu diretório home.  
+Para iniciar o Lazarus, use esse script ou os atalhos criados automaticamente — executar o binário diretamente não funcionará corretamente.  
 
 
+### POSSÍVEIS ERROS E SOLUÇÕES
+Durante a compilação pelo fpcupdeluxe, é comum aparecerem alguns erros de dependência.   
+A seguir estão os mais frequentes e suas respectivas soluções.  
+  
+>Erro: cannot find -lX11
+
+ 
+Embora a maioria das distros estejam migrando para Wayland, alguns programas ou bibliotecas podem ter depêndencias das libs do Xorg, então **É POSSIVEL OU NÃO** que precisemos de certas libs, caso a instalação do **fpcupdeluxe** falhe mostrando a mensagem acima, provavelmente você precisará também:   
+```bash
+sudo apt install -y libx11-dev libxext-dev libxtst-dev libxi-dev libxrandr-dev libxinerama-dev libxrender-dev libxt-dev
+```
+Mas não se apresse em instalar as libs acima primeiro, veja se **fpcupdeluxe** falha ao compilar a IDE e daí sim, você instala elas.  
 
 
 
