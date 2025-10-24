@@ -77,14 +77,23 @@ sudo chown -R $USER:$USER $BKP
 ```
 E então verifique os arquivos que foram gerado:  
 ```bash
-$ ls -lh $BKP/
+ls -lh $BKP/
 ```
 E verá algo similar a isso:
 ```
 -rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-bridge-2025-10-23_165719.tgz
 -rw-rw-r-- 1 gsantana gsantana  399 out 23 17:10 netcfg-bridge-2025-10-23_165719.tgz.txt
 ```
-Como pôde ver, a composição dos arquivos que foram compactados são apenas alguns arquivos textos pequenos, quase nada em termos de espaço. Também criamos uma arquivo `.txt` que armazena os resultados dos comandos que você viu no inicio desse tutorial e mais tarde será possível comparar o antes e o depois. Se você não vê nenhum dos dois arquivos, o `.tgz` e o `.txt` ou estão vazios, então algo deu errado nos passos anteriores e é melhor revisá-los e não prosseguir.
+Como pôde ver, a composição dos arquivos que foram compactados são apenas alguns arquivos textos pequenos, quase nada em termos de espaço. Também criamos uma arquivo `.txt` que armazena os resultados dos comandos que você viu no inicio desse tutorial, ou seja, algo similar:
+```
+$ cat $BKP/netcfg-bridge-2025-10-23_165719.tgz.txt 
+STATE      CONNECTIVITY  WIFI-HW  WIFI        WWAN-HW  WWAN        METERED          
+conectado  completa      missing  habilitado  missing  habilitado  não (adivinhado) 
+NAME                UUID                                  TYPE      DEVICE 
+Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
+lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo  
+```
+Com isso, mais tarde será possível comparar o antes e o depois. Se você não vê nenhum dos dois arquivos, o `.tgz` e o `.txt` ou estão vazios, então algo deu errado nos passos anteriores e é melhor revisá-los e não prosseguir.
 
 ## VERIFICAÇÃO DO AMBIENTE
 Comandos úteis de verificação, primeira observamos se `enp8s0` esta presente:
@@ -97,7 +106,7 @@ Depois, execute:
 $ nmcli device status | grep enp8s0
 enp8s0  ethernet  conectado               Wired connection 1 
 ```
-Note que acima, está descrito tanto a interface fisica `enp8s0` como também o nome da conexão `Wired connection 1`, fique atento porque você precisará adaptar esses nomes ao seu ambiente que pode ser diferente do meu.  
+Note que acima está descrito tanto a interface fisica `enp8s0` como também o nome da conexão `Wired connection 1`, fique atento porque você precisará adaptar esses nomes ao seu ambiente que pode ser diferente do meu.  
 
 Após a instalação e a verificação, certifique-se de que o NetworkManager está ativo:
 ```bash
@@ -128,30 +137,34 @@ sudo nmcli con down "Wired connection 1"
 
 Vamos criar a conexão da bridge:
 ```bash
-$ sudo nmcli con add type bridge ifname br0 con-name br0 ipv4.method auto ipv6.method ignore
+sudo nmcli con add type bridge ifname br0 con-name br0 ipv4.method auto ipv6.method ignore
 ```
-O resultado espera do é:
+Ou se precisar adicionar o Mac Address para alguma configuração sua (proxy, gateways) ser reconhecida por outros dispositivos:
 ```
-A conexão “br0” (aa0748de-5a0d-4d45-b908-9e9f2c788465) foi adicionada com sucesso.
+sudo nmcli con add type bridge ifname br0 con-name br0 \
+  ipv4.method auto ipv6.method ignore \
+  bridge.mac-address 52:54:00:12:34:56
 ```
+De qualquer forma, o resultado esperado é:
+>A conexão “br0” (cccccccc-dddd-eeee-ffff-gggggggggggg) foi adicionada com sucesso.  
+
 
 Vamos vincular a interface física `enp8s0` como escrava da bridge:
 ```bash
 sudo nmcli con add type bridge-slave ifname enp8s0 con-name br0-port-enp8s0 master br0
 ```
 O resultado esperado é:
-```
-A conexão “bridge-slave-enp8s0” (7daddf82-c9cb-4e44-9d26-097e9e9c7604) foi adicionada com sucesso.
-```
+>A conexão “bridge-slave-enp8s0” (hhhhhhhh-iiii-jjjj-kkkk-llllllllllll) foi adicionada com sucesso.   
+
 
 E depois ativamos a conexão:
 ```bash
 sudo nmcli con up br0
 ```
 O resultado esperado é:
-```
-Conexão ativada com sucesso (controller waiting for ports) (caminho D-Bus ativo: /org/freedesktop/NetworkManager/ActiveConnection/4)
-```
+>Conexão ativada com sucesso (controller waiting for ports) (caminho D-Bus ativo: /org/freedesktop/NetworkManager/ActiveConnection/5)  
+
+
 
 Agora, vamos a verificação, o comando abaixo mostrará tudo relacionado a `br0`:
 ```bash
@@ -173,10 +186,30 @@ Será que dessa vez esta ativa? Vamos confirmar:
 ```bash
 ip -br a show br0
 ```
-Se estiver ativa (UP), então vamos ver se é capaz de conectar-se a outros computadores:
+O resultado esperado é:  
+> br0              UP             192.168.1.162/24 fe80::e8c2:5dff:fef7:b76d/64     
+
+Se estiver ativa (UP), então vamos ver se é capaz de conectar-se a outros computadores, execute:
 ```bash
-ping -c3 1.1.1.1 && ping -c3 8.8.8.8
+ping -c3 192.168.1.1 # supondo ser este o seu gateway
 ```
+O resultado esperado é:  
+```
+PING 192.168.1.1 (192.168.1.1) 56(84) bytes of data.
+64 bytes from 192.168.1.1: icmp_seq=1 ttl=64 time=0.331 ms
+64 bytes from 192.168.1.1: icmp_seq=2 ttl=64 time=0.521 ms
+64 bytes from 192.168.1.1: icmp_seq=3 ttl=64 time=0.528 ms
+
+--- 192.168.1.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2026ms
+rtt min/avg/max/mdev = 0.331/0.460/0.528/0.091 ms
+```
+
+Se quiser testar pingando endereços de internet, também vale, mas antes, verifique se o IP acima está liberado em sua rede de firewall/gateway para acesso À internet:
+```bash
+ping -c3 1.1.1.1 # IP do DNS da Cloudfare
+```
+
 
 5) Ajuste para IP estático (opcional):
 ```bash
@@ -284,9 +317,11 @@ A conexão “Wired connection 1” (23471efa-cdf7-4d97-9d90-c822445d7c96) foi e
 
 Vinculamos um nome de conexão `Wired connection 1` a interface `enp8s0`:
 ```bash
-$ sudo nmcli con add type ethernet ifname enp8s0 con-name "Wired connection 1" ipv4.method auto
-A conexão “enp8s0” (55f6aebb-2d5e-46a5-8562-560211ea3a11) foi adicionada com sucesso.
+sudo nmcli con add type ethernet ifname enp8s0 con-name "Wired connection 1" ipv4.method auto
 ```
+> A conexão “enp8s0” (55f6aebb-2d5e-46a5-8562-560211ea3a11) foi adicionada com sucesso.  
+
+
 Onde está `Wired connection 1` é o nome original, mas você pode usar outro nome como `conexao1` para ficar mais simples.
 
 E finalizamos com a ativação da interface `enp8s0`:
