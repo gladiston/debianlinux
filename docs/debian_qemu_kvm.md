@@ -7,7 +7,7 @@ Antes de prosseguirmos, que tal fazer o backup da sua configuração de rede ori
 
 
 ### Vamos instalar os pacotes principais:  
-```
+```bash
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients
 sudo apt install -y bridge-utils dnsmasq-base ovmf isc-dhcp-client
 ```
@@ -22,7 +22,7 @@ sudo apt install -y bridge-utils dnsmasq-base ovmf isc-dhcp-client
 ### Permitir uso sem root
 Adicione seu usuário ao grupo libvirt (e kvm):
 Observe se existe  o grupo 'kvm', ele não é necessário em algumas distros, execute:
-```  
+```bash
 getent group kvm
 ```
 Se ele existir, aparecerá algo como:
@@ -32,25 +32,43 @@ Apareceu `kvm`? Entãovamos incluir o nosso usuário no grupo 'kvm', execute:
 ```bash
 sudo usermod -aG kvm $USER
 ```
-> **IMPORTANTE**: Em algumas distros, o grupo 'kvm' não existe porque não é necessário, a distro cuida disto de forma diferente, mas no caso do Debian/Ubuntu e derivações, ele precisa existir.  
+Depois, verifique se realmente estou no grupo `kvm`, execute:  
+```bash
+getent group kvm
+```  
+Você deve ver:
+>kvm:x:993:gsantana    
+
+Se aparecer `kvm` e `gsantana`, então tá tudo certo e podemos prosseguir. 
+
+>**CURIOSIDADE**: Em algumas distros, o grupo 'kvm' não existe porque não é necessário, a distro cuida disto de forma diferente, mas no caso do Debian/Ubuntu e derivações, ele precisa existir.  
 
 Depois disso, então repetimos a operação para observar se o grupo 'libvirt' existe:  
-```  
+```bash
 getent group libvirt
 ```
 É **obrigatório o grupo libvirt existir**, se não existir, algo deu muito errado nos passos anteriores, deverá aparecer algo como:
 > libvirt:x:117:   
 
 Apareceu `libvirt`? Então agora que sabemos que ele existe, então incluímos nosso usuário no grupo 'libvirt', execute:
-```  
+```bash 
 sudo usermod -aG libvirt $USER
 ```
-Esses acessos são dados para que o usuário possa ter acesso a arquivos e pastas que apenas o software teria.  
+Depois, verifique se realmente estou nestes grupos:  
+```bash 
+getent group libvirt
+```  
+Você deve ver:
+>libvirt:x:117:gsantana
+ 
+Se aparecer `libvirt` e `gsantana`, então tá tudo certo e podemos prosseguir.  
+
+Esses acessos são dados para que o usuário possa ter acesso a arquivos e pastas que apenas o `libvirt` e `kvm` teriam.   
 
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Para uso em Desktops
 Por tratar-se de um desktop, faça a instalação mais completa:
-```  
+```bash
 sudo apt install -y virt-manager virtiofsd
 ```
 
@@ -61,7 +79,7 @@ sudo apt install -y virt-manager virtiofsd
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - CONFERINDO MÓDULOS
 Agora, verifique se os módulos do KVM estão carregados no kernel:
-```
+```bash
 lsmod | grep kvm
 ```
 Uma saída aceitável seria:  
@@ -73,29 +91,24 @@ ccp                   163840  1 kvm_amd
 ```
 Se constar na lista o módulo *kvm* e kvm_amd|kvm_intel, então tá tudo certo.
 
-Depois, *reinicie o computador*.  
-Depois do login, verifique se realmente estou nestes grupos:  
-```  
-groups
-```  
-Você deve ver:
->**gsantana** adm cdrom sudo dip plugdev lpadmin **libvirt** sambashare(...)
-
-Isso significa que você tem acesso ao grupo **libvirt** e pode prosseguir.  
+Depois, *reinicie o computador*.   
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - ATIVÁ-LO NO BOOT
 Se os módulos do 'kvm' aparecem então agora é o momento de prepará-los para iniciar-se como serviço durante o boot, assim, inicie o serviço do libvirtd com:  
-```
+```bash
 sudo systemctl start libvirtd
 ```
 E para iniciar o serviço durante o boot, execute:
+```bash
+sudo systemctl enable libvirtd
 ```
-$ sudo systemctl enable libvirtd
+A resposta aguardada é:
+```
 Synchronizing state of libvirtd.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
 Executing: /usr/lib/systemd/systemd-sysv-install enable libvirtd
 ```
 Confira que o serviço esta ativado:
-```
+```bash
 sudo systemctl status libvirtd
 ```
 Um resultado assim, aparecerá:
@@ -119,7 +132,7 @@ TriggeredBy: ● libvirtd-ro.socket
 out 08 16:26:55 ti-01 systemd[1]: Starting libvirtd.service - libvirt legacy monolithic daemon...
 out 08 16:26:55 ti-01 systemd[1]: Started libvirtd.service - libvirt legacy monolithic daemon.
 ```
-Se retornou 'Active: active' então tá tudo certo.
+Se retornou `Active: active` então tá tudo certo.
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs
 O sistema trabalha no que chama de 'pools', o conceito é que cada pool tem um nome e aponta para uma pasta ou dispositivo, você pode ter todas as VMs no mesmo lugar, ou criar pools diferentes para cada contexto, vamos ver agora quantos pools temos no sistema, execute:  
@@ -132,22 +145,28 @@ E então será exibo algo assim:
 ------------------------------------------------------------------------------------------
  default   executando   sim            sim           114,79 GiB   11,67 GiB   103,12 GiB
 ```
-Como poderá observar, há apenas 1 pool, chamado 'default' que tem apenas 103,12 GiB, disponivel. Mas para qual dispositivo ou pasta este pool armazena seus dados? Execute:
+
+Caso ele não apareça nada na listagem, é porque você ainda não executou o `virt-manager` pela primeira vez. Quando ele é executado pela primeira vez, ele cria o pool sozinho, porém usando /var que tem muito mesmo espaço que o nosso $HOME. Mas se não apareceu nada, então execute:  
+```bash
+sudo virsh pool-define-as default dir --target /var/lib/libvirt/images
+sudo virsh pool-autostart default
+sudo virsh pool-start default
+```
+
+Agora que confirmamos a existencia do pool `default` Como poderá observar, há apenas 1 pool, chamado 'default' que se estiver apontando para /var tem muito menos espaço disponível do que teria se fosse nosso $HOME, por isso confira novamemte:, execute:
 ```bash
 sudo virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
 ```
-E verá algo assim:  
+Se ver algo assim, isto é, indicando o **/var**:
 >/var/lib/libvirt/images
 
-
-Como pode notar, temos o pool **default** que aponta para **/var/lib/libvirt/images**, essa é a localização formal, se estivessemos falando de servidores a partição **/var** seria uma subpartição ou partição separada. Mas em desktops, é muito comum jogarmos /var dentro da partição /(root) que normalmente tem capacidade menor de espaço, e se você seguiu o HowTo até aqui é bem provavel que esteja assim no seu computador também e se isso de fato aconteceu, a localização formal não é o local mais adequado, assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
+Então temos o pool **default** que aponta para **/var/lib/libvirt/images**, essa é a localização formal criada pelo próprio virt-manager, se estivessemos falando de servidores, a partição **/var** seria uma subpartição ou partição separada. Mas em desktops é muito comum jogarmos /var dentro da partição /(root) que normalmente tem capacidade menor de espaço, e se você seguiu o tutorial até aqui é bem provavel que esteja assim também no seu computador. Assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
 ```bash
 mkdir -p ~/libvirt/images
-mkdir -p ~/libvirt/isos
 ```
 Você pode trocar a localização para qualquer outro local, desde que o grupo **libvirt* tenha acesso a ela, por isso, damos permissãoà pasta e subpastas ao libvirt e kvm, execute:  
 ```bash
-sudo chmod -R 2774 ~/libvirt
+sudo chmod g+s ~/libvirt/images
 sudo chown -R libvirt-qemu:kvm ~/libvirt
 ```
 
@@ -169,7 +188,7 @@ E então troque pelo caminho desejado:
 ```
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).    
 
-Agora, recrie e inicie o pool, execute:  
+Agora, construa, inicie o pool e ajuste-o para autoinicio após o boot, execute:  
 ```
 sudo virsh pool-build default
 sudo virsh pool-start default
@@ -186,71 +205,33 @@ E então será exibo algo assim:
 ------------------------------------------------------------------------------------------
  default   executando   sim            sim           821,56 GiB   19,33 GiB   802,22 GiB
 ```
-Como poderá observar, a alocação agora está mais generosa, parece que realmente não está mais usando o /var, vamos conferir? Execute:
+Como poderá observar, a alocação agora está mais generosa, parece que realmente não está mais usando o `/var`, vamos conferir? Execute:
 ```bash
 sudo virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
 ```
 E então será exibo algo assim: 
-```
-/home/gsantana/libvirt/images
-```
+>/home/gsantana/libvirt/images   
+
 Isso confirma que realmente mudamos o pool 'default' de lugar.  
 
-Pronto, novas VMs serão criadas no diretório acima.  
+Se vocÊ já copiou arquivos para os pools, então seria importante executar também:  
+```bash
+sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+```
 
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs EM BTRFS
-Se a pasta acima é uma partição ext4, ignore este tópico, pule para o próximo.  
-Mas, se a pasta acima estiver num tipo de partição Btrfs, então carece de alguns acertos, por que? Porque este tipo de partição faz uma série de operações no disco e algumas delas são anti-performaticas para carregamento de VMs, são elas:  
+Pronto, novas VMs serão criadas no diretório desejado.  
 
-* **CoW**: O Copy-on-Write(CoW) é um recurso do Btrfs que (1) quando um arquivo é modificado, ele não é alterado diretamente e (2) o sistema cria uma nova cópia dos blocos modificados e só depois descarta os antigos e isso protege contra corrupção e permite que snapshots instantaneos sejam criados, mas também significa que cada gravação cria fragmentação e sobrecarga de I/O. E agora? Uma coisa interessante é que o CoW pode ser desligado por pastas, então vamos fazer isso à pasta onde as imagens serão armazenadas, mas atenção, a pasta deve estar vazia, agora execute:
-```
-sudo chattr +C ~/libvirt
-```
-* **Compressão de dados**: No seu tempo ocioso, o Btrfs vai compactar seus arquivos e ele faz isso de maneira efetiva sem você perceber, não se preocupe, ele não faz isso nos arquivos em uso, mas em maquinas virtuais que são arquivos grandes e são modificados a todo instante, a ideia de compactar não é boa idéia porque gera mais processamento e I/O que rouba recursos que poderiam estar indo para as VMs em uso, então o que fazer? A solução é (1) você configurar no virtualizador que crie arquivos seguimentados, ao inves de uma única VM de tamanho contiguo. Ativando este recurso, o programa irá separá-los em vários arquivos menorescomo continuação da sessão anterior sem nunca sobregravá-los, o lado ruim desse método é que ele vai ocupar muito, mas muito espaço. A outra solução, (2) é desabilitando a compressão na partição onde as VMs estão localizadas, e nesse caso, vamos pelo jeito mais simples, quando você for mais experiente, crie volumes separados para VMs para não ter que desligar a compressão para a partição/disco inteiro como faremos agora, edite o arquivo /etc/fstab e procure pela representação do seu disco/partição Btrfs, no meu exemplo, esta assim:
-  
-```
-UUID=c045fd1f-7c4f-4ec3-84d9-ec79f8859adf /               btrfs   defaults,subvol=@rootfs 0       0
-```
-Agora, junto com as opções 'default', você acrescenta ',compress=no', ficando assim:
-```
-UUID=c045fd1f-7c4f-4ec3-84d9-ec79f8859adf /               btrfs   defaults,subvol=@rootfs,compress=no 0       0
-```
-Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).    
-Notou o **compress=no** na linha acima? Ela desligará a compressão na partição de montagem, agora execute:  
-```
-sudo systemctl daemon-reload
-```
-Note que agora, a *compressão zstd* para a unidade inteira esta desligada, significando que todos os arquivos ocuparão mais espaços.  
-Recomendo que *reinicie o computador* antes de prosseguir.   
+Se você aponto o pool `default` para um local que usa partição Btrfs, então você terá uma perda de performance se não aplicar as instruções no link abaixo:   
 
-Depois de reiniciar o computador, abra o terminal e execute:  
-```
-$ sudo btrfs filesystem df /
-Data, single: total=19.01GiB, used=15.59GiB
-System, DUP: total=8.00MiB, used=16.00KiB
-Metadata, DUP: total=2.00GiB, used=333.94MiB
-GlobalReserve, single: total=35.06MiB, used=0.00B
-```
-Se não aparecer a palavra “*Compressed*” então significa que nenhum dado comprimido está sendo escrito — a compressão está efetivamente desativada.  
+[Virtualização nativa do qemu+kvm usando Btrfs](debian_qemu_kvm_btrfs.md)
 
-**DESFRAGMENTAÇÃO DE PASTA BTRFS**  
-Algo também muito recomendado é a desfragmentação da pasta, pois a propriedades CoW do Btrfs causam fragmentação, o que não é nenhum problema para arquivos normais já que o algoritimo do CoW resolve isso, mas as imagens de VMs costumam ser grandes e mudam seu conteúdo a cada uso então nesta situação é bom desfragmentar de tempos em tempos. Isso pode ser feito com o comando:   
-```
-sudo btrfs filesystem defragment -r "/home/$USER/libvirt/images"
-```
-Se for possivel, use o agendador de tarefas do Linux para rodá-lo num horário programado, execute o comando **crontab -e** e adicione a linha:  
-```
-0 12 * * * /bin/bash -c '/usr/bin/btrfs filesystem defragment -r "/home/gsantana/libvirt/images"'
-```
-O comando acima, no horário 12:00 (almoço) fará a desfragmentação da pasta mencionada.  
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Localização das ISOs  
 Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo, execute:  
 
 ```
-mkdir -p /home/gsantana/libvirt/isos
-sudo chown -R libvirt-qemu:kvm /home/gsantana/libvirt/isos
-sudo chmod 2774 /home/gsantana/libvirt/isos
+sudo -p ~/libvirt/isos
+sudo chown -R libvirt-qemu:kvm ~/libvirt
 ```
 
 Agora que a pasta com as permissões foram criadas, então criamos o pool 'isos', execute:
@@ -285,6 +266,7 @@ E verá algo como:
 /home/gsantana/libvirt/isos
 ```
 
+
 Se no futuro quiser mudar o lugar desse pool, você pode excluir e criar de novo, assim:
 ```
 virsh pool-list --all # para listar todos e ter certeza do nome a excluir
@@ -292,6 +274,11 @@ sudo virsh pool-destroy isos  # parar com o uso do pool
 sudo virsh pool-undefine isos # remover a definição do pool
 ```
 Essa remoção do pool não mexe com os arquivos que estavam na pasta, e caso precise disso, remova-os manualmente.  
+
+Se você já copiou arquivos para os pools, então seria importante executar também:  
+```bash
+sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+```
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Windows
 O `virtio-win.iso` é um pacote de drivers e utilitários da Red Hat criado para melhorar o desempenho e a compatibilidade de máquinas virtuais Windows executadas em hipervisores baseados em KVM/QEMU (como Virt-Manager, Proxmox, Xen, etc.).
@@ -339,7 +326,7 @@ Depois de instalar os drivers de convidado(virtio) numa VM Windows e reiniciar a
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Permissões
 A cada copia de arquivos para a pasta **~/libvirt** é bom consertar as permissões, execute:
 ```bash
-sudo chmod -R 2774 ~/libvirt
+sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
 sudo chown -R libvirt-qemu:kvm ~/libvirt
 ```
 É bom que faça isso porque o dono (owner) dos arquivos que estão sendo copiados podem ser diferentes de **libvirt-qemu:kvm** e isso pode efetar a execução da VM. Isso não é necessário para VMs que são criadas ali.   
@@ -349,7 +336,8 @@ O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cl
 
 Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
 
-[Criando conexões bridge pelo terminal](debian_kvm_bridge.md)  
+[Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)  
+  
 
 Se desejar criar uma conexão bridge usando a interface do KDE, há vários vídeos no YouTube ensinando como fazer, [recomendo este aqui.](https://youtu.be/jZEN5jFn8rY?si=m9vVPFLATud_DtOE&t=99) ou este [daqui](https://youtu.be/_9zg37IZDsk?si=M66Wad4W21qZ816f). 
 
