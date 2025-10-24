@@ -3,13 +3,19 @@ Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, as
 Veja como está sua configuração de rede atual, execute:
 Depois observe o status, execute:
 ```bash
-$ nmcli general status
+nmcli general status
+```
+E observe o resultado:  
+```
 STATE      CONNECTIVITY  WIFI-HW  WIFI        WWAN-HW  WWAN        METERED          
 conectado  completa      missing  habilitado  missing  habilitado  não (adivinhado) 
 ```
-Observe suas conexões atuais:
+Observe suas conexões atuais:  
 ```bash
-$ nmcli con show 
+$ nmcli con show
+```
+E observe os resultados:  
+```
 NAME                UUID                                  TYPE      DEVICE 
 Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
 lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo  
