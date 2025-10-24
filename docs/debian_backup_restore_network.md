@@ -47,11 +47,14 @@ sudo chown -R $USER:$USER $BKP
 
 Agora, verifique o arquivo que foi gerado:
 ```bash
-$ ls -lh $BKP/
-total 4,0K
--rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-2025-10-22_165719.tgz
+ls -lh $BKP/
 ```
-Como pôde ver, são apenas alguns arquivos textos pequenos, e se o backup não foi gerado, observe novamente a sintaxe dos comandos que executou, mas não prossiga este tutorial sem um backup. Se tudo deu certo, então podemos prosseguir. 
+E então analise os arquivos criados:  
+```
+-rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-2025-10-22_165719.tgz
+-rw-rw-r-- 1 gsantana gsantana  399 out 23 17:10 netcfg-2025-10-22_165719.tgz.txt
+```
+Como pôde ver, a composição dos arquivos que foram compactados são apenas alguns arquivos textos pequenos, quase nada em termos de espaço. Também criamos uma arquivo .txt que armazena os resultados dos comandos que você viu no inicio desse tutorial e mais tarde comparar o antes e o depois. Se você não vê nenhum dos dois arquivos, o `.tgz` e o `.txt` então algo deu errado nos passos anteriores e é melhor revisá-los e não prosseguir.
 
 ### RESTAURAÇÃO BACKUP
 Se mais tarde ocorrer alguma pane e precisar restaurar a configuração de rede, faça o seguinte, primeiro vamos apontar a variavel `BKP` para a localização de seus backups:  
