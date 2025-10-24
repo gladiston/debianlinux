@@ -75,14 +75,16 @@ nmcli con show  >>$BKPFILE.txt
 sudo tar -C / -czf $BKPFILE   etc/network etc/NetworkManager etc/systemd/network
 sudo chown -R $USER:$USER $BKP
 ```
-E então verifique o arquivo que foi gerado:
+E então verifique os arquivos que foram gerado:  
 ```bash
 $ ls -lh $BKP/
-total 4,0K
--rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-bridge-2025-10-23_165719.tgz
 ```
-Como pôde ver, são apenas alguns arquivos textos pequenos, e se o backup não foi gerado, observe novamente a sintaxe, mas não prossiga este tutorial sem um backup. Se tudo deu certo, então podemos prosseguir. 
-
+E verá algo similar a isso:
+```
+-rw-r--r-- 1 gsantana gsantana 2,3K out 23 16:57 netcfg-bridge-2025-10-23_165719.tgz
+-rw-rw-r-- 1 gsantana gsantana  399 out 23 17:10 netcfg-bridge-2025-10-23_165719.tgz.txt
+```
+Como pôde ver, a composição dos arquivos que foram compactados são apenas alguns arquivos textos pequenos, quase nada em termos de espaço. Também criamos uma arquivo `.txt` que armazena os resultados dos comandos que você viu no inicio desse tutorial e mais tarde será possível comparar o antes e o depois. Se você não vê nenhum dos dois arquivos, o `.tgz` e o `.txt` ou estão vazios, então algo deu errado nos passos anteriores e é melhor revisá-los e não prosseguir.
 
 ## VERIFICAÇÃO DO AMBIENTE
 Comandos úteis de verificação, primeira observamos se `enp8s0` esta presente:
