@@ -1,0 +1,16 @@
+[0;1;32m●[0m spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (]8;;file://ti-01/usr/lib/systemd/system/spice-vdagentd.service\/usr/lib/systemd/system/spice-vdagentd.service]8;;\; indirect; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Fri 2025-10-24 18:53:58 -03; 2s ago
+ Invocation: 0b2c036d7f594c47bbe9f87ae5ab5c81
+TriggeredBy: [0;1;32m●[0m spice-vdagentd.socket
+    Process: 15287 ExecStart=/usr/sbin/spice-vdagentd $SPICE_VDAGENTD_EXTRA_ARGS (code=exited, status=0/SUCCESS)
+   Main PID: 15288 (spice-vdagentd)
+      Tasks: 3[0;38;5;245m (limit: 37569)[0m
+     Memory: 712K (peak: 1.7M)
+        CPU: 10ms
+     CGroup: /system.slice/spice-vdagentd.service
+             └─[0;38;5;245m15288 /usr/sbin/spice-vdagentd[0m
+
+out 24 18:53:58 ti-01 systemd[1]: Starting spice-vdagentd.service - Agent daemon for Spice guests...
+out 24 18:53:58 ti-01 (vdagentd)[15287]: [0;1;38:5:185m[0;1;39m[0;1;38:5:185mspice-vdagentd.service: Referenced but unset environment variable evaluates to an empty string: SPICE_VDAGENTD_EXTRA_ARGS[0m
+out 24 18:53:58 ti-01 systemd[1]: Started spice-vdagentd.service - Agent daemon for Spice guests.

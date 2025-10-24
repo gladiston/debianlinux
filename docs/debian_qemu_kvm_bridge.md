@@ -2,11 +2,14 @@
 
 ## INTRODUÇÃO
 
-Este guia explica, de forma prática e segura, como **criar e remover uma interface de rede do tipo *bridge*** (`br0`) no **Ubuntu 25.10** ou **Debian 13 (Trixie)**.  
-O objetivo é permitir que **máquinas virtuais (QEMU/KVM, VirtualBox)** ou **containers** usem a **mesma rede física** do computador anfitrião, recebendo IP diretamente do **servidor DHCP** da rede local — como se fossem dispositivos físicos conectados ao roteador.
+Este guia explica como **criar e remover uma interface de rede do tipo *macvtap*** no **Ubuntu 25.10** ou **Debian 13 (Trixie)**, permitindo que **máquinas virtuais (QEMU/KVM)** obtenham IPs diretamente da **rede física**, sem interromper a conexão do computador anfitrião (host).  
 
-A *bridge* atua como uma “ponte virtual” entre a interface de rede física (`enp8s0`) e as interfaces virtuais das VMs.  
-Assim, todas compartilham o mesmo segmento de rede, facilitando o acesso entre o host e as VMs e permitindo que elas obtenham IPs automáticos, façam parte do mesmo domínio e respondam a pings normalmente.
+Ao contrário da *bridge* tradicional (`br0`), o **macvtap (modo bridge)** não transfere o IP do host para uma interface virtual.  
+Ele cria uma **interface virtual ligada à NIC física (`enp8s0`)**, compartilhando o tráfego de rede de forma eficiente, ideal quando você quer:  
+
+- Manter o host navegando normalmente;  
+- Permitir que as VMs obtenham IPs da rede local (via DHCP ou IP fixo);  
+- Evitar a queda temporária de conexão causada pela criação de bridges tradicionais.  
 
 > 💡 Este procedimento é compatível tanto com ambientes **gráficos (virt-manager)** quanto **servidores headless (libvirt/QEMU puro)**.
 
@@ -23,11 +26,17 @@ Execute este guia **diretamente no terminal local** (não via SSH), pois a conex
 ## ENTENDENDO O AMBIENTE DO EXEMPLO
 O ambiente usado neste guia é típico de um sistema limpo com suporte a virtualização (QEMU/KVM, VirtualBox, etc.).
 
-- Distribuição: `Debian 13`
-- Gerenciador de rede: NetworkManager (`nmcli`)
-- Interface física: `enp8s0`
-- Nome da conexão que aponta para Interface fisica: `Wired connection 1`
-- Nome da bridge: `br0`
+
+- **Distribuição:** `Debian 13`
+- **Gerenciador de rede:** NetworkManager (`nmcli`)
+- **Interface física:** `enp8s0`
+- **Nome da conexão principal:** `Wired connection 1`
+- **Diretório de backups:** `~/net-backups`
+- **IP local do host:** obtido normalmente via DHCP
+- **Interface virtual a ser criada:** `macvtap0`
+- **Modo de operação:** `bridge`  
+  (há também `private`, `vepa` e `passthru`, mas `bridge` permite comunicação direta entre VMs e LAN)
+
 - Diretório de backups: `~/net-backups`
 - O passo a passo descreve uma bridge que usa IP via DHCP, mas caso opte por IP Fixo, então o exemplo alternativo usa o IP `192.168.1.50/24`, o gateway será `192.168.1.1` e o DNS da rede será local com o IP `192.168.1.5`.
 - Estado do arquivo `/etc/network/interfaces`:
@@ -127,69 +136,59 @@ lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo
 ```
 
 
-## CRIANDO A BRIDGE COM O NETWORK-MANAGER (nmcli)
-Procedimento recomendado para criar a bridge `br0` e anexar `enp8s0` como escrava, usando DHCP na bridge.
-
-Vamos desativar a conexão antiga cujo nome da interface é `enp8s0` e cuja conexão tem o nome de `Wired connection 1` :
+## CRIANDO UMA INTERFACE MACVTAP
+Procedimento recomendado para criar a bridge `br0` e anexar `enp8s0` como escrava, usando DHCP na bridge.  
+A criação pode ser feita com nmcli ou com ip link.  
+O método ip link é mais direto e recomendado para testes manuais.  
+### Criar a interface macvtap
 ```bash
-sudo nmcli con down "Wired connection 1"
+sudo ip link add link enp8s0 name macvtap0 type macvtap mode bridge
 ```
-
-Vamos criar a conexão da bridge:
+Ativar a interface:
 ```bash
-sudo nmcli con add type bridge ifname br0 con-name br0 ipv4.method auto ipv6.method ignore
+sudo ip link set macvtap0 up
 ```
-Ou se precisar adicionar o Mac Address para alguma configuração sua (proxy, gateways) ser reconhecida por outros dispositivos:
-```
-sudo nmcli con add type bridge ifname br0 con-name br0 \
-  ipv4.method auto ipv6.method ignore \
-  bridge.mac-address 52:54:00:12:34:56
-```
-De qualquer forma, o resultado esperado é:
->A conexão “br0” (cccccccc-dddd-eeee-ffff-gggggggggggg) foi adicionada com sucesso.  
-
-
-Vamos vincular a interface física `enp8s0` como escrava da bridge:
+Confirmar a criação:
 ```bash
-sudo nmcli con add type bridge-slave ifname enp8s0 con-name br0-port-enp8s0 master br0
+ip -d link show macvtap0
 ```
-O resultado esperado é:
->A conexão “bridge-slave-enp8s0” (hhhhhhhh-iiii-jjjj-kkkk-llllllllllll) foi adicionada com sucesso.   
+Saída esperada:
+```
+6: macvtap0@enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 500
+    link/ether 52:54:00:ab:cd:ef brd ff:ff:ff:ff:ff:ff
+    macvtap mode bridge
+```
 
+Essa interface aparece também em /dev/tap* e pode ser usada diretamente por QEMU/libvirt.  
 
-E depois ativamos a conexão:
+Verifique a interface:
+
+### INTEGRANDO COM LIBVIRT / VIRT-MANAGER
+No virt-manager, ao criar ou editar uma VM:
+1. Vá em Interface de rede → Fonte de rede.
+2. Escolha Interface Host.
+3. Selecione macvtap0 (modo bridge).
+4. Clique em Aplicar e salve.
+
+[Tela de configuração da VM](../img/debian_qemu_kvm_bridge1.png)
+
+A VM agora receberá IP direto do servidor DHCP da rede local, sem NAT, podendo se comunicar com outras VMs e dispositivos da LAN.
+
+### TESTANDO A CONECTIVIDADE
+
+Verifique a interface:
 ```bash
-sudo nmcli con up br0
+ip -br a show macvtap0
 ```
-O resultado esperado é:
->Conexão ativada com sucesso (controller waiting for ports) (caminho D-Bus ativo: /org/freedesktop/NetworkManager/ActiveConnection/5)  
+> macvtap0@enp8s0  UP             fe80::4027:80ff:fe96:4798/64    
+Ao mostrar `macvtap0@enp8s0` voce pode achar que a interface mostrou de nome, mas não, ela continua sendo `macvtap0`. Esse sufixo **@enp8s0** não faz parte do nome da interface — ele apenas indica o vínculo físico (“macvtap0 está ligado à enp8s0”).
 
 
-
-Agora, vamos a verificação, o comando abaixo mostrará tudo relacionado a `br0`:
+Execute dentro da VM Windows, abre o `cmd` e execute:
 ```bash
-nmcli -p con show br0
+ipconfig
 ```
-Use "q" para sair da listagem do comando acima, agora vamos ver o IP da nossa `br0`:
-```bash
-ip -br a show br0
-```
-Se o resultado for:
-```
-br0              DOWN    
-```
-Então significa que a bridge br0 existe, mas está DOWN, ou seja, a interface foi criada, porém ainda não está ativa ou não recebeu IP. Então vamos tentar manualmente dessa vez:
-```bash
-sudo ip link set br0 up
-```
-Será que dessa vez esta ativa? Vamos confirmar:
-```bash
-ip -br a show br0
-```
-O resultado esperado é:  
-> br0              UP             192.168.1.162/24 fe80::e8c2:5dff:fef7:b76d/64     
-
-Se estiver ativa (UP), então vamos ver se é capaz de conectar-se a outros computadores, execute:
+O resultado esperado é a exibição dos dados de sua interface de rede. Agora vamos testar a conextividade com a rede internet:
 ```bash
 ping -c3 192.168.1.1 # supondo ser este o seu gateway
 ```
@@ -211,124 +210,17 @@ ping -c3 1.1.1.1 # IP do DNS da Cloudfare
 ```
 
 
-5) Ajuste para IP estático (opcional):
+
+### REMOVENDO A INTERFACE MACVTAP
+Para remover a interface e restaurar o estado original:
 ```bash
-sudo nmcli con modify br0 ipv4.method manual   ipv4.addresses "192.168.1.50/24"   ipv4.gateway "192.168.1.1"   ipv4.dns "192.168.1.5"
-
-sudo nmcli con up br0
+sudo ip link delete macvtap0
 ```
-
-## VERIFICAÇÃO PÓS-BRIDGE (teste de funcionalidade)
-Após reiniciar o sistema, confirme que a bridge está ativa e funcional:
-
-Vamos listar as conexões gerenciadas pelo NetworkManager:
+Verifique:
 ```bash
-nmcli con show
+ip link show | grep macvtap
 ```
-
-Vamos verificar o estado da bridge e da interface física:
-```bash
-nmcli device status
-```
-Saída esperada:
-```
-DEVICE   TYPE      STATE      CONNECTION
-br0      bridge    conectado  br0
-enp8s0   ethernet  conectado  bridge-slave-enp8s0
-```
-
-Vamos confirmar a associação física entre bridge e interface:
-```bash
-ip link show br0
-```
-
-Saída esperada:
-```
-3: br0: <BROADCAST,MULTICAST,UP,LOWER_UP> ...
-    bridge-slave enp8s0
-```
-
-Vamos validar endereço IP e gateway:
-```bash
-ip -br addr show br0
-ip route | grep default
-```
-
-Agora, o teste de conectividade:
-```bash
-ping -c3 1.1.1.1
-ping -c3 deb.debian.org
-```
-
-### Verificar via bridge-utils (opcional):
-```bash
-sudo brctl show
-```
-Saída esperada:
-```
-bridge name bridge id        STP enabled interfaces
-br0         8000.74563cf018b4 no          enp8s0
-```
-
-Se todos os testes retornarem resultados positivos, a bridge `br0` está ativa e totalmente operacional.
-
-## REVERSÃO SIMPLESMENTE COM O NETWORK-MANAGER (se necessário)
-Para desfazer a bridge e voltar a usar a `enp8s0` diretamente, para dar inicio ao processo, vamos desativar a interface `br0`:
-```bash
-$ sudo nmcli con down br0 
-Conexão “br0” desativada com sucesso (caminho D-Bus ativo: /org/freedesktop/NetworkManager/ActiveConnection/6)
-```
-
-Depois vamos apagá-la:
-```bash
-$ sudo nmcli con delete br0 
-A conexão “br0” (aa0748de-5a0d-4d45-b908-9e9f2c788465) foi excluída com sucesso.
-```
-Em seguida, remova apenas as conexões relacionadas à bridge `br0`, evitando apagar todas as bridges do sistema, digamos por exemplo que haja uma bridge criada com o nome `br0-port-enp8s0`, então repetimos o processo:
-O comando abaixo irá desativar a porta recem criada:
-```bash
-sudo nmcli con down br0-port-enp8s0
-sudo nmcli con delete br0-port-enp8s0 
-```
-
-> Se seu desejo for apagar todas as conexões de tipo bridge-slave do NetworkManager:  
-> nmcli -t -f NAME,TYPE con show | awk -F: '$2=="bridge-slave"{print $1}' | xargs -r -I{} sudo nmcli con delete "{}"  
-> **IMPORTANTE**: Este comando apaga todos sem distinção, só use se souber exatamente o que esta fazendo.
-
-Vamos listar as conexão que temos com o nome da original `xxx`, execute:
-```bash
-$ nmcli con show | grep "Wired connection 1"
-Wired connection 1     f35944fc-aec3-4d0e-9ded-76c199678b97  ethernet  enp8s0 
-Wired connection 1     55f6aebb-2d5e-46a5-8562-560211ea3a11  ethernet  --     
-Wired connection 1     23471efa-cdf7-4d97-9d90-c822445d7c96  ethernet  --     
-```
-Perceba que apenas a primeira tem um vinculo com `enp8s0`, as demais não deveriam existir, vamos excluí-las:
-Excluindo a conexão com id `55f6aebb-2d5e-46a5-8562-560211ea3a11`:
-```bash
-$ sudo nmcli con delete 55f6aebb-2d5e-46a5-8562-560211ea3a11
-A conexão “Wired connection 1” (55f6aebb-2d5e-46a5-8562-560211ea3a11) foi excluída com sucesso.
-```
-Excluindo a conexão com id `23471efa-cdf7-4d97-9d90-c822445d7c96`:
-```bash
-$ sudo nmcli con delete 23471efa-cdf7-4d97-9d90-c822445d7c96
-A conexão “Wired connection 1” (23471efa-cdf7-4d97-9d90-c822445d7c96) foi excluída com sucesso.
-```
-
-
-Vinculamos um nome de conexão `Wired connection 1` a interface `enp8s0`:
-```bash
-sudo nmcli con add type ethernet ifname enp8s0 con-name "Wired connection 1" ipv4.method auto
-```
-> A conexão “enp8s0” (55f6aebb-2d5e-46a5-8562-560211ea3a11) foi adicionada com sucesso.  
-
-
-Onde está `Wired connection 1` é o nome original, mas você pode usar outro nome como `conexao1` para ficar mais simples.
-
-E finalizamos com a ativação da interface `enp8s0`:
-```bash
-sudo nmcli con up enp8s0
-Conexão ativada com sucesso (caminho D-Bus ativo: /org/freedesktop/NetworkManager/ActiveConnection/11)
-```
+E se não aparecer nada, a interface foi removida.  
 
 ## RESTAURAÇÃO BACKUP DA CONFIGURAÇÃO DE REDE
 Se está lendo isso é porque algo deu muito errado e reversão usando o NETWORK-MANAGER não funcionou e agora precisa voltar a configuração de rede original, não é mesmo?
@@ -367,19 +259,16 @@ Se os resultados dos comandos acima deram baterem com os resultados do arquivo `
 
 ## CONCLUSÃO
 
-Ao concluir este guia, você criou uma **bridge de rede funcional (`br0`)** totalmente integrada ao **NetworkManager**, permitindo que suas **máquinas virtuais ou containers** utilizem a mesma rede física do host.  
-Esse método garante que cada VM possa obter **endereços IP reais da sua LAN**, facilitando comunicações diretas, compartilhamento de arquivos, e acesso a serviços como se fossem máquinas físicas.
+Com o macvtap (modo bridge) você:
 
-Você também aprendeu a:
-- Fazer **backup das configurações de rede** antes de qualquer modificação;
-- Criar e vincular uma **interface física (`enp8s0`)** à bridge;
-- Usar tanto **DHCP quanto IP estático** na `br0`;
-- **Verificar o estado da bridge** e testar conectividade;
-- **Reverter** as alterações com segurança caso algo dê errado.
+Mantém a interface do host (enp8s0) intacta;
+* Dá IPs reais de LAN às suas VMs;  
+* Evita desconexões do host durante a configuração;
+* Dispensa br0 e bridge-utils.  
 
-> 💡 **Dica final:**  
-> Mantenha o arquivo de backup em um local externo (como um pendrive ou pasta de rede).  
-> Assim, caso perca a conectividade, será mais fácil restaurar sua configuração original.
+Esse método é ideal quando o host tem apenas uma placa de rede física e você precisa que as VMs se vejam entre si e com a rede local, com desempenho quase nativo.
 
-Com a bridge configurada corretamente, seu ambiente está pronto para hospedar **máquinas virtuais com desempenho de rede real**, ideal para testes de servidores, clusters e laboratórios de virtualização.  
-Agora você pode seguir adiante e integrar a `br0` em suas VMs pelo **virt-manager**, **virsh** ou **QEMU** diretamente.
+> **Dica**: Se precisar de múltiplas VMs com IPs fixos, crie novas interfaces  (macvtap1, macvtap2, …) e vincule cada uma a enp8s0.  
+
+
+
