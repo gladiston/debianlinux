@@ -25,7 +25,7 @@ sudo apt update -y
 Pronto, o repositório do **VS Code** está configurado corretamente.   
 
 
-## INCLUINDO O REPOSITÓRIO DO VSCODE
+## INSTALANDO O VSCODE VIA REPOSITÓRIO
 Agora que temos o repositório do vscode instalado, podemos prosseguir, execute:  
 ```bash
 sudo apt install -y code
