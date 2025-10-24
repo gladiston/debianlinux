@@ -47,12 +47,12 @@ newgrp firebird
 ```
 Agora, para conferir, execute:
 ```bash 
-groups
+getent group firebird
 ```
 Observe o resultado do comando:  
-> **firebird** cdrom floppy audio dip video plugdev users netdev scanner bluetooth lpadmin gsantana
+> firebird:x:84:gsantana   
 
-Se o nome 'firebird' aparecer na relação então é um indicativo que a operação foi realizada com sucesso.   
+Se o seu login aparaceu no grupo **firebird**  então é um excelente indicativo que a operação foi realizada com sucesso.   
 
 ### BANCO DE DADOS FIREBIRD - CLIENTE
 Cliente de banco de dados ou `SQL Client` é a biblioteca que estabelece conectividade com o banco de dados, sem ela, nenhum aplicativo local ou remoto consegue conectar-se a base. Depois de instalado, confira se a mesma está presente no sistema:
