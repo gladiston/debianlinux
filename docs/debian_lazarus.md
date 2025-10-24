@@ -115,4 +115,5 @@ $ code --install-extension Wosi.omnipascal \
 > [Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)     
 > [Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)     
 
-Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
+Se seu codigo pascal precisar de IDE, neste caso recomendo que use a IDE do Lazarus ou do Delphi, o vscode com plugin de pascal não tem suporte a formulários de design.    
+
