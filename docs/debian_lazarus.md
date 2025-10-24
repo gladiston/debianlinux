@@ -1,4 +1,4 @@
-# INSTALANDO IDE DE PROGRAMAÇÃO PASCAL LAZARUS
+# INSTALANDO IDE DE PROGRAMAÇÃO PASCAL COM A IDE LAZARUS
 O Lazarus é uma IDE completa para desenvolvimento em Object Pascal, baseada no compilador Free Pascal (FPC).
 Ela é multiplataforma (Linux, Windows e macOS) e oferece uma experiência muito próxima do antigo Delphi, com formulários visuais, depurador integrado e suporte a componentes visuais compatíveis com diversos sistemas gráficos (GTK, Qt, Win32, Cocoa etc.).  
 
