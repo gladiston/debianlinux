@@ -14,6 +14,7 @@ sudo apt update -y
 As ferramentas básicas de build precisam ser instaladas:
 ```bash
 sudo apt install -y build-essential pkg-config
+sudo apt install -y global exuberant-ctags python3-pygments
 ```
 
 Se você usa KDE ou ambientes baseados em QT, também precisará:
@@ -92,3 +93,19 @@ sudo apt install -y libx11-dev libxext-dev libxtst-dev libxi-dev libxrandr-dev l
 ```
 Mas não se apresse em instalar as libs acima primeiro, veja se **fpcupdeluxe** falha ao compilar a IDE e daí sim, você instala elas.   
 
+## VSCODE 
+O **Visual Studio Code (VS Code)** é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
+Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como **autocompletar inteligente (IntelliSense)**, **depuração integrada**, **controle de versão com Git** e uma ampla variedade de extensões para praticamente qualquer linguagem.  
+Uma vez que tenhamos o compilador em nosso sistema e vscode instalado, agora precisamos apenas de seus plugins:    
+
+```
+$ code --install-extension Wosi.omnipascal \
+       --install-extension alefragnani.pascal \
+       --install-extension alefragnani.pascal-formatter
+```
+> 💡 Dica: no Debian, Ubuntu e derivamos, é mandatório instalar o FreePascal Compiler (fpc) usufruir dessas extensões. Cada uma dessas extensões carecem de configuração, vejá-os:  
+> [Instruções para Omini Pascal](https://www.omnipascal.com)     
+> [Instruções para a Linguagem Pascal](https://github.com/alefragnani/vscode-language-pascal)     
+> [Instruções para Pascal Formatter](https://github.com/alefragnani/vscode-pascal-formatter)     
+
+Caso queira uma outra IDE (e mais completa) para FreePascal, recomendo o [Lazarus](https://lazarus-ide.org).  
