@@ -120,3 +120,13 @@ Resumo rápido:
 |Ajuste de resolução|QXL + spice-vdagent|
 |Copiar/colar arquivos|spice-webdavd|
 |Canal de comunicação|virt-manager>Canal SPICE agent|
+
+
+### VÍDEOS NO YOUTUBE RECOMENDADOS
+Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows. Esses vídeos incluiem coisas que mencionei e vão além disso, há algumas coisas que são possiveis fazer, mas é dificil, explicar com palavras "como". Então os vídeos a seguir vão estender ainda mais as funcionalidades de computadores com o Windows.
+
+* (How To PROPERLY Install Windows 11 on KVM)[https://youtu.be/7tqKBy9r9b4?si=xmM6vPTbu68kVxPr]  
+
+* [Migrando pro Linux - migre Windows 11 do VirtualBox pro Virt-Manager e Ative ACELERAÇÃO GRÁFICA](https://youtu.be/WZ16GsFHSjM?si=LJoLVhI3c9iBqPWI)
+
+* [Qemu: Data Exchange Between Windows and Linux - Share Folders](https://youtu.be/0hZU3vltZVM?si=wHv3id8czwD4u957)
