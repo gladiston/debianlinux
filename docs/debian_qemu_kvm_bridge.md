@@ -134,6 +134,19 @@ NAME                UUID                                  TYPE      DEVICE
 Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
 lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo  
 ```
+Se você teve problemas e agora aparecem mais conexões do que deveria, por exemplo, vamos suporte que o comando `nmcli con show ` mostre isso:  
+```
+NAME                UUID                                  TYPE      DEVICE 
+Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
+lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo     
+Wired connection 1  277b4807-23a8-4018-b679-69cc3dcbc1e6  ethernet  --  
+```  
+No exemplo acima, você nota que a conexão chamada `Wired connection1` que está com nome duplicado e tem UUID `277b4807-23a8-4018-b679-69cc3dcbc1e6` não está relacionado a nenhum DEVICE, então ela não fará nenhuma falta se for removida, então para remover, executamos o comando:
+```bash
+$ sudo nmcli con delete 277b4807-23a8-4018-b679-69cc3dcbc1e6
+A conexão “Wired connection 1” (277b4807-23a8-4018-b679-69cc3dcbc1e6) foi excluída com sucesso.
+```
+E assim vamos removendo todas as conexões desnecessárias.  
 
 
 ## CRIANDO UMA INTERFACE MACVTAP
