@@ -134,7 +134,7 @@ NAME                UUID                                  TYPE      DEVICE
 Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
 lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo  
 ```
-Se você teve problemas e agora aparecem mais conexões do que deveria, por exemplo, vamos suporte que o comando `nmcli con show ` mostre isso:  
+Se você teve problemas e agora aparecem mais conexões do que deveria, por exemplo, vamos supor que o comando `nmcli con show ` mostre isso:  
 ```
 NAME                UUID                                  TYPE      DEVICE 
 Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
@@ -153,6 +153,7 @@ E assim vamos removendo todas as conexões desnecessárias.
 Procedimento recomendado para criar a bridge `br0` e anexar `enp8s0` como escrava, usando DHCP na bridge.  
 A criação pode ser feita com nmcli ou com ip link.  
 O método ip link é mais direto e recomendado para testes manuais.  
+
 ### Criar a interface macvtap
 ```bash
 sudo ip link add link enp8s0 name macvtap0 type macvtap mode bridge
@@ -167,25 +168,56 @@ ip -d link show macvtap0
 ```
 Saída esperada:
 ```
-6: macvtap0@enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 500
+3: macvtap0@enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 500
     link/ether 52:54:00:ab:cd:ef brd ff:ff:ff:ff:ff:ff
     macvtap mode bridge
 ```
-
-Essa interface aparece também em /dev/tap* e pode ser usada diretamente por QEMU/libvirt.  
-
 Verifique a interface:
+```bash
+ip -br a show macvtap0
+```
+> macvtap0@enp8s0  UP             fe80::4027:80ff:fe96:4798/64  
+
+Essa interface aparece também em /dev/tap* e pode ser usada diretamente por QEMU/libvirt. Para todos os fins, você acabou de criar uma interface bridge chamada **macvtap0** e será esta que usará quando configurar suas VMs.
+
 
 ### INTEGRANDO COM LIBVIRT / VIRT-MANAGER
 No virt-manager, ao criar ou editar uma VM:
 1. Vá em Interface de rede → Fonte de rede.
 2. Escolha Interface Host.
-3. Selecione macvtap0 (modo bridge).
+3. Selecione **macvtap0** (modo bridge).
 4. Clique em Aplicar e salve.
 
-[Tela de configuração da VM](../img/debian_qemu_kvm_bridge1.png)
+![Tela de configuração da VM](../img/debian_qemu_kvm_bridge1.png)
 
 A VM agora receberá IP direto do servidor DHCP da rede local, sem NAT, podendo se comunicar com outras VMs e dispositivos da LAN.
+
+### TORNANDO A INTERFACE MACVTAP PERMANENTE
+Pois é, tudo que fizemos será perdido assim que o computador for reiniciado e precisaremos repetir novamente os passos anteriores. Para contornar esta situação, faremos o seguinte, com a nossa interface **MACVTAP** funcionando, vamos usar o **systemd-networkd** para tornar essa conexão permanente.
+Crie o arquivo `/etc/systemd/network/10-macvtap0.netdev` com o seguinte conteúdo:
+```
+[NetDev]
+Name=macvtap0
+Kind=macvtap
+
+[MACVTAP]
+Mode=bridge
+```
+Depois crie/edite o arquivo `/etc/systemd/network/10-macvtap0.network` com o seguinte conteúdo:
+```
+[Match]
+Name=macvtap0
+
+[Network]
+DHCP=yes
+```
+Depois destes arquivos salvos, reinicie os serviços relacionados:  
+```bash
+sudo systemctl enable systemd-networkd
+sudo systemctl restart systemd-networkd
+```
+Isso recria automaticamente o macvtap0 no boot, com DHCP e link para enp8s0.  
+Agora, reinicie o computador para verificarmos.
 
 ### TESTANDO A CONECTIVIDADE
 
@@ -221,9 +253,6 @@ Se quiser testar pingando endereços de internet, também vale, mas antes, verif
 ```bash
 ping -c3 1.1.1.1 # IP do DNS da Cloudfare
 ```
-
-
-
 ### REMOVENDO A INTERFACE MACVTAP
 Para remover a interface e restaurar o estado original:
 ```bash
@@ -269,6 +298,20 @@ ip -br a
 ```
 E compare seus resultados com o que havia no backup lendo o arquivo `netcfg-bridge-2025-10-23_165719.tgz.txt`.  
 Se os resultados dos comandos acima deram baterem com os resultados do arquivo `netcfg-bridge-2025-10-23_165719.tgz.txt`, então você restaurou sua rede com sucesso.  
+Em algumas oportunidades, você pode encontrar conexões que não existiam antes, veja este exemplo que aparece ao executar o comando `nmcli con show`:  
+```
+NAME                UUID                                  TYPE      DEVICE 
+Wired connection 1  aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee  ethernet  enp8s0 
+lo                  bbbbbbbb-cccc-dddd-eeee-ffffffffffff  loopback  lo     
+Wired connection 1  277b4807-23a8-4018-b679-69cc3dcbc1e6  ethernet  --  
+```  
+No exemplo acima, você nota que a conexão chamada `Wired connection1` que está com nome duplicado e tem UUID `277b4807-23a8-4018-b679-69cc3dcbc1e6` não está relacionado a nenhum DEVICE, então ela não fará nenhuma falta se for removida, então para remover, executamos o comando:
+```bash
+$ sudo nmcli con delete 277b4807-23a8-4018-b679-69cc3dcbc1e6
+A conexão “Wired connection 1” (277b4807-23a8-4018-b679-69cc3dcbc1e6) foi excluída com sucesso.
+```
+E assim vamos removendo todas as conexões desnecessárias até que a comparação com o antes e depois sejam exatamente iguais.   
+
 
 ## CONCLUSÃO
 
