@@ -18,15 +18,14 @@ sudo update-alternatives --config editor
 ```
 Você verá uma lista semelhante a:
 ```
-Há 4 escolhas como alternativas de editor. (fornecendo /usr/bin/editor).
+Há 3 escolhas como alternativas de editor. (fornecendo /usr/bin/editor).
 
   Seleção    Caminho             Prioridade Estado
 ------------------------------------------------------------
 * 0            /bin/nano            40        modo automático
   1            /bin/nano            40        modo manual
-  2            /usr/bin/code        0         modo manual
-  3            /usr/bin/vim.basic   30        modo manual
-  4            /usr/bin/vim.tiny    15        modo manual
+  2            /usr/bin/vim.basic   30        modo manual
+  3            /usr/bin/vim.tiny    15        modo manual
 
 Pressione <enter> para manter o padrão[*] ou digite o número da seleção:
 ```
