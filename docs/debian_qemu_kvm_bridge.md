@@ -200,7 +200,7 @@ ipconfig
 ```
 O resultado esperado é a exibição dos dados de sua interface de rede. Agora vamos testar a conextividade com a rede internet:
 ```bash
-ping -c3 192.168.1.1 # supondo ser este o seu gateway
+ping 192.168.1.1 # supondo ser este o seu gateway
 ```
 O resultado esperado é:  
 ```
@@ -216,94 +216,113 @@ rtt min/avg/max/mdev = 0.331/0.460/0.528/0.091 ms
 
 Se quiser testar pingando endereços de internet, também vale, mas antes, verifique se o IP acima está liberado em sua rede de firewall/gateway para acesso À internet:
 ```bash
-ping -c3 1.1.1.1 # IP do DNS da Cloudfare
+ping 1.1.1.1 # IP do DNS da Cloudfare
 ```
 
+![VM Windows](../img/debian_qemu_kvm_bridge2.png)  
+
+Se sua VM conseguiu um IP de sua rede e consegue dar ping em qualquer outra estação, então parabens! Você conseguiu criar uma conexão bridge satisfatória e pode prosseguir. Criar uma bridge não é uma etapa fácil, eu patinei muitas vezes. Para desenvolvedores, usar uma conexão NAT é bem vantajosa e mais simples, mas administradores de sistemas quase sempre precisam simular que estão dentro da rede corporativa.  
+
+
 ### TORNANDO A INTERFACE MACVTAP PERMANENTE
-Se os testes de conectividade deram certo, inclusive testados de uma VM(Windows, Linux,...) então vamos criar um script com os comandos que criaram a bridge. Crie ou edite o arquivo:
+Se os testes de conectividade deram certo, inclusive testados de uma VM(Windows, Linux,...) então vamos a má noticia: ela é temporária, criado reiniciar o sistema terá de repetir a seção de criação da conexão bride(macvtap0).  
+Então vamos torná-la permanente por executar durante o boot do sistema a sequencia de comandos que utilizamos, chamamos isso de script, então vamos criar um script, crie ou edite o arquivo a seguir:  
 ```bash
 sudo editor /usr/local/sbin/macvtap0.sh
 ```
 E cole o conteúdo a seguir, não se preocupe, são os mesmos comandos que antes, mas com um tratamento especial de script:
 ```
 #!/bin/bash
-# macvtap0.sh - cria/remove a interface macvtap0 em modo bridge
-# Uso: macvtap0.sh up|down|status
 set -euo pipefail
+PARENT_IF="${PARENT_IF:-enp8s0}"
+IFACE="${IFACE:-macvtap0}"
+MODE="${MODE:-bridge}"
 
-PARENT_IF="enp8s0"
-IFACE="macvtap0"
+# aguarda a interface física aparecer (até 10s)
+for i in {1..10}; do
+  [[ -e "/sys/class/net/$PARENT_IF" ]] && break
+  sleep 1
+done
+if [[ ! -e "/sys/class/net/$PARENT_IF" ]]; then
+  echo "Parent '$PARENT_IF' não encontrado." >&2
+  exit 1
+fi
 
-case "${1:-}" in
+case "${1:-up}" in
   up)
     /sbin/modprobe macvtap || true
-    if ! ip link show "$IFACE" &>/dev/null; then
-      ip link add link "$PARENT_IF" name "$IFACE" type macvtap mode bridge
+    if ! /usr/sbin/ip link show "$IFACE" &>/dev/null; then
+      /usr/sbin/ip link add link "$PARENT_IF" name "$IFACE" type macvtap mode "$MODE"
     fi
-    ip link set "$IFACE" up
-    ;;&
-  status)
-    # imprime estado para o journal (ou terminal)
-    ip -d link show "$IFACE" || true
-    ip -br a show "$IFACE" || true
+    /usr/sbin/ip link set "$IFACE" up
+    /usr/sbin/ip -d link show "$IFACE" || true
+    /usr/sbin/ip -br a show "$IFACE" || true
     ;;
   down)
-    if ip link show "$IFACE" &>/dev/null; then
-      ip link set "$IFACE" down || true
-      ip link del "$IFACE" || true
+    if /usr/sbin/ip link show "$IFACE" &>/dev/null; then
+      /usr/sbin/ip link set "$IFACE" down || true
+      /usr/sbin/ip link del "$IFACE" || true
     fi
+    ;;
+  status)
+    /usr/sbin/ip -d link show "$IFACE" || true
+    /usr/sbin/ip -br a show "$IFACE" || true
     ;;
   *)
     echo "Uso: $0 {up|down|status}"
     exit 1
     ;;
 esac
-
 ```
 Vamos dar permissão de execução ao script:
 ```bash
-sudo install -m 755 macvtap0.sh /usr/local/sbin/macvtap0.sh
+sudo chmod 755 /usr/local/sbin/macvtap0.sh
 ```
+
 Vamos transformar o script em algo reconhecido pelo serviço systemd, crie ou edite o arquivo `/etc/systemd/system/macvtap0.service`:
 ```bash
 sudo editor /etc/systemd/system/macvtap0.service
 ```
 E cole o seguinte conteúdo:
 ```
-# /etc/systemd/system/macvtap0.service
 [Unit]
-Description=macvtap0 em modo bridge sobre enp8s0
+Description=macvtap0 em modo bridge
 Wants=network-online.target
 After=network-online.target
-ConditionPathExists=/sys/class/net/enp8s0
+# Se usa NetworkManager, estas linhas ajudam ainda mais:
+Wants=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/local/sbin/macvtap0.sh up
-ExecStop=/usr/local/sbin/macvtap0.sh down
+Environment=PATH=/usr/sbin:/usr/bin:/sbin:/bin
+# Ajuste aqui se o parent não for enp8s0
+Environment=PARENT_IF=enp8s0
+Environment=IFACE=macvtap0
+Environment=MODE=bridge
+ExecStartPre=/sbin/modprobe macvtap
+ExecStart=/usr/bin/env bash -c '/usr/local/sbin/macvtap0.sh up'
+ExecStop=/usr/bin/env bash -c '/usr/local/sbin/macvtap0.sh down'
 
 [Install]
 WantedBy=multi-user.target
-```
-A partir desse momento, você já pode subir a interface usando o systemd com os comandos:
-```bash
-systemctl [status|start|stop] macvtap0
 ```
 Mas, nosso intuíto é deixar esta interface subir sozinha durante o boot, certo? Então execute os comandos:
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now macvtap0.service
+sudo systemctl status macvtap0.service --no-pager
 ```
 
-# status do serviço (systemd) + status da interface (nos logs do serviço)
-systemctl status macvtap0.service
-sudo /usr/local/sbin/macvtap0.sh status
-
+A partir desse momento, você já pode subir a interface usando o systemd com os comandos:
+```bash
+sudo systemctl [status|start|stop] macvtap0
 ```
+
 O 'kvm' e 'libvirt' são usuários utilizados pelo virtualizado, e quando se faz uso de bridge, eles também precisam de acesso a alguns devices-blocks como **/dev/tapNN** e **/dev/macvtapNN**, então precisamos criar regras udev,  crie o arquivo `/etc/udev/rules.d/99-macvtap-perms.rules`:
 ```bash
-sudo editor /etc/udev/rules.d/99-macvtap-perms.rules`
+sudo editor /etc/udev/rules.d/99-macvtap-perms.rules
 ```
 E cole o seguinte conteúdo:
 ```
