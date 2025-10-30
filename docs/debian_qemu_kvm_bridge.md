@@ -22,6 +22,16 @@ Durante o processo:
 ⚠️ **Importante:**  
 Execute este guia **diretamente no terminal local** (não via SSH), pois a conexão pode cair temporariamente enquanto a nova bridge é criada.
 
+## VOCÊ PRECISA DE BRIDGE?
+Na introdução foi explicado o que é o modo bridge, será que entendeu bem?  
+O padrão do virt-manager é usar NAT, uma forma de comunicação que funciona o acesso a Internet e tudo o que o hospedeiro conseguir acessar, mas tem a limitação que é computadores de fora não acessam essa VM, por isso, a solução para este problema é criar uma conexão bridge. Mas vocÊ precisa realmente disso?  
+
+Caso seja desenvolvedor, provavelmente não precisa tanto do modo bridge porque sua estação de trabalho pode ser um notebook ou desktop onde a comunicação se dá principalmente da VM para fora e quase nunca na direção contrária. Mas para administradores de sistemas provavelmente vão querer que pessoas de fora acessem esta VM então para eles, o modo bridge é imprescindivel.  
+
+Uma vez detectado que realmente vocÊ precisa de bridge então siga o restante do tutorial, mas entenda que ativando o modo bridge pode ser que alguns recursos de comunicação entre host e convidado podem não funcionar como diz essa advertência:  
+
+![VM Windows](../img/debian_qemu_kvm_bridge3.png)  
+
 
 ## ENTENDENDO O AMBIENTE DO EXEMPLO
 O ambiente usado neste guia é típico de um sistema limpo com suporte a virtualização (QEMU/KVM, VirtualBox, etc.).
