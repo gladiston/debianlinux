@@ -77,23 +77,24 @@ UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  rw,user,exec,noaut
 As opções:  
 * A opção **noauto** garantirá que no processo de **boot** o sistema não tente procurá-lo.  
 * Usar a pasta **/media** garante para quem olha que se trata de um disco ejetável.  
-* A opção **x-systemd.automount** fará com que ele seja montado sob demanda, ao invés de durante o boot, daí você pode ejetá-lo quando quizer e plugá-lo quando quizer.  
+* A opção **x-systemd.automount** fará com que ele seja montado sob demanda, ao invés de durante o boot, daí você pode ejetá-lo quando quizer e plugá-lo quando quizer. Embora eu esteja recomendando-o para discos ejetáveis, na prática você pode usá-lo para qualquer disco externo, desde que não seja os obrigatórios montados como /, /home, /var, etc...
 
 
 
-| Parâmetro | Explicação |
-|:--|:--|
-| ext2, ext3, ext4... | Tipo de partição a montar. Aceita outros tipos como **vfat**, **ntfs**, etc. Dependendo do tipo, algumas opções de montagem variam. |
-| users | Permite que usuários normais montem/desmontem, não apenas o root. |
-| rw | Monta o disco com leitura e escrita. |
-| user,exec,umask=000 | Permissões abertas: qualquer usuário pode ler/gravar/executar. |
-| nosuid | Impede execução de arquivos com bit suid (segurança extra). |
-| nodev | Impede criação de arquivos de dispositivo. |
-| file_mode=0777 | Permissões padrão de arquivos dentro do volume (total acesso). |
-| dir_mode=0777 | Permissões padrão de diretórios (total acesso). |
-| auto | Monta automaticamente durante o boot. |
-| noauto | Não monta automaticamente no boot. |
-| Os dois “0” finais | Desativam dump e fsck automáticos. |
+| Parâmetro | Explicação |  
+|:--|:--|  
+|ext2, ext3, ext4... | Tipo de partição a montar. Aceita outros tipos como **vfat**, **ntfs**, etc. Dependendo do tipo, algumas opções de montagem variam. |  
+|users | Permite que usuários normais montem/desmontem, não apenas o root. |  
+|rw | Monta o disco com leitura e escrita. |  
+|user,exec,umask=000 | Permissões abertas: qualquer usuário pode ler/gravar/executar. |  
+|nosuid | Impede execução de arquivos com bit suid (segurança extra). |  
+|nodev | Impede criação de arquivos de dispositivo. |
+|file_mode=0777 | Permissões padrão de arquivos dentro do volume (total acesso). |  
+|dir_mode=0777 | Permissões padrão de diretórios (total acesso). |  
+|auto | Monta automaticamente durante o boot. |  
+|noauto | Não monta automaticamente no boot. |  
+|x-systemd.automount|montado sob demanda|  
+|Os dois “0” finais | Desativam dump e fsck automáticos. |  
 
 Reinicie o sistema.  
 Após o login, abra o gerenciador de arquivos e veja suas partições montadas automaticamente:  
