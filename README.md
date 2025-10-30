@@ -504,7 +504,7 @@ Neste HowTo, vamos precisar deles, portanto execute:
 sudo apt install -y build-essential
 sudo apt install -y dh-make exuberant-ctags dpkg-dev debhelper fakeroot
 sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
-sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc
+sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc tree
 ```
 
 ## SUPORTE A NOVAS FONTES
