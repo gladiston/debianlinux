@@ -81,7 +81,7 @@ As opções:
 
 
 
-| Parâmetro | Explicação |  
+| Parâmetro    | Explicação |  
 |:--|:--|  
 |ext2, ext3, ext4... | Tipo de partição a montar. Aceita outros tipos como **vfat**, **ntfs**, etc. Dependendo do tipo, algumas opções de montagem variam. |  
 |users | Permite que usuários normais montem/desmontem, não apenas o root. |  
