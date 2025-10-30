@@ -51,20 +51,35 @@ E acrescente uma linha usando o label do disco como exemplo:
 LABEL=#dados2  /mnt/dados2  ext4  defaults  0  0
 ```
 
-Usar **LABEL** é conveniente, mas o nome da etiqueta pode ser alterado a qualquer momento.  
-Se o disco for usado, por exemplo, como **destino de backup**, e você não quer que uma mudança de etiqueta afete seus scripts, prefira o uso de **UUID**:
+Usar **LABEL** é conveniente, mas o nome da etiqueta pode ser alterado pelo usuário a qualquer momento e isso pode envolver riscos com o uso de scripts automatizados, por exemplo, se você apontar um label para um disco que será usado como **destino de backup** dentro de um script e agendasse em forma de tarefa(crontab), e mais tarde, alguém se esquecesse desta programação e alterasse o label deste disco então o script deixaria de funcionar, por isso,  recomenda-se o uso de **UUID** que são fixos e não pode ser alterados:
 ```
 UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  rw,user,exec,auto,umask=000  0  0
 ```
-
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).     
 Sempre que modificar o `fstab`, é preciso recarregar o daemon responsável pelas montagens:
 ```bash
 sudo systemctl daemon-reload
 ```
-
 Alguns sugerem trocar `defaults` por `rw,user,exec,auto,umask=000`, mas isso pode variar conforme o tipo de partição.  
 Em geral, é mais seguro deixar `defaults` e ajustar permissões com **chown/chmod** ou **ACLs**.
+
+
+E se o disco acima for daqueles que podemos ejetar, como aqueles que colocamos em gavetas, então muda um pouco:
+```bash
+mkdir /media/disco2
+chown -R $USER:$USER /media/dados2
+chmod -R 2777 /media/dados2
+```
+E o /etc/fstab ficaria assim:
+```
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  rw,user,exec,noauto,umask=000,x-systemd.automount  0  0
+```
+As opções:  
+* A opção **noauto** garantirá que no processo de **boot** o sistema não tente procurá-lo.  
+* Usar a pasta **/media** garante para quem olha que se trata de um disco ejetável.  
+* A opção **x-systemd.automount** fará com que ele seja montado sob demanda, ao invés de durante o boot, daí você pode ejetá-lo quando quizer e plugá-lo quando quizer.  
+
+
 
 | Parâmetro | Explicação |
 |:--|:--|
@@ -85,7 +100,8 @@ Após o login, abra o gerenciador de arquivos e veja suas partições montadas a
 ![Gerenciador de disco mostrando as etiquetas fornecidas](../img/debian-gerenciador-discos-montados.png)
 
 ### Diferença entre /mnt e /media
-Será que há diferença entre usar **/mnt** ou **/media** para montar discos?
+Será que há diferença entre usar **/mnt** ou **/media** para montar discos?  
+A diferença é apenas protocolar, veja:  
 
 | Diretório | Uso recomendado |
 |:--|:--|
