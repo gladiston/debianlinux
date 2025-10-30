@@ -4,9 +4,9 @@ Ele combina a simplicidade de um editor de texto com recursos avançados de prog
 
 O VS Code tem uma instalação similar ao Google Chrome e Microsoft Edge, tem um .deb disponivel que ao ser instalado pela primeira vez, também acrescenta o repositório oficial. Então visite a página:   
 
-[Site oficial para download do vscode][https://code.visualstudio.com/download]
+[Site oficial para download do vscode](https://code.visualstudio.com/download)  
 E faça o download da versão .deb que aparece na tela:  
-[Tela de Download](../img/debian_vscode1.png)  
+![Tela de Download](../img/debian_vscode1.png)  
 
 Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela e ao final do processo, o vscode estará instalado.  
 
