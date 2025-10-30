@@ -162,6 +162,7 @@ Tanto a pasta de `imagens` como a de `isos` você pode trocar a localização pa
 ```bash
 sudo chmod g+s ~/libvirt
 sudo chmod g+s ~/libvirt/images
+sudo chmod g+s ~/libvirt/isos
 sudo chown -R libvirt-qemu:kvm ~/libvirt
 ```
 
