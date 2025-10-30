@@ -9,4 +9,10 @@ Após o download, dê duplo clique no arquivo baixado. O sistema iniciará o ins
 Após a instalação, o Google adiciona o repositório dela no sistema e as atualizações deste navegador serão automáticas.  
 
 ### Antes de executar pela primeira vez
-Se você tiver uma cópia do Google Chrome em algum outro computador, você o copia de ~/.config/google-chrome do computador antigo para o novo, exatamente o mesmo lugar. Funciona? Sim, desde que sejam a mesma versão e o mesmo perfil. Este navegador quando é executado pela primeira vez, se apercebe da instalação anterior e faz upgrade, depois disso, não adianta mais fazer a cópia substituindo a configuração anterior, há alguma inteligência que bloqueia repetir o processo várias vezes, então a primeira cópia sempre funciona, as demais, nem sempre.  
+Se você tiver uma cópia do Google Chrome em algum outro computador, você o copia de:
+```
+~/.config/google-chrome
+```
+do computador antigo para o novo, exatamente o mesmo lugar.   
+Funciona? Sim, desde que sejam a mesma versão e o mesmo perfil, mas requeirerá as autenticações, aparentemente os cookies são invalidados.   
+Este navegador quando é executado pela primeira vez, se apercebe da instalação anterior e faz upgrade, depois disso, não adianta mais fazer a cópia substituindo a configuração anterior, há alguma inteligência que bloqueia repetir o processo várias vezes, então a primeira cópia sempre funciona, as demais, nem sempre.  
