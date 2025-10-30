@@ -50,15 +50,6 @@ O ambiente usado neste guia é típico de um sistema limpo com suporte a virtual
     ```
   - Interpretação: Apenas o loopback está definido. **Não há blocos para `enp8s0`**, portanto não existe conflito com o NetworkManager. **Nenhuma alteração é necessária nesse arquivo.**
 
-## INSTALAÇÃO
-Garante a presença do NetworkManager, utilitários de bridge e ferramentas de rede:  
-
-```bash
-sudo apt update
-sudo apt install -y network-manager # provavelmente, já instalado
-sudo apt install -y bridge-utils dnsmasq-base ovmf isc-dhcp-client iproute2
-```
-
 ## BACKUP DA CONFIGURAÇÃO ORIGINAL
 Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, assim se algo der errado, restauramos.  
 
@@ -168,9 +159,9 @@ ip -d link show macvtap0
 ```
 Saída esperada:
 ```
-3: macvtap0@enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 500
-    link/ether 52:54:00:ab:cd:ef brd ff:ff:ff:ff:ff:ff
-    macvtap mode bridge
+3: macvtap0@enp8s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP mode DEFAULT group default qlen 500
+    link/ether 2a:19:36:99:83:d8 brd ff:ff:ff:ff:ff:ff promiscuity 0 allmulti 0 minmtu 68 maxmtu 9194 
+    macvtap mode bridge bcqueuelen 1000 usedbcqueuelen 1000 addrgenmode eui64 numtxqueues 1 numrxqueues 1 gso_max_size 64000 gso_max_segs 64 tso_max_size 64000 tso_max_segs 64 gro_max_size 65536 gso_ipv4_max_size 64000 gro_ipv4_max_size 65536 
 ```
 Verifique a interface:
 ```bash
@@ -182,7 +173,7 @@ Essa interface aparece também em /dev/tap* e pode ser usada diretamente por QEM
 Mas ela é volátil, isto significa que quando reiniciar o computador terá de repetir este tópico de criação de uma **bridge macvtap0** todas as vezes. É possível, deixá-la permanente? Claro que sim, assim que eu descobrir um outro método considerado seguro, eu postarei aqui. Por ora, o que pode ser feito é colocar os comandos acimas num script `/usr/local/sbin/create_bridge_macvtap0`, mas faremos isso apenas depois dos testes de conectividade.  
 
 
-### INTEGRANDO COM LIBVIRT / VIRT-MANAGER
+### INTEGRANDO "MACVTAP0" COM O LIBVIRT / VIRT-MANAGER
 No virt-manager, ao criar ou editar uma VM:
 1. Vá em Interface de rede → Fonte de rede.
 2. Escolha Interface Host.
