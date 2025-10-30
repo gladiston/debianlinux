@@ -147,7 +147,27 @@ out 08 16:26:55 ti-01 systemd[1]: Started libvirtd.service - libvirt legacy mono
 ```
 Se retornou `Active: active` então tá tudo certo.
 
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs
+### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs e ISOs
+Então temos o pool **default** usado pelo libvirt é **/var/lib/libvirt/images**, essa é a localização formal criada pelo próprio virt-manager quando você executá-o pela primeira vez, se estivessemos falando de servidores, a partição **/var** seria uma ótima opção desde que fosse uma partição separada, mas em desktops é muito comum jogarmos /var dentro da partição /(root) o que torna **/var** inviável. Assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
+```bash
+mkdir -p ~/libvirt/images
+```
+
+Vamos aproveitar este momento de criação de pastas e vamos criar uma pasta específica para guardar arquivos .iso, execute:
+```bash
+mkdir -p ~/libvirt/isos
+```
+
+Tanto a pasta de `imagens` como a de `isos` você pode trocar a localização para qualquer outro local, desde que o grupo **libvirt* tenha acesso a ela, por isso, damos permissãoà pasta e subpastas ao libvirt e kvm, execute:  
+```bash
+sudo chmod g+s ~/libvirt
+sudo chmod g+s ~/libvirt/images
+sudo chown -R libvirt-qemu:kvm ~/libvirt
+```
+
+
+
+### VIRTUALIZAÇÃO NATIVA QEMU+KVM - POOLS PARA ARMAZENAR AS VMs E ISOs
 O sistema trabalha no que chama de 'pools', o conceito é que cada pool tem um nome e aponta para uma pasta ou dispositivo, você pode ter todas as VMs no mesmo lugar, ou criar pools diferentes para cada contexto, vamos ver agora quantos pools temos no sistema, execute:  
 ```bash
 sudo virsh pool-list --all --details
@@ -156,34 +176,22 @@ E então será exibo algo assim:
 ```
  Nome      Estado       Auto-iniciar   Persistente   Capacidade   Alocação    Diposnível
 ------------------------------------------------------------------------------------------
- default   executando   sim            sim           114,79 GiB   11,67 GiB   103,12 GiB
 ```
 
-Caso ele não apareça nada na listagem, é porque você ainda não executou o `virt-manager` pela primeira vez. Quando ele é executado pela primeira vez, ele cria o pool sozinho, porém usando /var que tem muito mesmo espaço que o nosso $HOME. Mas se não apareceu nada, então execute:  
+Se não apareceu nada acima, é porque você ainda não executou o `virt-manager` ainda. Quando o `virt-manager` é executado pela primeira vez, ele cria o pool sozinho, porém usando /var como referencia de destino. Então se no seu caso não apareceu nada, então execute:  
 ```bash
-sudo virsh pool-define-as default dir --target /var/lib/libvirt/images
+sudo virsh pool-define-as default dir --target /home/gsantana/libvirt/images
 sudo virsh pool-autostart default
 sudo virsh pool-start default
 ```
-
-Agora que confirmamos a existencia do pool `default` Como poderá observar, há apenas 1 pool, chamado 'default' que se estiver apontando para /var tem muito menos espaço disponível do que teria se fosse nosso $HOME, por isso confira novamemte:, execute:
+Agora temos um pool `default`, seja criado por nós ou pelo próprio `virt-manager`, seja como for, vamos olhar para onde nosso pool **default**esta apontando, execute:
 ```bash
 sudo virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
 ```
-Se ver algo assim, isto é, indicando o **/var**:
+Se observar que está apontando para o **/var**:
 >/var/lib/libvirt/images
 
-Então temos o pool **default** que aponta para **/var/lib/libvirt/images**, essa é a localização formal criada pelo próprio virt-manager, se estivessemos falando de servidores, a partição **/var** seria uma subpartição ou partição separada. Mas em desktops é muito comum jogarmos /var dentro da partição /(root) que normalmente tem capacidade menor de espaço, e se você seguiu o tutorial até aqui é bem provavel que esteja assim também no seu computador. Assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
-```bash
-mkdir -p ~/libvirt/images
-```
-Você pode trocar a localização para qualquer outro local, desde que o grupo **libvirt* tenha acesso a ela, por isso, damos permissãoà pasta e subpastas ao libvirt e kvm, execute:  
-```bash
-sudo chmod g+s ~/libvirt/images
-sudo chown -R libvirt-qemu:kvm ~/libvirt
-```
-
-Agora que a pasta foi criada com sucesso e tem as permissões corretas, então vamos definir o pool de imagens para lá, primeiro vamos desativar o pool 'default', execute:
+Então terá de trocar a localização para qualquer outro local, preferencialmente **~/libvirt/images**, primeiro vamos desativar o pool 'default', execute:
 ```
 sudo virsh pool-destroy default
 ```
@@ -227,7 +235,7 @@ E então será exibo algo assim:
 
 Isso confirma que realmente mudamos o pool 'default' de lugar.  
 
-Se vocÊ já copiou arquivos para os pools, então seria importante executar também:  
+Se você já copiou arquivos para os pools, então seria importante executar também:  
 ```bash
 sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
 ```
@@ -240,14 +248,13 @@ Se você aponto o pool `default` para um local que usa partição Btrfs, então 
 
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Localização das ISOs  
-Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo, execute:  
+Também precisaremos de um repositório para guardar nossas isos - arquivos de instalação de sistemas operacionais - escolha o diretorio que desejar, mas o mais bacana é não ter arquivos .iso dentro de unidades caras e rápidas como ssd, o interessante é armazená-las em discos mecânicos que são mais baratos, mas isso é apenas uma sugestão, caso você use o sistema de virtualização apenas para máquinas Windows e terá poucos isos, talvez não faça diferença onde criar este _pool_ porque apagará estes .iso depois de terminada a instalação e é este exemplo que faço abaixo.   
 
+Nos passos anteriores, assumimos que nossas ISOs serão gravadas em:  
 ```
-sudo -p ~/libvirt/isos
-sudo chown -R libvirt-qemu:kvm ~/libvirt
+~/libvirt/isos
 ```
-
-Agora que a pasta com as permissões foram criadas, então criamos o pool 'isos', execute:
+Então criamos o pool 'isos', execute:
 ```
 sudo virsh pool-define-as isos dir - - - - "/home/gsantana/libvirt/isos"
 ```
