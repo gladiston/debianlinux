@@ -41,6 +41,7 @@ MAILTO=""
 
 **Modelo para `/etc/crontab` ou `/etc/cron.d/*` (6 campos, com usuário):**
 ```crontab
+# /etc/crontab: system-wide crontab
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 MAILTO=""
