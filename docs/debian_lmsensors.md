@@ -12,14 +12,17 @@ Antes de usar, detecte os sensores com:
 ```bash
 sudo sensors-detect
 ```
-Responda **yes** a todas as perguntas e, ao final, carregue os módulos sugeridos, por exemplo:
+Boa parte das perguntas já vem com **yes** prédefinido, as outras, você só pode responder com **yes** se tiver os módulos-sensores previamente carregados. Depois de respondidas as questões, poderá executar o comando `sensors` como será mostrado no próximo tópico.   
 
 
 ### Uso prático
 Depois disso, basta:
 
+```bash
+sensors
 ```
-$ sensors
+E vará uma saída como esta:
+```
 amdgpu-pci-0a00
 Adapter: PCI adapter
 vddgfx:        1.10 V  
