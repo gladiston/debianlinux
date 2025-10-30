@@ -19,7 +19,10 @@ alias l='ls -lh --color=auto'
 
 Abaixo estão algumas sugestões úteis.  
 Ao editar o arquivo `~/.bashrc`, você notará que várias delas já existem (algumas comentadas com `#`).
-
+```
+editor ~/.bashrc
+```
+E então acrescente estas linhas no final do arquivo:  
 ```
 ###
 ### Meus aliases
