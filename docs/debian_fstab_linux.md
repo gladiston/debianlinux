@@ -53,7 +53,7 @@ LABEL=#dados2  /mnt/dados2  ext4  defaults  0  0
 
 Usar **LABEL** é conveniente, mas o nome da etiqueta pode ser alterado pelo usuário a qualquer momento e isso pode envolver riscos com o uso de scripts automatizados, por exemplo, se você apontar um label para um disco que será usado como **destino de backup** dentro de um script e agendasse em forma de tarefa(crontab), e mais tarde, alguém se esquecesse desta programação e alterasse o label deste disco então o script deixaria de funcionar, por isso,  recomenda-se o uso de **UUID** que são fixos e não pode ser alterados:
 ```
-UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  rw,user,exec,auto,umask=000  0  0
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  defaults,auto,x-systemd.automount  0  0
 ```
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).     
 Sempre que modificar o `fstab`, é preciso recarregar o daemon responsável pelas montagens:
@@ -72,7 +72,7 @@ chmod -R 2777 /media/dados2
 ```
 E o /etc/fstab ficaria assim:
 ```
-UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  rw,user,exec,noauto,umask=000,x-systemd.automount  0  0
+UUID=b2154643-7b94-42a1-8146-267bb88ba833  /mnt/dados2  ext4  defaults,noauto,x-systemd.automount  0  0
 ```
 As opções:  
 * A opção **noauto** garantirá que no processo de **boot** o sistema não tente procurá-lo.  
@@ -81,20 +81,20 @@ As opções:
 
 
 
-| Parâmetro    | Explicação |  
-|:--|:--|  
+| Parâmetro          | Explicação |  
+|:-------------------|:--|  
 |ext2, ext3, ext4... | Tipo de partição a montar. Aceita outros tipos como **vfat**, **ntfs**, etc. Dependendo do tipo, algumas opções de montagem variam. |  
-|users | Permite que usuários normais montem/desmontem, não apenas o root. |  
-|rw | Monta o disco com leitura e escrita. |  
+|users               | Permite que usuários normais montem/desmontem, não apenas o root. |  
+|rw                  | Monta o disco com leitura e escrita. |  
 |user,exec,umask=000 | Permissões abertas: qualquer usuário pode ler/gravar/executar. |  
-|nosuid | Impede execução de arquivos com bit suid (segurança extra). |  
-|nodev | Impede criação de arquivos de dispositivo. |
-|file_mode=0777 | Permissões padrão de arquivos dentro do volume (total acesso). |  
-|dir_mode=0777 | Permissões padrão de diretórios (total acesso). |  
-|auto | Monta automaticamente durante o boot. |  
-|noauto | Não monta automaticamente no boot. |  
-|x-systemd.automount|montado sob demanda|  
-|Os dois “0” finais | Desativam dump e fsck automáticos. |  
+|nosuid              |Impede execução de arquivos com bit suid (segurança extra). |  
+|nodev               |Impede criação de arquivos de dispositivo. |
+|file_mode=0777      |Permissões padrão de arquivos dentro do volume (total acesso). |  
+|dir_mode=0777       |Permissões padrão de diretórios (total acesso). |  
+|auto                |Monta automaticamente durante o boot. |  
+|noauto              |Não monta automaticamente no boot. |  
+|x-systemd.automount |Será automaticamente montado sob demanda|  
+|Os dois “0” finais  |Desativam dump e fsck automáticos. |  
 
 Reinicie o sistema.  
 Após o login, abra o gerenciador de arquivos e veja suas partições montadas automaticamente:  
