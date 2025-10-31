@@ -443,6 +443,61 @@ Mas voltando ao assunto, este guia passo a passo foi feito para mortais que usuf
 ### Otimizando o Windows - Agendador de tarefas
 Depois de instalar dentro da VM todos os programas de que precisa, vá no agendador de tarefas e desative os agendamentos de atualizações que estes programas gostam de deixar lá, por exemplo, o Oracle Java e Adobe Reader deixam no Agendador de tarefas programas para atualização de seus produtos. Normalmente ficam programados para conferir se há atualizações de seu produtos quando o computador esta ocioso e diariamente, e isso é horrivel para a nossa VM.  
 
+### Otimizando o Windows - Relogio
+Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) como fonte principal de tempo do sistema, afinal, isso será fornecido pelo nosso hypervisor. Abra o terminal PS(PowerShell) como administrador e execute:  
+```cmd
+bcdedit /set useplatformclock No
+```
+Não confunda PowerShell com o `cmd` do Windows.  
+
+### Otimizando o Windows - Apps no iniciar do Windows
+Vá em **Configurações** e procure por **Aplicativos** e então aparecerá um **Aplicativos na inicialização**, execute ele.  
+A seguir serão listados programas que são carregados juntos com o Windows:  
+![Remova a economia de energia](../img/debian_qemu_kvm_windows55.png)    
+
+Desabiltie o máximo de programas que puder.
+
+### Otimizando o Windows - Tarefas agendadas desnecessárias
+Vamos remover todas as tarefas agendadas desnecessárias, abra o terminal PS(PowerShell) como administrador e execute:  
+Primeiro vamos listá-las, execute:
+```cmd
+Get-ScheduledTask -TaskName '*schedule*'
+```
+Isso listará algo como:
+```
+TaskPath                                       TaskName                          State
+--------                                       --------                          -----
+\Microsoft\Windows\Defrag\                     ScheduledDefrag                   Ready
+\Microsoft\Windows\Diagnosis\                  Scheduled                         Ready
+\Microsoft\Windows\UpdateOrchestrator\         Schedule Maintenance Work         Disabled
+\Microsoft\Windows\UpdateOrchestrator\         Schedule Scan                     Ready
+\Microsoft\Windows\UpdateOrchestrator\         Schedule Scan Static Task         Ready
+\Microsoft\Windows\UpdateOrchestrator\         Schedule Wake To Work             Disabled
+\Microsoft\Windows\UpdateOrchestrator\         Schedule Work                     Disabled
+\Microsoft\Windows\Windows Defender\           Windows Defender Scheduled Scan   Ready
+\Microsoft\Windows\WindowsUpdate\              Scheduled Start                   Ready
+```
+E então terá uma ideia do que está no estado de `Ready`, ou seja, pronto para ser executado em momentos especificados pela própria Microsoft. Se desejar, poderá desativá-los, mas terá de fazer um por um, dessa forma:
+```cmd
+Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Defrag\' -TaskName 'ScheduledDefrag'
+```
+E então, lhe será infromado algo como:
+```
+TaskPath                                       TaskName                          State
+--------                                       --------                          -----
+\Microsoft\Windows\Defrag\                     ScheduledDefrag                   Disabled
+```
+Confirmando a mudança do estado para **desabilitado**(Disabled).
+
+Abaixo temos a sintaxe para desabilitar os que eu recomendo por considerar inapropriado para uma VM:  
+```cmd
+Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Defrag\' -TaskName 'ScheduledDefrag'
+Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Diagnosis\' -TaskName 'Scheduled'
+Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Windows Defender\' -TaskName 'Windows Defender Scheduled Scan'
+Disable-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\' -TaskName 'Scheduled Start'
+```
+Não sei se percebeu, mas até mesmo o 'Windows Update' esta na lista para ser desativado, então para atualizar seu Windows, só indo diretamente nas configurações e mandando atualizar manualmente.
+  
 
 ### Teste o copiar/colar
 Uma vez que tenha instalado o programa cliente dentro da VM Windows, o recurso de copiar/colar da área de clipboard funcionará perfeitamente.  
@@ -455,13 +510,23 @@ O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
 Se não estiver funcionando, confirme se o host está com o serviço spice-vdagentd e spice-webdavd funcionando, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, esta parte do guia também não funcionará.  
 
 ### Copiar arquivos entre sistema hospedeiro e convidado
-Nosso hospedeiro e convidado podem trocar arquivos entre si sem precisará hospedar serviços como o SAMBA no hospedeiro, ele usa o serviço webdav, mas não é um webdav que vocÊ conheçe, é uma versão minimalista que faz o Windows usar o protocolo webdav para acessar os arquivos no sistema hospedeiro.   Primeiramente, verifique se o serviço virtio-webdav está rodando no hospedeiro, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, 
-Insira o CDROM de Ferramentas para convidado do VirtIO, navegue e vá até a pasta:  
-```
-spice-webdavd.exe 
-```
-Para acessar os arquivos no convidado Windows, abra o Explorador>“Rede”>aparecerá um drive WebDAV (Spice), onde dá pra arrastar e manipular arquivos.  
+O **SPICE WebDAV** permite compartilhar arquivos entre o **sistema hospedeiro (Linux)** e o **convidado (Windows)** sem precisar configurar Samba, FTP ou serviços de rede.  
+Ele usa um **canal SPICE** interno e o protocolo **WebDAV**, exibindo a pasta compartilhada como uma unidade de rede no Windows.  
+
+#### Preparar a VM (Canal SPICE WebDAV)
+1. Desligue a máquina virtual.
+2. Abra o **virt-manager** → selecione a VM → **Detalhes** → **Adicionar hardware** → **Canal**.
+3. Configure:
+   - **Tipo de dispositivo:** `spicevmc`
+   - **Nome do dispositivo:** `org.spice-space.webdav.0`
+4. Clique em **Concluir** e **salve as alterações**.
+
+> 💡 Use **Vídeo Virtio-GPU** e **Display SPICE** para compatibilidade total com clipboard, redimensionamento e WebDAV.
+
+Depos, ir em Console → Abrir em Remote Viewer → File → Preferences → Share folder e escolher a pasta.
 (todo)
+
+
 
 ## CRIANDO A VM VIA YOUTUBE
 Sem falsa modéstia, mas este guia passo a passo é mais completo que a maioria dos vídeos no YouTube que mostram como criar VMs Windows.
