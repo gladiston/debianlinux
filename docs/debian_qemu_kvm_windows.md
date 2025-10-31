@@ -47,9 +47,32 @@ Depois de instalar os drivers de convidado(virtio) numa VM Windows e reiniciar a
 8. Ser for Windows Server, não esqueça de ir em "Language" e mudar o idioma de inglês para o português/brasil, regionalidade, dicionários, etc... e no final, copiar para todos os usuários e tela de boas vindas.  
 9. Para compartilhar arquivos/pastas entre anfitrião e convidado sem precisar de compartilhar via rede veja este [link aqui](https://www.debugpoint.com/share-folder-virt-manager/) e [este outro aqui](https://www.debugpoint.com/kvm-share-folder-windows-guest/#google_vignette).
         
- 
+## SERVIÇOS ESSENCIAIS
+O sistema hospedeiro precisa ter os serviços abaixo rodando, eles são importantes para que possamos tem alguma integração entre o hospedeiro e máquinas windows, são eles:
 
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando conexões bridge
+### Serviço `spice-vdagentd`
+Este é um serviço que lhe permitirá compartilhar a área de clipboard entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
+```bash
+$ sudo systemctl status spice-vdagentd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
+```
+
+
+### Serviço `spice-webdavd`
+Este é um serviço que lhe permitirá compartilhar arquivos entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
+```bash
+$ sudo systemctl status spice-webdavd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
+```
+Se estes serviços não estiverem rodando, avalie os passos anteriores porque prosseguir sem eles torna a sua VM Windows muito limitada.   
+
+## VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando conexões bridge
 O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cliente de sua rede, troque de **NAT** por **bridge** e forneça a conexão bridge para suas VMs. Algumas formas de compartilhamento de arquivos entre anfitrião e convidado só funcionará se a VM estiver usando a rede em modo bridge.  
 
 Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
@@ -95,6 +118,17 @@ Procure o pacote `spice-guest-tools-latest.exe` e instale (basta “Next, Next, 
 * spice-vdagent
 * qxl driver de vídeo
 * drivers para mouse, clipboard e redimensionamento dinâmico
+
+## OTIMIZAÇÃO DA VM WINDOWS
+O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar.  
+
+### Otimizando o Windows - Papel de parede e gadgets
+Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
+No painel de menu, remova os recursos que não precisa, como caixa de pesquisa, telas virtuais, etc...  
+Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
+
+### Otimizando o Windows - Programas dispensáveis
+Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
 
 ### Otimizando o Windows - Serviçõs dispensáveis
 Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative alguns desses(ou todos eles):  
@@ -158,18 +192,48 @@ Salve o conteúdo acima como `otimizar-vm.cmd`, então clique com o botão direi
 
 Caso se arrependa de ter desativado algum serviço em particular, execute `servces.msc` e ative-o.
 
+### Otimizando o Windows - Recursos Visuais
+A configuração de vídeo é um aspecto muito importante porque não importa o quanto a VM seja rápida para processar, o aspecto mais valorizado é a responsividade. As vezes você pode achar a VM lenta, mas quando roda um processo, o processo roda rápido, mas a impressão que se tem é de lerdeza ao operar a VM, isto é a responsividade.  
+Se você tiver um notebook que tem uma placa de vídeo Intel e outra NVIDIA, parabens você pode configurar sua máquina virtual para passthrough, isto é, deixar o sistema hospedeiro ficar 100% com uma placa de vídeo(Intel) enquanto a VM fica 100% com a outra placa de vídeo(NVIDIA) por meio de passthrough e poderá inclusive jogar nessa VM com desempenho similar sem virtualização.  
+Mas voltando ao assunto, este guia passo a passo foi feito para mortais que usufruem apenas de uma placa de vídeo e como ela fica com o hospedeiro, as VMs "emulam" uma placa de vídeo que usa um driver QXL que é apenas um quebra-galho aceitando apenas a parte 2D, por isso dentro do Windows vocÊ precisa urgentemente desligar todos os efeitos visuais que puder, vá em **Configurações>ConfiguraçõesaAvançadas do sistema>Desempenho** e clique em **Configurações** e deixe selecionado apenas a opção **Usar fontes de tela com cantos arredondados** porque nossos olhos não precisam sangrar também:
+!(Desempenho)[../img/debian_qemu_kvm_windows1.png]   
+
+### Otimizando o Windows - Agendador de tarefas
+Depois de instalar dentro da VM todos os programas de que precisa, vá no agendador de tarefas e desative os agendamentos de atualizações que estes programas gostam de deixar lá, por exemplo, o Oracle Java e Adobe Reader deixam no Agendador de tarefas programas para atualização de seus produtos. Normalmente ficam programados para conferir se há atualizações de seu produtos quando o computador esta ocioso e diariamente, e isso é horrivel para a nossa VM.  
+
 
 ### Teste o copiar/colar
+Uma vez que tenha instalado o programa cliente dentro da VM Windows, o recurso de copiar/colar da área de clipboard funcionará perfeitamente.  
 
-Abra a VM no virt-manager (janela SPICE) e:
-* Copie um texto no host Linux>Ctrl + V dentro da VM Windows   
-* Copie algo no Windows>Ctrl + Shift + V (ou normal, dependendo do app) no host   
+Se não estiver funcionando, talvez seja necessário seguir os passos anteriores.  
+O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
+* Copie um texto no host Linux>Ctrl + V dentro da VM Windows.     
+* Copie algo no Windows>Ctrl + Shift + V (ou normal, dependendo do app) no host.   
 
-Se funcionar em um sentido mas não no outro, reinicie tanto o serviço no host:
+Se não estiver funcionando, confirme se o host está com o serviço funcionando:  
+
+1. Serviço `spice-vdagentd`, este é um serviço que lhe permitirá compartilhar a área de clipboard entre hospedeiro e convidado:
 ```bash
-sudo systemctl restart spice-vdagentd
+$ sudo systemctl status spice-vdagentd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
 ```
-quanto o processo spice-vdagent.exe dentro do Windows (ele inicia automaticamente com o login).  
+2. Serviço `spice-webdavd`, este é um serviço que lhe permitirá compartilhar arquivos entre hospedeiro e convidado:
+```bash
+$ sudo systemctl status spice-webdavd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
+
+
+
+E se o serviço no Windows está habilitado e rodando:  
+* QEMU Guest Agent
+* Spice Agent
+Se não estiverem, os recursos entre hospedeiro e convidado não funcionarão.
 
 ### COPIA DE ARQUIVOS ENTRE ANFITRIÃO E CONVIDADO
 Para copiar arquivos, não só texto:  
