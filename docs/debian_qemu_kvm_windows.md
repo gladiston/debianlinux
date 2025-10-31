@@ -96,6 +96,69 @@ Procure o pacote `spice-guest-tools-latest.exe` e instale (basta “Next, Next, 
 * qxl driver de vídeo
 * drivers para mouse, clipboard e redimensionamento dinâmico
 
+### Otimizando o Windows - Serviçõs dispensáveis
+Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative alguns desses(ou todos eles):  
+## ⚙️ Serviços seguros para desativar em VMs do Windows Server / Windows 2025
+
+| Nome exibido no `services.msc` | Nome interno (`sc config ...`) | Função | Pode desativar? |
+|--------------------------------|-------------------------------|---------|------------------|
+| **Windows Search** | `WSearch` | Indexação de arquivos e e-mails | ✅ |
+| **SysMain** *(antigo Superfetch)* | `SysMain` | Otimiza inicialização e cache de aplicativos | ✅ |
+| **Optimize Drives (Desfragmentador)** | `defragsvc` | Desfragmenta discos mecânicos | ✅ |
+| **Windows Error Reporting Service** | `WerSvc` | Envia relatórios de erro para a Microsoft | ✅ |
+| **Diagnostic Policy Service** | `DPS` | Detecta e tenta corrigir problemas de rede e hardware | ✅ |
+| **Connected User Experiences and Telemetry** | `DiagTrack` | Coleta telemetria e estatísticas de uso | ✅ |
+| **Windows Update Medic Service** | `WaaSMedicSvc` | Reativa o Windows Update automaticamente | ✅ |
+| **Remote Registry** | `RemoteRegistry` | Permite editar o registro remotamente | ✅ |
+| **Fax** | `Fax` | Suporte a envio de fax | ✅ |
+| **Print Spooler** | `Spooler` | Gera fila de impressão | ✅ *(a não ser que use impressoras)* |
+| **Bluetooth Support Service** | `bthserv` | Gerencia dispositivos Bluetooth | ✅ |
+| **Smart Card** | `SCardSvr` | Gerencia cartões inteligentes | ✅ |
+| **Secondary Logon** | `seclogon` | Permite “Executar como outro usuário” | ⚠️ *Opcional* |
+| **Windows Defender Antivirus Service** | `WinDefend` | Proteção antivírus | ⚠️ *Somente se VM isolada* |
+| **Offline Files** | `CscService` | Sincroniza arquivos offline | ✅ |
+| **Program Compatibility Assistant Service** | `PcaSvc` | Detecta compatibilidade de programas antigos | ✅ |
+| **Security Center** | `wscsvc` | Central de segurança (alertas) | ✅ |
+
+Algo que pode agilizar é criar um script `agilizar_vm.bat` com o seguinte cnteúdo:  
+
+```cmd
+@echo off
+echo === Otimizando VM Windows para melhor desempenho ===
+echo.
+
+for %%S in (
+  WSearch
+  SysMain
+  defragsvc
+  WerSvc
+  DPS
+  DiagTrack
+  WaaSMedicSvc
+  RemoteRegistry
+  Fax
+  Spooler
+  bthserv
+  SCardSvr
+  seclogon
+  WinDefend
+  CscService
+  PcaSvc
+  wscsvc
+) do (
+  echo Desativando %%S ...
+  sc stop "%%S" >nul 2>&1
+  sc config "%%S" start= disabled >nul 2>&1
+)
+
+echo.
+echo === Concluido! Reinicie o Windows para aplicar todas as alteracoes. ===
+pause
+```
+Aproveite para remover remova os nomes de serviços que na sua definição lhe são útes, afinal, a lista acima desativa todos os serviços que detalhei na tabela.    
+Salve o conteúdo acima como `otimizar-vm.cmd`, então clique com o botão direito sobre ele e **“Executar como Administrador”**.  
+
+
 ### Teste o copiar/colar
 
 Abra a VM no virt-manager (janela SPICE) e:
