@@ -342,23 +342,35 @@ O CDROM secundário foi usado para a instalação dos drivers de convidado duran
 Primeiro, desligue a máquina virtual Windows.  
 Depois vá na configuração de hardware da VM, selecione o **CDROM SATA 2**, ejete o `.iso` e enfim, escolha **Remover**.
 Aproveite o momento e ejete o `.iso` de instalação do Windows do **CDROM SATA 1**, cuidado, neste você apenas irá ejetar, não remova  dispositivo de hardware dele.   
-![Novo usuário como membro de administradores](../img/debian_qemu_kvm_windows50.png)    
+![Removendo CDROM secundario](../img/debian_qemu_kvm_windows50.png)    
 
 ## OTIMIZAÇÃO DA VM WINDOWS
 O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar.  
-
-### Otimizando o Windows - Papel de parede e gadgets
-Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
-No painel de menu, remova os recursos que não precisa, como caixa de pesquisa, telas virtuais, etc...  
-Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
-
-### Otimizando o Windows - Programas dispensáveis
-Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
 
 ### Otimizando o Windows - Removendo o Gerenciador do Servidor do Startp do Windows:
 Se estiver usando uma edição Servidor do Windows, provavelmente você se aborrecerá do Gerenciador do Servidor que é carregado todas as vezes que faz o logon. Para desabilitá-lo vá em **Gerenciar|Propriedades do Gerenciador do Servidor** e então marque a opção **Não iniciar o Gerenciador do Servidor automaticamente no logon**:  
 
 ![Ativando o autologon](../img/debian_qemu_kvm_windows51.png)    
+
+### Otimizando o Windows - Menu do Windows
+No painel de menu, remova os recursos que não precisa como caixa de pesquisa e visão de tarefas:   
+![Remova os recursos que não precisa como caixa de pesquisa e visão de tarefas](../img/debian_qemu_kvm_windows52.png)    
+
+Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
+
+### Otimizando o Windows - Papel de parede
+Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
+![Remova o papel de parede e use uma cor solida como preto](../img/debian_qemu_kvm_windows53.png)    
+Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
+
+### Otimizando o Windows - Energia
+Você esta usando uma VM e por isso, você não tem compromisso de economia de energia.  
+No Windows vá em **Configurações**, procure por **Energia**, e desative qualquer medida ou tentativa para economizar energia:  
+![Remova a economia de energia](../img/debian_qemu_kvm_windows54.png)    
+
+
+### Otimizando o Windows - Programas dispensáveis
+Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
 
 ### Otimizando o Windows - Serviçõs dispensáveis
 Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative alguns desses(ou todos eles):  
