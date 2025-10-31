@@ -440,35 +440,16 @@ O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
 * Copie um texto no host Linux>Ctrl + V dentro da VM Windows.     
 * Copie algo no Windows>Ctrl + Shift + V (ou normal, dependendo do app) no host.   
 
-Se não estiver funcionando, confirme se o host está com o serviço funcionando:  
+Se não estiver funcionando, confirme se o host está com o serviço spice-vdagentd e spice-webdavd funcionando, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, esta parte do guia também não funcionará.  
 
-1. Serviço `spice-vdagentd`, este é um serviço que lhe permitirá compartilhar a área de clipboard entre hospedeiro e convidado:
-```bash
-$ sudo systemctl status spice-vdagentd
-○ spice-vdagentd.service - Agent daemon for Spice guests
-     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
-     Active: inactive (dead)
-TriggeredBy: ○ spice-vdagentd.socket
+### Copiar arquivos entre sistema hospedeiro e convidado
+Nosso hospedeiro e convidado podem trocar arquivos entre si sem precisará hospedar serviços como o SAMBA no hospedeiro, ele usa o serviço webdav, mas não é um webdav que vocÊ conheçe, é uma versão minimalista que faz o Windows usar o protocolo webdav para acessar os arquivos no sistema hospedeiro.   Primeiramente, verifique se o serviço virtio-webdav está rodando no hospedeiro, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, 
+Insira o CDROM de Ferramentas para convidado do VirtIO, navegue e vá até a pasta:  
 ```
-2. Serviço `spice-webdavd`, este é um serviço que lhe permitirá compartilhar arquivos entre hospedeiro e convidado:
-```bash
-$ sudo systemctl status spice-webdavd
-○ spice-vdagentd.service - Agent daemon for Spice guests
-     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
-     Active: inactive (dead)
-TriggeredBy: ○ spice-vdagentd.socket
+spice-webdavd.exe 
 ```
-
-
-E se o serviço no Windows está habilitado e rodando:  
-* QEMU Guest Agent
-* Spice Agent
-Se não estiverem, os recursos entre hospedeiro e convidado não funcionarão.
-
-### COPIA DE ARQUIVOS ENTRE ANFITRIÃO E CONVIDADO
-Para copiar arquivos, não só texto:  
-* Instale e ative o spice-webdavd no host;
-*  Dentro da VM, abra o Explorador>“Rede”>aparecerá um drive WebDAV (Spice), onde dá pra arrastar arquivos.  
+Para acessar os arquivos no convidado Windows, abra o Explorador>“Rede”>aparecerá um drive WebDAV (Spice), onde dá pra arrastar e manipular arquivos.  
+(todo)
 
 ## CRIANDO A VM VIA YOUTUBE
 Sem falsa modéstia, mas este guia passo a passo é mais completo que a maioria dos vídeos no YouTube que mostram como criar VMs Windows.
