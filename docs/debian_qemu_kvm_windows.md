@@ -522,7 +522,9 @@ Vá até as configurações dela, adicione um novo hardware e escolha um novo ha
 * **Source path**: escolha uma pasta de seu sistema como **/home/gsantana/Downloads**    
 * **Target path**: escolha um nome para este compartilhamento como **downloads**   
 Se quiser impedir da estação windows escrever nesta pasta você pode marcar a opão **Exportar sistema de arquivo como montagem somente leitura**.
-![Remova a economia de energia](../img/debian_qemu_kvm_windows58.png)
+
+![Remova a economia de energia](../img/debian_qemu_kvm_windows58.png)  
+
 
 Agora podemos iniciar novamente nossa VM.  
 Precisamos acessar a página WinSFP no link abaixo:  
