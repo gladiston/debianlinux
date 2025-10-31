@@ -137,10 +137,8 @@ for %%S in (
   WaaSMedicSvc
   RemoteRegistry
   Fax
-  Spooler
   bthserv
   SCardSvr
-  seclogon
   WinDefend
   CscService
   PcaSvc
@@ -155,8 +153,10 @@ echo.
 echo === Concluido! Reinicie o Windows para aplicar todas as alteracoes. ===
 pause
 ```
-Aproveite para remover remova os nomes de serviços que na sua definição lhe são útes, afinal, a lista acima desativa todos os serviços que detalhei na tabela.    
-Salve o conteúdo acima como `otimizar-vm.cmd`, então clique com o botão direito sobre ele e **“Executar como Administrador”**.  
+Aproveite para remover remova os nomes de serviços que na sua definição lhe são útes, afinal, a lista acima desativa todos os serviços que detalhei na tabela. Eu por exemplo, removo da lista os serviços a serem desativados: **Print Spooler** e **Secondary Logon** porque eles me são uteis, por isso eles estão fora da lista do arquivo .cmd acima.    
+Salve o conteúdo acima como `otimizar-vm.cmd`, então clique com o botão direito sobre ele e **“Executar como Administrador”**.    
+
+Caso se arrependa de ter desativado algum serviço em particular, execute `servces.msc` e ative-o.
 
 
 ### Teste o copiar/colar
