@@ -9,7 +9,6 @@ Antes de prosseguirmos, que tal fazer o backup da sua configuração de rede ori
 ### Vamos instalar os pacotes principais:  
 ```bash
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients
-sudo apt install -y bridge-utils dnsmasq-base ovmf isc-dhcp-client
 ```
 |Pacote|Explicação|
 |:--|:--|
