@@ -534,12 +534,18 @@ E baixar a ultima versão disponivel:
 
 Execute `services.msc` e veja se os serviços estão habilitados:  
 * VirtIO-FS Service
-![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)
+
+![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)  
+
 * WinFsp.Launcher
-![WinFsp.Launcher Service](../img/debian_qemu_kvm_windows61.png)
+
+![WinFsp.Launcher Service](../img/debian_qemu_kvm_windows61.png)  
+
 
 Assim, que estes serviços forem iniciados, olhe novamente para o explorer e notará que as pastas que foram exportadas, em nosso exemplo apenas a pasta `Downloads` serão reconhecidas como unidades:  
-![Novas iunidades no Windows](../img/debian_qemu_kvm_windows62.png)  
+
+![Novas iunidades no Windows](../img/debian_qemu_kvm_windows62.png)   
+
 
 
 PS: Eu tenho a impressão, vou estudar mais tarde, que não é necessário instalar o winfsp porque possivelmente ele ou o protocolo dele já é instalado nas ferramentas de convidado.  
