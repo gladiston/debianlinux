@@ -515,15 +515,16 @@ Ele usa um **canal SPICE** interno e o protocolo **WebDAV**, exibindo a pasta co
 
 #### Preparar a VM (Canal SPICE WebDAV)
 1. Desligue a máquina virtual.
-2. Abra o **virt-manager** → selecione a VM → **Detalhes** → **Adicionar hardware** → **Canal**.
+2. Abra o **virt-manager**, selecione a VM, depois **Detalhes**, depois **Adicionar hardware** e então escolha **Canal**.
 3. Configure:
    - **Tipo de dispositivo:** `spicevmc`
    - **Nome do dispositivo:** `org.spice-space.webdav.0`
 4. Clique em **Concluir** e **salve as alterações**.
 
-> 💡 Use **Vídeo Virtio-GPU** e **Display SPICE** para compatibilidade total com clipboard, redimensionamento e WebDAV.
+> Use **Vídeo Virtio-GPU** e **Display SPICE** para compatibilidade total com clipboard, redimensionamento e WebDAV.
 
-Depos, ir em Console → Abrir em Remote Viewer → File → Preferences → Share folder e escolher a pasta.
+Depos, ir em Console → Abrir em Remote Viewer → File → Preferences → Share folder e escolher a pasta.  
+
 (todo)
 
 
