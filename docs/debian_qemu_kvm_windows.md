@@ -78,7 +78,9 @@ Nesta tela, escolha a `.iso` de instalação do Windows e então prossiga:
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows05.png)     
 
 E ao escolher a iso, defina corretamente o sistema convidado e não confie na opção auto-detecção porque as vezes ela falha, especialmente ao detectar edições do Windows Server:  
-![Habilitar edição de XML](../img/debian_qemu_kvm_windows06.png)     
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows06.png)   
+
+Atenção, no caso do Windows, só escolha as edições suportadas pelo virtualizador. Caso surja uma nova versão do Windows, mas ela não apareça na lista de sistemas suportados, não tente prosseguir.  
 
 #### Tela 3 de 5
 Quando prosseguir, precisará decidir quanto de memória precisará usar e quantas CPUs. A quantidade de memória que escolher é definido pelos requisitos de programas que irá usar, no meu caso será 8GB de RAM usando 8 CPUs, que é metade do que tenho. Eu não costumo usar mais do que 1 VM por vez, geralmente concentro VMs por tarefas que desempenho, então quando vou programar usando o Windows tenho uma VM só para ela, para testes de automação tenho outra e assim por diante. Essa é uma dica importante, prefira ter VMs por atividade, não crie uma VM para todas as coisas porque elas podem ser voláteis, uma ora ou outra precisam ser recriadas:   
@@ -137,27 +139,142 @@ Se tiver uma CPU Intel, dentro do bloco `hyperv` acrescente também:
 ```
   <evmcs state="on"/>
 ```
-Ficando mais ou menos assim:
+Ficando mais ou menos assim:  
+
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows13.png)    
 
-Confirme também se a tag abaixo está correta no bloco `clock`:  
+Confirme também se a bloco **clock** está assim:  
 ```
   <clock offset="localtime">
 (...)
     <timer name="hypervclock" present="yes"/>
   </clock>
+```  
+
+3. Vá na guia **CPUs** e ligue a opção **Copiar configurações de CPU do hospedeiro(host-passthrough)**:
+![Copiar configurações de CPU do hospedeiro(host-passthrough)](../img/debian_qemu_kvm_windows14.png)
+
+4. Vá para a opção **Disco SATA 1**, e provavelmente o barramento estará configurado como **SATA**, para obter maior desempenho, vamos trocar para **VirtIO**, depois disso, expanda **Opçoes Avançadas** e troque:
+   a) **Modo de cache** troque para **none**(nenhum);  
+   b) **Modo de descarte** troque para **unmap**(desmapear);
+   
+![Disco SATA 1](../img/debian_qemu_kvm_windows15.png)   
+
+5. Mudar o barramento para **VirtIO** fará com que o instalador do Windows não reconheça nosso disco, por isso, durante o processo de instalação onde temos o .iso do Windows no CDROM precisaremos adicionar drivers adicionais, mas isso não será possivel porque precisariamos ejetar o cdrom com o Windows e incluir o .iso dos drivers de convidado e isso quebraria o processo de instalação, então o que precisamos fazer agora é adicionar mais um CDROM a nossa maquina virtual, onde o primeiro CDROM estará com o iso do Windows e a segunda unidade com o .iso dos drivers de convidado. Vá em **Adicionar hardware**, e mude o **Tipo de dispositivo** para **Dispositivo CDROM** e então clique em **Gerenciar...** e escolha **virtio-win.iso** que baixamos em etapas anteriores. Depois clique em **Concluir**:   
+
+![Dispositivo CDROM](../img/debian_qemu_kvm_windows16.png)   
+
+E agora teremos duas unidades de CDROM:  
+![Dispositivo CDROM secundário](../img/debian_qemu_kvm_windows17.png)   
+
+Na primeira unidade de CDROM temos o .iso de instalação do Windows e na segunda unidade, o cdrom contendo o VirtIO drivers para convidado.  
+
+6. Agora vamos em nossa placa de rede e vamos fazer um pequeno ajuste:
+   * Fonte de rede: NAT;    
+   * Modelo de dispositivo, troque para **virtio**.  
+![Habilitar dispositivo de rede VirtIO](../img/debian_qemu_kvm_windows18.png)   
+
+7. Há um item em nossa lista de hardware intitulado como **Tablet**, ele é desnecessário, remova-o:  
+![Remover Tablet](../img/debian_qemu_kvm_windows19.png)  
+
+8. Nosso virtualizado usa um de hardware chamado de **canal(Channel spice)** que é usado para a interação entre hospedeiro e convidado, por exemplo, troca de arquivos e funcionamento de copiar/colar da área de clipboard entre eles. Vamos adicionar um **canal**, vá em **Adicionar hardware** e escolha **Channel** e ajuste os detalhes para:
+**Nome:** para **org.qemu.guest_agent.0**    
+**Tipo de dispositivo** para **Soquete UNIX(unix)**    
+**Soquete automático** para **ligado**  
+
+Depois clique em **Concluir**:
+![canal(Channel spice)](../img/debian_qemu_kvm_windows20.png)  
+
+9. Na lista de hardware, escolha o **Vídeo**, confirme que o modelo escolhido é o **QXL**:
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows21.png)   
+
+10. Olhe na relação de hardware, veja se há o item **TPM**, se não existir clique novamente em **Adicionar hardware** e escolha **TPM**. Certifique-se de que as seguintes propriedades estejam assim:
+* Tipo: **emulado**
+* Modelo: **CRB**
+* Versão: **2.0**
+Sem isso, algumas edições do Windows - como o Windows 11 - não funcionarão:
+![Vídeo QXL](../img/debian_qemu_kvm_windows22.png)   
+
+
+11. Finalmente podemos começar a instalação, clique em **Iniciar a instalação** que existe lá no topo de nosso assistente:  
+![Iniciar instalação](../img/debian_qemu_kvm_windows23.png)
+A instalação começará, e trata-se de uma instalação comum, no entanto, seu ponteiro de mouse estará preso à essa janela, para sair dela use as teclas **Ctrl** e **Alt** do lado esquerdo do teclado.
+
+
+13. Após concordar com os termos de instalação, notará que não existe nenhum disco para que o Windows possa ser instalado, isto acontece porque nosso disco virtual não usa uma interface SATA que seria prontamente reconhecido pelo Windows, mas uma interface **VirtIO** que é mais rápida, mas que não é autoreconhecida pelo Windows, então clique em **Carregar Driver**(Load Driver):  
+
+![Carregar Driver durante a instalação](../img/debian_qemu_kvm_windows24.png)   
+
+Então, aponte para a pasta (Browse) na segunda unidade de CDROM onde temos o iso do VirtIO drivers para convidado, geralmente a unidade E: na pasta:  
 ```
+E:\VioStor\2k25\amd64
+```
+Onde `2k25` é os drivers para Windows 2025, para o Windows 11 seria `w11` e assim por diante.
+![Carregar Driver durante a instalação](../img/debian_qemu_kvm_windows25.png)   
 
-3. Vá na guia **CPUs** e ligue a opção **Copiar configurações de CPU do hospedeiro(host-passthrough)
+Agora confirme a instalação deste driver:  
+![Confirme a instalação deste driver](../img/debian_qemu_kvm_windows26.png)   
+
+Notará que agora, o disco irá aparecerá:
+![Incluindo o driver de disco VirtIO](../img/debian_qemu_kvm_windows27.png)   
+
+No entanto, ainda nos resta incluir o driver de rede, então novamente vá em **Load Driver** e aponte para a pasta (Browse) na segunda unidade de CDROM onde temos o iso do VirtIO drivers para convidado, geralmente a unidade E: na pasta:   
+```
+E:\NetKVM\2k25\amd64
+```
+Onde `2k25` é os drivers para Windows 2025, para o Windows 11 seria `w11` e assim por diante:
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows28.png)   
+
+E em seguida, confirme a instação do driver de rede:  
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows29.png)   
+
+Agora, podemos prosseguir normalmente com a instalação do Windows, já temos o driver do disco e rede instalados:  
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows30.png)   
+
+A instalação é bem rápida, após o **reboot**, você estará na tela de **Boas vindas** e provavelmente, no caso do Windows 2025 notará que o teclado não funciona, isso porque a edição Servidor requer que vocÊ pressione **Ctrl+Alt+Delete** e aqui temos um problema, o Linux usa essas teclas também, por essa rzão você irá no topo da janela do virt-manager onde está **Enviar tecla** e escolha a opção **Cltr+Alt+Delete**:  
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows31.png)   
+
+Após o primeiro login, você precisará instalar as ferramentas de convidado, dentro do Windows vá até a segunda unidade de CDROM onde estãos os drivers para convidado VirtIO, você verá nele o aplicativo:  
+```
+E:\virtio-win-guest-tools.exe
+```
+Execute-o e siga as instruções na tela:
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows32.png)   
+
+A tela piscará algumas vezes, não se assuste. Não é necessário reiniciar a VM depois dessas ferramentas serem instaldas.   
+Para verificar se os drivers já estão funcionando, vá no topo da janela do virt-manager em **Exibir|Escalonar a exibição|** e marque a opção **Redimensionar automaticamente a VM com janela***:  
+![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows33.png)   
+
+Depois disso, notará que pode sair da janela sem precisar teclar Ctrl+Alt esquerdos e o Windows muda sua resolução a medida que mudamos a janela do virt-manager.   
+
+
+### VIRT-MANAGER - WINDOWS - MUDANDO O IDIOMA
+1. Se estiver com o Windows em inglês, no menu iniciar do Windows, vá em **Settings** e procure por **language Settings**, depois em **Add a language**:
+![Adicionar um idioma](../img/debian_qemu_kvm_windows34.png)   
+A instalação de um novo idioma é um pouco demorado, mas assim que estiver completa, aparecerá logo abaixo:
+![Idioma adicionado, vamos configurar](../img/debian_qemu_kvm_windows35.png)   
+Clique então em `...`, depois **Language Options** e faça o download de todas as opções **Language Pack**, **Basic typing**, **Text-to-speech** e até mesmo as improvaveis de usarmos: **Spaech Recognition**:
+![Fazendo download](../img/debian_qemu_kvm_windows36.png)
+
+Sim, o download de cada um deles é demorado e não adianta tentar fazer o download de todos simultaneamente porque o Windows só baixa o seguinte quando o anterior tiver terminado. Após ter terminado completamente os downloads, role a tela um pouco mais e confirme que o teclado foi configurado para o padrão que está usando no momento:   
+![Configurando o teclado](../img/debian_qemu_kvm_windows37.png)  
+Se não está configurado, configure-o. Não tente prosseguir sem o layout do teclado estar completo.
+
+ 
 
 
 
+
+, e quando questionado sobre **reiniciar o Windows** escolha **não** porque você precisará:  
+1. Renomear o computador para um nome mais apropriado, ex: **ti-01a**;
+2. Criar uma conta, ex: **gsantana** e informar que a senha não precisa ser trocada da próxima vez, e colocar este usuário no grupo de **Administradores**, assim no próximo boot não precisará mais usar o login como **Administrador**;
+3. 
 
 Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:   
 https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md   
 
-No vídeo a seguir, há uma playlist, cada uma com explicação sobre máquinas virtuais:  
-[Produtividade com máquinas virtuais](https://youtu.be/8swg8mDQ9SA?si=HZC7vKnrx7ZxmCfE)  
+
+
 
 **NÃO ESQUEÇA AO CRIAR UMA VM WINDOWS**
 Depois de instalar os drivers de convidado(virtio) numa VM Windows e reiniciar a VM, não esqueça de:  
@@ -375,6 +492,7 @@ Por isso, depois deste guia pronto, fui fuçar alguns videos e vou recomendar al
 * [Migrando pro Linux - migre Windows 11 do VirtualBox pro Virt-Manager e Ative ACELERAÇÃO GRÁFICA](https://youtu.be/WZ16GsFHSjM?si=LJoLVhI3c9iBqPWI)
 * [Qemu: Data Exchange Between Windows and Linux - Share Folders](https://youtu.be/0hZU3vltZVM?si=wHv3id8czwD4u957)
 * [This is a basic tutorial on how to virtualize Any Operating System using QEMU in PlayList](https://www.youtube.com/watch?v=cE6X2IrTzgU&list=PLmsony4NVQpxYb6B51t-uWWuGkph5rmf1)
+* [Produtividade com máquinas virtuais](https://youtu.be/8swg8mDQ9SA?si=HZC7vKnrx7ZxmCfE)  
 
 Esses vídeos incluiem coisas que mencionei e alguns deles vão além disso, por exemplo, há algumas coisas que são possiveis fazer, mas é dificil explicar com palavras "como fazer", mas vão estender ainda mais as funcionalidades de computadores virtualizados com o Windows, um dos exemplos é usufruir de uma GPU dedicada por meio de passtrough.
 
