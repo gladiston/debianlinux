@@ -38,7 +38,7 @@ Carregue o virt-manager, vá em **Editar|Preferencias** na guia **Geral** e ligu
 1. Habiiutar ícone na bandeja do sistema
 2. Habilitar edição de XML
 
-![Habilitar edição de XML](debian_qemu_kvm_windows1.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows1.png)  
 
 Depois, na mesma janela, na guia **E/S programada**, faça o seguinte ajuste:  
 1. Atualizar o satus a cada 3 segundos
@@ -46,7 +46,7 @@ Depois, na mesma janela, na guia **E/S programada**, faça o seguinte ajuste:
 3. Obter E/S de disco: Ligado
 4. Obter estatistica de memória: Ligado
 
-![Habilitar edição de XML](debian_qemu_kvm_windows2.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows2.png)  
 
 Depois, na mesma janela, na guia **Nova VM**, faça o seguinte ajuste:  
 1. Tipo de gráfico: PAdrão do sistema(spice)
@@ -54,7 +54,7 @@ Depois, na mesma janela, na guia **Nova VM**, faça o seguinte ajuste:
 3. CPU Padrão: Padrão do Aplicativo
 4. Formware x86: Padrão do sistema
    
-![Habilitar edição de XML](debian_qemu_kvm_windows3.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows3.png)  
 
 
 Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:  
@@ -64,7 +64,7 @@ Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:
 4. Redirecionamento SPICE de USB: Redirecionamento manual apenas
 5. Conectar automaticamente ao console: Ligado
 
-![Habilitar edição de XML](debian_qemu_kvm_windows4.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows4.png)  
 
 
 ### VIRT-MANAGER
