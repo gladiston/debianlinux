@@ -16,18 +16,60 @@ Se estiver pensando em ambiente de desenvolvimento, a ISO do Windows Server é m
 [Site oficial da Microsoft para baixar o Windows Server](https://www.microsoft.com/pt-br/evalcenter/download-windows-server-2025)  
 
 
-**ALERTA**: Voce pode usar o virt-manager para criar suas VMs e na tela que você define o tamanho do disco haverá um pseudo-problema, em todas as vezes que crio o disco por esse wizard, os discos virtuais criados serão de tamanho fixo, ou seja, se definir alí que sua VM terá um disco de 200GB, ela terá exatamente 200GB ocupados no sistema operacional. O formato qcow2 aceita usar discos dinamicos, isto é, você cria um disco virtual de 200GB, mas no sistema operacional ele ocupará um tamanho mínimo e crescerá conforme o uso, então como usar discos dinâmicos? Simples, crie primeiro o disco no gerenciador de pools e ele perguntará se deseja um disco de tamanho fixo ou dinâmico e então escolha essa ultima opção e pronto, o arquivo .qcow2 será criado no pool 'default' com tamanho dinâmico. Depois disso, crie sua VM e associe o disco recém-criado com ela. Se houver algum **bug** nisso, poderá também criar o disco virtual pelo terminal, neste exemplo crio um disco de 200GB no pool 'default', veja:  
+## INSTALANDO O WINDOWS
+Em nosso exemplo, vamos instalar o Windows 2025 Server.  Deixe um `.iso` de instalação deste sistema operacional em **~/libvirt/isos**.  
+
+### CRIANDO DISCO VIRTUAL PARA HOSPEDAR A VM
+Voce pode usar o virt-manager para criar suas VMs e na tela que você define o tamanho do disco haverá um problema que detectei nas distros Debian e derivados, em todas as vezes que crio o disco por esse wizard embutido, os discos virtuais criados serão de tamanho fixo, ou seja, se definir alí que sua VM terá um disco de 200GB, ela terá exatamente 200GB ocupados no sistema operacional do hospedeiro. O formato qcow2 aceita usar discos dinamicos, isto é, você cria um disco virtual de 200GB, mas no sistema operacional ele ocupará um tamanho mínimo e crescerá conforme o uso, então como usar discos dinâmicos? Até que corrijam este problema, crie o disco no gerenciador de pools e ele perguntará se deseja um disco de tamanho fixo ou dinâmico e então escolha essa ultima opção e pronto, o arquivo .qcow2 deverá ser criado no pool `default` com tamanho dinâmico. Pessoalmente, acho o Wizard do virt-manager burocrático, então se quiser ser mais rapido, apenas execute no terminal:  
 ```
 sudo virsh vol-create-as default win2k25.qcow2 200G --format qcow2
 ```
+
 Agora vamos conferir o tamanho:  
 ```
 $ ls -lh ~/libvirt/images
 total 196K
 -rw------- 1 root kvm 196K Oct 17 14:31 win2k25.qcow2
 ```
-Como pôde ver, um disco de 200GB que ocupa apenas 196K no sistema. É claro que a medida que formos instalar o sistema e todas as demais coisas, este arquivo subirá de tamanho.  
-Na minha modesta opinião, eu criaria discos apenas pelo terminal porque podemos criar vários em sequencia, evitando o wizard repetitivo para cada um deles.  
+Como pôde ver, um disco de 200GB que ocupa apenas 196K no sistema. É claro que a medida que formos instalar o sistema e todas as demais coisas, este arquivo subirá de tamanho. Na minha modesta opinião, eu criaria discos apenas pelo terminal porque podemos criar vários em sequencia, evitando o wizard burocrático e repetitivo para cada um deles.  
+
+### AJUSTE O VIRT-MANAGER
+Carregue o virt-manager, vá em **Editar|Preferencias** na guia **Geral** e ligue as opções:  
+1. Habiiutar ícone na bandeja do sistema
+2. Habilitar edição de XML
+
+![Habilitar edição de XML](debian_qemu_kvm_windows1.png)  
+
+Depois, na mesma janela, na guia **E/S programada**, faça o seguinte ajuste:  
+1. Atualizar o satus a cada 3 segundos
+2. Obter o uso da CPU: Ligado
+3. Obter E/S de disco: Ligado
+4. Obter estatistica de memória: Ligado
+
+![Habilitar edição de XML](debian_qemu_kvm_windows2.png)  
+
+Depois, na mesma janela, na guia **Nova VM**, faça o seguinte ajuste:  
+1. Tipo de gráfico: PAdrão do sistema(spice)
+2. Formnato de armazenamento: QCOW2
+3. CPU Padrão: Padrão do Aplicativo
+4. Formware x86: Padrão do sistema
+   
+![Habilitar edição de XML](debian_qemu_kvm_windows3.png)  
+
+
+Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:  
+1. Escalonamento de console gráfico: Sempre
+2. Redimencionar convidado com janela: Padrão do sistema(desligado)
+3. Capturar teclas: Ctrl_L(esquerdo)+ALT_L(esquerdo)
+4. Redirecionamento SPICE de USB: Redirecionamento manual apenas
+5. Conectar automaticamente ao console: Ligado
+
+![Habilitar edição de XML](debian_qemu_kvm_windows4.png)  
+
+
+### CRIANDO A VM
+
+
 
 Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:   
 https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md   
@@ -46,6 +88,7 @@ Depois de instalar os drivers de convidado(virtio) numa VM Windows e reiniciar a
 7. Dentro da VM Windows, instale um programa de [autologon](https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon).  
 8. Ser for Windows Server, não esqueça de ir em "Language" e mudar o idioma de inglês para o português/brasil, regionalidade, dicionários, etc... e no final, copiar para todos os usuários e tela de boas vindas.  
 9. Para compartilhar arquivos/pastas entre anfitrião e convidado sem precisar de compartilhar via rede veja este [link aqui](https://www.debugpoint.com/share-folder-virt-manager/) e [este outro aqui](https://www.debugpoint.com/kvm-share-folder-windows-guest/#google_vignette).
+
         
 ## SERVIÇOS ESSENCIAIS
 O sistema hospedeiro precisa ter os serviços abaixo rodando, eles são importantes para que possamos tem alguma integração entre o hospedeiro e máquinas windows, são eles:
@@ -121,6 +164,7 @@ Procure o pacote `spice-guest-tools-latest.exe` e instale (basta “Next, Next, 
 
 ## OTIMIZAÇÃO DA VM WINDOWS
 O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar.  
+
 
 ### Otimizando o Windows - Papel de parede e gadgets
 Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
@@ -240,6 +284,22 @@ Para copiar arquivos, não só texto:
 * Instale e ative o spice-webdavd no host;
 *  Dentro da VM, abra o Explorador>“Rede”>aparecerá um drive WebDAV (Spice), onde dá pra arrastar arquivos.  
 
+## CRIANDO A VM VIA YOUTUBE
+Sem falsa modéstia, mas este guia passo a passo é mais completo que a maioria dos vídeos no YouTube que mostram como criar VMs Windows.
+Mas 'ler como fazer' e 'assistir como fazer' são coisas diferentes, e pessoas diferentes podem preferir cada qual, o seu método.
+Por isso, depois deste guia pronto, fui fuçar alguns videos e vou recomendar alguns, são eles:  
+
+* (How To PROPERLY Install Windows 11 on KVM)[https://youtu.be/7tqKBy9r9b4?si=xmM6vPTbu68kVxPr]  
+* [Migrando pro Linux - migre Windows 11 do VirtualBox pro Virt-Manager e Ative ACELERAÇÃO GRÁFICA](https://youtu.be/WZ16GsFHSjM?si=LJoLVhI3c9iBqPWI)
+* [Qemu: Data Exchange Between Windows and Linux - Share Folders](https://youtu.be/0hZU3vltZVM?si=wHv3id8czwD4u957)
+* [This is a basic tutorial on how to virtualize Any Operating System using QEMU in PlayList](https://www.youtube.com/watch?v=cE6X2IrTzgU&list=PLmsony4NVQpxYb6B51t-uWWuGkph5rmf1)
+
+Esses vídeos incluiem coisas que mencionei e alguns deles vão além disso, por exemplo, há algumas coisas que são possiveis fazer, mas é dificil explicar com palavras "como fazer", mas vão estender ainda mais as funcionalidades de computadores virtualizados com o Windows, um dos exemplos é usufruir de uma GPU dedicada por meio de passtrough.
+
+
+## CONCLUSÃO
+Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows.
+
 Resumo rápido:   
 |:---|:---|
 |Função	|Onde configurar|
@@ -248,14 +308,3 @@ Resumo rápido:
 |Copiar/colar arquivos|spice-webdavd|
 |Canal de comunicação|virt-manager>Canal SPICE agent|
 
-
-### VÍDEOS NO YOUTUBE RECOMENDADOS
-Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows. Esses vídeos incluiem coisas que mencionei e vão além disso, há algumas coisas que são possiveis fazer, mas é dificil, explicar com palavras "como". Então os vídeos a seguir vão estender ainda mais as funcionalidades de computadores com o Windows.
-
-* (How To PROPERLY Install Windows 11 on KVM)[https://youtu.be/7tqKBy9r9b4?si=xmM6vPTbu68kVxPr]  
-
-* [Migrando pro Linux - migre Windows 11 do VirtualBox pro Virt-Manager e Ative ACELERAÇÃO GRÁFICA](https://youtu.be/WZ16GsFHSjM?si=LJoLVhI3c9iBqPWI)
-
-* [Qemu: Data Exchange Between Windows and Linux - Share Folders](https://youtu.be/0hZU3vltZVM?si=wHv3id8czwD4u957)
-
-* [This is a basic tutorial on how to virtualize Any Operating System using QEMU in PlayList](https://www.youtube.com/watch?v=cE6X2IrTzgU&list=PLmsony4NVQpxYb6B51t-uWWuGkph5rmf1)
