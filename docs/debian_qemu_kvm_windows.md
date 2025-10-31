@@ -15,23 +15,33 @@ wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable
 Se estiver pensando em ambiente de desenvolvimento, a ISO do Windows Server é melhor, tem menor footprint de consumo de memória e CPU, e também, geralmente as atualizações dele não quebram o sistema como as atualizações da versão Workstation. Embora não exista uma `.iso` em português para o Windows Server, fique tranquilo, desde a edição do Windows Server 2012 é possivel modificar o idioma após a instalação. O link para download é:  
 [Site oficial da Microsoft para baixar o Windows Server](https://www.microsoft.com/pt-br/evalcenter/download-windows-server-2025)  
 
+## SERVIÇOS ESSENCIAIS
+O sistema hospedeiro precisa ter os serviços abaixo rodando, eles são importantes para que possamos tem alguma integração entre o hospedeiro e máquinas windows, são eles:
 
-## INSTALANDO O WINDOWS
+### Serviço `spice-vdagentd`
+Este é um serviço que lhe permitirá compartilhar a área de clipboard entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
+```bash
+$ sudo systemctl status spice-vdagentd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
+```
+
+
+### Serviço `spice-webdavd`
+Este é um serviço que lhe permitirá compartilhar arquivos entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
+```bash
+$ sudo systemctl status spice-webdavd
+○ spice-vdagentd.service - Agent daemon for Spice guests
+     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
+     Active: inactive (dead)
+TriggeredBy: ○ spice-vdagentd.socket
+```
+Se estes serviços não estiverem rodando, avalie os passos anteriores porque prosseguir sem eles torna a sua VM Windows muito limitada.   
+
+## INSTALANDO O WINDOWS NUMA VM
 Em nosso exemplo, vamos instalar o Windows 2025 Server.  Deixe um `.iso` de instalação deste sistema operacional em **~/libvirt/isos**.  
-
-### CRIANDO DISCO VIRTUAL PARA HOSPEDAR A VM
-Voce pode usar o virt-manager para criar suas VMs e na tela que você define o tamanho do disco haverá um problema que detectei nas distros Debian e derivados, em todas as vezes que crio o disco por esse wizard embutido, os discos virtuais criados serão de tamanho fixo, ou seja, se definir alí que sua VM terá um disco de 200GB, ela terá exatamente 200GB ocupados no sistema operacional do hospedeiro. O formato qcow2 aceita usar discos dinamicos, isto é, você cria um disco virtual de 200GB, mas no sistema operacional ele ocupará um tamanho mínimo e crescerá conforme o uso, então como usar discos dinâmicos? Até que corrijam este problema, crie o disco no gerenciador de pools e ele perguntará se deseja um disco de tamanho fixo ou dinâmico e então escolha essa ultima opção e pronto, o arquivo .qcow2 deverá ser criado no pool `default` com tamanho dinâmico. Pessoalmente, acho o Wizard do virt-manager burocrático, então se quiser ser mais rapido, apenas execute no terminal:  
-```
-sudo virsh vol-create-as default win2k25.qcow2 200G --format qcow2
-```
-
-Agora vamos conferir o tamanho:  
-```
-$ ls -lh ~/libvirt/images
-total 196K
--rw------- 1 root kvm 196K Oct 17 14:31 win2k25.qcow2
-```
-Como pôde ver, um disco de 200GB que ocupa apenas 196K no sistema. É claro que a medida que formos instalar o sistema e todas as demais coisas, este arquivo subirá de tamanho. Na minha modesta opinião, eu criaria discos apenas pelo terminal porque podemos criar vários em sequencia, evitando o wizard burocrático e repetitivo para cada um deles.  
 
 ### VIRT-MANAGER - AJUSTES DE PREFERENCIA
 Carregue o virt-manager, vá em **Editar|Preferencias** na guia **Geral** e ligue as opções:  
@@ -66,6 +76,19 @@ Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:
 
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows04.png)   
 
+### CRIANDO DISCO VIRTUAL PARA HOSPEDAR A VM
+Voce pode usar o virt-manager para criar suas VMs e na tela que você define o tamanho do disco haverá um problema que detectei nas distros Debian e derivados, em todas as vezes que crio o disco por esse wizard embutido, os discos virtuais criados serão de tamanho fixo, ou seja, se definir alí que sua VM terá um disco de 200GB, ela terá exatamente 200GB ocupados no sistema operacional do hospedeiro. O formato qcow2 aceita usar discos dinamicos, isto é, você cria um disco virtual de 200GB, mas no sistema operacional ele ocupará um tamanho mínimo e crescerá conforme o uso, então como usar discos dinâmicos? Até que corrijam este problema, crie o disco no gerenciador de pools e ele perguntará se deseja um disco de tamanho fixo ou dinâmico e então escolha essa ultima opção e pronto, o arquivo .qcow2 deverá ser criado no pool `default` com tamanho dinâmico. Pessoalmente, acho o Wizard do virt-manager burocrático, então se quiser ser mais rapido, apenas execute no terminal:  
+```
+sudo virsh vol-create-as default win2k25.qcow2 200G --format qcow2
+```
+
+Agora vamos conferir o tamanho:  
+```
+$ ls -lh ~/libvirt/images
+total 196K
+-rw------- 1 root kvm 196K Oct 17 14:31 win2k25.qcow2
+```
+Como pôde ver, um disco de 200GB que ocupa apenas 196K no sistema. É claro que a medida que formos instalar o sistema e todas as demais coisas, este arquivo subirá de tamanho. Na minha modesta opinião, eu criaria discos apenas pelo terminal porque podemos criar vários em sequencia, evitando o wizard burocrático e repetitivo para cada um deles.  
 
 ### VIRT-MANAGER - CRIANDO A VM
 Vá em **Arquivo|Nova Maquina Virtual**, depois selecione **Midia de Instalaçao** e prossiga.
@@ -256,114 +279,73 @@ A instalação de um novo idioma é um pouco demorado, mas assim que estiver com
 Clique então em `...`, depois **Language Options** e faça o download de todas as opções **Language Pack**, **Basic typing**, **Text-to-speech** e até mesmo as improvaveis de usarmos: **Spaech Recognition**:
 ![Fazendo download](../img/debian_qemu_kvm_windows36.png)
 
-Sim, o download de cada um deles é demorado e não adianta tentar fazer o download de todos simultaneamente porque o Windows só baixa o seguinte quando o anterior tiver terminado. Após ter terminado completamente os downloads, role a tela um pouco mais e confirme que o teclado foi configurado para o padrão que está usando no momento:   
-![Configurando o teclado](../img/debian_qemu_kvm_windows37.png)  
+Sim, o download de cada um deles é demorado e não adianta tentar fazer o download de todos simultaneamente porque o Windows só baixa o seguinte quando o anterior tiver terminado. Inclusive as etiquetas dos botões indicam downloads de 1MB e 77MB o que tornaria esses downloads rápidos, mas não são.  
+
+2. Após ter terminado completamente os downloads do idioma Português, role a tela um pouco mais e confirme que o teclado foi configurado para o padrão que está usando no momento:   
+![Configurando o teclado](../img/debian_qemu_kvm_windows37.png)   
 Se não está configurado, configure-o. Não tente prosseguir sem o layout do teclado estar completo.
 
- 
+3. Com o download completo do idioma, vá novamente em **Settings** e procure por **language Settings** e notará que agora podemos trocar o idiona:
+![Trocando o idioma](../img/debian_qemu_kvm_windows38.png)
+Quando fizer essa troca, haverá uma advertência, solicitando que vocÊ refaça o login:
+![Refazer o login](../img/debian_qemu_kvm_windows39.png)
+Mas, não faça isso ainda.
+
+4. Uma vez que o idioma e teclado estejam baixados corretamente, confira se o **Regional Settings** está corretamente configurado para o **Brasil**, normalmente isso se ajusta automaticamente quando configuramos o idioma, vá agora em **Settings** procure por **Regional Settings**:
+![Configurando a região](../img/debian_qemu_kvm_windows40.png)
 
 
+6. Uma vez que o idioma, layout de teclado e região estejam corretamente baixados e configurados, precisamos propagar esse ajuste para todo o sistema e para novos usuários, então vá agora em **Settings** procure por **language Settings** e depois clique no botão **Administrative language Settings**:
+![Administrative language Settings](../img/debian_qemu_kvm_windows41.png)
 
 
-, e quando questionado sobre **reiniciar o Windows** escolha **não** porque você precisará:  
-1. Renomear o computador para um nome mais apropriado, ex: **ti-01a**;
-2. Criar uma conta, ex: **gsantana** e informar que a senha não precisa ser trocada da próxima vez, e colocar este usuário no grupo de **Administradores**, assim no próximo boot não precisará mais usar o login como **Administrador**;
-3. 
+Ao clicar você será redirecionado para outra tela onde enfim poderemos fazer nossos ajustes finais, na guia **Administrative**, vá em **Change system locale**:  
+![Mudando o idioma do sistema](../img/debian_qemu_kvm_windows42.png)  
 
-Outras instruções e explicações do porque precisamos desses drivers podem ser obtidas aqui:   
-https://github.com/virtio-win/virtio-win-pkg-scripts/blob/master/README.md   
+E então troque o idioma **English** por **Português(Brasil)** e muito cuidado para não selecionar **Portugal**, por alguma razão, estou sempre selecionando erroneamente:  
+![Mudando o idioma do sistema para Português do Brasil](../img/debian_qemu_kvm_windows43.png)   
 
+Após confirmar, não tem jeito, terá de **reiniciar**.   
 
-
-
-**NÃO ESQUEÇA AO CRIAR UMA VM WINDOWS**
-Depois de instalar os drivers de convidado(virtio) numa VM Windows e reiniciar a VM, não esqueça de:  
-1. Na configuração da VM, trocar a Placa de rede (NIC) para **virtio**, isso melhorará o desempenho.  
-2. Na configuração da VM, trocar a placa de vídeo em **Vídeo QXL** para usar o modelo **virtio**, isso melhorará o desempenho.  
-3. Na configuração da VM, na seção **Memória** se você ajustar a memória minima para algo diferente do máximo, o Windows buga, não faça isso.  
-4. Na configuração da VM, na seção **Memória** marque a opção "**Habilitar memória compartilhada** se tiver muitas VMs com o mesmo SO, isso economizará RAM. Essa opção também é necessária caso tenha que compartilhar arquivos entre host e convidado, falaremos disso noutra ocasião.  
-5. Na configuração da VM, na seção **Exibição Spide** marque o tipo como **Servidor Spice**, tipo de escula como **Endereço** e endereço como **Todas as interfaces** e se achar que precisa de aceleração marque a opção **OpenGL**, o qual não recomendo. O SPICE é um protocolo de acesso remoto, mas com um detalhe importante — ele também é usado localmente pelo virt-manager para exibir a tela da VM, então mesmo que você não esteja acessando “remotamente”, o virt-manager está se conectando via SPICE por baixo dos panos.  
-6. Dentro da VM Windows, crie uma conta com poderes de admin para seu dia a dia, e evite a conta **Administrador**.  
-7. Dentro da VM Windows, instale um programa de [autologon](https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon).  
-8. Ser for Windows Server, não esqueça de ir em "Language" e mudar o idioma de inglês para o português/brasil, regionalidade, dicionários, etc... e no final, copiar para todos os usuários e tela de boas vindas.  
-9. Para compartilhar arquivos/pastas entre anfitrião e convidado sem precisar de compartilhar via rede veja este [link aqui](https://www.debugpoint.com/share-folder-virt-manager/) e [este outro aqui](https://www.debugpoint.com/kvm-share-folder-windows-guest/#google_vignette).
-
-        
-## SERVIÇOS ESSENCIAIS
-O sistema hospedeiro precisa ter os serviços abaixo rodando, eles são importantes para que possamos tem alguma integração entre o hospedeiro e máquinas windows, são eles:
-
-### Serviço `spice-vdagentd`
-Este é um serviço que lhe permitirá compartilhar a área de clipboard entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
-```bash
-$ sudo systemctl status spice-vdagentd
-○ spice-vdagentd.service - Agent daemon for Spice guests
-     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
-     Active: inactive (dead)
-TriggeredBy: ○ spice-vdagentd.socket
-```
+7. Após reboot, o Windows estará parcialmente em português, ainda falta o ultimo ajuste, terá de voltar a última tela, mas agora nossa tela já estará em português, então vá agora em **Configurações** procure por **Idioma** e depois role a tela até encontrar o botão **Configurações administrativas de idioma** e ao clicar você será redirecionado para outra tela onde enfim poderemos fazer nossos ajustes finais, na guia **Administrativo**, clique em **Copiar Configurações**:
+![Copiar Configurações](../img/debian_qemu_kvm_windows44.png)
 
 
-### Serviço `spice-webdavd`
-Este é um serviço que lhe permitirá compartilhar arquivos entre hospedeiro e convidado, veja se o serviço está habilitado e rodando, execute:  
-```bash
-$ sudo systemctl status spice-webdavd
-○ spice-vdagentd.service - Agent daemon for Spice guests
-     Loaded: loaded (/usr/lib/systemd/system/spice-vdagentd.service; indirect; preset: enabled)
-     Active: inactive (dead)
-TriggeredBy: ○ spice-vdagentd.socket
-```
-Se estes serviços não estiverem rodando, avalie os passos anteriores porque prosseguir sem eles torna a sua VM Windows muito limitada.   
+E então marque as opções **Tela de boas-vindas e contas do sistema** e também **Novas contas de usuário**:  
+![Propagando o idioma do sistema](../img/debian_qemu_kvm_windows45.png)  
 
-## VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando conexões bridge
-O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cliente de sua rede, troque de **NAT** por **bridge** e forneça a conexão bridge para suas VMs. Algumas formas de compartilhamento de arquivos entre anfitrião e convidado só funcionará se a VM estiver usando a rede em modo bridge.  
+Ao clicar em **OK**, o idioma português do Brasil estará em todo o sistema, incluindo novos usuários.  
+Depois, você é obrigado a **reiniciar o sistema**.
 
-Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
+### VIRT-MANAGER - WINDOWS - NOMEANDO O COMPUTADOR
+Vamos renomear o computador para um nome mais apropriado, ex: **ti-01a**.  Aqui não vou colocar instruções porque acredito que você saiba como fazer isso.  
 
-[Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)  
-  
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - CRIANDO UMA INTERFACE BRIDGE
-Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT porque na maioria dos ambientes de desenvolvimento ou corporativos uma VM precisa enxergar o anfitrião e também as outras VMs, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
+### VIRT-MANAGER - WINDOWS - CRIANDO A PRIMEIRA CONTA DE LOGIN
+Não podemos usar a conta **Admnistrador** o tempo todo, então precisamos criar uma conta, ex: **gsantana**. Eu imagino que não tenha dificuldade com isso, mas se estiver usando o Windows Server, é um pouco diferente, neste sistema vá até o **Gerenciador do servidor|Ferramentas|Gerenciamento do computador**:  
 
-[Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)   
+![Gerenciamento do computador](../img/debian_qemu_kvm_windows46.png)  
 
-Se já conseguiu criar uma interface bridge do tipo macvtap, então o que resta agora é configurar sua VM Windows, vá no virt-manager, ao criar ou editar uma VM:  
+E então usar o gerenciador de computador para criar a conta:  
+![Criando um novo usuário](../img/debian_qemu_kvm_windows47.png)  
 
-1. Vá em Interface de rede>Fonte de rede.
-2. Escolha Interface Host.
-3. Selecione macvtap0 (modo bridge).
-4. Clique em Aplicar e salve.
+Lembre-se de colocar o novo usuário no grupo de **Administradores**, assim não precisará ficar trocando de conta quando precisar ajustar algo administrativamente no sistema:  
+![Novo usuário como membro de administradores](../img/debian_qemu_kvm_windows48.png)    
 
-[Tela de configuração da VM](../img/debian_qemu_kvm_bridge1.png)
 
-A VM agora receberá IP direto do servidor DHCP da rede local, sem NAT, podendo se comunicar com outras VMs e dispositivos da LAN.
+### VIRT-MANAGER - WINDOWS - ATIVANDO O AUTOLOGON
+É muito chato o logon do Windows, especialmente no servidor porque é preciso enviar CTRL+ALT+DEL para então digitar a senha. Uma vez que as VMs só rodam depois que vocÊ faz o login no sistema hospedeiro, é bem provável que você não queira ficar burocratizando digitar a senha na VM Windows também, então para isso temos uma solução, instale o programa de [autologon](https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon).  
+Ele é simples e ao executá-lo pela primeira vez você fornecerá sua autenticação e após o boot, ele entrará sozinho com a conta que foi informada.    
+![Ativando o autologon](../img/debian_qemu_kvm_windows49.png)    
 
-Agora vamos a outros ajustes:
-a) Vá em “Exibir detalhes”>“Vídeo”  
-Tipo: QXL (essencial para SPICE).  
-Se não existir, adicione “Dispositivo de vídeo >Modelo QXL”.  
-
-b) Vá em “Canal”  
-Deve haver um canal “spice” (Principal), se não houver, adicione:  
-Adicionar Hardware>Canal>Tipo: spice>Nome: main.0  
-Adicione também um “Canal SPICE agent” (isso é o que habilita o clipboard).  
-
-c) Vá em “Display”  
-Tipo: Spice (não VNC).  
-Habilite “Listen Type: None” (para acesso local via virt-viewer).  
-Ative também OpenGL se quiser aceleração.  
-
-### Dentro do Windows Guest
-Baixe o instalador oficial SPICE Guest Tools (assinatura Red Hat):
-[https://www.spice-space.org/download.html](https://www.spice-space.org/download.html)
-
-Procure o pacote `spice-guest-tools-latest.exe` e instale (basta “Next, Next, Finish”) e reinicie o Windows. Ele instala:
-* spice-vdagent
-* qxl driver de vídeo
-* drivers para mouse, clipboard e redimensionamento dinâmico
+### VIRT-MANAGER - REMOVENDO O CDROM SECUNDÁRIO
+O CDROM secundário foi usado para a instalação dos drivers de convidado durante a instalação do Windows, então ele não é mais necessário, vamos removê-lo.  
+Primeiro, desligue a máquina virtual Windows.  
+Depois vá na configuração de hardware da VM, selecione o **CDROM SATA 2**, ejete o `.iso` e enfim, escolha **Remover**.
+Aproveite o momento e ejete o `.iso` de instalação do Windows do **CDROM SATA 1**, cuidado, neste você apenas irá ejetar, não remova  dispositivo de hardware dele.   
+![Novo usuário como membro de administradores](../img/debian_qemu_kvm_windows50.png)    
 
 ## OTIMIZAÇÃO DA VM WINDOWS
 O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar.  
-
 
 ### Otimizando o Windows - Papel de parede e gadgets
 Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
@@ -373,9 +355,13 @@ Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, de
 ### Otimizando o Windows - Programas dispensáveis
 Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
 
+### Otimizando o Windows - Removendo o Gerenciador do Servidor do Startp do Windows:
+Se estiver usando uma edição Servidor do Windows, provavelmente você se aborrecerá do Gerenciador do Servidor que é carregado todas as vezes que faz o logon. Para desabilitá-lo vá em **Gerenciar|Propriedades do Gerenciador do Servidor** e então marque a opção **Não iniciar o Gerenciador do Servidor automaticamente no logon**:  
+
+![Ativando o autologon](../img/debian_qemu_kvm_windows51.png)    
+
 ### Otimizando o Windows - Serviçõs dispensáveis
 Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative alguns desses(ou todos eles):  
-## ⚙️ Serviços seguros para desativar em VMs do Windows Server / Windows 2025
 
 | Nome exibido no `services.msc` | Nome interno (`sc config ...`) | Função | Pode desativar? |
 |--------------------------------|-------------------------------|---------|------------------|
@@ -397,7 +383,8 @@ Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative 
 | **Program Compatibility Assistant Service** | `PcaSvc` | Detecta compatibilidade de programas antigos | ✅ |
 | **Security Center** | `wscsvc` | Central de segurança (alertas) | ✅ |
 
-Algo que pode agilizar é criar um script `agilizar_vm.bat` com o seguinte cnteúdo:  
+A lista acima, foi tirada do Windows Server, o Windows 11 tem muito mais serviços que estes e levará algum tempo para você complementar a lista.  
+Desativar um serviço de cada vez levará muito tempo, então para agilizar, criei um script `agilizar_vm.bat` que ao rodar uma única vez como administrador, ele desativará vários de uma única vez. Se estiver interessado crie um script `agilizar_vm.bat` com o seguinte cnteúdo:  
 
 ```cmd
 @echo off
@@ -496,6 +483,13 @@ Por isso, depois deste guia pronto, fui fuçar alguns videos e vou recomendar al
 
 Esses vídeos incluiem coisas que mencionei e alguns deles vão além disso, por exemplo, há algumas coisas que são possiveis fazer, mas é dificil explicar com palavras "como fazer", mas vão estender ainda mais as funcionalidades de computadores virtualizados com o Windows, um dos exemplos é usufruir de uma GPU dedicada por meio de passtrough.
 
+
+## VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando conexões bridge
+O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cliente de sua rede, troque de **NAT** por **bridge** e forneça a conexão bridge para suas VMs. Algumas formas de compartilhamento de arquivos entre anfitrião e convidado só funcionará se a VM estiver usando a rede em modo bridge.  
+
+Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
+
+[Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)  
 
 ## CONCLUSÃO
 Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows.
