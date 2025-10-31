@@ -129,10 +129,10 @@ Depois clique em **Concluir** e é possivel que apareça uma janela como a segui
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows11.png)    
 
 Será apresentada a configuração de nossa VM, vamos a alguns ajustes:
-1. Vá na guia **Visão Geral** e confirme que o chipset escolhido é **Q35** e o formato de Fimware é **UEFI** senão o Windows não funcionará:
+* Vá na guia **Visão Geral** e confirme que o chipset escolhido é **Q35** e o formato de Fimware é **UEFI** senão o Windows não funcionará:
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows12.png)    
 
-2. Ainda na guia **Visão Geral**, selecione a guia **XML**, procure uma seção <hiperv> assim:
+* Ainda na guia **Visão Geral**, selecione a guia **XML**, procure uma seção <hiperv> assim:
 ```
     <hyperv>
     (...)
@@ -174,21 +174,21 @@ Confirme também se a bloco **clock** está assim:
   </clock>
 ```  
 
-3. Vá na guia **CPUs** e ligue a opção **Copiar configurações de CPU do hospedeiro(host-passthrough)**:
+* Vá na guia **CPUs** e ligue a opção **Copiar configurações de CPU do hospedeiro(host-passthrough)**:
 ![Copiar configurações de CPU do hospedeiro(host-passthrough)](../img/debian_qemu_kvm_windows14.png)
 
-4. Vá em Memória, em nosso exemplo, a memória minima e máxima é 8192MB. Sei que está tentando em colocar a memória mínima abaixo da máxima, mas não faça isso porque VMs Windows ficam malucas. Precisamos apenas marcar a opção **Habilitar memória compartilhada**, apenas isso. Essa opção é um recurso para que quando várias máquinas virtuais com o mesmo sistema operacional o hypervisor possa manter um nucleo compartilhado, por exemplo, se tiver 4 VMs Windows rodando é como se apenas 1 delas realmente ocupasse memória, as demais estão simplesmente reutilizando os programas da primeira, essa é apenas forma simples de explicar porque debaixo dos panos não é exatamente assim. Mas o motivo de habilitarmos este recurso é porque ele é um pré-requisito para que possamos mais tarde compartilhar arquivos entre o ambiente hospedeiro e convidado:
+* Vá em Memória, em nosso exemplo, a memória minima e máxima é 8192MB. Sei que está tentando em colocar a memória mínima abaixo da máxima, mas não faça isso porque VMs Windows ficam malucas. Precisamos apenas marcar a opção **Habilitar memória compartilhada**, apenas isso. Essa opção é um recurso para que quando várias máquinas virtuais com o mesmo sistema operacional o hypervisor possa manter um nucleo compartilhado, por exemplo, se tiver 4 VMs Windows rodando é como se apenas 1 delas realmente ocupasse memória, as demais estão simplesmente reutilizando os programas da primeira, essa é apenas forma simples de explicar porque debaixo dos panos não é exatamente assim. Mas o motivo de habilitarmos este recurso é porque ele é um pré-requisito para que possamos mais tarde compartilhar arquivos entre o ambiente hospedeiro e convidado:  
    
 ![Habilitando memória compartilhada](../img/debian_qemu_kvm_windows57.png)    
 
-
-6. Vá para a opção **Disco SATA 1**, e provavelmente o barramento estará configurado como **SATA**, para obter maior desempenho, vamos trocar para **VirtIO**, depois disso, expanda **Opçoes Avançadas** e troque:
-   a) **Modo de cache** troque para **none**(nenhum);  
-   b) **Modo de descarte** troque para **unmap**(desmapear);
+* Vá para a opção **Disco SATA 1**, e provavelmente o barramento estará configurado como **SATA**, para obter maior desempenho, vamos trocar para **VirtIO**, depois disso, expanda **Opçoes Avançadas** e troque:
+  
+**Modo de cache** troque para **none**(nenhum);  
+**Modo de descarte** troque para **unmap**(desmapear);
    
 ![Disco SATA 1](../img/debian_qemu_kvm_windows15.png)   
 
-6. Mudar o barramento para **VirtIO** fará com que o instalador do Windows não reconheça nosso disco, por isso, durante o processo de instalação onde temos o .iso do Windows no CDROM precisaremos adicionar drivers adicionais, mas isso não será possivel porque precisariamos ejetar o cdrom com o Windows e incluir o .iso dos drivers de convidado e isso quebraria o processo de instalação, então o que precisamos fazer agora é adicionar mais um CDROM a nossa maquina virtual, onde o primeiro CDROM estará com o iso do Windows e a segunda unidade com o .iso dos drivers de convidado. Vá em **Adicionar hardware**, e mude o **Tipo de dispositivo** para **Dispositivo CDROM** e então clique em **Gerenciar...** e escolha **virtio-win.iso** que baixamos em etapas anteriores. Depois clique em **Concluir**:   
+* Mudar o barramento para **VirtIO** fará com que o instalador do Windows não reconheça nosso disco, por isso, durante o processo de instalação onde temos o .iso do Windows no CDROM precisaremos adicionar drivers adicionais, mas isso não será possivel porque precisariamos ejetar o cdrom com o Windows e incluir o .iso dos drivers de convidado e isso quebraria o processo de instalação, então o que precisamos fazer agora é adicionar mais um CDROM a nossa maquina virtual, onde o primeiro CDROM estará com o iso do Windows e a segunda unidade com o .iso dos drivers de convidado. Vá em **Adicionar hardware**, e mude o **Tipo de dispositivo** para **Dispositivo CDROM** e então clique em **Gerenciar...** e escolha **virtio-win.iso** que baixamos em etapas anteriores. Depois clique em **Concluir**:   
 
 ![Dispositivo CDROM](../img/debian_qemu_kvm_windows16.png)   
 
@@ -197,15 +197,15 @@ E agora teremos duas unidades de CDROM:
 
 Na primeira unidade de CDROM temos o .iso de instalação do Windows e na segunda unidade, o cdrom contendo o VirtIO drivers para convidado.  
 
-7. Agora vamos em nossa placa de rede e vamos fazer um pequeno ajuste:
+* Agora vamos em nossa placa de rede e vamos fazer um pequeno ajuste:
    * Fonte de rede: NAT;    
    * Modelo de dispositivo, troque para **virtio**.  
 ![Habilitar dispositivo de rede VirtIO](../img/debian_qemu_kvm_windows18.png)   
 
-8. Há um item em nossa lista de hardware intitulado como **Tablet**, ele é desnecessário, remova-o:  
+* Há um item em nossa lista de hardware intitulado como **Tablet**, ele é desnecessário, remova-o:  
 ![Remover Tablet](../img/debian_qemu_kvm_windows19.png)  
 
-9. Nosso virtualizado usa um de hardware chamado de **canal(Channel spice)** que é usado para a interação entre hospedeiro e convidado, por exemplo, troca de arquivos e funcionamento de copiar/colar da área de clipboard entre eles. Vamos adicionar um **canal**, vá em **Adicionar hardware** e escolha **Channel** e ajuste os detalhes para:
+* Nosso virtualizado usa um de hardware chamado de **canal(Channel spice)** que é usado para a interação entre hospedeiro e convidado, por exemplo, troca de arquivos e funcionamento de copiar/colar da área de clipboard entre eles. Vamos adicionar um **canal**, vá em **Adicionar hardware** e escolha **Channel** e ajuste os detalhes para:
 **Nome:** para **org.qemu.guest_agent.0**    
 **Tipo de dispositivo** para **Soquete UNIX(unix)**    
 **Soquete automático** para **ligado**  
@@ -213,10 +213,10 @@ Na primeira unidade de CDROM temos o .iso de instalação do Windows e na segund
 Depois clique em **Concluir**:
 ![canal(Channel spice)](../img/debian_qemu_kvm_windows20.png)  
 
-10. Na lista de hardware, escolha o **Vídeo**, confirme que o modelo escolhido é o **QXL**:
+* Na lista de hardware, escolha o **Vídeo**, confirme que o modelo escolhido é o **QXL**:
 ![Habilitar edição de XML](../img/debian_qemu_kvm_windows21.png)   
 
-11. Olhe na relação de hardware, veja se há o item **TPM**, se não existir clique novamente em **Adicionar hardware** e escolha **TPM**. Certifique-se de que as seguintes propriedades estejam assim:
+* Olhe na relação de hardware, veja se há o item **TPM**, se não existir clique novamente em **Adicionar hardware** e escolha **TPM**. Certifique-se de que as seguintes propriedades estejam assim:
 * Tipo: **emulado**
 * Modelo: **CRB**
 * Versão: **2.0**
@@ -224,12 +224,12 @@ Sem isso, algumas edições do Windows - como o Windows 11 - não funcionarão:
 ![Vídeo QXL](../img/debian_qemu_kvm_windows22.png)   
 
 
-12. Finalmente podemos começar a instalação, clique em **Iniciar a instalação** que existe lá no topo de nosso assistente:  
+* Finalmente podemos começar a instalação, clique em **Iniciar a instalação** que existe lá no topo de nosso assistente:  
 ![Iniciar instalação](../img/debian_qemu_kvm_windows23.png)
 A instalação começará, e trata-se de uma instalação comum, no entanto, seu ponteiro de mouse estará preso à essa janela, para sair dela use as teclas **Ctrl** e **Alt** do lado esquerdo do teclado.
 
 
-13. Após concordar com os termos de instalação, notará que não existe nenhum disco para que o Windows possa ser instalado, isto acontece porque nosso disco virtual não usa uma interface SATA que seria prontamente reconhecido pelo Windows, mas uma interface **VirtIO** que é mais rápida, mas que não é autoreconhecida pelo Windows, então clique em **Carregar Driver**(Load Driver):  
+* Após concordar com os termos de instalação, notará que não existe nenhum disco para que o Windows possa ser instalado, isto acontece porque nosso disco virtual não usa uma interface SATA que seria prontamente reconhecido pelo Windows, mas uma interface **VirtIO** que é mais rápida, mas que não é autoreconhecida pelo Windows, então clique em **Carregar Driver**(Load Driver):  
 
 ![Carregar Driver durante a instalação](../img/debian_qemu_kvm_windows24.png)   
 
