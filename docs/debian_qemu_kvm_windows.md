@@ -504,8 +504,9 @@ Disable-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\' -TaskName 'S
 Não sei se percebeu, mas até mesmo o 'Windows Update' esta na lista para ser desativado, então para atualizar seu Windows, só indo diretamente nas configurações e mandando atualizar manualmente.
   
 
-### Teste o copiar/colar
-Uma vez que tenha instalado o programa cliente dentro da VM Windows, o recurso de copiar/colar da área de clipboard funcionará perfeitamente.  
+
+### VIRT-MANAGER - COMPARTILHANDO CLIPBOARD
+Basta testar o copiar/colar, uma vez que tenha instalado o programa cliente dentro da VM Windows, o recurso de copiar/colar da área de clipboard funcionará perfeitamente.  
 
 Se não estiver funcionando, talvez seja necessário seguir os passos anteriores.  
 O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
@@ -514,7 +515,37 @@ O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
 
 Se não estiver funcionando, confirme se o host está com o serviço spice-vdagentd e spice-webdavd funcionando, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, esta parte do guia também não funcionará.  
 
-### Copiar arquivos entre sistema hospedeiro e convidado
+### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
+Desligue a VM.  
+Vá até as configurações dela, adicione um novo hardware e escolha um novo hardware **Sistema de arquivos(FileSystem)**, tenha certeza de:  
+* **Driver**: virtiofs  
+* **Source path**: escolha uma pasta de seu sistema como **/home/gsantana/Downloads**    
+* **Target path**: escolha um nome para este compartilhamento como **downloads**   
+Se quiser impedir da estação windows escrever nesta pasta você pode marcar a opão **Exportar sistema de arquivo como montagem somente leitura**.
+![Remova a economia de energia](../img/debian_qemu_kvm_windows58.png)
+
+Agora podemos iniciar novamente nossa VM.  
+Precisamos acessar a página WinSFP no link abaixo:  
+[https://github.com/winfsp/winfsp/releases](https://github.com/winfsp/winfsp/releases)  
+E baixar a ultima versão disponivel:   
+![página WinSFP](../img/debian_qemu_kvm_windows59.png)  
+
+Execute `services.msc` e veja se os serviços estão habilitados:  
+* VirtIO-FS Service
+![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)
+* WinFsp.Launcher
+![WinFsp.Launcher Service](../img/debian_qemu_kvm_windows61.png)
+
+Assim, que estes serviços forem iniciados, olhe novamente para o explorer e notará que as pastas que foram exportadas, em nosso exemplo apenas a pasta `Downloads` serão reconhecidas como unidades:  
+![Novas iunidades no Windows](../img/debian_qemu_kvm_windows62.png)  
+
+
+PS: Eu tenho a impressão, vou estudar mais tarde, que não é necessário instalar o winfsp porque possivelmente ele ou o protocolo dele já é instalado nas ferramentas de convidado.  
+
+
+### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
+(em revisão)
+
 O **SPICE WebDAV** permite compartilhar arquivos entre o **sistema hospedeiro (Linux)** e o **convidado (Windows)** sem precisar configurar Samba, FTP ou serviços de rede.  
 Ele usa um **canal SPICE** interno e o protocolo **WebDAV**, exibindo a pasta compartilhada como uma unidade de rede no Windows.  
 
@@ -558,11 +589,11 @@ Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas 
 ## CONCLUSÃO
 Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows.
 
-Resumo rápido:   
-|:---|:---|
-|Função	|Onde configurar|
-|Copiar/colar texto|spice-vdagent (host + guest)|
-|Ajuste de resolução|QXL + spice-vdagent|
-|Copiar/colar arquivos|spice-webdavd|
-|Canal de comunicação|virt-manager>Canal SPICE agent|
+**Resumo rápido**
 
+| Função | Onde configurar |
+|:---|:---|
+| Copiar/colar texto | spice-vdagent (host + guest) |
+| Ajuste de resolução | QXL + spice-vdagent |
+| Copiar/colar arquivos | spice-webdavd |
+| Canal de comunicação | virt-manager → Canal SPICE agent |
