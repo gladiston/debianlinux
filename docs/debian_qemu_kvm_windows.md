@@ -33,28 +33,28 @@ total 196K
 ```
 Como pôde ver, um disco de 200GB que ocupa apenas 196K no sistema. É claro que a medida que formos instalar o sistema e todas as demais coisas, este arquivo subirá de tamanho. Na minha modesta opinião, eu criaria discos apenas pelo terminal porque podemos criar vários em sequencia, evitando o wizard burocrático e repetitivo para cada um deles.  
 
-### AJUSTE O VIRT-MANAGER
+### VIRT-MANAGER - AJUSTES DE PREFERENCIA
 Carregue o virt-manager, vá em **Editar|Preferencias** na guia **Geral** e ligue as opções:  
 1. Habiiutar ícone na bandeja do sistema
-2. Habilitar edição de XML
+2. Habilitar edição de XML   
 
-![Habilitar edição de XML](../img/debian_qemu_kvm_windows1.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows01.png)  
 
 Depois, na mesma janela, na guia **E/S programada**, faça o seguinte ajuste:  
 1. Atualizar o satus a cada 3 segundos
 2. Obter o uso da CPU: Ligado
 3. Obter E/S de disco: Ligado
-4. Obter estatistica de memória: Ligado
+4. Obter estatistica de memória: Ligado  
 
-![Habilitar edição de XML](../img/debian_qemu_kvm_windows2.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows02.png)  
 
 Depois, na mesma janela, na guia **Nova VM**, faça o seguinte ajuste:  
 1. Tipo de gráfico: PAdrão do sistema(spice)
 2. Formnato de armazenamento: QCOW2
 3. CPU Padrão: Padrão do Aplicativo
-4. Formware x86: Padrão do sistema
+4. Formware x86: Padrão do sistema  
    
-![Habilitar edição de XML](../img/debian_qemu_kvm_windows3.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows03.png)  
 
 
 Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:  
@@ -62,12 +62,94 @@ Depois, na mesma janela, na guia **Console**, garanta que o ajuste seja:
 2. Redimencionar convidado com janela: Padrão do sistema(desligado)
 3. Capturar teclas: Ctrl_L(esquerdo)+ALT_L(esquerdo)
 4. Redirecionamento SPICE de USB: Redirecionamento manual apenas
-5. Conectar automaticamente ao console: Ligado
+5. Conectar automaticamente ao console: Ligado  
 
-![Habilitar edição de XML](../img/debian_qemu_kvm_windows4.png)  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows04.png)   
 
 
-### VIRT-MANAGER
+### VIRT-MANAGER - CRIANDO A VM
+Vá em **Arquivo|Nova Maquina Virtual**, depois selecione **Midia de Instalaçao** e prossiga.
+
+#### Tela 1 de 5
+Na tela **Escolha a mídia de instalação ISO ou CDROM** e então prossiga.  
+
+#### Tela 2 de 5
+Nesta tela, escolha a `.iso` de instalação do Windows e então prossiga:   
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows05.png)     
+
+E ao escolher a iso, defina corretamente o sistema convidado e não confie na opção auto-detecção porque as vezes ela falha, especialmente ao detectar edições do Windows Server:  
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows06.png)     
+
+#### Tela 3 de 5
+Quando prosseguir, precisará decidir quanto de memória precisará usar e quantas CPUs. A quantidade de memória que escolher é definido pelos requisitos de programas que irá usar, no meu caso será 8GB de RAM usando 8 CPUs, que é metade do que tenho. Eu não costumo usar mais do que 1 VM por vez, geralmente concentro VMs por tarefas que desempenho, então quando vou programar usando o Windows tenho uma VM só para ela, para testes de automação tenho outra e assim por diante. Essa é uma dica importante, prefira ter VMs por atividade, não crie uma VM para todas as coisas porque elas podem ser voláteis, uma ora ou outra precisam ser recriadas:   
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows07.png)     
+
+#### Tela 4 de 5
+Nesta janela, ligue a opção **Habilitar armazenamento para esta máquina virtual** e vá em **Selecionar ou criar um armazenamento personalizado**, ao clicar em **Gerenciar...** selecione o disco virtual que criamos anteriormente, ou vá para o terminal e crie uma com o comando:   
+```
+sudo virsh vol-create-as default win2k25-dx.qcow2 200G --format qcow2
+```
+No exemplo acima, estou criando um disco virtual com o nome `win2k25-dx` onde `win2k25` é um prefixo que me lembra `Windows 2025` e o sufixo `dx` me lembra o ambiente que vou instalar depois. Preparar nomes assim não é uma regra, mas ajuda bastante. E então escolha no pool `default` o seu disco virtual:
+
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows08.png)  
+E então, estará assim:
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows09.png)   
+E então prossiga.
+
+#### Tela 5 de 5
+Agora vamos dar um nome, pode ser qualquer nome, mas geralmente eu uso o mesmo nome do disco virtual para facilitar o reconhecimento depois. Precisará marcar a opção **Personalizar a configuração antes de instalar** porque precisaremos fazer o acrescimo de mais uma unidade de CDROM:
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows10.png)   
+
+Depois clique em **Concluir** e é possivel que apareça uma janela como a seguir pergutando se deseja qye a rede virtual `default` pode ser ligada, responda **Sim**:   
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows11.png)    
+
+Será apresentada a configuração de nossa VM, vamos a alguns ajustes:
+1. Vá na guia **Visão Geral** e confirme que o chipset escolhido é **Q35** e o formato de Fimware é **UEFI** senão o Windows não funcionará:
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows12.png)    
+
+2. Ainda na guia **Visão Geral**, selecione a guia **XML**, procure uma seção <hiperv> assim:
+```
+    <hyperv>
+    (...)
+    </hyperv>
+```
+e troque este bloco acima por:
+```
+<hyperv mode="custom">
+  <relaxed state="on"/>
+  <vapic state="on"/>
+  <spinlocks state="on" retries="8191"/>
+  <vpindex state="on"/>
+  <runtime state="on"/>
+  <synic state="on"/>
+  <stimer state="on">
+    <direct state="on"/>
+  </stimer>
+  <reset state="on"/>
+  <vendor_id state="on" value="KVM Hv"/>
+  <frequencies state="on"/>
+  <reenlightenment state="on"/>
+  <tlbflush state="on"/>
+  <ipi state="on"/>
+</hyperv>
+```
+Se tiver uma CPU Intel, dentro do bloco `hyperv` acrescente também:
+```
+  <evmcs state="on"/>
+```
+Ficando mais ou menos assim:
+![Habilitar edição de XML](../img/debian_qemu_kvm_windows13.png)    
+
+Confirme também se a tag abaixo está correta no bloco `clock`:  
+```
+  <clock offset="localtime">
+(...)
+    <timer name="hypervclock" present="yes"/>
+  </clock>
+```
+
+3. Vá na guia **CPUs** e ligue a opção **Copiar configurações de CPU do hospedeiro(host-passthrough)
+
 
 
 
