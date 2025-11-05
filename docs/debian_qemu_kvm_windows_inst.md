@@ -264,4 +264,30 @@ Para verificar se os drivers já estão funcionando, vá no topo da janela do vi
 Depois disso, notará que pode sair da janela sem precisar teclar Ctrl+Alt esquerdos e o Windows muda sua resolução a medida que mudamos a janela do virt-manager.   
 Se vocÊ for no topo ao centro e ficar com o ponteiro do mouse ali por 1s, aparecerá dois botões que estavam camuflados, um deles é para sair de tela cheia e o outro para enviar combinações de tecla como Ctrl+Alt+Del.  
 
+
+Ainda nos resta instalar um driver muito importante, o `WinFsp`, sem ele, não poderemos compartilhar arquivos entre hospedeiro e convidado.  
+Visite à página:  
+[https://github.com/winfsp/winfsp/releases](https://github.com/winfsp/winfsp/releases)   
+
+E então baixe a versão mais recente.  
+![página WinSFP](../img/debian_qemu_kvm_windows59.png)   
+
+Depois de instalado, execute `services.msc` e procure pelo serviço **VirtIO-FS Service**, e habilite-o para iniciar junto com o Windows:  
+
+![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)   
+
+Procure também pelo serviço **WinFsp.Launcher**, mas ele nem sempre existe, então tudo bem se não encontrá-lo, mas se encontrá-lo, habilite-o também:   
+![WinFsp.Launcher Service](../img/debian_qemu_kvm_windows61.png)   
+
+Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda não consiga, isso pode acontecer porque você ainda não usou o recurso de compartilhamento de pastas, mas provavelmente fará em etapas futuras.  
+
+
+   
+
+
+
+
+
+---
+
 [Retornar](debian_qemu_kvm_windows.md)  
