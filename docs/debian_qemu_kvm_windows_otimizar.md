@@ -175,10 +175,10 @@ Esse recurso foi criado para registrar eventos de parada no **Event Viewer** (ID
    Configuração do Computador >
    Modelos Administrativos >
    Sistema >
-   Exibir rastreador de eventos de desligamento
+   Exibir Controlador de eventos de desligamento
    ```
 3. Dê duplo clique em **Exibir rastreador de eventos de desligamento**.
-4. Marque **Desativado** e confirme com **OK**.
+4. Marque **Desabilitado** e confirme com **OK**.
 5. Reinicie o servidor (ou apenas encerre e entre novamente) para aplicar a alteração.
 
 Após aplicar essa configuração, o **Shutdown Event Tracker** deixará de ser exibido, permitindo que o Windows Server **desligue diretamente**, sem solicitar justificativas.
