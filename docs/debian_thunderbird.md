@@ -24,7 +24,7 @@ Este é o método mais intuitivo para novos usuários, mas como preferimos econo
 Instale o Thunderbird via Flathub:
 
 ```bash
-flatpak install flathub org.mozilla.thunderbird -y
+flatpak install flathub org.mozilla.Thunderbird -y
 ```
 
 ### Executando o Thunderbird
@@ -32,7 +32,7 @@ flatpak install flathub org.mozilla.thunderbird -y
 Após a instalação, inicie a aplicação:
 
 ```bash
-flatpak run org.mozilla.thunderbird
+flatpak run org.mozilla.Thunderbird
 ```
 
 Ou simplesmente procure por **"Thunderbird"** no menu de aplicações de sua distribuição.
@@ -44,32 +44,32 @@ Ou simplesmente procure por **"Thunderbird"** no menu de aplicações de sua dis
 Caso você possua uma instalação anterior do Thunderbird em outro perfil de usuário ou máquina, as configurações, contas de email, contatos, calendários e filtros ficam armazenados em:
 
 ```
-~/.var/app/org.mozilla.thunderbird/
+~/.var/app/org.mozilla.Thunderbird/
 ```
 
 **Passos para migração:**
 
 1. **Localizar o diretório de dados da instalação anterior:**
    ```bash
-   ls -la /caminho/de/outro/perfil/.var/app/org.mozilla.thunderbird/
+   ls -la /caminho/de/outro/perfil/.var/app/org.mozilla.Thunderbird/
    ```
 
 2. **Restaurar perfil completo e dados:**
    Copie os arquivos de configuração da instalação anterior para o seu ambiente atual:
    ```bash
-   cp -r /caminho/de/outro/perfil/.var/app/org.mozilla.thunderbird/data/Thunderbird/* ~/.var/app/org.mozilla.thunderbird/data/Thunderbird/
+   cp -r /caminho/de/outro/perfil/.var/app/org.mozilla.Thunderbird/data/Thunderbird/* ~/.var/app/org.mozilla.Thunderbird/data/Thunderbird/
    ```
 
 3. **Restaurar dados da versão nativa (APT):**
    Os dados da versão nativa do Thunderbird também podem estar localizados em `~/.thunderbird/` caso utilize o pacote APT. Certifique-se de copiar estes arquivos para o novo local do Flatpak:
    ```bash
-   cp -r /caminho/de/outro/perfil/.thunderbird/* ~/.var/app/org.mozilla.thunderbird/data/Thunderbird/
+   cp -r /caminho/de/outro/perfil/.thunderbird/* ~/.var/app/org.mozilla.Thunderbird/data/Thunderbird/
    ```
 
 4. **Verificar permissões (opcional):**
    Caso necessário, ajuste as permissões dos arquivos migrados:
    ```bash
-   chmod -R 700 ~/.var/app/org.mozilla.thunderbird/data/Thunderbird/
+   chmod -R 700 ~/.var/app/org.mozilla.Thunderbird/data/Thunderbird/
    ```
 
 ---
