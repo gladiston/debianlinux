@@ -74,6 +74,25 @@ Lembre-se de colocar o novo usuário no grupo de **Administradores**, assim não
 Ele é simples e ao executá-lo pela primeira vez você fornecerá sua autenticação e após o boot, ele entrará sozinho com a conta que foi informada.    
 ![Ativando o autologon](../img/debian_qemu_kvm_windows49.png)    
 
+### CONFIGURAÇÃO DA BARRA DE TAREFAS
+Faça o seguintes ajustes no painel do menu iniciar do Windows, clique com o botão direito do mouse e escolha **Configurações da barra de tarefas**:
+1. Em **Pesquisa** troque **Caixa de pesquisa** por **Ocultar**;
+2. Em **Visão de Tarefas**, desative-o;
+3. Em comportamento da barra de tarefas, ajuste o **Alinhamento da barra de tarefas** do **Centro** para **Esquerda**, isso é importante porque uns glices às vezes acontece ao desligar e quando o botão fica no meio, às vezes ele aparece cortado, mas este tipo de cliches não acontece quando a barra de tarefas está alinhada à esquerda.
+4. Em comportamento da barra de tarefas, ajuste o **Combine botões da barra de tarefas e oculte rótulos** de **Sempre** para **Quando a barra de tarefas estiver cheia**, este é mais um ajuste para evitar gliches.
+
+### MODO DESENVOLVEDOR
+Novamente vá em **Configurações** e procure por **Desenvolvedor** e então encontrará **Configurações do desenvolvedor**, clique nele e faça os seguintes ajustes:  
+1. **Modo desenvovedor** mude para **Ativado**;  
+2. **Finalizar Tarefa** mude para **Ativado**;  
+3. Em **Explorador de Arquivos**, ative as opções:  
+   Exibir extensões de arquivos.  
+   Mostrar caminho completo na barra de título.  
+   Mostrar opções para executar como usuário diferente em Iniciar.  
+
+Na seção **Área de Trabalho Remota**, ative a **Área de Trabalho Remota**.  
+Ainda na seção **Área de Trabalho Remota**, vá em **Usuários da Área de Trabalho Remota** e acrescente os usuários/grupos que poderão acessar remotamente esta máquina virtual pela rede. Salvo engano da minha parte, membros do grupo **Administradores** já tem acesso, então se for acrescentar novos, não precisa repetir membros desse grupo.  
+
 ### PROGRAMAS ESSENCIAIS DENTRO DO WINDOWS
 A seguir apenas uma pequena lista de programas que não devem ser esquecidos para sua instalação, é uma lista pequena que considero essencial a qualquer um Windows de um administrador de sistemas ou desenvolvedor:  
 [Programas de windows básicos e essenciais](debian_qemu_kvm_windows_apps.md)    
