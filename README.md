@@ -21,8 +21,23 @@ Se possivel, todas as partições que contêm dados importantes devem ter um *la
 
 ### Como usar este guia
 A proposta deste guia não é **decorar comandos**, mas servir como um **repositório pessoal de referência**.  
-Você pode **clonar este projeto** ou copiar apenas os trechos que considerar úteis.  
-Sinta-se à vontade para **adaptar os scripts ao seu ambiente**.
+Embora você possa ler este Guia passo a Passo diretamente do github, eu recomendo fortemente, que você **clone este projeto** localmente porque eu usei imagens nela, e o guthub em planos gratuítos tem um limite mensal então se por acaso este limite pessoal for ultrapassado, não irá ver as imagens se estiver lendo diretamente do github. Para clonar, execute:  
+```bash
+git clone https://github.com/gladiston/debianlinux.git
+```
+Para ler, execute:  
+```bash
+sudo apt install glow -y
+cd debianlinux
+glow --server
+```
+Você verá algo como:  
+> Serving markdown on http://localhost:8080/
+
+Então no seu navegador, aponte para o endereço acima e verá o conteúdo desse guia em sua plenitude.  
+
+A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pulando o que for indesejado.  
+
 
 ### Resultado esperado
 Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e virtualização.
@@ -956,4 +971,5 @@ Para instalar basta ir na loja e escolhê-lo pelo nome INKSCAPE.
 * Ambiente de programação JAVA
 * Ambiente de programação Python
 * Versionamento com o asdf
+
 
