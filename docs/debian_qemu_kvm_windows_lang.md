@@ -56,3 +56,7 @@ Ao clicar em **OK**, o idioma português do Brasil estará em todo o sistema, in
 Aproveite o momento - se desejar - para remover o idioma em Inglês, caso contrário, o Windows irá baixar atualizações também para esse idioma.  
 
 Depois, você é obrigado a **reiniciar o sistema**.
+
+---
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
+
