@@ -102,6 +102,7 @@ As vezes é melhor assistir para entender como usufruir melhor do programa, enco
 
 Dá para recuperar tanto arquivos quanto o sistema operacional.
 
+---
 
 ## ✅ Conclusão
 
