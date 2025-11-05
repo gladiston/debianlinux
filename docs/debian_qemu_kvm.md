@@ -9,6 +9,7 @@ Antes de prosseguirmos, que tal fazer o backup da sua configuração de rede ori
 ### Vamos instalar os pacotes principais:  
 ```bash
 sudo apt install -y qemu-kvm libvirt-daemon-system libvirt-clients
+sudo apt install -y libguestfs-tools
 ```
 |Pacote|Explicação|
 |:--|:--|
