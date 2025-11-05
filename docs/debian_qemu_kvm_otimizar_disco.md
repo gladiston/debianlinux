@@ -64,20 +64,25 @@ Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, n
 ### 🧩 Editando o XML manualmente
 
 1. Ainda na tela de **Detalhes da VM**, clique em **Overview** → **XML** (alternador no canto inferior).
-2. Localize o bloco `<disk …>` e ajuste conforme:
-
+2. Localize o bloco `<disk …>` e provavelmente estará assim:
 ```xml
-<disk type='file' device='disk'>
-  <driver name='qemu' type='qcow2'
-          cache='none' 
-          io='native'
-          discard='unmap' 
-          detect_zeroes='unmap'/>
-  <source file='/home/gsantana/libvirt/images/win2k25.qcow2'/>
-  <target dev='vda' bus='virtio'/>
+<disk type="file" device="disk">
+  <driver name="qemu" type="qcow2" cache="none" discard="unmap"/>
+  <source file="/home/gsantana/libvirt/images/win2k25-dx.qcow2" index="3"/>
+  <backingStore/>
+  <target dev="vda" bus="virtio"/>
+  <alias name="virtio-disk0"/>
+  <address type="pci" domain="0x0000" bus="0x04" slot="0x00" function="0x0"/>
 </disk>
 ```
-
+Faça o ajuste para ficar assim:
+```xml
+<disk type='file' device='disk'>
+  (...)
+  <driver name='qemu' type='qcow2' cache='none' discard="unmap"  io='native' detect_zeroes='unmap'/>
+  (...) 
+</disk>
+```
 3. **Salve** as alterações.
 4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot.
 
@@ -220,6 +225,11 @@ qemu-img bench -c 4k -d 1G -f qcow2 ~/libvirt/images/win2k25.qcow2
 ```
 
 ---
+## Permissões nos arquivos
+Se fez ajustes e criou novos arquivos, então é razoável conferir se as permissões estão corretas, execute:  
+```bash
+sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+```
 
 ## Boas práticas operacionais
 
