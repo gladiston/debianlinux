@@ -69,8 +69,10 @@ Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, n
 ```xml
 <disk type='file' device='disk'>
   <driver name='qemu' type='qcow2'
-          cache='none' io='native'
-          discard='unmap' detect_zeroes='unmap'/>
+          cache='none' 
+          io='native'
+          discard='unmap' 
+          detect_zeroes='unmap'/>
   <source file='/home/gsantana/libvirt/images/win2k25.qcow2'/>
   <target dev='vda' bus='virtio'/>
 </disk>
