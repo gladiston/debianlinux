@@ -282,12 +282,7 @@ Procure também pelo serviço **WinFsp.Launcher**, mas ele nem sempre existe, en
 Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda não consiga, isso pode acontecer porque você ainda não usou o recurso de compartilhamento de pastas, mas provavelmente fará em etapas futuras.  
 
 
-   
-
-
-
-
-
 ---
 
-[Retornar](debian_qemu_kvm_windows.md)  
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
+
