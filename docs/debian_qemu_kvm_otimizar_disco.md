@@ -172,7 +172,7 @@ Você pode ignorar este aviso ou transformá-lo em uma falha obrigatória usando
 --check-tmpdir=(ignore|continue|warn|fail)
 Consulte o manual virt-sparsify(1) para mais detalhes.
 ```
-Neste caso, ele está mostrando que irá recriar o disco e que precisará de 200GB! E se vocÊ não tiver isso em `/tmp` você não conseguirá completar o processo. Ele irá mostrar uma barra de progresso e uma estimativa de tempo. Essa opção **"B"** é praticamente inviável para mim por causa do tempo, ela demora bastante e precisa ser feita de forma agendada em dias/horários que você não precise usar o computador.  Mas compensa na redução de tamanho, compare:
+Neste caso, ele está mostrando que irá recriar o disco e que precisará de 200GB! E se você não tiver isso em `/tmp` então não conseguirá completar o processo. Ele irá mostrar uma barra de progresso e uma estimativa de tempo. Essa opção **"B"** é praticamente inviável para mim por causa do tempo, o virt-sparsify é tão esperto em otimizar e conhecer o sistema de arquivos que faz muitas operações demoradas e com isso demora bastante. Com ele,agendá-lo em dias/horários que você não precise usar o máquinas virtuais, quicá o comuputador.  Mas compensa na redução de tamanho, compare:
 ```bash
 ls -lh *.qcow2
 ```
@@ -193,6 +193,23 @@ mv win2k25-optimized.qcow2 win2k25.qcow2
 
 Depois de validar o boot, remova o `.bak`.
 
+### Opção C — Criar cópia **compactada** usando o 'qemu-img'
+O utilitário `qemu-img` é algo mais burro que o `virt-sparsify` copiando os dados de um disco velho para o novo e com isso ignora dados vazios e fará a mesma coisa coisa que a opção "B", porém em 6 minutos, veja como funciona: 
+```bash
+cd ~/libvirt/images/
+qemu-img convert -p \
+  -O qcow2 \
+  -c \
+  -o compat=1.1,cluster_size=1M,lazy_refcounts=on,preallocation=metadata \
+  win2k25.qcow2 win2k25-optimized.qcow2
+```
+Ele vai gerar uma novo arquivo `win2k25-optimized.qcow2` otimizado e compactado. Daí repetimos o swap atômico:  
+```bash
+mv win2k25.qcow2 win2k25.qcow2.bak
+mv win2k25-optimized.qcow2 win2k25.qcow2
+```
+E novamente, depois de validar o boot, remova o `.bak`.
+  
 ---
 
 ## Passo 4 — Snapshots e cadeias de backing
