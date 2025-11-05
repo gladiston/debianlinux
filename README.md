@@ -110,42 +110,12 @@ Curioso para saber minha opinião? Clique  no link abaixo:
 
 ---
 
-## INSTALAÇÃO
+## PARTICIONAMENTO DURANTE A INSTALAÇÃO DO DEBIAN/UBUNTU
 A instalação do Debian/Ubuntu não tem grandes mistérios — o ponto mais delicado é mesmo o **particionamento do disco**.  
-Abaixo segue uma sugestão baseada na minha experiência pessoal:  
+No link abaixo explico melhor essa questão, é bom que leia antes de fazer a instalação. Segue:  
+[Particionamento durante a instalação do Debian/Ubuntu](debian_part.md)
 
-|sistema|Ponto de montagem|rótulo        |Tamanho       |   
-|-------|-----------------|:------------:|:------------:|
-|fat32  |/boot/efi        |Nenhum        |1 GB          |
-|swap   |Nenhum           |Nenhum        |memória atual |
-|ext4   |/boot            |#boot         |1 GB          |
-|ext4   |/                |#disco1-root  |100 GB        |
-|ext4   |/home            |#dados1       |máximo        |  
-
-Se preferir usar o **Btrfs**, o particionamento muda um pouco, nesse caso, “/” e “/home” ficam na **mesma partição**, que ocupa todo o espaço restante do disco.  
-O ideal seria ter subvolumes separados para “/”, "/var" e “/home”, mas o instalador padrão do Debian, Ubuntu e da maioria das distros ainda não permitem subvolumes. Dá para fazer manualmente, claro, mas exigiria etapas extras que deixariam este HowTo mais complicado — então vamos manter o foco no básico.
-
-O Btrfs é um sistema de arquivos excelente para quem desenvolve software graças ao recurso de *snapshots*, onde é possível recuperar versões anteriores de arquivos apagados ou sobrescritos sem precisar recorrer a backups tradicionais.  
-Além disso, a **compactação transparente** ajuda a economizar espaço sem perda de desempenho perceptível.
-
-> **ALERTA:** Partições Btrfs não devem ultrapassar 80% de ocupação; acima disso, a performance cai bastante por causa do **Copy-on-Write (CoW)**.  
-
-Caso prefira **ext4**, mantenha, se possível, “/” e “/home” em partições separadas.  
-Especialistas em virtualização também recomendam ter **/var** em separado; contudo, neste HowTo, as VMs ficarão no `$HOME`.  
-
-### SWAP
-A memória **SWAP** é uma memória de fuga — é para onde os programas “correm” quando a RAM acaba.  
-Se a memória se esgotar totalmente, o sistema pode travar.  
-Sempre que programas usam a swap, espera-se que seja apenas um pico, e que logo deixem de precisar dela.  
-
-Se a swap estiver **sempre em uso**, o ideal é **instalar mais memória RAM**, afinal viver uma “*vida loca*” é desperdício de tempo e compromete o desempenho.  
-
-O tamanho mínimo de swap deve ser **igual à memória RAM** caso deseje usar **hibernação**, pois o sistema precisa salvar todo o conteúdo da RAM nela.  
-Por exemplo:  
-- Se seu computador tem **16 GB** de RAM e isso já basta, crie **16 GB** de swap.  
-- Se gostaria de ter **32 GB de RAM** mas só possui 16 GB, então complemente com **16 GB de swap**, totalizando 32 GB (16GB de memoria real e 16GB de “memória de fuga”).  
-
-Mas se seu computador **não hibernará**, essa regra deixa de valer, nesse caso, basta definir a swap com um tamanho que sirva como **plano de fuga razoável** para o uso pretendido.
+---
 
 ## 'SUDO' - SOMENTE PARA O DEBIAN  
 O sudoers e seu utilitário de linha de comando chamado `sudo` é o responsável por elevar as permissões do usuário para que ele consiga executar comandos que apenas o **root** teria acesso.  
