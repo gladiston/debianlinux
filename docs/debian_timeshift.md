@@ -96,6 +96,13 @@ E os dados de snapshots propriamente ditos em:
 
 ---
 
+## Vídeos de aprendizados no YouTube
+As vezes é melhor assistir para entender como usufruir melhor do programa, encontrei este vídeo e achei interessante compartilhar:  
+(https://www.youtube.com/watch?v=tQY5IHOnK9E)
+
+Dá para recuperar tanto arquivos quanto o sistema operacional.
+
+
 ## ✅ Conclusão
 
 Com o Timeshift instalado e configurado em seu ambiente Debian, você dispõe de um mecanismo robusto e eficiente de proteção do sistema através de snapshots incrementais. Diferentemente da containerização via Flatpak, a instalação nativa do Timeshift integra-se completamente ao kernel Linux, permitindo acesso privilegiado necessário para gerenciar snapshots em nível de sistema de arquivos.
