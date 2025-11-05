@@ -138,24 +138,43 @@ Depois de validar o boot, remova o `.bak`.
 
 ---
 
-## Passo 4 — Ajustes no libvirt
+## Passo 4 — Ajustes no libvirt (via virt-manager)
 
-Para manter a imagem enxuta continuamente, propague o **DISCARD/UNMAP**:
+Esses ajustes garantem que operações de “descartar blocos” (TRIM/UNMAP) do guest cheguem até o host, permitindo que futuras exclusões dentro da VM liberem espaço real.
+
+### 🔧 Pelo virt-manager (GUI)
+
+1. **Abra o virt-manager** e selecione a VM desejada.
+2. Clique no ícone **⚙️ “i” (Mostrar detalhes da máquina virtual)**.
+3. No painel esquerdo, clique em **VirtIO Disk (vda)** — ou o nome do disco principal.
+4. Expanda **Advanced options** (Opções avançadas).
+5. Configure:
+
+   * **Cache mode:** `none`
+   * **IO mode:** `native`
+   * **Discard:** `unmap`
+   * **Detect zeroes:** `unmap` *(ou `on`, se `unmap` não estiver disponível)*
+6. Clique em **Aplicar** e **OK**.
+
+> Se sua interface do virt-manager não mostrar as opções *Discard* ou *Detect zeroes*, use a edição em XML conforme abaixo.
+
+### 🧩 Editando o XML manualmente
+
+1. Ainda na tela de **Detalhes da VM**, clique em **Overview** → **XML** (alternador no canto inferior).
+2. Localize o bloco `<disk …>` e ajuste conforme:
 
 ```xml
 <disk type='file' device='disk'>
-  <driver name='qemu' type='qcow2' cache='none' io='native'
+  <driver name='qemu' type='qcow2'
+          cache='none' io='native'
           discard='unmap' detect_zeroes='unmap'/>
   <source file='/home/gsantana/libvirt/images/win2k25.qcow2'/>
   <target dev='vda' bus='virtio'/>
 </disk>
 ```
 
-**Boas práticas:**
-
-* `cache='none'` e `io='native'` oferecem desempenho previsível.
-* Habilite TRIM periódico no guest (fstrim.timer em Linux ou ReTrim no Windows).
-* Prefira TRIM agendado, não contínuo, em workloads com alto I/O aleatório.
+3. **Salve** as alterações.
+4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot.
 
 ---
 
@@ -171,7 +190,7 @@ Para manter a imagem enxuta continuamente, propague o **DISCARD/UNMAP**:
   ```bash
   qemu-img snapshot -d <ID> ~/libvirt/images/win2k25.qcow2
   ```
-* Flatten (quando há overlay/backing):
+* “Flatten” (quando há overlay/backing):
 
   ```bash
   qemu-img convert -p -O qcow2 overlay.qcow2 flattened.qcow2
@@ -210,6 +229,3 @@ qemu-img bench -c 4k -d 1G -f qcow2 ~/libvirt/images/win2k25.qcow2
   * **cluster_size=128K–256K** → I/O aleatório pequeno (sistemas).
 * Monitore espaço e fragmentação periodicamente com `qemu-img info`.
 
----
-
-Quer que eu te entregue esse conteúdo como um arquivo `.md` pronto para ser adicionado ao seu repositório `debianlinux` (com cabeçalho e metadados padrão do projeto)?
