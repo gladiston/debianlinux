@@ -72,7 +72,7 @@ sudo crontab -l      # lista do usuário root
 
 **Exemplo (crontab do sistema)**: desligar o computador às 02:00 (independente de login):
 ```crontab
-# /etc/crontab — com coluna de usuário
+# Desligar o computador as 02h00 da madrugada
 0 2 * * * root /usr/sbin/shutdown -h now
 ```
 
