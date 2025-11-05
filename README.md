@@ -25,7 +25,9 @@ Se possivel, todas as partições que contêm dados importantes devem ter um *la
 
 ## Como usar este guia
 A proposta deste guia não é **decorar comandos**, mas servir como um **repositório pessoal de referência**.  
-Embora você possa ler este Guia passo a Passo diretamente do github, eu recomendo fortemente, que você **clone este projeto** localmente porque eu usei imagens nela, e o guthub em planos gratuítos tem um limite mensal então se por acaso este limite pessoal for ultrapassado, não irá ver as imagens se estiver lendo diretamente do github. Para clonar, execute:  
+Você lê este guia passo a passo e além de instalar, aprende para quê servem o que está instalando.  
+
+Embora você possa ler este Guia passo a Passo diretamente do github, existe a opção de baixá-lo para lê-lo offline caso precise, eu recomendo fortemente que você **clone este projeto** localmente porque eu usei imagens nela e o github em planos gratuítos tem um limite mensal então se por acaso este limite for ultrapassado, não irá ver as imagens. Para clonar, execute:  
 ```bash
 git clone https://github.com/gladiston/debianlinux.git
 ```
@@ -40,7 +42,7 @@ Você verá algo como:
 > * Debug mode: off  
 > * Running on http://localhost:6419  
 
-Então no seu navegador, aponte para o endereço acima e verá o conteúdo desse guia em sua plenitude.  
+Então no seu navegador, aponte para o endereço acima e verá o conteúdo desse guia.  Pessoalmente eu gosto do jeito que o github renderiza porque eles colocam um botão de copiar que economiza tempo e a renderização local não faz isso. Em contrapartida, numa cópia local, você verá sempre as imagens sem depender dos limites impostos pelo github.  
 
 A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pulando o que for indesejado.  
 
