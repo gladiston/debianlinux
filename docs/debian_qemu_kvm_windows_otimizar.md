@@ -101,7 +101,7 @@ Mas voltando ao assunto, este guia passo a passo foi feito para mortais que usuf
 Depois de instalar dentro da VM todos os programas de que precisa, vá no agendador de tarefas e desative os agendamentos de atualizações que estes programas gostam de deixar lá, por exemplo, o Oracle Java e Adobe Reader deixam no Agendador de tarefas programas para atualização de seus produtos. Normalmente ficam programados para conferir se há atualizações de seu produtos quando o computador esta ocioso e diariamente, e isso é horrivel para a nossa VM.  
 
 ## Otimizando o Windows - Relogio
-Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) como fonte principal de tempo do sistema, afinal, isso será fornecido pelo nosso hypervisor. Abra o terminal PS(PowerShell) como administrador e execute:  
+Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) como fonte principal de tempo do sistema, afinal, isso será fornecido pelo nosso hypervisor. Abra o terminal `cmd` como administrador e execute:  
 ```cmd
 bcdedit /set useplatformclock No
 ```
@@ -115,7 +115,7 @@ A seguir serão listados programas que são carregados juntos com o Windows:
 Desabiltie o máximo de programas que puder.
 
 ## Otimizando o Windows - Tarefas agendadas desnecessárias
-Vamos remover todas as tarefas agendadas desnecessárias, abra o terminal PS(PowerShell) como administrador e execute:  
+Vamos remover todas as tarefas agendadas desnecessárias, abra o terminal **PS(PowerShell)** como administrador e execute:  
 Primeiro vamos listá-las, execute:
 ```cmd
 Get-ScheduledTask -TaskName '*schedule*'
