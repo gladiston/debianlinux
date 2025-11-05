@@ -154,6 +154,35 @@ Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Windows Defender\' -TaskName
 Disable-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\' -TaskName 'Scheduled Start'
 ```
 Não sei se percebeu, mas até mesmo o 'Windows Update' esta na lista para ser desativado, então para atualizar seu Windows, só indo diretamente nas configurações e mandando atualizar manualmente.
+
+---
+
+## Desativando o *Shutdown Event Tracker* no Windows Server
+
+Por padrão, o **Windows Server** exibe uma janela chamada **Shutdown Event Tracker**, que solicita ao usuário o **motivo do desligamento ou reinicialização**.
+Esse recurso foi criado para registrar eventos de parada no **Event Viewer** (ID 1074, origem USER32), sendo útil em ambientes com auditoria, mas desnecessário em VMs de teste ou servidores pessoais.
+
+### 🪟 Desativando via Política de Grupo
+
+1. Pressione **Win + R** e digite:
+
+   ```
+   gpedit.msc
+   ```
+2. Navegue até:
+
+   ```
+   Configuração do Computador >
+   Modelos Administrativos >
+   Sistema >
+   Exibir rastreador de eventos de desligamento
+   ```
+3. Dê duplo clique em **Exibir rastreador de eventos de desligamento**.
+4. Marque **Desativado** e confirme com **OK**.
+5. Reinicie o servidor (ou apenas encerre e entre novamente) para aplicar a alteração.
+
+Após aplicar essa configuração, o **Shutdown Event Tracker** deixará de ser exibido, permitindo que o Windows Server **desligue diretamente**, sem solicitar justificativas.
+
   
 ---
 
