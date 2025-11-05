@@ -276,10 +276,7 @@ Depois de instalado, execute `services.msc` e procure pelo serviço **VirtIO-FS 
 
 ![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)   
 
-Procure também pelo serviço **WinFsp.Launcher**, mas ele nem sempre existe, então tudo bem se não encontrá-lo, mas se encontrá-lo, habilite-o também:   
-![WinFsp.Launcher Service](../img/debian_qemu_kvm_windows61.png)   
-
-Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda não consiga, isso pode acontecer porque você ainda não usou o recurso de compartilhamento de pastas, mas provavelmente fará em etapas futuras.  
+Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda não consiga, isso pode acontecer porque você ainda não usou o recurso de compartilhamento de pastas, então por não haver pastas para compartilhar, o serviço não inicie. Mas deixe-o habilitado porque nas próximas etapas faremos isso.  
 
 
 ---
