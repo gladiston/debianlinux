@@ -97,7 +97,7 @@ Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga e
 As duas distribuições mais influentes no ecossistema Linux são **Debian** e **Ubuntu**, sendo o Ubuntu uma derivação direta do Debian otimizada para usuários domésticos e corporativos.  Você conhece as diferenças? Qual escolher para sua produtividade?  No link abaixo, respondo esta pergunta.  
 
 
-[UBUNTU vs DEBIAN: Qual Escolher para Sua Produtividade?] (debian_ubuntu.md)  
+[UBUNTU vs DEBIAN: Qual Escolher para Sua Produtividade?](docs/debian_ubuntu.md)  
 
 ---
 
