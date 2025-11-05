@@ -286,7 +286,3 @@ Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda n
 
 [Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
 
-
-
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
-
