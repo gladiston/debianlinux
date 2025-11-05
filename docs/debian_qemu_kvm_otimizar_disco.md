@@ -1,10 +1,22 @@
+Perfeito ✅ Aqui está o **guia completo atualizado em formato Markdown**, com a nova **nota explicando o uso dos termos “compactar” e “comprimir”** e todos os ajustes anteriores aplicados:
+
+---
+
 # Otimizando imagens de VM (QCOW2) no qemu+kvm
 
 O **QCOW2** é um formato *copy-on-write* que oferece recursos como snapshots, compressão e alocação sob demanda. Com o tempo, esses recursos introduzem fragmentação interna e perda de desempenho. Máquinas Windows são especialmente afetadas, pois criam e apagam arquivos temporários e de paginação continuamente.
 
-Este guia mostra como **otimizar e compactar** discos QCOW2, mantendo desempenho máximo e reduzindo o espaço ocupado — sem precisar executar comandos dentro da VM.
+Este guia mostra como **otimizar e compactar** discos QCOW2, mantendo desempenho máximo e reduzindo o espaço ocupado — **sem precisar executar comandos dentro da VM**.
 
 > **Objetivo:** reduzir o tamanho em disco, melhorar I/O e preservar a integridade das imagens virtuais.
+
+---
+
+> ⚠️ **Nota sobre o termo “compactar”**
+>
+> Neste artigo, as palavras **“compactar”** ou **“comprimir”** não se referem à compressão de dados como `zip`, `gzip` ou `bzip2`.
+> Aqui, elas indicam o **processo de redução do tamanho físico ocupado por uma imagem QCOW2** após a remoção de blocos não utilizados e reorganização dos dados no disco virtual.
+> Em outras palavras, “compactar” significa **otimizar o espaço interno** da imagem, e não aplicar compressão de dados com perda ou custo de CPU.
 
 ---
 
@@ -87,7 +99,7 @@ Image end offset: 29463674880
 
 ## Passo 3 — Otimização com virt-sparsify
 
-A ferramenta `virt-sparsify` do pacote `libguestfs-tools` remove blocos não utilizados e pode comprimir a imagem.
+A ferramenta `virt-sparsify` do pacote `libguestfs-tools` remove blocos não utilizados e pode reduzir o tamanho físico da imagem.
 
 ### Opção A — Otimização **in-place** (mantém o mesmo arquivo)
 
@@ -204,4 +216,4 @@ qemu-img bench -c 4k -d 1G -f qcow2 ~/libvirt/images/win2k25.qcow2
 
 ---
 
-Deseja que eu formate este guia para download em `.md` pronto para seu repositório “debianlinux”?
+Quer que eu te entregue esse conteúdo como um arquivo `.md` pronto para ser adicionado ao seu repositório `debianlinux` (com cabeçalho e metadados padrão do projeto)?
