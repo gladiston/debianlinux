@@ -745,11 +745,18 @@ Vamos considerar agora alguns tipos de compartilhamentos no link abaixo:
 
 ---  
 
-## INSTALANDO O UTILITÁRIO DE BACKUP E RESTAURAÇÃO 'TIMESHIFT'
+## INSTALANDO O UTILITÁRIO DE EMAIL Thunderbird
+O Thunderbird é um cliente de email, calendário e gerenciador de contatos multiplataforma, desenvolvido pela Mozilla. Para administradores de sistemas, desenvolvedores e equipes de TI, o Thunderbird oferece suporte a múltiplos protocolos de email (IMAP, POP3, SMTP), integração com calendários (CalDAV), gerenciamento avançado de identidades e filtros automáticos. Sua arquitetura modular permite extensões que facilitam a organização corporativa, criptografia de mensagens (OpenPGP) e sincronização de dados entre múltiplos dispositivos.  
+
+Para instalar siga as instruções no link abaixo:  
+[Instalando o utiitário de e-mail Thunderbird'](docs/debian_thunderbird.md).
+
+
+## INSTALANDO O UTILITÁRIO DE BACKUP E RESTAURAÇÃO TimeShift
 O Timeshift é um utilitário de backup e restauração de sistemas de arquivos baseado em snapshots incrementais, desenvolvido especificamente para distribuições Linux. Para administradores de sistemas e desenvolvedores, o Timeshift oferece a capacidade de criar pontos de restauração automáticos ou manuais, permitindo reverter o sistema para um estado anterior em caso de falhas críticas, atualizações problemáticas ou corrupção de arquivos. Diferentemente de ferramentas de backup tradicionais, o Timeshift trabalha diretamente com o sistema de arquivos, proporcionando rapidez e eficiência operacional.  
 
 Para instalar siga as instruções no link abaixo:  
-[INSTALANDO O UTILITÁRIO DE BACKUP E RESTAURAÇÃO 'TIMESHIFT'](docs/debian_timeshift.md).
+[Instalando o utilitário de backup TimeShift](docs/debian_timeshift.md).
 
 ---  
 
@@ -766,7 +773,7 @@ Pontos positivos do FirebirdSQL:
 * Configuração simples — Fácil de instalar e manter; ideal para sistemas que exigem confiabilidade sem administração constante.
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[Instalação do Firebird no Debian](docs/debian_firebird.md).
+[Instalação do Firebird](docs/debian_firebird.md).
 
 ---  
 
@@ -784,7 +791,7 @@ O Remmina é um cliente de acesso remoto versátil e leve, desenvolvido em GTK+,
 Neste guia, utilizaremos a distribuição Flathub para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.  
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[INSTALANDO O CLIENTE DE ACESSO REMOTO 'REMMINA'](docs/debian_remmina.md).
+[Instalando o cliente de acesso remoto Remmina](docs/debian_remmina.md).
 
 ---  
 
@@ -794,7 +801,7 @@ O Telegram é um aplicativo de mensageria instantânea baseado em nuvem, reconhe
 Neste guia, utilizaremos a distribuição Flathub para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.  
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[INSTALANDO O CLIENTE DE MENSAGERIA 'TELEGRAM'](docs/debian_telegram.md).
+[Instalando o Telegram](docs/debian_telegram.md).
 
 ---  
 
