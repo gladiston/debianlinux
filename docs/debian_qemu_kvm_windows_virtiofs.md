@@ -29,26 +29,38 @@ Isso acontece porque o programa `WinFsp` é convocado assim que o serviço `Virt
 ### OPÇÃO 1 - CONSOLIDE TUDO NUM ÚNICO PONTO DE ENTRADA
 Consolide todas as pastas necessarias numa unica pasta maior, poderá tentar usar links simbolicos usando a opção de `bind`:
 ```
-mkdir /home/gsantana/share_all
-mkdir /home/gsantana/share_all/downloads
-mkdir /home/gsantana/share_all/docs
+mkdir -p /home/gsantana/work            # pasta vazia
+mkdir -p /home/gsantana/work/downloads  # pasta vazia
+mkdir -p /home/gsantana/work/docs       # pasta vazia
 
-# substitua symlinks por bind mounts:
-sudo mount --bind /home/gsantana/work /home/gsantana/share_all/downloads
-sudo mount --bind /home/gsantana/docs /home/gsantana/share_all/docs
+# usando bind mounts:
+sudo mount --bind /home/gsantana/Downloads /home/gsantana/work/downloads
+sudo mount --bind /home/gsantana/docs /home/gsantana/work/docs
 ```
-E agora voce exporta o source-path como `/home/gsantana/share_all` e obterá todas as pastas dentro de uma unica que poderá ser usada.  
+Onde:  
+* **/home/gsantana/downloads**  é uma pasta real com arquivos dentro que será montada (mount --bind) na pasta vazia **/home/gsantana/work/downloads**.  
+* **/home/gsantana/docs**  é uma pasta real com arquivos dentro que será montada (mount --bind) na pasta vazia **/home/gsantana/work/docs**.  
+E você vai *linkando* (mount --bind) dessa forma todas as pastas de que precisa para dentro de **/home/gsantana/work**.   
+E agora voce exporta o `Source Path` como `/home/gsantana/work` e obterá todas as pastas dentro de uma unica que poderá ser usada dentro da VM Windows.  
+Essa é a minha opção preferida, inclusive já tenho um script para montar as todas as pastas que preciso dentro de **~/work/** .
+
 
 ### OPÇÃO 2 - MAPEIE UNIDADES POR DENTRO DO WINDOWS
+Essa é uma opção que reluto em usar porque vai criando letras de drive para cada `Source Path`.  
 Dentro do windows, execute outra instancia manualmente com o comando:  
 ```
    "C:\Program Files\Virtio-Win\VioFS\virtiofs.exe" docs X:
 ```
-Isso criará a letra X: para Target Path definido como **docs**.  Você terá de criar um `.bat` para mapear cada letra de drive para cada surce-path e depois colocá-lo na auto inicialização do seu perfil, assim não precisará executar estes comandos todas as vezes.
-
+Isso criará a letra Z: (ou que estiver disponível) para `Source Path` definido como **docs**.  Você terá de criar um `.bat` para mapear cada letra de drive para cada `Source Path` e depois colocá-lo na auto inicialização do seu perfil, assim não precisará executar estes comandos todas as vezes.  
 
 Assim, que estes serviços forem iniciados, olhe novamente para o explorer e notará que as pastas que foram exportadas, em nosso exemplo apenas a pasta `Downloads` serão reconhecidas como unidades:  
 
 ![Novas iunidades no Windows](../img/debian_qemu_kvm_windows62.png)   
 
-**DICA:** Não coloque seu home inteiro disponivel para VMs, crie **pools** separadas para as pastas que for usar, eu uso uma subpasta **projetos** onde tenho as pastas que minha VM terá acesso. Além de mais seguro, interrompe programas erroneamente chamados de **telemetria** que acompanham produtos comerciais, mas que não tem diferença para **spywares**.  
+## SEGURANÇA
+Para a segurança de seu sistema hospedeiro e convidado:  
+1. Você pode criar uma pool para seu $HOME, mas não deve exportar seu $HOME inteiro para dentro de uma VM.  
+2. Aprenda a exportar como `Source Path` apenas as pastas de que aquela VM precisará.
+3. Minha preferencia, crie uma pasta similar ao exemplo **work** e use *bind mounts* para indicar apenas as pastas desejadas dentro desse `Source Path`.
+
+Além de mais seguro, essas dicas, interrompem programas erroneamente chamados de **telemetria** que acompanham produtos comerciais e gratuítos, mas que no fundo são **spywares** como qualquer outro.  
