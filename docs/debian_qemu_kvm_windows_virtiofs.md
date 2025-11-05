@@ -64,3 +64,13 @@ Para a segurança de seu sistema hospedeiro e convidado:
 3. Minha preferencia, crie uma pasta similar ao exemplo **work** e use *bind mounts* para indicar apenas as pastas desejadas dentro desse `Source Path`.
 
 Além de mais seguro, essas dicas, interrompem programas erroneamente chamados de **telemetria** que acompanham produtos comerciais e gratuítos, mas que no fundo são **spywares** como qualquer outro.  
+
+
+---
+
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
+
+
+
+
+
