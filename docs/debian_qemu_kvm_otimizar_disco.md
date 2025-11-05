@@ -41,6 +41,46 @@ Este guia mostra como **otimizar e compactar** discos QCOW2, mantendo desempenho
 
 ---
 
+## Ajustes no libvirt (via virt-manager)
+
+Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, no entanto, caso tenha caído nesta página por qualquer outra razão, o que iremos fazer é conferir se o nosso disco virtual foi ajustado para ter máxima performance com o Windows, esses ajustes garantem que operações de “descartar blocos” (TRIM/UNMAP) do convidado cheguem até o hospedeiro, permitindo que futuras exclusões dentro da VM liberem espaço real.
+
+### 🔧 Pelo virt-manager (GUI)
+
+1. **Abra o virt-manager** e selecione a VM desejada.
+2. Clique no ícone **⚙️ “i” (Mostrar detalhes da máquina virtual)**.
+3. No painel esquerdo, clique em **VirtIO Disk (vda)** — ou o nome do disco principal.
+4. Expanda **Advanced options** (Opções avançadas).
+5. Configure:
+
+   * **Cache mode:** `none`
+   * **IO mode:** `native`
+   * **Discard:** `unmap`
+   * **Detect zeroes:** `unmap` *(ou `on`, se `unmap` não estiver disponível)*
+6. Clique em **Aplicar** e **OK**.
+
+> Se sua interface do virt-manager não mostrar as opções *Discard* ou *Detect zeroes*, use a edição em XML conforme abaixo.
+
+### 🧩 Editando o XML manualmente
+
+1. Ainda na tela de **Detalhes da VM**, clique em **Overview** → **XML** (alternador no canto inferior).
+2. Localize o bloco `<disk …>` e ajuste conforme:
+
+```xml
+<disk type='file' device='disk'>
+  <driver name='qemu' type='qcow2'
+          cache='none' io='native'
+          discard='unmap' detect_zeroes='unmap'/>
+  <source file='/home/gsantana/libvirt/images/win2k25.qcow2'/>
+  <target dev='vda' bus='virtio'/>
+</disk>
+```
+
+3. **Salve** as alterações.
+4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot.
+
+---
+
 ## Pré-requisitos e cuidados
 
 * Faça **backup** da imagem QCOW2.
@@ -138,47 +178,7 @@ Depois de validar o boot, remova o `.bak`.
 
 ---
 
-## Passo 4 — Ajustes no libvirt (via virt-manager)
-
-Esses ajustes garantem que operações de “descartar blocos” (TRIM/UNMAP) do guest cheguem até o host, permitindo que futuras exclusões dentro da VM liberem espaço real.
-
-### 🔧 Pelo virt-manager (GUI)
-
-1. **Abra o virt-manager** e selecione a VM desejada.
-2. Clique no ícone **⚙️ “i” (Mostrar detalhes da máquina virtual)**.
-3. No painel esquerdo, clique em **VirtIO Disk (vda)** — ou o nome do disco principal.
-4. Expanda **Advanced options** (Opções avançadas).
-5. Configure:
-
-   * **Cache mode:** `none`
-   * **IO mode:** `native`
-   * **Discard:** `unmap`
-   * **Detect zeroes:** `unmap` *(ou `on`, se `unmap` não estiver disponível)*
-6. Clique em **Aplicar** e **OK**.
-
-> Se sua interface do virt-manager não mostrar as opções *Discard* ou *Detect zeroes*, use a edição em XML conforme abaixo.
-
-### 🧩 Editando o XML manualmente
-
-1. Ainda na tela de **Detalhes da VM**, clique em **Overview** → **XML** (alternador no canto inferior).
-2. Localize o bloco `<disk …>` e ajuste conforme:
-
-```xml
-<disk type='file' device='disk'>
-  <driver name='qemu' type='qcow2'
-          cache='none' io='native'
-          discard='unmap' detect_zeroes='unmap'/>
-  <source file='/home/gsantana/libvirt/images/win2k25.qcow2'/>
-  <target dev='vda' bus='virtio'/>
-</disk>
-```
-
-3. **Salve** as alterações.
-4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot.
-
----
-
-## Passo 5 — Snapshots e cadeias de backing
+## Passo 4 — Snapshots e cadeias de backing
 
 * Listar snapshots:
 
