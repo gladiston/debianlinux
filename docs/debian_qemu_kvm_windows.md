@@ -149,6 +149,11 @@ sudo tuned-adm profile desktop # ou balanced(anterior)
 ```
 Se estiver usando 'kde' ou 'gnome' existe applets gráficos para você fazer essa troca de perfil de um jeito mais rápido sem ter que abrir o terminal.  
 
+### OTIMIZANDO O DISCO QCOW2
+O QCOW2 é um formato copy-on-write com recursos como snapshots, compressão e alocação sob demanda. Esses recursos trazem overhead e, com o tempo, geram fragmentação interna. Mas máquinas Windows são muito mais afetadas do que as demais porque o Windows gera memória virtual, arquivos temporários a todo instante. Então o link a seguir descreve como podemos otimizar e compactar o disco virtual para que o desempenho - especialmente para VMs Windows - fique sempre máximizado.  
+
+[Instruções para melhorar o desempenho](debian_qemu_kvm_otimizar_disco.md)  
+
 
 
 ## DICAS DO YOUTUBE
@@ -171,12 +176,6 @@ O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cl
 Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
 
 [Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)  
-
-### OTIMIZANDO O DISCO QCOW2
-O QCOW2 é um formato copy-on-write com recursos como snapshots, compressão e alocação sob demanda. Esses recursos trazem overhead e, com o tempo, geram fragmentação interna. Mas máquinas Windows são muito mais afetadas do que as demais porque o Windows gera memória virtual, arquivos temporários a todo instante. Então o link a seguir descreve como podemos otimizar e compactar o disco virtual para que o desempenho - especialmente para VMs Windows - fique sempre máximizado.  
-
-[Instruções para melhorar o desempenho](debian_qemu_kvm_otimizar_disco.md)  
-
 
 ## CONCLUSÃO
 Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows.
