@@ -151,8 +151,9 @@ cd ~/libvirt/images/
 sudo virt-sparsify --in-place win2k25.qcow2
 ```
 
-> Modifica o arquivo existente, liberando espaço não usado.
+> Modifica o arquivo existente, liberando espaço não usado.  
 > Não cria cópia nova, é mais rápida, mas requer espaço temporário proporcional.
+> Essa é a melhor opção para mim, ela não diminui o arquivo, mas fez a optimização de `Trimming` que é suficiente para a performance do Windows.  
 
 ### Opção B — Criar cópia **compactada**
 
@@ -160,9 +161,18 @@ sudo virt-sparsify --in-place win2k25.qcow2
 cd ~/libvirt/images/
 sudo virt-sparsify --compress win2k25.qcow2 win2k25-optimized.qcow2
 ```
+virt-sparsify: aviso: Pode não haver espaço livre suficiente em /tmp.
+Você talvez precise definir a variável TMPDIR para apontar para um diretório com mais espaço disponível.
 
-Ao final, compare tamanhos:
+Máximo necessário: 200,0 GB. Livre: 15,4 GB. Pode ser necessário mais 184,6 GB.
 
+Observe que isso é uma superestimativa. Se o disco do sistema convidado estiver cheio de dados, provavelmente não será necessário tanto espaço livre.
+
+Você pode ignorar este aviso ou transformá-lo em uma falha obrigatória usando a opção:
+--check-tmpdir=(ignore|continue|warn|fail)
+Consulte o manual virt-sparsify(1) para mais detalhes.
+```
+Neste caso, ele está mostrando que irá recriar o disco e que precisará de 200GB! E se vocÊ não tiver isso em `/tmp` você não conseguirá completar o processo. Ele irá mostrar uma barra de progresso e uma estimativa de tempo. Essa opção **"B"** é praticamente inviável para mim por causa do tempo, ela demora bastante e precisa ser feita de forma agendada em dias/horários que você não precise usar o computador.  Mas compensa na redução de tamanho, compare:
 ```bash
 ls -lh *.qcow2
 ```
