@@ -27,12 +27,14 @@ git clone https://github.com/gladiston/debianlinux.git
 ```
 Para ler, execute:  
 ```bash
-sudo apt install glow -y
+sudo apt install grip -y
 cd debianlinux
-glow --server
+grip
 ```
 Você verá algo como:  
-> Serving markdown on http://localhost:8080/
+> * Serving Flask app 'grip.app'  
+> * Debug mode: off  
+> * Running on http://localhost:6419  
 
 Então no seu navegador, aponte para o endereço acima e verá o conteúdo desse guia em sua plenitude.  
 
