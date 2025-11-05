@@ -113,7 +113,9 @@ Curioso para saber minha opinião? Clique  no link abaixo:
 ## PARTICIONAMENTO DURANTE A INSTALAÇÃO DO DEBIAN/UBUNTU
 A instalação do Debian/Ubuntu não tem grandes mistérios — o ponto mais delicado é mesmo o **particionamento do disco**.  
 No link abaixo explico melhor essa questão, é bom que leia antes de fazer a instalação. Segue:  
-[Particionamento durante a instalação do Debian/Ubuntu](debian_part.md)
+
+[Particionamento durante a instalação do Debian/Ubuntu](docs/debian_part.md)  
+
 
 ---
 
