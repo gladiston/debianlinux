@@ -1,7 +1,3 @@
-Perfeito ✅ Aqui está o **guia completo atualizado em formato Markdown**, com a nova **nota explicando o uso dos termos “compactar” e “comprimir”** e todos os ajustes anteriores aplicados:
-
----
-
 # Otimizando imagens de VM (QCOW2) no qemu+kvm
 
 O **QCOW2** é um formato *copy-on-write* que oferece recursos como snapshots, compressão e alocação sob demanda. Com o tempo, esses recursos introduzem fragmentação interna e perda de desempenho. Máquinas Windows são especialmente afetadas, pois criam e apagam arquivos temporários e de paginação continuamente.
