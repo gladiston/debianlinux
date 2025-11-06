@@ -162,19 +162,20 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
 # Licença: MIT (Permissiva)
-# Criado em: 27/10/2025
+# Criado em: 06/11/2025
 # Ult. Atualização: 06/11/2025
 #
 # Descrição:
 #   Backup de VM QEMU/KVM com destino inteligente (label ou diretório),
-#   cópia via rsync preservando sparse, verificação qemu-img e checksum.
+#   cópia via rsync preservando sparse, verificação qemu-img e checksum MD5 opcional.
 #########################################################
 
 set -euo pipefail
 START_TS=$(date +%s)
 
-# --- CONFIGURAÇÃO ---
-TIMESTAMP_HOUR=false   # se true, adiciona "-HHh" ao nome do backup
+# --- CONFIGURAÇÕES GERAIS ---
+TIMESTAMP_HOUR=true             # se true, adiciona "-HHh" ao nome do backup
+SKIP_CHECKSUM=false             # se true, pula geração de checksum MD5
 BACKUP_ROOT_NAME="libvirt-bak"  # nome da pasta principal de destino
 
 # --- VALIDAÇÃO DE PARÂMETROS ---
@@ -308,18 +309,23 @@ if [[ "${VM_FILE}" == *.qcow2 ]]; then
   fi
 fi
 
-log "Gerando checksum..."
-sha256sum "${BACKUP_FILE}" > "${BACKUP_FILE}.sha256"
-sync
-log "Checksum salvo."
+# ===== 8. CHECKSUM (opcional) =====
+if [ "${SKIP_CHECKSUM}" = false ]; then
+  log "Gerando checksum (MD5)..."
+  md5sum "${BACKUP_FILE}" > "${BACKUP_FILE}.md5"
+  sync
+  log "Checksum salvo em: ${BACKUP_FILE}.md5"
+else
+  log "Checksum ignorado (SKIP_CHECKSUM=true)."
+fi
 
-# ===== 8. REINICIAR VM =====
+# ===== 9. REINICIAR VM =====
 if command -v virsh >/dev/null 2>&1 && [ "${WAS_RUNNING}" -eq 1 ]; then
   log "Reiniciando VM '${VM_NAME}'..."
   virsh start "${VM_NAME}" || log "Falha ao iniciar VM."
 fi
 
-# ===== 9. RESULTADO + DURAÇÃO =====
+# ===== 10. RESULTADO + DURAÇÃO =====
 ELAPSED=$(( $(date +%s) - START_TS ))
 log "================================================="
 log "=== BACKUP CONCLUÍDO COM SUCESSO ==="
@@ -377,15 +383,15 @@ Após executar o script, a organização de backups será:
 /media/backup-vm/
 ├── win2k25/
 │   ├── win2k25.qcow2.backup-20250206
-│   ├── win2k25.qcow2.backup-20250206.sha256
+│   ├── win2k25.qcow2.backup-20250206.md5sum
 │   ├── win2k25.qcow2.backup-20250207
-│   └── win2k25.qcow2.backup-20250207.sha256
+│   └── win2k25.qcow2.backup-20250207.md5sum
 ├── ubuntuserver/
 │   ├── ubuntuserver.qcow2.backup-20250206
-│   └── ubuntuserver.qcow2.backup-20250206.sha256
+│   └── ubuntuserver.qcow2.backup-20250206.md5sum
 └── debian12/
     ├── debian12.qcow2.backup-20250206
-    └── debian12.qcow2.backup-20250206.sha256
+    └── debian12.qcow2.backup-20250206.md5sum
 ```
 
 Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva**, **políticas de limpeza por VM** e **auditoria granular** de backups corporativos.
@@ -428,15 +434,15 @@ Saída esperada:
 
 ```
 -rw-r--r-- 1 root root 50G Feb  6 14:30 win2k25.qcow2.backup-20250206
--rw-r--r-- 1 root root 128 Feb  6 14:31 win2k25.qcow2.backup-20250206.sha256
+-rw-r--r-- 1 root root 128 Feb  6 14:31 win2k25.qcow2.backup-20250206.md5sum
 -rw-r--r-- 1 root root 50G Feb  7 02:00 win2k25.qcow2.backup-20250207
--rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207.sha256
+-rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207.md5sum
 ```
 
 ### Validar checksum antes de restaurar
 
 ```bash
-sha256sum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.sha256
+md5sumsum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.md5sum
 ```
 
 Saída esperada:
