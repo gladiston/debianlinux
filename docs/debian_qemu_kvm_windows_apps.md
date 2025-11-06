@@ -147,7 +147,10 @@ Uma prática recomendada é executar o PC Manager **mensalmente em estações de
 Download:  
 [https://apps.microsoft.com/detail/9pm860492szd?hl=pt-BR&gl=BR](https://apps.microsoft.com/detail/9pm860492szd?hl=pt-BR&gl=BR)
 
-Aproveite este momento para fazer uma **Limpeza profunda** usando o PC Manager.  
+Aproveite este momento para fazer uma **Limpeza profunda** usando o PC Manager:  
+![Realizando a primeira Limpeza Profunda](../img/debian_qemu_kvm_windows_pcmanager1.png)  
+
+
 
 ---
 
