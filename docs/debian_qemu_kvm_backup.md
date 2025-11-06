@@ -162,7 +162,7 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
 # Licença: MIT (Permissiva)
-# Criado em: 06/11/2025
+# Criado em: 27/10/2025
 # Ult. Atualização: 06/11/2025
 #
 # Descrição:
@@ -173,6 +173,10 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 set -euo pipefail
 START_TS=$(date +%s)
 
+# --- CONFIGURAÇÃO ---
+TIMESTAMP_HOUR=false   # se true, adiciona "-HHh" ao nome do backup
+BACKUP_ROOT_NAME="libvirt-bak"  # nome da pasta principal de destino
+
 # --- VALIDAÇÃO DE PARÂMETROS ---
 if [ $# -lt 2 ]; then
   echo "ERRO: Parâmetros insuficientes."
@@ -182,7 +186,14 @@ fi
 
 VM_PATH_RAW="${1}"
 DEST_PARAM="${2}"
-TIMESTAMP=$(date +%Y%m%d-%Hh)  # Ex.: 20251106-14h
+
+# monta timestamp conforme configuração
+if [ "${TIMESTAMP_HOUR}" = true ]; then
+  TIMESTAMP=$(date +%Y%m%d-%Hh)
+else
+  TIMESTAMP=$(date +%Y%m%d)
+fi
+
 MOUNT_POINT=""
 VM_STATE="undefined"
 WAS_RUNNING=0
@@ -252,10 +263,9 @@ else
 fi
 
 # ===== 4. ESTRUTURA DE PASTAS E PERMISSÕES =====
-BACKUP_ROOT="${DEST_DIR}/libvirt-bak"
+BACKUP_ROOT="${DEST_DIR}/${BACKUP_ROOT_NAME}"
 BACKUP_SUBDIR="${BACKUP_ROOT}/${VM_NAME}"
 mkdir -p "${BACKUP_SUBDIR}"
-# Permissão ampla conforme solicitado (aplicada no escopo de libvirt-bak)
 chmod -R 777 "${BACKUP_ROOT}"
 log "Destino final: ${BACKUP_SUBDIR}"
 
@@ -315,7 +325,7 @@ log "================================================="
 log "=== BACKUP CONCLUÍDO COM SUCESSO ==="
 log "================================================="
 log "Arquivo: ${BACKUP_FILE}"
-log "Tamanho: "$(du -h "${BACKUP_FILE}" | cut -f1)
+log "Tamanho: $(du -h "${BACKUP_FILE}" | cut -f1)"
 log "Duração total: $(fmt_dur "${ELAPSED}")"
 
 ```
@@ -326,7 +336,8 @@ O script gera um arquivo final assim:
 ```
 [destino]/libvirt-bak/win2k25/win2k25.qcow2.backup-20251106-14h
 ```
-O script usa `rsync` para fazer transferências, então se você repetir dois backups no mesmo intervalo da hora, o ultimo substituirá o anterior, mas note, a transferencia será apenas o delta em relação ao anterior e portanto, muito mais rápido, mas isso só acontece no intervalo da mesma hora, por exemplo, entre 14h00 e 14h59 haverá apenas um unico backup não importa o horario que executar.  
+O script usa `rsync` para fazer transferências, então se você repetir dois backups no mesmo dia, o ultimo substituirá o anterior, mas note que ele fará isso usando o `rsync` que fará o uso para transferir apenas o **delta** do arquivo velho para o novo.  
+Caso queira uma granularidade de hora em hora, edite a variavel **TIMESTAMP_HOUR** para **true** no script e então o backup só usará delta no ntervalo da mesma hora, ou seja, o ultimo substituirá o anterior, mas somente no intervalo da mesma hora, por exemplo, entre 14h00 e 14h59 haverá apenas um unico backup não importa o horario que executar e se executar outro às 13h00, este ultimo não substituirá o backup das 14h.  
 
 ## Uso do Script
 Tornar executável:  
@@ -365,16 +376,16 @@ Após executar o script, a organização de backups será:
 ```
 /media/backup-vm/
 ├── win2k25/
-│   ├── win2k25.qcow2.backup-20250206-14h
-│   ├── win2k25.qcow2.backup-20250206-14h.sha256
-│   ├── win2k25.qcow2.backup-20250207-02h
-│   └── win2k25.qcow2.backup-20250207-02h.sha256
+│   ├── win2k25.qcow2.backup-20250206
+│   ├── win2k25.qcow2.backup-20250206.sha256
+│   ├── win2k25.qcow2.backup-20250207
+│   └── win2k25.qcow2.backup-20250207.sha256
 ├── ubuntuserver/
-│   ├── ubuntuserver.qcow2.backup-20250206-14h
-│   └── ubuntuserver.qcow2.backup-20250206-14h.sha256
+│   ├── ubuntuserver.qcow2.backup-20250206
+│   └── ubuntuserver.qcow2.backup-20250206.sha256
 └── debian12/
-    ├── debian12.qcow2.backup-20250206-14h
-    └── debian12.qcow2.backup-20250206-14h.sha256
+    ├── debian12.qcow2.backup-20250206
+    └── debian12.qcow2.backup-20250206.sha256
 ```
 
 Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva**, **políticas de limpeza por VM** e **auditoria granular** de backups corporativos.
@@ -410,22 +421,22 @@ No exemplo acima, você deve ter certeza de que os intervalos de backup para o o
 ### Listar backups disponíveis
 
 ```bash
-ls -lh /media/backup-vm/win2k25/
+ls -lh /media/backup-vm/libvirt-bak/win2k25/
 ```
 
 Saída esperada:
 
 ```
--rw-r--r-- 1 root root 50G Feb  6 14:30 win2k25.qcow2.backup-20250206-143022
--rw-r--r-- 1 root root 128 Feb  6 14:31 win2k25.qcow2.backup-20250206-143022.sha256
--rw-r--r-- 1 root root 50G Feb  7 02:00 win2k25.qcow2.backup-20250207-020000
--rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207-020000.sha256
+-rw-r--r-- 1 root root 50G Feb  6 14:30 win2k25.qcow2.backup-20250206
+-rw-r--r-- 1 root root 128 Feb  6 14:31 win2k25.qcow2.backup-20250206.sha256
+-rw-r--r-- 1 root root 50G Feb  7 02:00 win2k25.qcow2.backup-20250207
+-rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207.sha256
 ```
 
 ### Validar checksum antes de restaurar
 
 ```bash
-sha256sum -c /media/backup-vm/win2k25/win2k25.qcow2.backup-20250206-143022.sha256
+sha256sum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.sha256
 ```
 
 Saída esperada:
@@ -441,10 +452,10 @@ win2k25.qcow2.backup-20250206-143022: OK
 virsh destroy win2k25
 
 # 2. Fazer backup da versão atual comprometida (opcional, recomendado)
-cp ~/libvirt/images/win2k25.qcow2 ~/libvirt/images/win2k25.qcow2.corrupted-$(date +%Y%m%d)
+mv ~/libvirt/images/win2k25.qcow2 ~/libvirt/images/win2k25.qcow2.corrupted-$(date +%Y%m%d)
 
 # 3. Copiar backup para origem
-cp /media/backup-vm/win2k25/win2k25.qcow2.backup-20250206-143022 ~/libvirt/images/win2k25.qcow2
+cp /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022 ~/libvirt/images/win2k25.qcow2
 
 # 4. Verificar integridade
 qemu-img check ~/libvirt/images/win2k25.qcow2
@@ -460,19 +471,19 @@ virsh start win2k25
 ### Listar backups por antigüidade
 
 ```bash
-ls -lht /media/backup-vm/win2k25/ | head -10
+ls -lht /media/backup-vm/libvirt-bak/win2k25/ | head -10
 ```
 
 ### Remover backups com mais de 30 dias
 
 ```bash
-find /media/backup-vm/win2k25/ -name "*.backup-*" -mtime +30 -delete
+find /media/backup-vm/libvirt-bak/win2k25/ -name "*.backup-*" -mtime +30 -delete
 ```
 
 ### Calcular espaço utilizado por VM
 
 ```bash
-du -sh /media/backup-vm/*/
+du -sh /media/backup-vm/libvirt-bak/*/
 ```
 
 ---
@@ -485,7 +496,7 @@ du -sh /media/backup-vm/*/
 #!/bin/bash
 
 # Verificar integridade de todos os backups
-for backup in /media/backup-vm/*/*.qcow2.backup-*; do
+for backup in /media/backup-vm/libvirt-bak/*/*.qcow2.backup-*; do
     [ -f "${backup}" ] || continue
     
     echo "Verificando: ${backup}"
