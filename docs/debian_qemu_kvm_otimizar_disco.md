@@ -68,25 +68,18 @@ Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, n
 ```xml
 <disk type="file" device="disk">
   <driver name="qemu" type="qcow2" cache="none" discard="unmap"/>
-  <source file="/home/gsantana/libvirt/images/win2k25-dx.qcow2" index="3"/>
-  <backingStore/>
-  <target dev="vda" bus="virtio"/>
-  <alias name="virtio-disk0"/>
-  <address type="pci" domain="0x0000" bus="0x04" slot="0x00" function="0x0"/>
-</disk>
-```
-Faça o ajuste para ficar assim:
-```xml
-<disk type='file' device='disk'>
   (...)
-  <driver name='qemu' type='qcow2' cache='none' discard="unmap"  io='native' detect_zeroes='unmap'/>
-  (...) 
 </disk>
 ```
-3. **Salve** as alterações.
-4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot.
+Onde vocÊ vê:  
+> <driver name="qemu" type="qcow2" cache="none" discard="unmap"/>
 
----
+Sugere-se acrescentar também `io='native' detect_zeroes='unmap'`, ficando assim:  
+> <driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io='native' detect_zeroes='unmap'**/>
+
+3. **Salve** as alterações.
+4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot, caso elas não não funcionem, reverta as alterações. Essas alterações são especificas para disco usando api "VirtIO" e possivelmente você não as utilizou quando criou sua VM.   
+
 
 ## Pré-requisitos e cuidados
 
