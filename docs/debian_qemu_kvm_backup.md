@@ -324,7 +324,3 @@ virsh start win2k25
 ```bash
 sha256sum -c /media/backup-vm/win2k25.qcow2.backup-*.sha256
 ```
-
----
-
-Este guia cobre desde conceitos até automação completa, alinhado com suas práticas de infraestrutura. O script integra validações, logging corporativo e tratamento de erros apropriados para produção.
