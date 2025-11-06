@@ -188,3 +188,12 @@ Não se trata mais de criar VMs, as informações que obteve até aqui cobriram 
 | Ajuste de resolução | QXL + spice-vdagent |
 | Copiar/colar arquivos | spice-webdavd |
 | Canal de comunicação | virt-manager → Canal SPICE agent |
+
+
+
+---
+
+[Retornar à página de Virtualização nativa com QAEMU+KVM](debian_qemu_kvm.md)   
+
+
+
