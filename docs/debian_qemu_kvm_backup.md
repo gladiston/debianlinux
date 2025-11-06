@@ -1,10 +1,6 @@
-Vou regenerar a seção completa com o script atualizado:
+# Backup de Máquinas Virtuais em QEMU+KVM
 
----
-
-## Backup de Máquinas Virtuais em QEMU+KVM
-
-### O que é Backup de VM
+## O que é Backup de VM
 
 **Backup de máquina virtual** é a replicação sistemática dos arquivos de disco (imagens QCOW2, RAW, VDI, etc.) e metadados de configuração (arquivos XML do libvirt) para um local independente, garantindo recuperação em caso de corrupção, falha de hardware, exclusão acidental ou desastre. Diferencia-se de snapshots, que são pontos de restauração locais; backups são cópias isoladas em mídia ou storage separado.
 
@@ -12,7 +8,7 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
 
 ---
 
-### Por Que Fazer Backup de VMs
+## Por Que Fazer Backup de VMs
 
 1. **Proteção contra falhas de hardware**
    
@@ -46,9 +42,9 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
 
 ---
 
-### Como Fazer Backup: Estratégias
+## Como Fazer Backup: Estratégias
 
-#### 1. Backup a Frio (Máquina Desligada)
+### 1. Backup a Frio (Máquina Desligada)
 
 1.1 **Vantagens**
    
@@ -72,7 +68,7 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
    
    c) Máquinas que podem ficar offline
 
-#### 2. Backup a Quente (Máquina Ligada)
+### 2. Backup a Quente (Máquina Ligada)
 
 2.1 **Vantagens**
    
@@ -96,7 +92,7 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
    
    c) Ambientes com SLA crítico
 
-#### 3. Backup Incremental
+### 3. Backup Incremental
 
 3.1 **Conceito**
    
@@ -114,9 +110,9 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
 
 ---
 
-### Implementação Prática: Backup a Frio com Cópia Direta
+## Implementação Prática: Backup a Frio com Cópia Direta
 
-#### Passo 1: Desligar a Máquina Virtual
+### Passo 1: Desligar a Máquina Virtual
 
 ```bash
 virsh shutdown win2k25
@@ -124,7 +120,7 @@ virsh shutdown win2k25
 
 Aguarde a máquina desligar completamente (verificar com `virsh list --all`).
 
-#### Passo 2: Copiar a Imagem QCOW2 para o Destino
+### Passo 2: Copiar a Imagem QCOW2 para o Destino
 
 ```bash
 cp ~/libvirt/images/win2k25.qcow2 /media/backup-vm/win2k25.qcow2.backup-$(date +%Y%m%d-%H%M%S)
@@ -135,7 +131,7 @@ cp ~/libvirt/images/win2k25.qcow2 /media/backup-vm/win2k25.qcow2.backup-$(date +
 - Exemplo de nome gerado: `win2k25.qcow2.backup-20250206-143022`
 - Timestamp evita sobrescrita de backups anteriores
 
-#### Passo 3: Verificar Integridade do Backup
+### Passo 3: Verificar Integridade do Backup
 
 ```bash
 qemu-img info /media/backup-vm/win2k25.qcow2.backup-*
@@ -143,7 +139,7 @@ qemu-img info /media/backup-vm/win2k25.qcow2.backup-*
 
 Saída esperada mostra tamanho virtual, tamanho real em disco (formato QCOW2) e checksum.
 
-#### Passo 4: Reiniciar a Máquina Virtual
+### Passo 4: Reiniciar a Máquina Virtual
 
 ```bash
 virsh start win2k25
@@ -151,7 +147,7 @@ virsh start win2k25
 
 ---
 
-### Backup Automatizado com Script e Montagem de Disco
+## Backup Automatizado com Script e Montagem de Disco
 
 O script abaixo automatiza backup a frio, montando o disco identificado pelo label `backup-vms`, executando a cópia em subpasta dedicada por VM, e desmontando:
 
@@ -308,7 +304,7 @@ log "VM iniciada"
 
 ---
 
-### Uso do Script
+## Uso do Script
 
 ```bash
 # Tornar executável
@@ -326,7 +322,7 @@ tail -f /var/log/backup-vm-win2k25-*.log
 
 ---
 
-### Estrutura de Diretórios Resultante
+## Estrutura de Diretórios Resultante
 
 Após executar o script, a organização de backups será:
 
@@ -349,7 +345,7 @@ Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva*
 
 ---
 
-### Agendamento com Cron
+## Agendamento com Cron
 
 Para backup automático diário às 2h da manhã:
 
@@ -371,9 +367,9 @@ Para múltiplas VMs em sequência:
 
 ---
 
-### Verificação e Restauração de Backup
+## Verificação e Restauração de Backup
 
-#### Listar backups disponíveis
+### Listar backups disponíveis
 
 ```bash
 ls -lh /media/backup-vm/win2k25/
@@ -388,7 +384,7 @@ Saída esperada:
 -rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207-020000.sha256
 ```
 
-#### Validar checksum antes de restaurar
+### Validar checksum antes de restaurar
 
 ```bash
 sha256sum -c /media/backup-vm/win2k25/win2k25.qcow2.backup-20250206-143022.sha256
@@ -400,7 +396,7 @@ Saída esperada:
 win2k25.qcow2.backup-20250206-143022: OK
 ```
 
-#### Restaurar a partir de backup
+### Restaurar a partir de backup
 
 ```bash
 # 1. Parar a VM em produção
@@ -421,21 +417,21 @@ virsh start win2k25
 
 ---
 
-### Manutenção e Limpeza de Backups Antigos
+## Manutenção e Limpeza de Backups Antigos
 
-#### Listar backups por antigüidade
+### Listar backups por antigüidade
 
 ```bash
 ls -lht /media/backup-vm/win2k25/ | head -10
 ```
 
-#### Remover backups com mais de 30 dias
+### Remover backups com mais de 30 dias
 
 ```bash
 find /media/backup-vm/win2k25/ -name "*.backup-*" -mtime +30 -delete
 ```
 
-#### Calcular espaço utilizado por VM
+### Calcular espaço utilizado por VM
 
 ```bash
 du -sh /media/backup-vm/*/
@@ -443,9 +439,9 @@ du -sh /media/backup-vm/*/
 
 ---
 
-### Monitoramento e Alertas
+## Monitoramento e Alertas
 
-#### Script de verificação de saúde de backups
+### Script de verificação de saúde de backups
 
 ```bash
 #!/bin/bash
