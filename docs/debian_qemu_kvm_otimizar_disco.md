@@ -49,22 +49,15 @@ Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, n
 
 1. **Abra o virt-manager** e selecione a VM desejada.
 2. Clique no ícone **⚙️ “i” (Mostrar detalhes da máquina virtual)**.
-3. No painel esquerdo, clique em **VirtIO Disk (vda)** — ou o nome do disco principal.
-4. Expanda **Advanced options** (Opções avançadas).
-5. Configure:
-
-   * **Cache mode:** `none`
+3. No painel esquerdo, clique em **Disco VirtIO 1(VirtIO Disk)** — ou o nome do disco principal.
+4. Na aba Detalhes, expanda **Opções avançadas** (Advanced options).
+5. Ele mostrará:
+   * **Modo do cachê(Cache mode):** `none`
+   * **Modo de descarte(Discard):** `unmap`
+   Mas em algumas distros - e Debian incluso - não mostrará essas opções:  
    * **IO mode:** `native`
-   * **Discard:** `unmap`
    * **Detect zeroes:** `unmap` *(ou `on`, se `unmap` não estiver disponível)*
-6. Clique em **Aplicar** e **OK**.
-
-> Se sua interface do virt-manager não mostrar as opções *Discard* ou *Detect zeroes*, use a edição em XML conforme abaixo.
-
-### 🧩 Editando o XML manualmente
-
-1. Ainda na tela de **Detalhes da VM**, clique em **Overview** → **XML** (alternador no canto inferior).
-2. Localize o bloco `<disk …>` e provavelmente estará assim:
+Então você precisa adicioná-las manualmente, vá na aba **XML**, e localize o bloco `<disk …>` e provavelmente estará assim:
 ```xml
 <disk type="file" device="disk">
   <driver name="qemu" type="qcow2" cache="none" discard="unmap"/>
@@ -77,8 +70,8 @@ Onde vê:
 Sugere-se acrescentar também `io='native' detect_zeroes='unmap'`, ficando assim:  
 > <driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io='native' detect_zeroes='unmap'**/>
 
-3. Clique em **Aplicar** para salvar as alterações. É possivel que ao salvar, o editor visual mude a ordem dos parametros, ele realmente faz isso.  
-4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot, caso elas não não funcionem, reverta as alterações. Essas alterações são especificas para disco usando api "VirtIO" e possivelmente você não as utilizou quando criou sua VM.   
+6. Clique em **Aplicar** para salvar as alterações. É possivel que ao salvar, o editor visual mude a ordem dos parametros, ele realmente faz isso.  
+7. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot, caso elas não não funcionem, reverta as alterações. Essas alterações são especificas para disco usando api "VirtIO" e possivelmente você não as utilizou quando criou sua VM.   
 
 
 ## Pré-requisitos e cuidados
@@ -149,45 +142,12 @@ sudo virt-sparsify --in-place win2k25.qcow2
 > Essa é a melhor opção para mim, ela não diminui o arquivo, mas fez a optimização de `Trimming` que é suficiente para a performance do Windows.  
 
 ### Opção B — Criar cópia **compactada**
-
+Tem como usar `virt-sparsify` para compactar uma imagem, é assim:  
 ```bash
 cd ~/libvirt/images/
 sudo virt-sparsify --compress win2k25.qcow2 win2k25-optimized.qcow2
 ```
-virt-sparsify: aviso: Pode não haver espaço livre suficiente em /tmp.
-Você talvez precise definir a variável TMPDIR para apontar para um diretório com mais espaço disponível.
-
-Máximo necessário: 200,0 GB. Livre: 15,4 GB. Pode ser necessário mais 184,6 GB.
-
-Observe que isso é uma superestimativa. Se o disco do sistema convidado estiver cheio de dados, provavelmente não será necessário tanto espaço livre.
-
-Você pode ignorar este aviso ou transformá-lo em uma falha obrigatória usando a opção:
---check-tmpdir=(ignore|continue|warn|fail)
-Consulte o manual virt-sparsify(1) para mais detalhes.
-```
-Neste caso, ele está mostrando que irá recriar o disco e que precisará de 200GB! E se você não tiver isso em `/tmp` então não conseguirá completar o processo. Ele irá mostrar uma barra de progresso e uma estimativa de tempo. Essa opção **"B"** é praticamente inviável para mim por causa do tempo, o virt-sparsify é tão esperto em otimizar e conhecer o sistema de arquivos que faz muitas operações demoradas e com isso demora bastante. Com ele,agendá-lo em dias/horários que você não precise usar o máquinas virtuais, quicá o comuputador.  Mas compensa na redução de tamanho, compare:
-```bash
-ls -lh *.qcow2
-```
-
-Exemplo:
-
-```
--rw-r--r-- 1 root kvm 16G nov  5 14:52 win2k25-optimized.qcow2
--rw------- 1 root kvm 28G nov  5 14:38 win2k25.qcow2
-```
-
-Substitua a imagem original com segurança (swap atômico):
-
-```bash
-mv win2k25.qcow2 win2k25.qcow2.bak
-mv win2k25-optimized.qcow2 win2k25.qcow2
-```
-
-Depois de validar o boot, remova o `.bak`.
-
-### Opção C — Criar cópia **compactada** usando o 'qemu-img'
-O utilitário `qemu-img` é algo mais burro que o `virt-sparsify` copiando os dados de um disco velho para o novo e com isso ignora dados vazios e fará a mesma coisa coisa que a opção "B", porém em 6 minutos, veja como funciona: 
+Mas eu não gosto de usá-la porque demora muito tempo e tem restrições de espaço que se não forem compreendidas, o comando nunca termina, então para compactar vamos ao jeito mais burro que existe que será usando o utilitário `qwmu-img`, eu uso a palavra `burro` porque se trata de reconstituir um arquivo novo a partir do velho removendo a desfragmentação. Contudo, é muito mais rápido do que usando o `virt-sparsify` para a mesma tarefa, vamos então usar o `qwmu-img` para compactar nossa imagem, execute:    
 ```bash
 cd ~/libvirt/images/
 qemu-img convert -p \
@@ -196,12 +156,12 @@ qemu-img convert -p \
   -o compat=1.1,cluster_size=1M,lazy_refcounts=on,preallocation=metadata \
   win2k25.qcow2 win2k25-optimized.qcow2
 ```
-Ele vai gerar uma novo arquivo `win2k25-optimized.qcow2` otimizado e compactado. Daí repetimos o swap atômico:  
+Ele vai gerar uma novo arquivo `win2k25-optimized.qcow2` otimizado e compactado. Daí executamos um *swap atômico*, um termo que significa trocar o arquivo, mas caso falhe depois ainda podemos retornar o original:  
 ```bash
 mv win2k25.qcow2 win2k25.qcow2.bak
 mv win2k25-optimized.qcow2 win2k25.qcow2
 ```
-E novamente, depois de validar o boot, remova o `.bak`.
+E novamente, depois de validar o boot, remova o `.bak`, mas se falhar renomeie o `.bak` para o nome do arquivo original.
   
 ---
 
