@@ -68,7 +68,7 @@ Depois de sua instalação é recomendado reiniciar sua sessão do Windows.
 Download:  
 [http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html](http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html)   
 
-Serão dois downloads, o runtime[vc_redist.x64.exe](https://aka.ms/vs/15/release/vc_redist.x64.exe) e o programa principal.  
+Serão dois downloads, o runtime [vc_redist.x64.exe](https://aka.ms/vs/15/release/vc_redist.x64.exe) e o programa principal.  
 Ao instalar o programa principal, escolha o idioma em português logo no inicio de sua instalação.  
 
 
