@@ -160,6 +160,29 @@ Vá para a opção **Disco SATA 1**, e provavelmente o barramento estará config
    
 ![Disco SATA 1](../img/debian_qemu_kvm_windows15.png)   
 
+Clique em **Aplicar**.  
+
+Tem uma opção muito performática para o mundo Windows que é acrescentar:
+* **io** com o valor **native**  
+* **Detect zeroes** com o valor **unmap**  
+
+Porém o virt-manager visualmente não traz essa opção, por isso, precisaremos adicioná-las manualmente, vá na aba **XML**, e localize o bloco `<disk …>` e provavelmente estará assim:
+```xml
+<disk type="file" device="disk">
+  <driver name="qemu" type="qcow2" cache="none" discard="unmap"/>
+  (...)
+</disk>
+```
+Onde vê:  
+> \<driver name="qemu" type="qcow2" cache="none" discard="unmap"/\>  
+
+Você precisará então acrescentar as opções que listamos:  
+> <driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io="native" detect_zeroes="unmap"**/>
+
+Tome muito cuidado a sintaxe, aspas simples no lugar de aspas duplas ou a falta delas ou qualquer outro erro de sintaxe fará com que a VM não inicie.  
+
+6. Clique em **Aplicar** para salvar as alterações. É possivel que ao salvar, o editor visual mude a ordem dos parametros, ele realmente faz isso e não precisa se preocupar.
+
 #### Tela 5 de 5 - DISCO SATA 2 - CDROM ADICIONAL
 Mudar o barramento para **VirtIO** fará com que o instalador do Windows não reconheça nosso disco, por isso, durante o processo de instalação onde temos o .iso do Windows no CDROM precisaremos adicionar drivers adicionais, mas isso não será possivel porque precisariamos ejetar o cdrom com o Windows e incluir o .iso dos drivers de convidado e isso quebraria o processo de instalação, então o que precisamos fazer agora é adicionar mais um CDROM a nossa maquina virtual, onde o primeiro CDROM estará com o iso do Windows e a segunda unidade com o .iso dos drivers de convidado. Vá em **Adicionar hardware**, e mude o **Tipo de dispositivo** para **Dispositivo CDROM** e então clique em **Gerenciar...** e escolha **virtio-win.iso** que baixamos em etapas anteriores. Depois clique em **Concluir**:   
 
