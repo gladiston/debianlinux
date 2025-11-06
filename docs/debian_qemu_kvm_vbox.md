@@ -213,14 +213,12 @@ A cada programa removido, provavelmente precisará reiniciar.
 Desligue a VM.
 Com o nosso boot de Windows bem sucedido, vá nas **Configurações da VM>Opções de inicialização** e volte a desabilitar a opção **Habilitar menu de inicialização** porque não precisamos mais dela.  Também desmarque a opção de boot pelo CROM, não precisaremos mais disso. Essas opções quando ligadas tornam o nosso processo de boot mais lento do que deveria. 
 
-Depois vá nas configurações de nossa **VM>CDROM SATA1**, e inclua a iso `virtio-win.iso`.  
-
-
 ---
 
 ## Instalando as ferramentas para convidado
-
-Após o boot do Windows ter iniciado, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
+Desligue a VM.
+Depois vá nas configurações de nossa **VM>CDROM SATA1**, e inclua a iso `virtio-win.iso`. 
+Inicie a VM e após o boot do Windows ter iniciado, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
 Depois desligue essa VM.
 
 ## Aprimoramentos
