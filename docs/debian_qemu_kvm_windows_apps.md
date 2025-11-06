@@ -55,6 +55,7 @@ Vale instalar apesar de ser **inferior ao VS Code em praticamente todos os aspec
 Download:  
 [https://notepad-plus-plus.org/downloads/](https://notepad-plus-plus.org/downloads/)   
 
+Ao instalar o programa, escolha o idioma em português logo no inicio de sua instalação.  
 Depois de instalá-lo, vá em tipos conhecidos de arquivos como .txt e .ini e em suas propriedades escolha "abrir com" e indique o notepad++.   
 
 
@@ -67,8 +68,8 @@ Depois de sua instalação é recomendado reiniciar sua sessão do Windows.
 Download:  
 [http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html](http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html)   
 
-Serão dois downloads, o runtime msvc e o programa principal.  
-Ao instalar o programa principal, escolha o idioma em português logo no inicio.  
+Serão dois downloads, o runtime[vc_redist.x64.exe](https://aka.ms/vs/15/release/vc_redist.x64.exe) e o programa principal.  
+Ao instalar o programa principal, escolha o idioma em português logo no inicio de sua instalação.  
 
 
 ## VLC Media Player
