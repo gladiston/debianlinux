@@ -19,16 +19,12 @@ Assim, para migrar uma VM do VirtualBox para o QEMU/KVM, basta converter o disco
 
 No VirtualBox, os discos das VMs geralmente ficam armazenados em:
 ```
-
 ~/VirtualBox VMs/<nome-da-vm>/<nome>.vdi
-
 ```
 
 Exemplo:
 ```
-
 ~/VirtualBox VMs/win11-dx11/win11-dx11.vdi
-
 ````
 
 Confirme o nome do arquivo `.vdi` e **encerre a VM** antes de prosseguir.
@@ -50,6 +46,7 @@ Agora, execute a conversão:
 qemu-img convert -p -O qcow2 -o compat=1.1,cluster_size=1M,lazy_refcounts=on \
   ~/VirtualBox\ VMs/win11-dx11/win11-dx11.vdi ~/libvirt/images/win11-dx11.qcow2
 ```
+Essa conversão gerará um arquivo de mesmo tamanho que o original, porém no formato qcow2.  
 
 ### Explicando os parâmetros:
 
@@ -69,35 +66,60 @@ Após o processo, você terá um arquivo QCOW2 pronto para uso no KVM.
 
 ## 🔍 Etapa 3 — Validar a Conversão
 
-Execute:
+Para verificar integridade, execute:
 
+```bash
+sudo qemu-img check -r all ~/libvirt/images/win11-dx11.qcow2
+```
+Saída esperada:
+```
+No errors were found on the image.
+82174/122880 = 66.87% allocated, 0.00% fragmented, 0.00% compressed clusters
+Image end offset: 86170927104
+```
+
+
+Uma vez validado, ou seja **No errors were found on the image.** então podemos obter as informações do disco:  
 ```bash
 qemu-img info ~/libvirt/images/win11-dx11.qcow2
 ```
-
 Saída esperada:
-
 ```
+image: win11-dx11.qcow2
 file format: qcow2
-virtual size: 64G (68719476736 bytes)
-disk size: 28G
+virtual size: 120 GiB (128849018880 bytes)
+disk size: 80.3 GiB
 cluster_size: 1048576
-lazy refcounts: true
-compat: 1.1
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: true
+    refcount bits: 16
+    corrupt: false
+    extended l2: false
+Child node '/file':
+    filename: win11-dx11.qcow2
+    protocol type: file
+    file length: 80.3 GiB (86170927104 bytes)
+    disk size: 80.3 GiB
 ```
+Isso indica que podemos prosseguir.  
 
 ---
 
-## 🧹 (Opcional) Etapa 4 — Compactar o Arquivo QCOW2
+## 🧹 Etapa 4 — Compactar o Arquivo QCOW2
 
 Para reduzir o tamanho do disco, eliminando blocos vazios, use:
 
 ```bash
-virt-sparsify --check-tmpdir=warn \
-  ~/libvirt/images/win11-dx11.qcow2 ~/libvirt/images/win11-dx11-compact.qcow2
+$ sudo virt-sparsify --in-place ~/libvirt/images/win2k25.qcow2
+[   2.6] Trimming /dev/sda1
+[   2.7] Trimming /dev/sda2
+[   4.0] Trimming /dev/sda3
+[   4.1] Sparsify in-place operation completed with no errors
 ```
+O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os espaços vazios para o final do arquivo enquanto mantém seu tamanho original. Durante este processo, operações de trimming sinalizam ao formato QCOW2 quais blocos estão realmente vazios, permitindo que o Windows reconheça este espaço como efetivamente disponível para novas alocações de arquivo. Isso otimiza significativamente a performance da VM porque, com os espaços vazios consolidados e sinalizados, o SO convidado pode alocar novos arquivos sem que o QEMU precise realizar custosas operações de growing — o processo onde a imagem QCOW2 precisa ser expandida para armazenar mais dados, consumindo recursos e aumentando latência. Embora o arquivo permaneça no mesmo tamanho, essa otimização de trimming é suficiente para melhorar a performance do Windows, eliminando o overhead desnecessário de expansão de imagem e tornando as operações de I/O mais previsíveis e eficientes.  
 
-O arquivo `*-compact.qcow2` resultante pode substituir o original se desejar.
 
 ---
 
@@ -114,30 +136,7 @@ O arquivo `*-compact.qcow2` resultante pode substituir o original se desejar.
    ~/libvirt/images/win11-dx11.qcow2
    ```
 5. Defina o sistema operacional convidado (ex: *Windows 11*).
-6. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
-7. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
-8. Finalize a criação da VM.
-
----
-
-### Método 2: via linha de comando (`virt-install`)
-
-Se preferir linha de comando, use:
-
-```bash
-virt-install \
-  --name win11-dx11 \
-  --memory 8192 \
-  --vcpus 4 \
-  --os-variant win11 \
-  --disk path=~/libvirt/images/win11-dx11.qcow2,format=qcow2,bus=virtio \
-  --network network=default,model=virtio \
-  --graphics spice \
-  --boot uefi
-```
-
-> 💡 O parâmetro `--boot uefi` é importante para sistemas modernos (Windows 10/11).
-> Certifique-se de que o pacote `OVMF` esteja instalado (`sudo apt install ovmf -y`).
+E prossiga normalmente.
 
 ---
 
@@ -145,11 +144,21 @@ virt-install \
 
 Após criar a VM:
 
-* Inicie-a pelo Virt-Manager.
-* Se for Windows, instale os **drivers VirtIO** (armazenamento, rede e vídeo).
-* Verifique se o disco e rede estão funcionando normalmente.
+* Inicie-a pelo Virt-Manager.  
+* Se for Windows, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
+* Verifique se o disco e rede estão funcionando normalmente.  
 
 ---
+
+## 🚀 Etapa 7 — Aprimoramentos
+
+Após o boot do Windows ter iniciado, instale as ferramentas para convidado.  
+
+Você terá então todos os drivers qemu/kvm que necessita, e então desligue a VM e se desejar melhorar a performance faça as seguintes modificações nesta VM:
+1. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
+2. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
+
+Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows.md).  
 
 ## 🧩 Conclusão
 
