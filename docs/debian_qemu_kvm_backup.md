@@ -318,12 +318,15 @@ log "Arquivo: ${BACKUP_FILE}"
 log "Tamanho: "$(du -h "${BACKUP_FILE}" | cut -f1)
 log "Duração total: $(fmt_dur "${ELAPSED}")"
 
-
 ```
 
 Em servidores, voce provavelmente precisará de um esquema de script diferente, discos externos por dia da semana, backup incremental/diferencial, teste de checksum o qual não é nosso proposito aqui em demonstrar. Nosso uso tá voltado para virtualizar em desktop e por isso, o script acima é suficiente.   
 
----
+O script gera um arquivo final assim:
+```
+[destino]/libvirt-bak/win2k25/win2k25.qcow2.backup-20251106-14h
+```
+O script usa `rsync` para fazer transferências, então se você repetir dois backups no mesmo intervalo da hora, o ultimo substituirá o anterior, mas note, a transferencia será apenas o delta em relação ao anterior e portanto, muito mais rápido, mas isso só acontece no intervalo da mesma hora, por exemplo, entre 14h00 e 14h59 haverá apenas um unico backup não importa o horario que executar.  
 
 ## Uso do Script
 Tornar executável:  
