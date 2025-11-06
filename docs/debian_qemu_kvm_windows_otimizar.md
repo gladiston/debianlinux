@@ -22,6 +22,7 @@ Você esta usando uma VM e por isso, você não tem compromisso de economia de e
 No Windows vá em **Configurações**, procure por **Energia**, e desative qualquer medida ou tentativa para economizar energia:  
 ![Remova a economia de energia](../img/debian_qemu_kvm_windows54.png)    
 
+Em outras palavras, você quer um Windows com **Alto desenpenho**.  
 
 ## Otimizando o Windows - Programas dispensáveis
 Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
