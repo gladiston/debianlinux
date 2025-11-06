@@ -174,7 +174,7 @@ set -euo pipefail
 START_TS=$(date +%s)
 
 # --- CONFIGURAÇÕES GERAIS ---
-TIMESTAMP_HOUR=true             # se true, adiciona "-HHh" ao nome do backup
+TIMESTAMP_HOUR=false            # se true, adiciona "-HHh" ao nome do backup
 SKIP_CHECKSUM=false             # se true, pula geração de checksum MD5
 BACKUP_ROOT_NAME="libvirt-bak"  # nome da pasta principal de destino
 
