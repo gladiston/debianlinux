@@ -136,7 +136,7 @@ O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os
    ~/libvirt/images/win11-dx11.qcow2
    ```
 5. Defina o sistema operacional convidado (ex: *Windows 11*).
-E prossiga normalmente.
+E prossiga normalmente como faria numa instalação do [Windows](debian_qemu_kvm_windows.md), no entanto, mantenha **Dispositivo de disco** e **Interface de rede** com seus valores padrão. Não é o momento para especificar drivers do **VirtIO** ainda.
 
 ---
 
@@ -158,7 +158,7 @@ Você terá então todos os drivers qemu/kvm que necessita, e então desligue a 
 1. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
 2. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
 
-Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows.md).  
+Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows.md)).  
 
 ## 🧩 Conclusão
 
