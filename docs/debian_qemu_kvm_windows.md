@@ -193,7 +193,7 @@ Não se trata mais de criar VMs, as informações que obteve até aqui cobriram 
 
 ---
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM](debian_qemu_kvm.md)   
+[Retornar à página de Virtualização nativa com QEMU+KVM](debian_qemu_kvm.md)   
 
 
 
