@@ -309,16 +309,29 @@ Em servidores, voce provavelmente precisará de um esquema de script diferente, 
 ---
 
 ## Uso do Script
-
+Tornar executável:  
 ```bash
-# Tornar executável
 chmod +x backup-vm.sh
-
-# Executar backup (sintaxe: ./backup-vm.sh <nome-vm> [label-disco])
+```
+Executar backup (sintaxe: ./backup-vm.sh <nome-vm> [label-disco])  
+```bash
 ./backup-vm.sh win2k25 backup-vms
-
-# Com parâmetros opcionais
-./backup-vm.sh win2k25 backup-vms
+```
+Mas dá para usar outros discos também, veja:
+```bash
+$ lsblk -f
+NAME        FSTYPE FSVER LABEL   UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
+sda                                                                                  
+└─sda1      ext4   1.0   #hist   943b591a-35de-4079-8b65-4bd81b1e32ed    1,5T    13% /media/hist
+sdb                                                                                  
+└─sdb1      ext4   1.0   #dados2 b2154643-7b94-42a1-8146-267bb88ba833  565,4G    33% /home/gsantana/work/WinSrv
+                                                                                     /mnt/dados2
+(...)
+```
+Agora vamos fazer o backup para o disco com o label **#hist**, executando:
+```bash
+./backup-vm.sh win2k25 "#hist"
+```
 
 # Consultar log
 tail -f /var/log/backup-vm-win2k25-*.log
