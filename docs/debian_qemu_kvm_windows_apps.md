@@ -30,7 +30,7 @@ Vale instalar por garantir **compatibilidade total com PDFs proprietários**, es
 Download:  
 [http://get.adobe.com/br/reader/enterprise/](http://get.adobe.com/br/reader/enterprise/)  
 
-O link acima é para baixar a versão offline, não tente usar o websetup porque instalará junto um antivirus que recuso-me a falar o nome.  
+**ALERTA**:  O link acima é para baixar a versão offline, não tente usar o websetup porque instalará junto um antivirus que recuso-me a falar o nome.  
 
 
 ## Visual Studio Code
@@ -43,7 +43,7 @@ Durante a instalação, não esqueça de marcar as opções:
 Download:  
 [https://code.visualstudio.com/](https://code.visualstudio.com/)    
 
-Muito cuidado com o download, a maioria das pessoas vai institivamente na primeira opção que é **User Installer** que se autoinstala no perfil do usuário, no entanto, é melhor baixar a versão **System Installer** que beneficia todos os perfís existentes:  
+**ALERTA**:  Muito cuidado com o download, a maioria das pessoas vai institivamente na primeira opção que é **User Installer** que se autoinstala no perfil do usuário, no entanto, é melhor baixar a versão **System Installer** que beneficia todos os perfís existentes:  
 ![Instale o VSCode System Installer](../img/debian_qemu_kvm_windows_vscode1.png)   
 
 
@@ -77,7 +77,9 @@ Ao instalar o programa principal, escolha o idioma em português logo no inicio 
 Vale instalar por ser **multiplataforma** (Windows, Linux, macOS), leve, sem publicidade intrusiva e praticamente **compatível com qualquer formato multimídia**—eliminando a necessidade de múltiplos players especializados. Oferece funcionalidades avançadas como streaming de rede, captura de tela, conversão de formatos e suporte a legendas, tornando-o essencial em ambientes onde flexibilidade e compatibilidade de mídia são requisitos operacionais.  
 
 Download:  
-[https://www.videolan.org/vlc/](https://www.videolan.org/vlc/)  
+[https://www.videolan.org/vlc/](https://www.videolan.org/vlc/)   
+
+Ao instalar o programa, escolha o idioma em português logo no inicio de sua instalação.  
 
 ## RAMMap
 **RAMMap** é uma ferramenta de diagnóstico desenvolvida pela Microsoft (Sysinternals) que oferece **visualização detalhada e em tempo real da alocação de memória RAM** no Windows. Mapeia como a memória física é distribuída entre processos, cache, kernel e outros componentes do sistema operacional.  
