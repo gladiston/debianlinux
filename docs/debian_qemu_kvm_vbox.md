@@ -107,22 +107,6 @@ Isso indica que podemos prosseguir.
 
 ---
 
-## Compactar o Arquivo QCOW2
-
-Para reduzir o tamanho do disco, eliminando blocos vazios, use:
-
-```bash
-$ sudo virt-sparsify --in-place ~/libvirt/images/win2k25.qcow2
-[   2.6] Trimming /dev/sda1
-[   2.7] Trimming /dev/sda2
-[   4.0] Trimming /dev/sda3
-[   4.1] Sparsify in-place operation completed with no errors
-```
-O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os espaços vazios para o final do arquivo enquanto mantém seu tamanho original. Durante este processo, operações de trimming sinalizam ao formato QCOW2 quais blocos estão realmente vazios, permitindo que o Windows reconheça este espaço como efetivamente disponível para novas alocações de arquivo. Isso otimiza significativamente a performance da VM porque, com os espaços vazios consolidados e sinalizados, o SO convidado pode alocar novos arquivos sem que o QEMU precise realizar custosas operações de growing — o processo onde a imagem QCOW2 precisa ser expandida para armazenar mais dados, consumindo recursos e aumentando latência. Embora o arquivo permaneça no mesmo tamanho, essa otimização de trimming é suficiente para melhorar a performance do Windows, eliminando o overhead desnecessário de expansão de imagem e tornando as operações de I/O mais previsíveis e eficientes.  
-
-
----
-
 ## Criar a VM no QEMU/KVM
 
 ### Método 1: via Virt-Manager (interface gráfica)
@@ -244,13 +228,36 @@ Agora que você tem todos os drivers qemu/kvm necessários, desejar melhorar a p
 1. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
 2. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
 
-Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows.md)).  
+Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows_inst.md).  
 Depois inicie a VM.  
 Se não funcionar, reverta as alterações.
 
+## Suporte ao VirtoFS
+Você precisa do suporte ao VirtioFS, siga as instruções [aqui](debian_qemu_kvm_windows_virtiofs.md).  
+
+
+## Programas Básicos
+Instale os [programas básicos](debian_qemu_kvm_windows_apps.md).  
+
+## Compactar o Arquivo QCOW2
+Desligue a VM.  
+Para reduzir o tamanho do disco, eliminando blocos vazios, use:
+
+```bash
+$ sudo virt-sparsify --in-place ~/libvirt/images/win2k25.qcow2
+[   2.6] Trimming /dev/sda1
+[   2.7] Trimming /dev/sda2
+[   4.0] Trimming /dev/sda3
+[   4.1] Sparsify in-place operation completed with no errors
+```
+O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os espaços vazios para o final do arquivo enquanto mantém seu tamanho original. Durante este processo, operações de trimming sinalizam ao formato QCOW2 quais blocos estão realmente vazios, permitindo que o Windows reconheça este espaço como efetivamente disponível para novas alocações de arquivo. Isso otimiza significativamente a performance da VM porque, com os espaços vazios consolidados e sinalizados, o SO convidado pode alocar novos arquivos sem que o QEMU precise realizar custosas operações de growing — o processo onde a imagem QCOW2 precisa ser expandida para armazenar mais dados, consumindo recursos e aumentando latência. Embora o arquivo permaneça no mesmo tamanho, essa otimização de trimming é suficiente para melhorar a performance do Windows, eliminando o overhead desnecessário de expansão de imagem e tornando as operações de I/O mais previsíveis e eficientes.  
+
+
+---
+
 ## 🧩 Conclusão
 
-A conversão de discos **VDI → QCOW2** é o caminho mais prático para migrar VMs do VirtualBox para o QEMU/KVM.
+A conversão de discos **VDI>QCOW2** é o caminho mais prático para migrar VMs do VirtualBox para o QEMU/KVM.
 Com essa abordagem:
 
 * você mantém todos os dados intactos,
@@ -259,5 +266,8 @@ Com essa abordagem:
 
 Essa técnica é ideal tanto para **migrações definitivas** quanto para **testes de performance** em ambientes Linux modernos.
 
-```
+
+---
+
+[Retornar à página de Virtualização nativa com QEMU+KVM](debian_qemu_kvm.md)   
 
