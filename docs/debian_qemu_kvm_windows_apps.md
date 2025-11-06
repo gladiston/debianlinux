@@ -65,7 +65,11 @@ Vale instalar por permitir **gerenciamento eficiente de espaço em disco** atrav
 Depois de sua instalação é recomendado reiniciar sua sessão do Windows.  
 
 Download:  
-[http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html](http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html)  
+[http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html](http://schinagl.priv.at/nt/hardlinkshellext/linkshellextension.html)   
+
+Serão dois downloads, o runtime msvc e o programa principal.  
+Ao instalar o programa principal, escolha o idioma em português logo no inicio.  
+
 
 ## VLC Media Player
 **VLC Media Player** é um reprodutor multimídia de código aberto que suporta uma ampla variedade de formatos de vídeo, áudio e streaming (MPEG, H.264, HEVC, MP3, FLAC, OGG, entre outros). Funciona como solução completa para reprodução, conversão e manipulação de mídia sem dependência de codecs externos.  
