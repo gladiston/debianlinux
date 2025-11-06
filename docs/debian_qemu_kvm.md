@@ -348,4 +348,4 @@ Para entender melhor e aprender como fazer siga o link:
 ### Convertendo máquinas virtuais do VirtualBox para QEMU+KVM
 O VirtualBox é um hipervisor do tipo 2 amplamente utilizado para virtualização em desktops. As vezes é preciso migrar máquinas virtuais desta plataforma para o QEMU+KVM. A conversão funciona, mas levamos junto o lixo da instalação anterior e nem sempre temos os melhores resultados, no entanto, é melhor do que criar tudo do zero. Siga o link abaixo se precisar migrar máquinas virtuais do VirtualBox:  
 
-[Convertendo máquinas virtuais do VirtualBox para QEMU/KVM]debian_qemu_kvm_vbox.md)  
+[Convertendo máquinas virtuais do VirtualBox para QEMU/KVM](debian_qemu_kvm_vbox.md)  
