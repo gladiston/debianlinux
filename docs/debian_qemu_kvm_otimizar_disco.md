@@ -72,12 +72,12 @@ Os ajustes mencionados a seguir foram feitos nos passos anteriores deste guia, n
 </disk>
 ```
 Onde vê:  
-> \<driver name="qemu" type="qcow2" cache="none" discard="unmap"/\>
+> \<driver name="qemu" type="qcow2" cache="none" discard="unmap"/\>  
 
 Sugere-se acrescentar também `io='native' detect_zeroes='unmap'`, ficando assim:  
-> \\<driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io='native' detect_zeroes='unmap'**/\\>
+> <driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io='native' detect_zeroes='unmap'**/>
 
-3. **Salve** as alterações.
+3. Clique em **Aplicar** para salvar as alterações. É possivel que ao salvar, o editor visual mude a ordem dos parametros, ele realmente faz isso.  
 4. Inicie a VM normalmente — as novas flags serão aplicadas no próximo boot, caso elas não não funcionem, reverta as alterações. Essas alterações são especificas para disco usando api "VirtIO" e possivelmente você não as utilizou quando criou sua VM.   
 
 
