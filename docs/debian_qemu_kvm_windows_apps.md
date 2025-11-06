@@ -30,6 +30,9 @@ Vale instalar por garantir **compatibilidade total com PDFs proprietários**, es
 Download:  
 [http://get.adobe.com/br/reader/enterprise/](http://get.adobe.com/br/reader/enterprise/)  
 
+O link acima é para baixar a versão offline, não tente usar o websetup porque instalará junto um antivirus que recuso-me a falar o nome.  
+
+
 ## Visual Studio Code
 **Visual Studio Code** (VS Code) é um **editor de código-fonte leve e extensível** desenvolvido pela Microsoft, baseado em Electron. Oferece suporte nativo a múltiplas linguagens de programação, debugging integrado, controle Git embutido e um ecossistema massivo de extensões que adaptam a ferramenta a qualquer workflow técnico.  
 Vale instalar por ser **gratuito, multiplataforma** (Windows, Linux, macOS) e extremamente performático mesmo em máquinas com recursos limitados. Sua curva de aprendizado reduzida, comunidade ativa e integração com ferramentas DevOps (Docker, Kubernetes, SSH remoto) o tornaram **padrão de facto** entre desenvolvedores e SysAdmins. É ideal para codificação em PHP, JavaScript, Python, C/C++ e scripting—essencial em ambientes de infraestrutura e desenvolvimento.  
@@ -38,7 +41,11 @@ Durante a instalação, não esqueça de marcar as opções:
 * Adicione a ação "Abir com Code" ao menu de contexto de diretório do Windows Explorer.
 
 Download:  
-[https://code.visualstudio.com/](https://code.visualstudio.com/)   
+[https://code.visualstudio.com/](https://code.visualstudio.com/)    
+
+Muito cuidado com o download, a maioria das pessoas vai institivamente na primeira opção que é **User Installer** que se autoinstala no perfil do usuário, no entanto, é melhor baixar a versão **System Installer** que beneficia todos os perfís existentes:  
+![Instale o VSCode System Installer](debian_qemu_kvm_windows_vscode1.png)   
+
 
 ## Notepad++
 
