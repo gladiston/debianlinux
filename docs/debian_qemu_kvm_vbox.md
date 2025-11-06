@@ -139,7 +139,7 @@ O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os
 E prossiga normalmente como faria numa instalação do [Windows](debian_qemu_kvm_windows.md), no entanto, mantenha **Dispositivo de disco** e **Interface de rede** com seus valores padrão. Não é o momento para especificar drivers do **VirtIO** ainda.
 ---
 
-## 🚀 Etapa 7 — Aprimoramentos
+## 🚀 Etapa 6 — Aprimoramentos
 
 Após o boot do Windows ter iniciado, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
 Depois desligue essa VM.
