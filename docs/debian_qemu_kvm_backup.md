@@ -470,5 +470,7 @@ Executar semanalmente via cron:
 
 [Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
 
+[Retornar à página de Virtualização nativa com QAEMU+KVM](debian_qemu_kvm.md)   
+
 
 
