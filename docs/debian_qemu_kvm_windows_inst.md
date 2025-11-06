@@ -173,10 +173,7 @@ Porém o virt-manager visualmente não traz essa opção, por isso, precisaremos
   (...)
 </disk>
 ```
-Onde vê:  
-> \<driver name="qemu" type="qcow2" cache="none" discard="unmap"/\>  
-
-Você precisará então acrescentar as opções que listamos:  
+a opção em destaque acima você precisará acrescentar as opções faltantes:  
 > <driver name='qemu' type='qcow2' cache='none' discard="unmap"  **io="native" detect_zeroes="unmap"**/>
 
 Tome muito cuidado a sintaxe, aspas simples no lugar de aspas duplas ou a falta delas ou qualquer outro erro de sintaxe fará com que a VM não inicie.  
