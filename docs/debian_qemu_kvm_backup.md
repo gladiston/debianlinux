@@ -442,7 +442,7 @@ Saída esperada:
 ### Validar checksum antes de restaurar
 
 ```bash
-md5sumsum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.md5sum
+md5sum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.md5sum
 ```
 
 Saída esperada:
