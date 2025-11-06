@@ -2,6 +2,8 @@
 
 Um sistema Windows básico em minha opinião, não sobrevive sem estes programas:
 
+---
+
 ## Autologon
 
 **Autologon** é uma ferramenta utilitária Microsoft Sysinternals que automatiza o login no Windows, permitindo que uma máquina inicie e efetue autenticação sem intervenção manual. Funciona armazenando credenciais de forma cifrada no registro do Windows, ideal para cenários de servidor, VM de laboratorio e automação de infraestrutura.  
@@ -13,6 +15,8 @@ A ferramenta oferece interface CLI simples, criptografia segura das senhas no re
 Download:  
 [https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon](https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon)  
 
+---
+
 ## Win7z
 7-Zip é um utilitário de compressão de código aberto que implementa o formato 7z, oferecendo taxa de compressão superior a ZIP e RAR através do algoritmo LZMA2. Compacta arquivos, reduzindo espaço em disco e banda de rede, enquanto suporta criptografia AES-256 e múltiplos formatos.  
 Vale instalar por ser leve, versátil, disponível nos repositórios (ex: apt install p7zip-full) e essencial em workflows de backup e distribuição de artefatos—particularmente em cenários onde margem de espaço é crítica.  
@@ -22,6 +26,7 @@ Download:
 
 Não tem instalação, basta descompactar e executá-lo e então ele perguntará os dados para o logon e se tudo estiver correto, no próximo boot, o Windows se logará sozinho com as credenciais fornecidas.  
 
+---
 
 ## Adobe Reader
 **Adobe Reader** é o aplicativo oficial da Adobe para visualização de documentos **PDF** (Portable Document Format). Oferece leitura confiável com preservação de formatação, fontes e layouts complexos, além de funcionalidades como anotações, preenchimento de formulários interativos e assinatura digital.  
@@ -30,8 +35,9 @@ Vale instalar por garantir **compatibilidade total com PDFs proprietários**, es
 Download:  
 [http://get.adobe.com/br/reader/enterprise/](http://get.adobe.com/br/reader/enterprise/)  
 
-**ALERTA**:  O link acima é para baixar a versão offline, não tente usar o websetup porque instalará junto um antivirus que recuso-me a falar o nome.  
+**ALERTA**:  O link acima é para baixar a versão offline, não tente usar o instalador online (websetup) porque este instalará junto outros programas que você não pediu. A versão online é uma das versões mais traiçoeiras que existe, ela pode incluir quantos outros programas a Oracle desejar em teu computador.    
 
+---
 
 ## Visual Studio Code
 **Visual Studio Code** (VS Code) é um **editor de código-fonte leve e extensível** desenvolvido pela Microsoft, baseado em Electron. Oferece suporte nativo a múltiplas linguagens de programação, debugging integrado, controle Git embutido e um ecossistema massivo de extensões que adaptam a ferramenta a qualquer workflow técnico.  
@@ -46,6 +52,7 @@ Download:
 **ALERTA**:  Muito cuidado com o download, a maioria das pessoas vai institivamente na primeira opção que é **User Installer** que se autoinstala no perfil do usuário, no entanto, é melhor baixar a versão **System Installer** que beneficia todos os perfís existentes:  
 ![Instale o VSCode System Installer](../img/debian_qemu_kvm_windows_vscode1.png)   
 
+---
 
 ## Notepad++
 
@@ -58,6 +65,7 @@ Download:
 Ao instalar o programa, escolha o idioma em português logo no inicio de sua instalação.  
 Depois de instalá-lo, vá em tipos conhecidos de arquivos como .txt e .ini e em suas propriedades escolha "abrir com" e indique o notepad++.   
 
+---
 
 ## LinkShell Extension
 
@@ -71,6 +79,7 @@ Download:
 Serão dois downloads, o runtime [vc_redist.x64.exe](https://aka.ms/vs/15/release/vc_redist.x64.exe) e o programa principal.  
 Ao instalar o programa principal, escolha o idioma em português logo no inicio de sua instalação.  
 
+---
 
 ## VLC Media Player
 **VLC Media Player** é um reprodutor multimídia de código aberto que suporta uma ampla variedade de formatos de vídeo, áudio e streaming (MPEG, H.264, HEVC, MP3, FLAC, OGG, entre outros). Funciona como solução completa para reprodução, conversão e manipulação de mídia sem dependência de codecs externos.  
@@ -80,6 +89,8 @@ Download:
 [https://www.videolan.org/vlc/](https://www.videolan.org/vlc/)   
 
 Ao instalar o programa, escolha o idioma em português logo no inicio de sua instalação.  
+
+---
 
 ## RAMMap
 **RAMMap** é uma ferramenta de diagnóstico desenvolvida pela Microsoft (Sysinternals) que oferece **visualização detalhada e em tempo real da alocação de memória RAM** no Windows. Mapeia como a memória física é distribuída entre processos, cache, kernel e outros componentes do sistema operacional.  
@@ -96,6 +107,8 @@ A instalação dele não é óbvia, é um arquivo .zip contendo 3 arquivos:
 Estou considerando que voce esteja usando um Windows 64 bits.  
 Quando precisar executar o `RAMMap`, simplesmente Win+R e digite `RAMMap64`.  
 
+---
+
 ## PuTTY
 **PuTTY** é um cliente SSH/Telnet leve e multiplataforma que oferece acesso seguro a servidores remotos via protocolo SSH, além de suporte legado a Telnet, Rlogin e serial connections. Funciona como ferramenta essencial para administração remota de infraestrutura Unix/Linux e dispositivos de rede.  
 
@@ -104,6 +117,7 @@ Vale instalar por ser **gratuito, portável e extremamente leve**, sem dependên
 Download:  
 [https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 
+---
 
 ## FileZilla
 
@@ -116,6 +130,7 @@ Vale instalar por ser **gratuito, intuitivo e suportar múltiplos protocolos** (
 Download: 
 [https://filezilla-project.org/download.php?show_all=1](https://filezilla-project.org/download.php?show_all=1)   
 
+---
 
 ## Git para Windows
 **Git** é um **sistema de controle de versão distribuído** que rastreia alterações em arquivos e projetos, permitindo histórico completo de modificações, ramificações paralelas (branches) e colaboração entre múltiplos desenvolvedores. Cada repositório Git funciona como uma cópia independente e auditável do projeto.  
@@ -128,8 +143,11 @@ Durante a instalação do git, ele faz uma pergunta sobre qual editor de texto u
 Download:  
 [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win)  
 
-## PC Manager
-Vou criar um guia estruturado e detalhado para o **PC Manager** seguindo o modelo e tom técnico que você estabeleceu:
+---
+
+## Windows Update
+Aproveite este momento para fazer todas as atualizações do Windows, faça-o até não haver mais nenhuma.  
+
 
 ---
 
