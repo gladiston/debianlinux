@@ -386,20 +386,22 @@ Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva*
 Para backup automático diário às 2h da manhã:
 
 ```bash
-# Editar crontab
-crontab -e
-
-# Adicionar linha:
-0 2 * * * /caminho/para/backup-vm.sh win2k25 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+sudo editor /etc/crontab
+```
+E adicionar linha:
+```
+0 2 * * * /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
 
 Para múltiplas VMs em sequência:
 
 ```bash
-0 2 * * * /caminho/para/backup-vm.sh win2k25 backup-vms >> /var/log/backup-vm-cron.log 2>&1
-30 2 * * * /caminho/para/backup-vm.sh ubuntuserver backup-vms >> /var/log/backup-vm-cron.log 2>&1
-0 3 * * * /caminho/para/backup-vm.sh debian12 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+0 2 * * * /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+30 2 * * * /caminho/para/backup-vm.sh /local/da/vm/ubuntuserver.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+0 3 * * * /caminho/para/backup-vm.sh /local/da/vm/debian12.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
+
+No exemplo acima, você deve ter certeza de que os intervalos de backup para o outro são suficientes, porque o script ejeta o disco no final e não poderia fazer isso se outro backup tiver sido iniciado.  
 
 ---
 
