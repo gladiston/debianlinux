@@ -15,7 +15,7 @@ Assim, para migrar uma VM do VirtualBox para o QEMU/KVM, basta converter o disco
 
 ---
 
-## 🧱 Etapa 1 — Identificar o Disco VirtualBox
+## Identificar o Disco VirtualBox
 
 No VirtualBox, os discos das VMs geralmente ficam armazenados em:
 ```
@@ -31,7 +31,7 @@ Confirme o nome do arquivo `.vdi` e **encerre a VM** antes de prosseguir.
 
 ---
 
-## 🔄 Etapa 2 — Converter o Arquivo VDI para QCOW2
+## Converter o Arquivo VDI para QCOW2
 
 No Linux, o pacote `qemu-utils` traz a ferramenta **`qemu-img`**, usada para conversão de discos entre diversos formatos.
 
@@ -64,7 +64,7 @@ Após o processo, você terá um arquivo QCOW2 pronto para uso no KVM.
 
 ---
 
-## 🔍 Etapa 3 — Validar a Conversão
+## Validar a Conversão
 
 Para verificar integridade, execute:
 
@@ -107,7 +107,7 @@ Isso indica que podemos prosseguir.
 
 ---
 
-## 🧹 Etapa 4 — Compactar o Arquivo QCOW2
+## Compactar o Arquivo QCOW2
 
 Para reduzir o tamanho do disco, eliminando blocos vazios, use:
 
@@ -123,7 +123,7 @@ O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os
 
 ---
 
-## ⚙️ Etapa 5 — Criar a VM no QEMU/KVM
+## Criar a VM no QEMU/KVM
 
 ### Método 1: via Virt-Manager (interface gráfica)
 
@@ -136,13 +136,110 @@ O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os
    ~/libvirt/images/win11-dx11.qcow2
    ```
 5. Defina o sistema operacional convidado (ex: *Windows 11*).
-E prossiga normalmente como faria numa instalação do [Windows](debian_qemu_kvm_windows.md), no entanto, mantenha **Dispositivo de disco** e **Interface de rede** com seus valores padrão. Não é o momento para especificar drivers do **VirtIO** ainda.
+6. Acrescente um CDROM SATA com a imagem  do CDROM DO WINDOWS 11(ou outro).
+7. E prossiga a configuração da VM normalmente como faria numa instalação do [Windows](debian_qemu_kvm_windows.md), no entanto, mantenha **Dispositivo de disco** e **Interface de rede** com seus valores padrão. Não é o momento para especificar drivers do **VirtIO** ainda.
+8. O boot deverá ser modificado para iniciar pelo CDROM.
+10.Prossiga normalmente, até o reiniciio do computador
+
+## Reparando o Boot do Windows   
+Quando iniciar a VM, é bem provável que não funcione de primeira, o SecurityBoot é o culpado disso, mas vamos recuperá-lo.
+Dê boot pelo CDROM do Windows e então siga **Solução de problemas>Prompt de comando**, execute:
+```
+diskpart
+list vol
+``` 
+E serão listados todos os volumes, um deles é uma partição FAT32 e provavelmente marcada como oculta: 
+```cmd
+DISKPART> list vol
+Volume ###  Ltr Rótulo          Fs     Tipo      Tamanho   Status   Informações
+----------- --- --------------- ------ --------- --------- -------- ----------
+Volume 0    D   CCCOMA_X64F     UDF    CD-ROM    7089 MB   Íntegro
+Volume 1    C   Windows_OS      NTFS   Partição  119 GB    Íntegro
+Volume 2        [Sem rótulo]    FAT32  Partição  100 MB    Íntegro Oculto
+Volume 3        [Sem rótulo]    NTFS   Partição  841 MB    Íntegro Oculto
+DISKPART>
+   ``` 
+Em nosso exemplo, Partição EFI (~100 MB, FAT32) é o volume 2, então vamos definir a letra S: para ele. Também foi detectado que o volume 1 é o Windows e para ele vamos estabelecer a letra C:. Dentro do diskpart, execute:  
+```cmd
+sel vol 2
+assign letter=S
+select vol 1
+assign letter=C
+exit
+```
+Agora temos a letra C: representando a instalação do Windows e a letra S: representando a partição UEFI.   
+
+Vamos agora limpar a partição EFI e recrie o bootloader para evitar permissões erradas(Access Denied):  
+```cmd
+S:
+cd \
+del /F /S /Q *.*
+rmdir /q /s EFI
+```
+Com isso esvaziamos o drive S:, vamos conferir:
+```cmd
+dir
+```
+Provavelmente resultará em:  
+> Arquivo não encontrado
+
+Então prosseguimos:
+```cmd
+mkdir EFI
+cd EFI
+mkdir Microsoft
+mkdir Boot
+```
+
+
+
+Anote também que letra onde o Windows está instalado é **C:**, agora vamos recriar os arquivos de boot EFI, levando execute agora:  
+```cmd
+bcdboot C:\Windows /s S: /f UEFI
+```
+Haverá como resposta:
+> Arquivos de inicialização criados com êxito.
+
+Vamos dar uma olhada na partição UEFI:
+```cmd
+dir S:\EFI\Microsoft\Boot\*.efi
+```
+Na listagem de arquivos você deve encontrar o arquivo **bootmgfw.efi** indicando que tudo foi executado com êxito.  
+Remova o CD de instalação e reinicie a VM.
+
+Reinicie a VM.
+Vá nas **Configurações da VM>Opções de inicialização** e desligue o boot pelo CDROM (e ejete o iso do Windows) e habilite a opçãos **Habilitar menu de inicialização** proque você agora precisará selecionar o arquivo `.efi` para dar boot no Windows.
+
+Entre no firmware da VM Windows, vá em **Boot Maintenance Manager** e selecione a opção **Boot Next Value** e escolha **Windows Boot Manager**, depois pressione **F10** para salvar.
+
+Depois disso, caso ainda falhar, repita o processo de boot boot de recuperação do Windows, mas execute agora:
+```cmd
+attrib -h -r -s S:\EFI\Microsoft\Boot\BCD
+del S:\EFI\Microsoft\Boot\BCD
+bcdboot C:\Windows /s S: /f UEFI
+```
+
+
+## Primeiro boot com o Windows bem sucedido
+Ao iniciar o Windows, voce precisa remover os drivers e programas relacionados ao VirtualBox:  
+![Remover programas relacionados ao VirtualBox](../img/debian_qemu_kvm_vbox01.png)  
+
+A cada programa removido, provavelmente precisará reiniciar.  
+
+Desligue a VM.
+Com o nosso boot de Windows bem sucedido, vá nas **Configurações da VM>Opções de inicialização** e volte a desabilitar a opção **Habilitar menu de inicialização** porque não precisamos mais dela.  Também desmarque a opção de boot pelo CROM, não precisaremos mais disso. Essas opções quando ligadas tornam o nosso processo de boot mais lento do que deveria. 
+
+Depois vá nas configurações de nossa **VM>CDROM SATA1**, e inclua a iso `virtio-win.iso`.  
+
+
 ---
 
-## 🚀 Etapa 6 — Aprimoramentos
+## Instalando as ferramentas para convidado
 
 Após o boot do Windows ter iniciado, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
 Depois desligue essa VM.
+
+## Aprimoramentos
 Agora que você tem todos os drivers qemu/kvm necessários, desejar melhorar a performance faça as seguintes modificações nesta VM:
 1. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
 2. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
