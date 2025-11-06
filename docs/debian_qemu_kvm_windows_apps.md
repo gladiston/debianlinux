@@ -128,3 +128,27 @@ Durante a instalação do git, ele faz uma pergunta sobre qual editor de texto u
 Download:  
 [https://git-scm.com/downloads/win](https://git-scm.com/downloads/win)  
 
+## PC Manager
+Vou criar um guia estruturado e detalhado para o **PC Manager** seguindo o modelo e tom técnico que você estabeleceu:
+
+---
+
+## PC Manager para Windows
+**PC Manager** é um **utilitário de otimização e limpeza de sistema** que oferece gerenciamento centralizado de recursos, monitoramento de desempenho, limpeza de arquivos temporários e malware, além de controle de inicialização e processos em background. Funciona como um painel unificado para manutenção preventiva do Windows, consolidando funcionalidades espalhadas entre ferramentas nativas do sistema operacional.
+
+Vale instalar por ser uma **ferramenta oficial da Microsoft** com integração nativa ao Windows 11 e Windows Server, otimizar o desempenho da máquina removendo bloatwares e processos desnecessários, facilitar o **monitoramento em tempo real** de CPU, memória e disco, oferecer limpeza de startup para acelerar boot, além de incluir proteção contra malware e PUPs (Potentially Unwanted Programs). É especialmente relevante para administradores de TI que gerenciam múltiplas estações e precisam manter a integridade e desempenho da frota de máquinas.
+
+Durante a instalação do PC Manager, ele se integra automaticamente à Configurações do Windows e cria atalhos no menu Iniciar. Diferentemente de ferramentas legacy, a Microsoft o mantém atualizado via Microsoft Store, garantindo que você sempre tenha a versão mais recente com correções de segurança. Recomenda-se **fixar a aplicação na barra de tarefas** para acesso rápido durante rotinas de manutenção, especialmente em cenários de troubleshooting de performance.
+
+Ao executar pela primeira vez, o PC Manager oferece uma **varredura completa do sistema** recomendando ações prioritárias. Preste atenção às categorias: **Limpeza** (arquivos temporários, cache, downloads antigos), **Startup** (processos de inicialização desnecessários), **Apps** (desinstalação de software redundante) e **Segurança** (verificação de malware e PUPs). Para ambientes corporativos ou máquinas críticas, execute um **diagnóstico prévio** antes de aplicar limpezas agressivas, documentando o estado inicial para auditoria.
+
+Uma prática recomendada é executar o PC Manager **mensalmente em estações de trabalho** e **semanalmente em servidores de desenvolvimento**, configurando as exclusões apropriadas para não remover arquivos críticos de aplicações específicas (como dados de bancos de dados, arquivos de projeto ou configurações de ferramentas de CI/CD). Se você gerencia múltiplas máquinas, integre o PC Manager em scripts de manutenção preventiva via PowerShell ou Task Scheduler, aproveitando sua CLI para automação.
+
+Download:  
+[https://apps.microsoft.com/detail/9pm860492szd?hl=pt-BR&gl=BR](https://apps.microsoft.com/detail/9pm860492szd?hl=pt-BR&gl=BR)
+
+Aproveite este momento para fazer uma **Limpeza profunda** usando o PC Manager.  
+
+---
+
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
