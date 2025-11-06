@@ -158,150 +158,150 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 
 #########################################################
 # Script de Backup Automatizado para VMs QEMU+KVM
-# Monta disco backup-vms, cria subpasta por VM,
-# copia imagem, desmonta
-# Uso: ./backup-vm.sh <nome-vm> [destino-label]
+# Uso: sudo ./backup-vm.sh <caminho-da-vm> <label-ou-caminho-destino>
+# Ex.: sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
+#      sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
 #########################################################
 
 set -euo pipefail
 
-# Variáveis
-VM_NAME="${1:-win2k25}"
-BACKUP_LABEL="${2:-backup-vms}"
-SOURCE_DIR="${HOME}/libvirt/images"
-MOUNT_POINT="/mnt/backup-temp"
-BACKUP_SUBDIR="${MOUNT_POINT}/${VM_NAME}"
+# --- VALIDAÇÃO DE PARÂMETROS ---
+if [ $# -lt 2 ]; then
+  echo "ERRO: Parâmetros insuficientes."
+  echo "Uso: sudo $0 <caminho-da-vm> <label-ou-caminho-destino>"
+  exit 1
+fi
+
+VM_PATH_RAW="${1}"
+DEST_PARAM="${2}"
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-LOG_FILE="/var/log/backup-vm-${VM_NAME}-${TIMESTAMP}.log"
+MOUNT_POINT=""
+VM_STATE="undefined"
+WAS_RUNNING=0
 
-# Função de logging
+# --- FUNÇÕES ---
 log() {
-    echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*" | tee -a "${LOG_FILE}"
+  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"
 }
 
-# Função de erro
 error_exit() {
-    log "ERRO: $1"
-    cleanup
-    exit 1
+  log "--- ERRO FATAL: $1 ---"
+  exit 1
 }
 
-# Função de limpeza (desmonta e remove diretório temporário)
 cleanup() {
-    log "Iniciando limpeza..."
-    if mountpoint -q "${MOUNT_POINT}"; then
-        log "Desmontando ${MOUNT_POINT}..."
-        sudo umount "${MOUNT_POINT}" || log "AVISO: Falha ao desmontar ${MOUNT_POINT}"
-    fi
-    if [ -d "${MOUNT_POINT}" ] && [ -z "$(ls -A ${MOUNT_POINT})" ]; then
-        rmdir "${MOUNT_POINT}" || log "AVISO: Falha ao remover ${MOUNT_POINT}"
-    fi
-    log "Limpeza concluída"
+  log "--- Iniciando rotina de limpeza ---"
+  if [ -n "${MOUNT_POINT}" ] && mountpoint -q "${MOUNT_POINT}" 2>/dev/null; then
+    log "Desmontando ${MOUNT_POINT}..."
+    umount "${MOUNT_POINT}" || log "AVISO: falha ao desmontar ${MOUNT_POINT}"
+  fi
+  if [ -n "${MOUNT_POINT}" ] && [ -d "${MOUNT_POINT}" ]; then
+    rmdir "${MOUNT_POINT}" 2>/dev/null || true
+  fi
+  log "--- Limpeza concluída ---"
 }
 
-# Tratamento de sinais para limpeza em caso de interrupção
 trap cleanup EXIT INT TERM
 
-# Validações
-log "=== Iniciando Backup de VM: ${VM_NAME} ==="
-
-if [ ! -f "${SOURCE_DIR}/${VM_NAME}.qcow2" ]; then
-    error_exit "Imagem não encontrada: ${SOURCE_DIR}/${VM_NAME}.qcow2"
+# ===== 1. PERMISSÕES =====
+log "Verificando permissões..."
+if [ "${EUID}" -ne 0 ]; then
+  error_exit "Este script precisa ser executado como root."
 fi
 
-# Verificar se VM está ligada e desligar
-VM_STATE=$(virsh domstate "${VM_NAME}" 2>/dev/null || echo "undefined")
-if [ "${VM_STATE}" = "running" ]; then
-    log "VM ${VM_NAME} está em execução. Desligando..."
-    virsh shutdown "${VM_NAME}"
-    ATTEMPTS=0
-    while [ "$(virsh domstate ${VM_NAME} 2>/dev/null)" = "running" ] && [ ${ATTEMPTS} -lt 60 ]; do
+# ===== 2. EXPANSÃO DE CAMINHO =====
+if [[ "${VM_PATH_RAW}" == "~/"* ]]; then
+  SUDO_HOME=$(getent passwd "${SUDO_USER:-root}" | cut -d: -f6)
+  VM_PATH="${SUDO_HOME}/${VM_PATH_RAW:2}"
+else
+  VM_PATH="${VM_PATH_RAW}"
+fi
+
+if [ ! -f "${VM_PATH}" ]; then
+  error_exit "Arquivo da VM não encontrado: ${VM_PATH}"
+fi
+
+VM_FILE=$(basename "${VM_PATH}")
+VM_NAME="${VM_FILE%.*}"
+log "VM: ${VM_NAME} (${VM_PATH})"
+
+# ===== 3. DEFINIÇÃO DO DESTINO =====
+if [ -d "${DEST_PARAM}" ]; then
+  DEST_DIR="${DEST_PARAM}"
+  log "Destino detectado como diretório: ${DEST_DIR}"
+else
+  log "Procurando disco com label '${DEST_PARAM}'..."
+  DEVICE_PATH=$(findfs "LABEL=${DEST_PARAM}" 2>/dev/null || true)
+  if [ -z "${DEVICE_PATH}" ]; then
+    error_exit "Destino '${DEST_PARAM}' não é diretório nem label válido."
+  fi
+  MOUNT_POINT="/mnt/backup-temp-${RANDOM}"
+  mkdir -p "${MOUNT_POINT}"
+  log "Montando ${DEVICE_PATH} em ${MOUNT_POINT}..."
+  mount "${DEVICE_PATH}" "${MOUNT_POINT}"
+  DEST_DIR="${MOUNT_POINT}"
+  log "Disco montado com sucesso em ${MOUNT_POINT}"
+fi
+
+BACKUP_SUBDIR="${DEST_DIR}/${VM_NAME}"
+mkdir -p "${BACKUP_SUBDIR}"
+log "Destino final: ${BACKUP_SUBDIR}"
+
+# ===== 4. GERENCIAMENTO DE VM (opcional) =====
+if command -v virsh >/dev/null 2>&1; then
+  if virsh dominfo "${VM_NAME}" >/dev/null 2>&1; then
+    VM_STATE=$(virsh domstate "${VM_NAME}" | head -n1)
+    log "Estado atual da VM: ${VM_STATE}"
+    if echo "${VM_STATE}" | grep -qi running; then
+      WAS_RUNNING=1
+      log "Solicitando desligamento de '${VM_NAME}'..."
+      virsh shutdown "${VM_NAME}" || true
+      for i in $(seq 1 60); do
         sleep 1
-        ATTEMPTS=$((ATTEMPTS + 1))
-    done
-    if [ $(virsh domstate "${VM_NAME}" 2>/dev/null) = "running" ]; then
-        log "AVISO: VM não desligou em tempo. Forçando shutdown..."
-        virsh destroy "${VM_NAME}"
+        state_now=$(virsh domstate "${VM_NAME}" | head -n1)
+        if echo "${state_now}" | grep -qi "shut"; then
+          log "VM desligada."
+          break
+        fi
+        [ "${i}" -eq 60 ] && virsh destroy "${VM_NAME}" && log "Forçado desligamento."
+      done
     fi
+  fi
 fi
 
-log "VM ${VM_NAME} desligada com sucesso"
+# ===== 5. BACKUP =====
+BACKUP_FILE="${BACKUP_SUBDIR}/${VM_FILE}.backup-${TIMESTAMP}"
+log "Iniciando cópia com rsync..."
+rsync -ah --info=progress2 --inplace --sparse --no-whole-file "${VM_PATH}" "${BACKUP_FILE}"
+sync
+log "Cópia concluída."
 
-# Encontrar disco com label backup-vms
-log "Procurando disco com label: ${BACKUP_LABEL}"
-DEVICE=$(lsblk -n -o NAME,LABEL | grep "${BACKUP_LABEL}" | awk '{print $1}')
-
-if [ -z "${DEVICE}" ]; then
-    error_exit "Disco com label '${BACKUP_LABEL}' não encontrado"
+# ===== 6. VERIFICAÇÃO =====
+if [[ "${VM_FILE}" == *.qcow2 ]]; then
+  if qemu-img check "${BACKUP_FILE}" >/dev/null 2>&1; then
+    log "Integridade QCOW2 OK."
+  else
+    error_exit "Falha na verificação QCOW2."
+  fi
 fi
 
-DEVICE="/dev/${DEVICE}"
-log "Disco encontrado: ${DEVICE}"
+log "Gerando checksum..."
+sha256sum "${BACKUP_FILE}" > "${BACKUP_FILE}.sha256"
+sync
+log "Checksum salvo."
 
-# Criar ponto de montagem se não existir
-if [ ! -d "${MOUNT_POINT}" ]; then
-    mkdir -p "${MOUNT_POINT}"
-    log "Diretório de montagem criado: ${MOUNT_POINT}"
+# ===== 7. REINICIAR VM (se estava ligada) =====
+if command -v virsh >/dev/null 2>&1 && [ "${WAS_RUNNING}" -eq 1 ]; then
+  log "Reiniciando VM '${VM_NAME}'..."
+  virsh start "${VM_NAME}" || log "Falha ao iniciar VM."
 fi
 
-# Montar disco
-log "Montando ${DEVICE} em ${MOUNT_POINT}..."
-sudo mount "${DEVICE}" "${MOUNT_POINT}" || error_exit "Falha ao montar ${DEVICE}"
-log "Disco montado com sucesso"
-
-# Criar subpasta para VM se não existir
-if [ ! -d "${BACKUP_SUBDIR}" ]; then
-    mkdir -p "${BACKUP_SUBDIR}"
-    log "Subpasta criada: ${BACKUP_SUBDIR}"
-else
-    log "Subpasta já existe: ${BACKUP_SUBDIR}"
-fi
-
-# Verificar espaço disponível
-AVAILABLE_SPACE=$(df "${MOUNT_POINT}" | tail -1 | awk '{print $4}')
-SOURCE_SIZE=$(du -s "${SOURCE_DIR}/${VM_NAME}.qcow2" | awk '{print $1}')
-
-if [ ${SOURCE_SIZE} -gt ${AVAILABLE_SPACE} ]; then
-    error_exit "Espaço insuficiente. Necessário: ${SOURCE_SIZE}K, Disponível: ${AVAILABLE_SPACE}K"
-fi
-
-log "Espaço verificado: ${AVAILABLE_SPACE}K disponível"
-
-# Executar backup
-BACKUP_FILE="${BACKUP_SUBDIR}/${VM_NAME}.qcow2.backup-${TIMESTAMP}"
-log "Iniciando cópia: ${SOURCE_DIR}/${VM_NAME}.qcow2 -> ${BACKUP_FILE}"
-
-if cp -v "${SOURCE_DIR}/${VM_NAME}.qcow2" "${BACKUP_FILE}"; then
-    log "Cópia concluída com sucesso"
-else
-    error_exit "Falha na cópia do arquivo"
-fi
-
-# Verificar integridade
-log "Verificando integridade do backup..."
-if qemu-img info "${BACKUP_FILE}" > /dev/null 2>&1; then
-    log "Integridade validada com sucesso"
-else
-    error_exit "Backup corrompido ou inacessível"
-fi
-
-# Gerar checksum para verificações futuras
-CHECKSUM_FILE="${BACKUP_FILE}.sha256"
-sha256sum "${BACKUP_FILE}" > "${CHECKSUM_FILE}"
-log "Checksum salvo em: ${CHECKSUM_FILE}"
-
-log "Desmontando disco..."
-# Desmontagem será feita pela função cleanup no trap
-
-log "=== Backup concluído com sucesso ==="
+log "================================================="
+log "=== BACKUP CONCLUÍDO COM SUCESSO ==="
+log "================================================="
 log "Arquivo: ${BACKUP_FILE}"
-log "Tamanho: $(du -h ${BACKUP_FILE} | cut -f1)"
-log "Log completo em: ${LOG_FILE}"
+log "Tamanho: $(du -h "${BACKUP_FILE}" | cut -f1)"
 
-# Reiniciar VM
-log "Reiniciando VM ${VM_NAME}..."
-virsh start "${VM_NAME}"
-log "VM iniciada"
 ```
 
 Em servidores, voce provavelmente precisará de um esquema de script diferente, discos externos por dia da semana, backup incremental/diferencial, teste de checksum o qual não é nosso proposito aqui em demonstrar. Nosso uso tá voltado para virtualizar em desktop e por isso, o script acima é suficiente.   
@@ -313,9 +313,9 @@ Tornar executável:
 ```bash
 chmod +x backup-vm.sh
 ```
-Executar backup (sintaxe: ./backup-vm.sh <nome-vm> [label-disco])  
+Executar backup (sintaxe: ./backup-vm.sh <local da VM> [label-disco|caminho])  
 ```bash
-./backup-vm.sh win2k25 backup-vms
+./backup-vm.sh ~/libvirt/images/win2k25.qcow2 backup-vms
 ```
 Mas dá para usar outros discos também, veja:
 ```bash
@@ -330,11 +330,11 @@ sdb
 ```
 Agora vamos fazer o backup para o disco com o label **#hist**, executando:
 ```bash
-./backup-vm.sh win2k25 "#hist"
+./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 ```
-
-# Consultar log
-tail -f /var/log/backup-vm-win2k25-*.log
+Mas ao inves de usar o label, também podemos especificar o caminho executando:
+```bash
+./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/dados2
 ```
 
 ---
