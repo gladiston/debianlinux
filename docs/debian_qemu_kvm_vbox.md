@@ -137,28 +137,19 @@ O comando realiza uma desfragmentação lógica da imagem QCOW2, consolidando os
    ```
 5. Defina o sistema operacional convidado (ex: *Windows 11*).
 E prossiga normalmente como faria numa instalação do [Windows](debian_qemu_kvm_windows.md), no entanto, mantenha **Dispositivo de disco** e **Interface de rede** com seus valores padrão. Não é o momento para especificar drivers do **VirtIO** ainda.
-
----
-
-## 🚀 Etapa 6 — Primeiro Boot e Ajustes
-
-Após criar a VM:
-
-* Inicie-a pelo Virt-Manager.  
-* Se for Windows, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
-* Verifique se o disco e rede estão funcionando normalmente.  
-
 ---
 
 ## 🚀 Etapa 7 — Aprimoramentos
 
-Após o boot do Windows ter iniciado, instale as ferramentas para convidado.  
-
-Você terá então todos os drivers qemu/kvm que necessita, e então desligue a VM e se desejar melhorar a performance faça as seguintes modificações nesta VM:
+Após o boot do Windows ter iniciado, instale as ferramentas para convidado. Elas incluirão todos os **drivers VirtIO** (armazenamento, rede e vídeo).  
+Depois desligue essa VM.
+Agora que você tem todos os drivers qemu/kvm necessários, desejar melhorar a performance faça as seguintes modificações nesta VM:
 1. Em **Dispositivo de disco**, selecione **VirtIO** (melhor desempenho).
 2. Em **Interface de rede**, use **VirtIO (paravirtualizado)**.
 
 Essas alterações estão permonorizadas nos passos anteriores descritos [aqui](debian_qemu_kvm_windows.md)).  
+Depois inicie a VM.  
+Se não funcionar, reverta as alterações.
 
 ## 🧩 Conclusão
 
