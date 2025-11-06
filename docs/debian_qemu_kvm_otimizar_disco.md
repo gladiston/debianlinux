@@ -222,6 +222,7 @@ qemu-img bench -c 4k -d 1G -f qcow2 ~/libvirt/images/win2k25.qcow2
 Se fez ajustes e criou novos arquivos, então é razoável conferir se as permissões estão corretas, execute:  
 ```bash
 sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+sudo find ~/libvirt -type f -exec chown $USER:kvm {} \; -o -type d -exec chown $USER:kvm {} \;
 ```
 
 ## Boas práticas operacionais
@@ -233,4 +234,10 @@ sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} 
   * **cluster_size=1M** → I/O sequencial intenso (DBs, backup).
   * **cluster_size=128K–256K** → I/O aleatório pequeno (sistemas).
 * Monitore espaço e fragmentação periodicamente com `qemu-img info`.
+
+---
+
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
+
+
 
