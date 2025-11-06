@@ -155,15 +155,23 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 
 ```bash
 #!/bin/bash
-
-#########################################################
-# Script de Backup Automatizado para VMs QEMU+KVM
+# backup-vm.sh - Backup automatizado de máquinas virtuais QEMU+KVM
+# Autor: Gladiston Santana <gladiston.santana[em]gmail.com>
 # Uso: sudo ./backup-vm.sh <caminho-da-vm> <label-ou-caminho-destino>
-# Ex.: sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
-#      sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
+# Exemplo:
+#   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
+#   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
+# Licença: MIT (Permissiva)
+# Criado em: 06/11/2025
+# Ult. Atualização: 06/11/2025
+#
+# Descrição:
+#   Backup de VM QEMU/KVM com destino inteligente (label ou diretório),
+#   cópia via rsync preservando sparse, verificação qemu-img e checksum.
 #########################################################
 
 set -euo pipefail
+START_TS=$(date +%s)
 
 # --- VALIDAÇÃO DE PARÂMETROS ---
 if [ $# -lt 2 ]; then
@@ -174,20 +182,15 @@ fi
 
 VM_PATH_RAW="${1}"
 DEST_PARAM="${2}"
-TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+TIMESTAMP=$(date +%Y%m%d-%Hh)  # Ex.: 20251106-14h
 MOUNT_POINT=""
 VM_STATE="undefined"
 WAS_RUNNING=0
 
 # --- FUNÇÕES ---
-log() {
-  echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"
-}
+log() { echo "[$(date +'%Y-%m-%d %H:%M:%S')] $*"; }
 
-error_exit() {
-  log "--- ERRO FATAL: $1 ---"
-  exit 1
-}
+error_exit() { log "--- ERRO FATAL: $1 ---"; exit 1; }
 
 cleanup() {
   log "--- Iniciando rotina de limpeza ---"
@@ -201,13 +204,23 @@ cleanup() {
   log "--- Limpeza concluída ---"
 }
 
+fmt_dur() {
+  local s="$1"
+  local h=$(( s/3600 ))
+  local m=$(( (s%3600)/60 ))
+  local ss=$(( s%60 ))
+  local out=""
+  [ $h -gt 0 ] && out="${out}${h}h "
+  [ $m -gt 0 ] && out="${out}${m}m "
+  out="${out}${ss}s"
+  echo "$out"
+}
+
 trap cleanup EXIT INT TERM
 
 # ===== 1. PERMISSÕES =====
 log "Verificando permissões..."
-if [ "${EUID}" -ne 0 ]; then
-  error_exit "Este script precisa ser executado como root."
-fi
+[ "${EUID}" -ne 0 ] && error_exit "Este script precisa ser executado como root."
 
 # ===== 2. EXPANSÃO DE CAMINHO =====
 if [[ "${VM_PATH_RAW}" == "~/"* ]]; then
@@ -216,25 +229,20 @@ if [[ "${VM_PATH_RAW}" == "~/"* ]]; then
 else
   VM_PATH="${VM_PATH_RAW}"
 fi
-
-if [ ! -f "${VM_PATH}" ]; then
-  error_exit "Arquivo da VM não encontrado: ${VM_PATH}"
-fi
+[ ! -f "${VM_PATH}" ] && error_exit "Arquivo da VM não encontrado: ${VM_PATH}"
 
 VM_FILE=$(basename "${VM_PATH}")
 VM_NAME="${VM_FILE%.*}"
 log "VM: ${VM_NAME} (${VM_PATH})"
 
-# ===== 3. DEFINIÇÃO DO DESTINO =====
+# ===== 3. DESTINO =====
 if [ -d "${DEST_PARAM}" ]; then
   DEST_DIR="${DEST_PARAM}"
   log "Destino detectado como diretório: ${DEST_DIR}"
 else
   log "Procurando disco com label '${DEST_PARAM}'..."
   DEVICE_PATH=$(findfs "LABEL=${DEST_PARAM}" 2>/dev/null || true)
-  if [ -z "${DEVICE_PATH}" ]; then
-    error_exit "Destino '${DEST_PARAM}' não é diretório nem label válido."
-  fi
+  [ -z "${DEVICE_PATH}" ] && error_exit "Destino '${DEST_PARAM}' não é diretório nem label válido."
   MOUNT_POINT="/mnt/backup-temp-${RANDOM}"
   mkdir -p "${MOUNT_POINT}"
   log "Montando ${DEVICE_PATH} em ${MOUNT_POINT}..."
@@ -243,40 +251,45 @@ else
   log "Disco montado com sucesso em ${MOUNT_POINT}"
 fi
 
-BACKUP_SUBDIR="${DEST_DIR}/${VM_NAME}"
+# ===== 4. ESTRUTURA DE PASTAS E PERMISSÕES =====
+BACKUP_ROOT="${DEST_DIR}/libvirt-bak"
+BACKUP_SUBDIR="${BACKUP_ROOT}/${VM_NAME}"
 mkdir -p "${BACKUP_SUBDIR}"
+# Permissão ampla conforme solicitado (aplicada no escopo de libvirt-bak)
+chmod -R 777 "${BACKUP_ROOT}"
 log "Destino final: ${BACKUP_SUBDIR}"
 
-# ===== 4. GERENCIAMENTO DE VM (opcional) =====
-if command -v virsh >/dev/null 2>&1; then
-  if virsh dominfo "${VM_NAME}" >/dev/null 2>&1; then
-    VM_STATE=$(virsh domstate "${VM_NAME}" | head -n1)
-    log "Estado atual da VM: ${VM_STATE}"
-    if echo "${VM_STATE}" | grep -qi running; then
-      WAS_RUNNING=1
-      log "Solicitando desligamento de '${VM_NAME}'..."
-      virsh shutdown "${VM_NAME}" || true
-      for i in $(seq 1 60); do
-        sleep 1
-        state_now=$(virsh domstate "${VM_NAME}" | head -n1)
-        if echo "${state_now}" | grep -qi "shut"; then
-          log "VM desligada."
-          break
-        fi
-        [ "${i}" -eq 60 ] && virsh destroy "${VM_NAME}" && log "Forçado desligamento."
-      done
-    fi
+# ===== 5. GERENCIAMENTO DE VM =====
+if command -v virsh >/dev/null 2>&1 && virsh dominfo "${VM_NAME}" >/dev/null 2>&1; then
+  VM_STATE=$(virsh domstate "${VM_NAME}" | head -n1)
+  log "Estado atual da VM: ${VM_STATE}"
+  if echo "${VM_STATE}" | grep -qi running; then
+    WAS_RUNNING=1
+    log "Solicitando desligamento de '${VM_NAME}'..."
+    virsh shutdown "${VM_NAME}" || true
+    for i in $(seq 1 60); do
+      sleep 1
+      state_now=$(virsh domstate "${VM_NAME}" | head -n1 || true)
+      if echo "${state_now}" | grep -qi "shut"; then
+        log "VM desligada."
+        break
+      fi
+      if [ "${i}" -eq 60 ]; then
+        log "Forçando desligamento (destroy)."
+        virsh destroy "${VM_NAME}" || true
+      fi
+    done
   fi
 fi
 
-# ===== 5. BACKUP =====
+# ===== 6. BACKUP =====
 BACKUP_FILE="${BACKUP_SUBDIR}/${VM_FILE}.backup-${TIMESTAMP}"
 log "Iniciando cópia com rsync..."
 rsync -ah --info=progress2 --inplace --sparse --no-whole-file "${VM_PATH}" "${BACKUP_FILE}"
 sync
 log "Cópia concluída."
 
-# ===== 6. VERIFICAÇÃO =====
+# ===== 7. VERIFICAÇÃO =====
 if [[ "${VM_FILE}" == *.qcow2 ]]; then
   if qemu-img check "${BACKUP_FILE}" >/dev/null 2>&1; then
     log "Integridade QCOW2 OK."
@@ -290,17 +303,21 @@ sha256sum "${BACKUP_FILE}" > "${BACKUP_FILE}.sha256"
 sync
 log "Checksum salvo."
 
-# ===== 7. REINICIAR VM (se estava ligada) =====
+# ===== 8. REINICIAR VM =====
 if command -v virsh >/dev/null 2>&1 && [ "${WAS_RUNNING}" -eq 1 ]; then
   log "Reiniciando VM '${VM_NAME}'..."
   virsh start "${VM_NAME}" || log "Falha ao iniciar VM."
 fi
 
+# ===== 9. RESULTADO + DURAÇÃO =====
+ELAPSED=$(( $(date +%s) - START_TS ))
 log "================================================="
 log "=== BACKUP CONCLUÍDO COM SUCESSO ==="
 log "================================================="
 log "Arquivo: ${BACKUP_FILE}"
-log "Tamanho: $(du -h "${BACKUP_FILE}" | cut -f1)"
+log "Tamanho: "$(du -h "${BACKUP_FILE}" | cut -f1)
+log "Duração total: $(fmt_dur "${ELAPSED}")"
+
 
 ```
 
