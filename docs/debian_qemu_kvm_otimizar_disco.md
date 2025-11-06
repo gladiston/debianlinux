@@ -173,7 +173,8 @@ A opção `cluster_size=1M` para mim é a mais significativa porque ela transfor
 mv win2k25.qcow2 win2k25.qcow2.bak
 mv win2k25-optimized.qcow2 win2k25.qcow2
 ```
-E novamente, depois de validar o boot, remova o `.bak`, mas se falhar renomeie o `.bak` para o nome do arquivo original.
+E novamente, depois de validar o boot, remova o `.bak`, mas se falhar renomeie o `.bak` para o nome do arquivo original.  
+O primeiro boot após a otimização usando este método será mais lento, mas não se preocupe, a culpa disso, é o `growing`, como o tamanho final da imagem  `qcow2` representa os dados sem nenhum espaço livre, o sistema irá criá-los na primeira execução.  Depois disso, a velocidade se normalizará até que haja um novo `growing`. Por isso, não use a opção **"B"** diariamente, use-a apenas depois de situações que descrevi no inicio. Agendar esse tipo de operação para ser diário ou mensal é perda de tempo, novamente, use-a apenas em situações que descrevi no inicio.   
   
 ---
 
