@@ -149,7 +149,8 @@ virsh start win2k25
 
 ## Backup Automatizado com Script e Montagem de Disco
 
-O script abaixo automatiza backup a frio, montando o disco identificado pelo label `backup-vms`, executando a cópia em subpasta dedicada por VM, e desmontando:
+O script abaixo automatiza backup a frio, montando o disco identificado pelo label `backup-vms`, assim, os discos externos que usar para este backup terão que ter este label ou você - eu mostro mais embaixo - especifica como parametro o label que indentificará o disco que irá usar.   
+Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e executando a cópia em subpasta dedicada por VM, e desmontando em seguida, Então crie o script `backup-vm.sh` de backup com o seguinte conteúdo:
 
 ```bash
 #!/bin/bash
