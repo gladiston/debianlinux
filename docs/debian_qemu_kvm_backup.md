@@ -333,11 +333,10 @@ Tornar executável:
 ```bash
 chmod +x backup-vm.sh
 ```
-Executar backup (sintaxe: ./backup-vm.sh <local da VM> [label-disco|caminho])  
-```bash
-./backup-vm.sh ~/libvirt/images/win2k25.qcow2 backup-vms
-```
-Mas dá para usar outros discos também, veja:
+Executar backup (sintaxe: sudo ./backup-vm.sh /local/da/vm.qcow2 [label-disco|caminho])  
+Se o segundo parametro for omitido, ele procurará como destino um disco que tenha o label **backup-vms**.
+
+Mas dá para usar discos com outros *labels* também, veja:
 ```bash
 $ lsblk -f
 NAME        FSTYPE FSVER LABEL   UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
@@ -350,11 +349,11 @@ sdb
 ```
 Agora vamos fazer o backup para o disco com o label **#hist**, executando:
 ```bash
-./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
+sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 ```
 Mas ao inves de usar o label, também podemos especificar o caminho executando:
 ```bash
-./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/dados2
+sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/dados2
 ```
 
 ---
@@ -366,16 +365,16 @@ Após executar o script, a organização de backups será:
 ```
 /media/backup-vm/
 ├── win2k25/
-│   ├── win2k25.qcow2.backup-20250206-143022
-│   ├── win2k25.qcow2.backup-20250206-143022.sha256
-│   ├── win2k25.qcow2.backup-20250207-020000
-│   └── win2k25.qcow2.backup-20250207-020000.sha256
+│   ├── win2k25.qcow2.backup-20250206-14h
+│   ├── win2k25.qcow2.backup-20250206-14h.sha256
+│   ├── win2k25.qcow2.backup-20250207-02h
+│   └── win2k25.qcow2.backup-20250207-02h.sha256
 ├── ubuntuserver/
-│   ├── ubuntuserver.qcow2.backup-20250206-143022
-│   └── ubuntuserver.qcow2.backup-20250206-143022.sha256
+│   ├── ubuntuserver.qcow2.backup-20250206-14h
+│   └── ubuntuserver.qcow2.backup-20250206-14h.sha256
 └── debian12/
-    ├── debian12.qcow2.backup-20250206-143022
-    └── debian12.qcow2.backup-20250206-143022.sha256
+    ├── debian12.qcow2.backup-20250206-14h
+    └── debian12.qcow2.backup-20250206-14h.sha256
 ```
 
 Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva**, **políticas de limpeza por VM** e **auditoria granular** de backups corporativos.
