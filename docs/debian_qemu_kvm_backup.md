@@ -156,44 +156,45 @@ Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e e
 ```bash
 #!/bin/bash
 # backup-vm.sh - Backup automatizado de máquinas virtuais QEMU+KVM
-# Autor: Gladiston Santana <gladiston.santana[em]gmail.com>
+# Autor: Gladiston Santana <gladiston.santana[at]gmail[dot]com>
 # Uso: sudo ./backup-vm.sh <caminho-da-vm> <label-ou-caminho-destino>
 # Exemplo:
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
 # Licença: MIT (Permissiva)
 # Criado em: 06/11/2025
-# Ult. Atualização: 06/11/2025
+# Ult. Atualização: 07/11/2025
 #
 # Descrição:
 #   Backup de VM QEMU/KVM com destino inteligente (label ou diretório),
-#   cópia via rsync preservando sparse, verificação qemu-img e checksum MD5 opcional.
+#   cópia via qemu-img convert (eficiência de espaço) e verificação.
 #########################################################
 
 set -euo pipefail
 START_TS=$(date +%s)
 
 # --- CONFIGURAÇÕES GERAIS ---
-TIMESTAMP_HOUR=false            # se true, adiciona "-HHh" ao nome do backup
-SKIP_CHECKSUM=false             # se true, pula geração de checksum MD5
 BACKUP_ROOT_NAME="libvirt-bak"  # nome da pasta principal de destino
+OUTPUT_FORMAT="qcow2"           # Formato de saída. 'qcow2' é recomendado para eficiência e recursos.
 
 # --- VALIDAÇÃO DE PARÂMETROS ---
 if [ $# -lt 2 ]; then
   echo "ERRO: Parâmetros insuficientes."
   echo "Uso: sudo $0 <caminho-da-vm> <label-ou-caminho-destino>"
+  echo "Exemplos de execução:"
+  echo "  # 1. Destino usando o LABEL do disco (ex: 'backup-vms')"
+  echo "  sudo $0 ~/libvirt/images/win11-dev.qcow2 \"backup-vms\""
+  echo ""
+  echo "  # 2. Destino usando o CAMINHO para o diretório"
+  echo "  sudo $0 ~/libvirt/images/win11-dev.qcow2 /media/disco2/"
   exit 1
 fi
 
 VM_PATH_RAW="${1}"
 DEST_PARAM="${2}"
 
-# monta timestamp conforme configuração
-if [ "${TIMESTAMP_HOUR}" = true ]; then
-  TIMESTAMP=$(date +%Y%m%d-%Hh)
-else
-  TIMESTAMP=$(date +%Y%m%d)
-fi
+# monta timestamp no formato YYYYMMDD-HHhMM (Ex: 20251107-13h26)
+TIMESTAMP=$(date +%Y%m%d-%Hh%M)
 
 MOUNT_POINT=""
 VM_STATE="undefined"
@@ -245,6 +246,7 @@ fi
 
 VM_FILE=$(basename "${VM_PATH}")
 VM_NAME="${VM_FILE%.*}"
+VM_EXT="${VM_FILE##*.}"
 log "VM: ${VM_NAME} (${VM_PATH})"
 
 # ===== 3. DESTINO =====
@@ -293,39 +295,36 @@ if command -v virsh >/dev/null 2>&1 && virsh dominfo "${VM_NAME}" >/dev/null 2>&
   fi
 fi
 
-# ===== 6. BACKUP =====
-BACKUP_FILE="${BACKUP_SUBDIR}/${VM_FILE}.backup-${TIMESTAMP}"
-log "Iniciando cópia com rsync..."
-rsync -ah --info=progress2 --inplace --sparse --no-whole-file "${VM_PATH}" "${BACKUP_FILE}"
+# ===== 6. BACKUP (QEMU-IMG CONVERT) =====
+# Formato do arquivo: VM_NAME.backup-YYYYMMDD-HHhMM.OUTPUT_FORMAT
+BACKUP_FILE="${BACKUP_SUBDIR}/${VM_NAME}.backup-${TIMESTAMP}.${OUTPUT_FORMAT}"
+log "Iniciando conversão/cópia com qemu-img convert..."
+
+qemu-img convert \
+  -p \
+  -O "${OUTPUT_FORMAT}" \
+  "${VM_PATH}" \
+  "${BACKUP_FILE}"
+
 sync
-log "Cópia concluída."
+log "Conversão/cópia concluída."
 
 # ===== 7. VERIFICAÇÃO =====
-if [[ "${VM_FILE}" == *.qcow2 ]]; then
-  if qemu-img check "${BACKUP_FILE}" >/dev/null 2>&1; then
-    log "Integridade QCOW2 OK."
-  else
-    error_exit "Falha na verificação QCOW2."
-  fi
-fi
-
-# ===== 8. CHECKSUM (opcional) =====
-if [ "${SKIP_CHECKSUM}" = false ]; then
-  log "Gerando checksum (MD5)..."
-  md5sum "${BACKUP_FILE}" > "${BACKUP_FILE}.md5"
-  sync
-  log "Checksum salvo em: ${BACKUP_FILE}.md5"
+# Sempre verificamos o novo arquivo de backup.
+log "Verificando integridade do arquivo de backup..."
+if qemu-img check "${BACKUP_FILE}" >/dev/null 2>&1; then
+  log "Integridade ${OUTPUT_FORMAT} OK."
 else
-  log "Checksum ignorado (SKIP_CHECKSUM=true)."
+  error_exit "Falha na verificação QEMU-IMG do backup."
 fi
 
-# ===== 9. REINICIAR VM =====
+# ===== 8. REINICIAR VM =====
 if command -v virsh >/dev/null 2>&1 && [ "${WAS_RUNNING}" -eq 1 ]; then
   log "Reiniciando VM '${VM_NAME}'..."
   virsh start "${VM_NAME}" || log "Falha ao iniciar VM."
 fi
 
-# ===== 10. RESULTADO + DURAÇÃO =====
+# ===== 9. RESULTADO + DURAÇÃO =====
 ELAPSED=$(( $(date +%s) - START_TS ))
 log "================================================="
 log "=== BACKUP CONCLUÍDO COM SUCESSO ==="
