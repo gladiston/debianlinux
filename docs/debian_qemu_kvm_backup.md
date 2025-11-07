@@ -271,7 +271,7 @@ fi
 BACKUP_ROOT="${DEST_DIR}/${BACKUP_ROOT_NAME}"
 BACKUP_SUBDIR="${BACKUP_ROOT}/${VM_NAME}"
 mkdir -p "${BACKUP_SUBDIR}"
-chmod -R 777 "${BACKUP_ROOT}"
+chmod -R 664 "${BACKUP_ROOT}"
 log "Destino final: ${BACKUP_SUBDIR}"
 
 # ===== 5. GERENCIAMENTO DE VM =====
