@@ -45,8 +45,8 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
 ## Como Fazer Backup: Estratégias
 
 * Para backups em ambientes de **desktop/laboratório**, a estratégia mais simples é o **Backup a Frio**, onde a VM é desligada rapidamente para garantir que os dados estejam consistentes antes da cópia.
-    * O método mais manual usa o comando `cp`.
-    * O método mais inteligente usa um **script de automação** que lida com o desligamento, montagem de disco e verificação de integridade.
+    * O método mais manual usa o utilitário `qemu-img convert` diretamente para a cópia eficiente.
+    * O método mais inteligente usa um **script de automação** que lida com o desligamento, a conversão via `qemu-img convert`, montagem de disco e verificação de integridade.
 
 ### 1. Backup a Frio (Máquina Desligada)
 
