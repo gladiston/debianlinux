@@ -59,27 +59,21 @@ O backup a frio garante a consistência dos dados da VM, sendo a abordagem mais 
 
 ### 2. Backup a Quente (Máquina Ligada)
 
-2.1 **Vantagens**
+#### Vantagens
    
-   a) Zero downtime; máquina continua operacional.
-   
-   b) Ideal para produção e ambientes críticos.
+* **Zero Downtime:** A máquina virtual continua operacional durante todo o processo de backup.
+* **Ideal para Produção:** É a abordagem ideal para ambientes de produção e sistemas críticos.
 
-2.2 **Desvantagens**
+#### Desvantagens
    
-   a) Requer snapshots internos ou ferramentas como `virsh blockcommit`.
-   
-   b) Mais complexo de implementar corretamente.
-   
-   c) Pode impactar performance durante a cópia.
+* **Complexidade:** Requer o uso de snapshots internos ou ferramentas avançadas como `virsh blockcommit`, sendo mais complexo de implementar corretamente.
+* **Impacto na Performance:** O processo de backup pode impactar ligeiramente a performance da VM enquanto a cópia está em andamento.
 
-2.3 **Quando usar**
+#### Quando Usar
    
-   a) VMs em produção.
-   
-   b) Servidores que não podem parar.
-   
-   c) Ambientes com SLA crítico.
+* VMs em produção.
+* Servidores que não podem parar (alta disponibilidade).
+* Ambientes com Acordos de Nível de Serviço (SLA) críticos.
 
 ### 3. Backup Incremental
 
@@ -523,6 +517,6 @@ Executar semanalmente via cron:
 
 -----
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)  
 
 [Retornar à página de Virtualização nativa com QAEMU+KVM](https://www.google.com/search?q=debian_qemu_kvm.md)  
