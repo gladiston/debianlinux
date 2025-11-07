@@ -77,19 +77,18 @@ O backup a frio garante a consistência dos dados da VM, sendo a abordagem mais 
 
 ### 3. Backup Incremental
 
-3.1 **Conceito**
-   
-   a) Primeira execução: cópia completa (full backup).
-   
-   b) Execuções subsequentes: apenas blocos alterados (delta).
-   
-   c) Reduz tempo e espaço em storage.
+O Backup Incremental é uma estratégia avançada que visa economizar espaço de armazenamento e tempo de execução, copiando apenas as alterações feitas desde o último backup.
 
-3.2 **Implementação**
-   
-   a) QEMU suporta via `qemu-img convert` com snapshots.
-   
-   b) Ferramentas como `virt-manager` abstraem essa complexidade.
+#### Conceito
+    
+* **Primeira Execução:** É realizada uma cópia completa da VM (full backup).
+* **Execuções Subsequentes:** São copiados apenas os blocos de dados alterados ou novos (o delta).
+* **Benefício:** Reduz drasticamente o tempo de backup e o espaço total consumido no storage.
+
+#### Implementação
+    
+* O QEMU suporta o backup incremental usando a ferramenta `qemu-img convert` em conjunto com a funcionalidade de snapshots.
+* Ferramentas de gerenciamento como `virt-manager` podem abstrair a complexidade desse processo.
 
 ---
 
@@ -517,6 +516,6 @@ Executar semanalmente via cron:
 
 -----
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)  
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM](https://www.google.com/search?q=debian_qemu_kvm.md)  
+[Retornar à página de Virtualização nativa com QAEMU+KVM](https://www.google.com/search?q=debian_qemu_kvm.md)
