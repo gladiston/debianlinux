@@ -116,7 +116,7 @@ No contexto de QEMU+KVM, o backup preserva o estado completo da máquina virtual
 
 ```bash
 virsh shutdown win2k25
-```
+````
 
 Aguarde a máquina desligar completamente (verificar com `virsh list --all`).
 
@@ -127,9 +127,10 @@ cp ~/libvirt/images/win2k25.qcow2 /media/backup-vm/win2k25.qcow2.backup-$(date +
 ```
 
 **Explicação:**
-- Copia o arquivo de origem para destino com timestamp
-- Exemplo de nome gerado: `win2k25.qcow2.backup-20250206-143022`
-- Timestamp evita sobrescrita de backups anteriores
+
+  - Copia o arquivo de origem para destino com timestamp
+  - Exemplo de nome gerado: `win2k25.qcow2.backup-20250206-143022`
+  - Timestamp evita sobrescrita de backups anteriores
 
 ### Passo 3: Verificar Integridade do Backup
 
@@ -145,11 +146,11 @@ Saída esperada mostra tamanho virtual, tamanho real em disco (formato QCOW2) e 
 virsh start win2k25
 ```
 
----
+-----
 
 ## Backup Automatizado com Script e Montagem de Disco
 
-O script abaixo automatiza backup a frio, montando o disco identificado pelo label `backup-vms`, assim, os discos externos que usar para este fim terão que ter este label ou você - eu mostro mais embaixo - especifica como parametro o label que indentificará o disco que irá usar. Este script não funcionará com discos que não tem label, use o `gparted` se tiver discos que precisará nomear.  
+O script abaixo automatiza backup a frio, montando o disco identificado pelo label `backup-vms`, assim, os discos externos que usar para este fim terão que ter este label ou você - eu mostro mais embaixo - especifica como parametro o label que indentificará o disco que irá usar. Este script não funcionará com discos que não tem label, use o `gparted` se tiver discos que precisará nomear.
 
 Dessa forma, o script será capaz de identificar o disco sozinho, montando-o e executando a cópia em subpasta dedicada por VM, e desmontando em seguida, Então crie o script `backup-vm.sh` de backup com o seguinte conteúdo:
 
@@ -183,10 +184,10 @@ if [ $# -lt 2 ]; then
   echo "Uso: sudo $0 <caminho-da-vm> <label-ou-caminho-destino>"
   echo "Exemplos de execução:"
   echo "  # 1. Destino usando o LABEL do disco (ex: 'backup-vms')"
-  echo "  sudo $0 ~/libvirt/images/win11-dev.qcow2 \"backup-vms\""
+  echo "  sudo $0 ~/libvirt/images/win2k25.qcow2 \"backup-vms\""
   echo ""
   echo "  # 2. Destino usando o CAMINHO para o diretório"
-  echo "  sudo $0 ~/libvirt/images/win11-dev.qcow2 /media/disco2/"
+  echo "  sudo $0 ~/libvirt/images/win2k25.qcow2 /media/disco2/"
   exit 1
 fi
 
@@ -332,27 +333,31 @@ log "================================================="
 log "Arquivo: ${BACKUP_FILE}"
 log "Tamanho: $(du -h "${BACKUP_FILE}" | cut -f1)"
 log "Duração total: $(fmt_dur "${ELAPSED}")"
-
 ```
 
-Em servidores, voce provavelmente precisará de um esquema de script diferente, discos externos por dia da semana, backup incremental/diferencial, teste de checksum o qual não é nosso proposito aqui em demonstrar. Nosso uso tá voltado para virtualizar em desktop e por isso, o script acima é suficiente.   
+Em servidores, voce provavelmente precisará de um esquema de script diferente, discos externos por dia da semana, backup incremental/diferencial, teste de checksum o qual não é nosso proposito aqui em demonstrar. Nosso uso tá voltado para virtualizar em desktop e por isso, o script acima é suficiente.
 
 O script gera um arquivo final assim:
+
 ```
-[destino]/libvirt-bak/win2k25/win2k25.qcow2.backup-20251106-14h
+[destino]/libvirt-bak/win2k25/win2k25.qcow2.backup-20251106-14h29
 ```
-O script usa `rsync` para fazer transferências, então se você repetir dois backups no mesmo dia, o ultimo substituirá o anterior, mas note que ele fará isso usando o `rsync` que fará o uso para transferir apenas o **delta** do arquivo velho para o novo.  
-Caso queira uma granularidade de hora em hora, edite a variavel **TIMESTAMP_HOUR** para **true** no script e então o backup só usará delta no ntervalo da mesma hora, ou seja, o ultimo substituirá o anterior, mas somente no intervalo da mesma hora, por exemplo, entre 14h00 e 14h59 haverá apenas um unico backup não importa o horario que executar e se executar outro às 13h00, este ultimo não substituirá o backup das 14h.  
+
+O script agora usa **`qemu-img convert`** para a cópia. Essa ferramenta garante a eficiência de espaço ao copiar apenas os blocos de dados úteis da VM. Como o timestamp inclui hora e minuto (`YYYYMMDD-HHhMM`), se você executar o backup da mesma VM em um intervalo de menos de um minuto, o arquivo será sobrescrito. Portanto, garanta intervalos de execução adequados.
 
 ## Uso do Script
-Tornar executável:  
+
+Tornar executável:
+
 ```bash
 chmod +x backup-vm.sh
 ```
-Executar backup (sintaxe: sudo ./backup-vm.sh /local/da/vm.qcow2 [label-disco|caminho])  
+
+Executar backup (sintaxe: sudo ./backup-vm.sh /local/da/vm.qcow2 [label-disco|caminho])
 Se o segundo parametro for omitido, ele procurará como destino um disco que tenha o label **backup-vms**.
 
 Mas dá para usar discos com outros *labels* também, veja:
+
 ```bash
 $ lsblk -f
 NAME        FSTYPE FSVER LABEL   UUID                                 FSAVAIL FSUSE% MOUNTPOINTS
@@ -363,39 +368,39 @@ sdb
                                                                                      /mnt/dados2
 (...)
 ```
-Agora vamos fazer o backup para o disco com o label **#hist**, executando:
+
+Agora vamos fazer o backup para o disco com o label **\#hist**, executando:
+
 ```bash
 sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
 ```
+
 Mas ao inves de usar o label, também podemos especificar o caminho executando:
+
 ```bash
 sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/dados2
 ```
 
----
+-----
 
 ## Estrutura de Diretórios Resultante
 
 Após executar o script, a organização de backups será:
 
 ```
-/media/backup-vm/
+/media/backup-vm/libvirt-bak/
 ├── win2k25/
 │   ├── win2k25.qcow2.backup-20250206
-│   ├── win2k25.qcow2.backup-20250206.md5sum
-│   ├── win2k25.qcow2.backup-20250207
-│   └── win2k25.qcow2.backup-20250207.md5sum
+│   └── win2k25.qcow2.backup-20250207
 ├── ubuntuserver/
-│   ├── ubuntuserver.qcow2.backup-20250206
-│   └── ubuntuserver.qcow2.backup-20250206.md5sum
+│   └── ubuntuserver.qcow2.backup-20250206
 └── debian12/
-    ├── debian12.qcow2.backup-20250206
-    └── debian12.qcow2.backup-20250206.md5sum
+    └── debian12.qcow2.backup-20250206
 ```
 
 Cada VM possui sua própria subpasta isolada, facilitando **retenção seletiva**, **políticas de limpeza por VM** e **auditoria granular** de backups corporativos.
 
----
+-----
 
 ## Agendamento com Cron
 
@@ -404,7 +409,9 @@ Para backup automático diário às 2h da manhã:
 ```bash
 sudo editor /etc/crontab
 ```
+
 E adicionar linha:
+
 ```
 0 2 * * * /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
@@ -417,9 +424,9 @@ Para múltiplas VMs em sequência:
 0 3 * * * /caminho/para/backup-vm.sh /local/da/vm/debian12.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
 
-No exemplo acima, você deve ter certeza de que os intervalos de backup para o outro são suficientes, porque o script ejeta o disco no final e não poderia fazer isso se outro backup tiver sido iniciado.  
+No exemplo acima, você deve ter certeza de que os intervalos de backup para o outro são suficientes, porque o script ejeta o disco no final e não poderia fazer isso se outro backup tiver sido iniciado.
 
----
+-----
 
 ## Verificação e Restauração de Backup
 
@@ -433,21 +440,7 @@ Saída esperada:
 
 ```
 -rw-r--r-- 1 root root 50G Feb  6 14:30 win2k25.qcow2.backup-20250206
--rw-r--r-- 1 root root 128 Feb  6 14:31 win2k25.qcow2.backup-20250206.md5sum
 -rw-r--r-- 1 root root 50G Feb  7 02:00 win2k25.qcow2.backup-20250207
--rw-r--r-- 1 root root 128 Feb  7 02:01 win2k25.qcow2.backup-20250207.md5sum
-```
-
-### Validar checksum antes de restaurar
-
-```bash
-md5sum -c /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022.md5sum
-```
-
-Saída esperada:
-
-```
-win2k25.qcow2.backup-20250206-143022: OK
 ```
 
 ### Restaurar a partir de backup
@@ -469,7 +462,7 @@ qemu-img check ~/libvirt/images/win2k25.qcow2
 virsh start win2k25
 ```
 
----
+-----
 
 ## Manutenção e Limpeza de Backups Antigos
 
@@ -491,7 +484,7 @@ find /media/backup-vm/libvirt-bak/win2k25/ -name "*.backup-*" -mtime +30 -delete
 du -sh /media/backup-vm/libvirt-bak/*/
 ```
 
----
+-----
 
 ## Monitoramento e Alertas
 
@@ -520,11 +513,9 @@ Executar semanalmente via cron:
 0 3 * * 0 /caminho/para/verify-backups.sh | mail -s "Verificação de Backups" admin@empresa.com
 ```
 
----
+-----
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)  
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM](debian_qemu_kvm.md)   
-
-
+[Retornar à página de Virtualização nativa com QAEMU+KVM](https://www.google.com/search?q=debian_qemu_kvm.md)  
 
