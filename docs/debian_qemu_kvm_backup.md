@@ -158,7 +158,7 @@ Aqui está o script `backup-vm.sh` com o conteúdo completo:
 ```bash
 #!/bin/bash
 # backup-vm.sh - Backup automatizado de máquinas virtuais QEMU+KVM
-# Autor: Gladiston Santana <gladiston.santana[at]gmail[dot]com>
+# Autor: Gladiston Santana <gladiston.santana[at]gmail.dot.com>
 # Uso: sudo ./backup-vm.sh <caminho-da-vm> <label-ou-caminho-destino>
 # Exemplo:
 #   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
@@ -411,18 +411,18 @@ Para backup automático diário às 2h da manhã:
 sudo editor /etc/crontab
 ```
 
-E adicionar linha:
+E adicionar linha, especificando o usuário **root**:
 
 ```
-0 2 * * * /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+0 2 * * * root /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
 
 Para múltiplas VMs em sequência:
 
 ```bash
-0 2 * * * /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
-30 2 * * * /caminho/para/backup-vm.sh /local/da/vm/ubuntuserver.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
-0 3 * * * /caminho/para/backup-vm.sh /local/da/vm/debian12.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+0 2 * * * root /caminho/para/backup-vm.sh /local/da/vm/win2k25.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+30 2 * * * root /caminho/para/backup-vm.sh /local/da/vm/ubuntuserver.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
+0 3 * * * root /caminho/para/backup-vm.sh /local/da/vm/debian12.qcow2 backup-vms >> /var/log/backup-vm-cron.log 2>&1
 ```
 
 No exemplo acima, você deve ter certeza de que os intervalos de backup para o outro são suficientes, porque o script ejeta o disco no final e não poderia fazer isso se outro backup tiver sido iniciado.
@@ -446,20 +446,43 @@ Saída esperada:
 
 ### Restaurar a partir de backup
 
+A restauração envolve substituir a imagem de disco atual da VM pela cópia de backup.
+
+#### 1\. Parar a VM em produção
+
 ```bash
-# 1. Parar a VM em produção
 virsh destroy win2k25
+```
 
-# 2. Fazer backup da versão atual comprometida (opcional, recomendado)
+#### 2\. Fazer backup da versão atual comprometida (opcional, recomendado)
+
+Para ter uma cópia de segurança do disco atual (mesmo que corrompido) antes de restaurar:
+
+```bash
 mv ~/libvirt/images/win2k25.qcow2 ~/libvirt/images/win2k25.qcow2.corrupted-$(date +%Y%m%d)
+```
 
-# 3. Copiar backup para origem
+#### 3\. Copiar backup para origem
+
+Substitua o arquivo de disco principal pelo arquivo de backup verificado.
+
+```bash
 cp /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022 ~/libvirt/images/win2k25.qcow2
+```
 
-# 4. Verificar integridade
+#### 4\. Verificar integridade
+
+Uma verificação rápida da cópia restaurada é sempre recomendada.
+
+```bash
 qemu-img check ~/libvirt/images/win2k25.qcow2
+```
 
-# 5. Reiniciar VM
+#### 5\. Reiniciar VM
+
+Inicie a máquina virtual usando o disco restaurado.
+
+```bash
 virsh start win2k25
 ```
 
@@ -470,7 +493,7 @@ virsh start win2k25
 ### Listar backups por antigüidade
 
 ```bash
-ls -lht /media/backup-vm/libvirt-bak/win2k25/ | head -10
+ls -lht /media/backup-vm/libvirt-bak/win2k25/
 ```
 
 ### Remover backups com mais de 30 dias
