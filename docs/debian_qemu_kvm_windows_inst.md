@@ -265,12 +265,8 @@ Agora, podemos prosseguir normalmente com a instalação do Windows, já temos o
 
 A instalação é bem rápida, muito mais rápido do que seria num hardware convencional. 
 
-Após o primeiro **reboot**, voce será convidado a definir uma senha para o Administrador, especifique uma e provavelmente você gostaria de definir uma senha em brano,mas isso não vai funcionar.  
-
-Quando chegar à tela de **Boas vindas**, no meu caso a do Windows 2025 - a edição do Windows que escolhi - notará que o teclado não funciona, isso porque alguém achou que seria ótimo pressionar **Ctrl+Alt+Delete** para iniciar o logon e aqui temos um problema, o Linux usa essas teclas também, por essa rzão você irá no topo da janela do virt-manager onde está **Enviar tecla** e escolha a opção **Cltr+Alt+Delete**:  
-![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows31.png)   
-
-Após o primeiro login, você precisará instalar as ferramentas de convidado, dentro do Windows vá até a segunda unidade de CDROM onde estãos os drivers para convidado VirtIO, você verá nele o aplicativo:  
+Inicie a VM e após o boot do Windows ter concluído, e após o primeiro login, você precisará instalar as ferramentas de convidado.  
+Dentro do Windows vá até a unidade de CDROM onde estãos os drivers para convidado VirtIO, você verá nele o aplicativo:  
 ```
 E:\virtio-win-guest-tools.exe
 ```
@@ -281,9 +277,8 @@ A tela piscará algumas vezes, não se assuste. Não é necessário reiniciar a 
 Para verificar se os drivers já estão funcionando, vá no topo da janela do virt-manager em **Exibir|Escalonar a exibição|** e marque a opção **Redimensionar automaticamente a VM com janela***:  
 ![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows33.png)   
 
-Depois disso, notará que pode sair da janela sem precisar teclar Ctrl+Alt esquerdos e o Windows muda sua resolução a medida que mudamos a janela do virt-manager.   
-Se você for no topo ao centro e ficar com o ponteiro do mouse ali por 1s, aparecerá dois botões que estavam camuflados, um deles é para sair de tela cheia e o outro para enviar combinações de tecla como Ctrl+Alt+Del.  
-
+Depois disso, notará que pode sair da janela sem precisar teclar Ctrl+Alt esquerdos e o Windows muda sua resolução a medida que redimencionamos a janela do virt-manager.   
+Se você for no topo ao centro e ficar com o ponteiro do mouse ali parado por 1s, aparecerá dois botões que estavam camuflados, um deles é para sair de tela cheia e o outro para enviar combinações de tecla como Ctrl+Alt+Del.  
 
 Ainda nos resta instalar um driver muito importante, o `WinFsp`, sem ele, não poderemos compartilhar arquivos entre hospedeiro e convidado.  
 Visite à página:  
@@ -292,12 +287,11 @@ Visite à página:
 E então baixe a versão mais recente.  
 ![página WinSFP](../img/debian_qemu_kvm_windows59.png)   
 
-Depois de instalado, execute `services.msc` e procure pelo serviço **VirtIO-FS Service**, e habilite-o para iniciar junto com o Windows:  
+Depois de instalado, execute `services.msc` como administrador e procure pelo serviço **VirtIO-FS Service**, e habilite-o para iniciar junto com o Windows:  
 
 ![VirtIO-FS Service](../img/debian_qemu_kvm_windows60.png)   
 
 Se você tentar iniciar o serviço **VirtIO-FS Service** é provavel que ainda não consiga, isso pode acontecer porque você ainda não usou o recurso de compartilhamento de pastas, então por não haver pastas para compartilhar, o serviço não inicie. Mas deixe-o habilitado porque nas próximas etapas faremos isso.  
-
 
 ---
 
