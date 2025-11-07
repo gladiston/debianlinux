@@ -282,7 +282,7 @@ Para verificar se os drivers já estão funcionando, vá no topo da janela do vi
 ![Incluindo o driver de rede VirtIO](../img/debian_qemu_kvm_windows33.png)   
 
 Depois disso, notará que pode sair da janela sem precisar teclar Ctrl+Alt esquerdos e o Windows muda sua resolução a medida que mudamos a janela do virt-manager.   
-Se vocÊ for no topo ao centro e ficar com o ponteiro do mouse ali por 1s, aparecerá dois botões que estavam camuflados, um deles é para sair de tela cheia e o outro para enviar combinações de tecla como Ctrl+Alt+Del.  
+Se você for no topo ao centro e ficar com o ponteiro do mouse ali por 1s, aparecerá dois botões que estavam camuflados, um deles é para sair de tela cheia e o outro para enviar combinações de tecla como Ctrl+Alt+Del.  
 
 
 Ainda nos resta instalar um driver muito importante, o `WinFsp`, sem ele, não poderemos compartilhar arquivos entre hospedeiro e convidado.  
