@@ -65,6 +65,11 @@ Para a segurança de seu sistema hospedeiro e convidado:
 
 Além de mais seguro, essas dicas, interrompem programas erroneamente chamados de **telemetria** que acompanham produtos comerciais e gratuítos, mas que no fundo são **spywares** como qualquer outro.  
 
+## Dicas do YouTube
+
+Este vídeo demonstra o poder e o uso do **Virtio-FS** no Proxmox, reforçando a performance da tecnologia e mostrando a diferença de velocidade em relação a métodos mais lentos como o WebDAV:
+
+[COMPARTILHANDO ARQUIVOS ENTRE VMs NO PROXMOX? VEJA O PODER DO VIRTIO-FS\!](https://www.youtube.com/watch?v=1kGtxAVFIqc)  
 
 ---
 
