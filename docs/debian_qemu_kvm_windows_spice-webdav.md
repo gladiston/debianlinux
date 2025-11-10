@@ -1,4 +1,4 @@
-[# WEB-DAV - COMPARTILHANDO ARQUIVOS VIA SPICE WebDAV
+# WEB-DAV - COMPARTILHANDO ARQUIVOS VIA SPICE WebDAV
 
 O **SPICE** (*Simple Protocol for Independent Computing Environments*) é um protocolo de código aberto desenvolvido para acesso remoto de alta performance a ambientes de desktop virtualizados, sendo amplamente utilizado pelo **QEMU/KVM** e `virt-manager`. Ele lida com a compressão, *encoding* e transporte de dados gráficos, áudio e periféricos (como teclado e mouse) entre o host Linux e o convidado Windows.
 
