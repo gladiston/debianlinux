@@ -110,5 +110,4 @@ O **`virt-manager`** é a ferramenta de **gerenciamento** que cria e configura a
 
 -----
 
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](https://www.google.com/search?q=debian_qemu_kvm_windows.md)
-](https://www.spice-space.org/download/windows/spice-webdavd/)
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)
