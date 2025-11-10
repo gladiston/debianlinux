@@ -63,7 +63,11 @@ O compartilhamento efetivo da pasta do hospedeiro é configurado através do `vi
     sudo mount --bind /home/gsantana/Downloads /home/gsantana/work/downloads
     sudo mount --bind /home/gsantana/docs /home/gsantana/work/docs
     ```
-    Isso permite que você exporte um único ponto de entrada para todas as pastas necessárias.
+    Onde:
+    * /home/gsantana/downloads é uma pasta real com arquivos dentro que será montada (mount --bind) na pasta vazia /home/gsantana/work/downloads.
+    * /home/gsantana/docs é uma pasta real com arquivos dentro que será montada (mount --bind) na pasta vazia /home/gsantana/work/docs.
+    E você vai linkando (mount --bind) dessa forma todas as pastas de que precisa dentro de /home/gsantana/work.  
+    Isso permite que você exporte um único ponto de entrada para todas as pastas necessárias.  
 2.  No `virt-viewer` (a janela que mostra o desktop do Windows):
       * Vá em **Arquivo** (*File*) \> **Preferências** (*Preferences*).
       * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`.
