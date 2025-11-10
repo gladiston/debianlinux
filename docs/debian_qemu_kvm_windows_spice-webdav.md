@@ -1,11 +1,3 @@
-Entendido. Para garantir a coerência com o primeiro artigo sobre Virtio-FS (que já usa a **OPÇÃO 1** de consolidar tudo em `~/work`), farei o mesmo no artigo sobre WebDAV.
-
-No entanto, como o WebDAV via SPICE usa o **`virt-viewer`** para selecionar a pasta (e não as configurações do `virt-manager` como o Virtio-FS), farei a sugestão na seção de **SEGURANÇA**, onde você já recomenda essa prática.
-
-Não há uma opção direta para criar um *pool* no `virt-manager` para o WebDAV como há para o Virtio-FS, então vou focar em instruir o usuário a selecionar essa pasta consolidada no `virt-viewer`.
-
------
-
 # WEB-DAV - COMPARTILHANDO ARQUIVOS VIA SPICE WebDAV
 
 O **SPICE** (*Simple Protocol for Independent Computing Environments*) é um protocolo de código aberto desenvolvido para acesso remoto de alta performance a ambientes de desktop virtualizados, sendo amplamente utilizado pelo **QEMU/KVM** e `virt-manager`. Ele lida com a compressão, *encoding* e transporte de dados gráficos, áudio e periféricos (como teclado e mouse) entre o host Linux e o convidado Windows.
