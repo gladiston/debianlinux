@@ -1,3 +1,11 @@
+Entendido. Para garantir a coerência com o primeiro artigo sobre Virtio-FS (que já usa a **OPÇÃO 1** de consolidar tudo em `~/work`), farei o mesmo no artigo sobre WebDAV.
+
+No entanto, como o WebDAV via SPICE usa o **`virt-viewer`** para selecionar a pasta (e não as configurações do `virt-manager` como o Virtio-FS), farei a sugestão na seção de **SEGURANÇA**, onde você já recomenda essa prática.
+
+Não há uma opção direta para criar um *pool* no `virt-manager` para o WebDAV como há para o Virtio-FS, então vou focar em instruir o usuário a selecionar essa pasta consolidada no `virt-viewer`.
+
+-----
+
 # WEB-DAV - COMPARTILHANDO ARQUIVOS VIA SPICE WebDAV
 
 O **SPICE** (*Simple Protocol for Independent Computing Environments*) é um protocolo de código aberto desenvolvido para acesso remoto de alta performance a ambientes de desktop virtualizados, sendo amplamente utilizado pelo **QEMU/KVM** e `virt-manager`. Ele lida com a compressão, *encoding* e transporte de dados gráficos, áudio e periféricos (como teclado e mouse) entre o host Linux e o convidado Windows.
@@ -30,8 +38,8 @@ Dito isso, o WebDAV via SPICE é uma alternativa estável, embora **mais lenta**
 
 1.  Inicie a VM.
 2.  Baixe e instale o **`spice-webdavd`** no Windows convidado. Este pacote contém o serviço necessário para que o Windows se conecte ao canal WebDAV.
-      * O instalador pode ser encontrado no repositório de drivers e ferramentas do VirtIO para Windows, tipicamente no pacote **`virtio-win-guest-tools.exe`** ou separadamente:
-        [spice-webdavd (arquivos MSI)](https://www.google.com/search?q=https://gitlab.freedesktop.org/spice/win32/spice-webdavd/-/releases)
+      * O instalador pode ser encontrado na página oficial do projeto:
+        [spice-webdavd (Download)](https://www.spice-space.org/download/windows/spice-webdavd/)
 3.  Após a instalação, verifique se o serviço **`Spice webdav proxy`** está em execução.
       * Execute `services.msc` no Windows.
       * Localize o serviço **`Spice webdav proxy`**.
@@ -45,9 +53,17 @@ Dito isso, o WebDAV via SPICE é uma alternativa estável, embora **mais lenta**
 
 O compartilhamento efetivo da pasta do hospedeiro é configurado através do `virt-viewer`:
 
-1.  No `virt-viewer` (a janela que mostra o desktop do Windows):
+1.  **Preparação no Host:** Para maior segurança e organização (seguindo a prática recomendada no seu artigo Virtio-FS), crie e use uma pasta consolidada no seu sistema hospedeiro, por exemplo:
+    ```bash
+    mkdir -p /home/gsantana/work
+    # Se precisar incluir outras pastas, use bind mounts:
+    # mkdir -p /home/gsantana/work/docs
+    # sudo mount --bind /home/gsantana/docs /home/gsantana/work/docs
+    ```
+    Isso permite que você exporte um único ponto de entrada para todas as pastas necessárias.
+2.  No `virt-viewer` (a janela que mostra o desktop do Windows):
       * Vá em **Arquivo** (*File*) \> **Preferências** (*Preferences*).
-      * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta do seu sistema Linux que você deseja exportar.
+      * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`.
 
 Alternativamente, dentro do Windows, você pode executar o *script* de mapeamento de unidade (se instalado com o `spice-webdavd`), que é o atalho para montar o compartilhamento WebDAV como uma letra de *drive*:
 
@@ -105,8 +121,16 @@ O **`virt-manager`** é a ferramenta de **gerenciamento** que cria e configura a
 ## SEGURANÇA
 
 1.  Não é recomendado exportar o seu diretório `$HOME` inteiro.
-2.  Use o `virt-viewer` para selecionar **apenas a pasta necessária** para a VM convidada.
+2.  **Siga a OPÇÃO 1 do Virtio-FS:** Para máxima segurança e organização, crie uma pasta consolidada similar ao exemplo **`/home/gsantana/work`** e use *bind mounts* para incluir apenas as subpastas desejadas. Em seguida, exporte apenas esta pasta consolidada através do `virt-viewer`.
 3.  Lembre-se que o WebDAV via SPICE é mais lento que o Virtio-FS, sendo mais adequado para arquivos pequenos ou acesso esporádico.
+
+-----
+
+## Dicas do YouTube
+
+Este vídeo demonstra o poder e o uso do **Virtio-FS** no Proxmox, reforçando a performance da tecnologia e mostrando a diferença de velocidade em relação a métodos mais lentos como o WebDAV:
+
+[COMPARTILHANDO ARQUIVOS ENTRE VMs NO PROXMOX? VEJA O PODER DO VIRTIO-FS\!](https://www.youtube.com/watch?v=1kGtxAVFIqc)
 
 -----
 
