@@ -55,10 +55,13 @@ O compartilhamento efetivo da pasta do hospedeiro é configurado através do `vi
 
 1.  **Preparação no Host:** Para maior segurança e organização (seguindo a prática recomendada no seu artigo Virtio-FS), crie e use uma pasta consolidada no seu sistema hospedeiro, por exemplo:
     ```bash
-    mkdir -p /home/gsantana/work
-    # Se precisar incluir outras pastas, use bind mounts:
-    # mkdir -p /home/gsantana/work/docs
-    # sudo mount --bind /home/gsantana/docs /home/gsantana/work/docs
+    mkdir -p /home/gsantana/work            # pasta vazia
+    mkdir -p /home/gsantana/work/downloads  # pasta vazia
+    mkdir -p /home/gsantana/work/docs       # pasta vazia
+     
+    # usando bind mounts:
+    sudo mount --bind /home/gsantana/Downloads /home/gsantana/work/downloads
+    sudo mount --bind /home/gsantana/docs /home/gsantana/work/docs
     ```
     Isso permite que você exporte um único ponto de entrada para todas as pastas necessárias.
 2.  No `virt-viewer` (a janela que mostra o desktop do Windows):
