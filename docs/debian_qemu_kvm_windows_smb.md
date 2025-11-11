@@ -65,6 +65,8 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
         valid users = gsantana
         public = no
         writable = yes
+        follow symlinks = yes
+        wide links = yes
         
         # Máscaras de permissão
         create mask = 0644
