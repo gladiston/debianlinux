@@ -50,7 +50,7 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
     sudo editor /etc/samba/smb.conf
     ```
 
-3.  **Solução de Compatibilidade para Links Simbólicos (Symlinks)**
+3.  **Solução de Compatibilidade para Links Simbólicos (Symlinks)**  
     A incompatibilidade na visualização de pastas ou arquivos dentro do Windows ocorre frequentemente quando o Samba encontra **links simbólicos** que apontam para fora do diretório compartilhado. Por padrão, o Samba tenta aplicar as extensões e atributos de segurança do UNIX (permissões, proprietário, grupo) à conexão SMB/CIFS, o que pode confundir clientes Windows.  
     
     Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:  
@@ -64,7 +64,7 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
         (...)
     ```    
     
-5.  **Adicionar o Novo Compartilhamento:**
+4.  **Adicionar o Novo Compartilhamento:**
     Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
     ```ini
