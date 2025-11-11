@@ -161,16 +161,16 @@ Iremos criar uma pasta C:\mnt e dentro dela links simbólicos que apontam para n
     ```
 
 3.  **Criar o Link Simbólico:**
-    Use o comando `MKLINK` com a opção `/D` (para diretórios), apontando o caminho local (`C:\Mnt\work`) para o caminho de rede (UNC).
+    Use o comando `MKLINK` com a opção `/D` (para diretórios), apontando o caminho local (`C:\mnt\work`) para o caminho de rede (UNC).
 
     Substitua `IP_DO_SEU_DEBIAN` pelo endereço real do seu servidor.
 
     ```cmd
-    mklink /D C:\Mnt\work \\IP_DO_SEU_LINUX\work
+    mklink /D C:\mnt\work \\IP_DO_SEU_LINUX\work
     ```
 
 4.  **Resultado:**
-    A pasta compartilhada do Linux agora é acessível diretamente no seu sistema Windows através do caminho local **`C:\Mnt\work`**.
+    A pasta compartilhada do Linux agora é acessível diretamente no seu sistema Windows através do caminho local **`C:\mnt\work`**.
 
 -----
 ## 3\. Configuração do Firewall (UFW) no Debian/Ubuntu
