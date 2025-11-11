@@ -123,11 +123,21 @@ Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usa
 Siga as instruções abaixo:  
 [COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_virtiofs.md)  
 
+### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SAMBA
+Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o protocolo SMB/CIFS, ele é a implementação Linux do compartilhamento de arquivos/pastas do Windows.  
+Usando este tipo de compartilhamento, não apenas suas VMs acessam o que voce decidir compartilhar, mas também suas VMs.  
+Este tipo de compartilhamento é bem versátil, no entanto, entenda que para funcionar você precisa de interface de rede, NAT ou BRIDGE. Seu computador sozinho funcionará desde que a interface de rede esteja habilitada, desligou a interface de rede, não haverá mais compartilhamentos.  
+
+Siga as instruções abaixo:  
+[Compartilhamento de arquivos via SMB/CIFS](debian_qemu_kvm_windows_smb.md)  
+
+
 
 ### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
 Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o SPICE-WEBDAV. Esse é o método conhecido por muitos devs no mundo windows.  
 Siga as instruções abaixo:  
-[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)  
+(em criação)
+~[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)~
 
 
 ## MAXIMIZANDO PERFORMANCE NAS VMs
