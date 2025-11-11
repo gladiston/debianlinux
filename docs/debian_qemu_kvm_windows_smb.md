@@ -12,7 +12,7 @@ Instale os pacotes necessários para o servidor Samba e as ferramentas de client
 
 ```bash
 sudo apt update
-sudo apt install samba smbclient -y
+sudo apt install -y samba smbclient
 ```
 
 ### 1.2. Criação e Configuração do Usuário Samba
@@ -47,10 +47,24 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
 2.  **Editar o Arquivo de Configuração:**
 
     ```bash
-    sudo nano /etc/samba/smb.conf
+    sudo editor /etc/samba/smb.conf
     ```
 
-3.  **Adicionar o Novo Compartilhamento:**
+3.  **Solução de Compatibilidade para Links Simbólicos (Symlinks)**
+    A incompatibilidade na visualização de pastas ou arquivos dentro do Windows ocorre frequentemente quando o Samba encontra **links simbólicos** que apontam para fora do diretório compartilhado. Por padrão, o Samba tenta aplicar as extensões e atributos de segurança do UNIX (permissões, proprietário, grupo) à conexão SMB/CIFS, o que pode confundir clientes Windows.  
+    
+    Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:  
+    
+    Adicione a diretiva `unix extensions = no` na seção `[global]` do arquivo `/etc/samba/smb.conf`. Esta linha desabilita a tentativa do Samba de usar atributos de arquivo UNIX, melhorando a compatibilidade com o Windows, especialmente ao lidar com links simbólicos:  
+    ```Ini, TOML
+    [global]
+        (...)
+        workgroup = WORKGROUP
+        unix extensions = no    ; <<< Adicionar esta linha
+        (...)
+    ```    
+    
+5.  **Adicionar o Novo Compartilhamento:**
     Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
     ```ini
@@ -74,7 +88,7 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
     force group = gsantana
     ```
 
-4.  **Salvar e Sair** do editor.
+5.  **Salvar e Sair** do editor.
 
 ### 1.4. Verificação de Permissões no Linux
 
