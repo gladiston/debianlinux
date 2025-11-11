@@ -60,10 +60,11 @@ Assim, que estes serviços forem iniciados, olhe novamente para o explorer e not
 ## SEGURANÇA
 Para a segurança de seu sistema hospedeiro e convidado:  
 1. Você pode criar uma pool para seu $HOME, mas não deve exportar seu $HOME inteiro para dentro de uma VM.  
-2. Aprenda a exportar como `Source Path` apenas as pastas de que aquela VM precisará.
+2. Aprenda a exportar como `Source Path` apenas as pastas de que aquela VM precisará. Além de mais seguro, limita programas que fazem **telemetria**, mas que no fundo são **spywares** que ficam bisbilhotando seu sistema.   
 3. Minha preferencia, crie uma pasta similar ao exemplo **work** e use *bind mounts* para indicar apenas as pastas desejadas dentro desse `Source Path`.
+4. Se você trabalha com Delphi, trabalhe diretamente na unidade **work** seja lá qual for a letra de drive que o Windows der para ela, mas evite fazê-lo usar links simblicos apontando para esta unidade, o Delphi ao usar links simbolicos parece falhar em achar os arquivos, embora eles estejam lá. Curiosamente, links simbolicos apontem para compartilhamentos de rede, o Delphi funciona perfeitamente.  
 
-Além de mais seguro, essas dicas, interrompem programas erroneamente chamados de **telemetria** que acompanham produtos comerciais e gratuítos, mas que no fundo são **spywares** como qualquer outro.  
+
 
 ## Dicas do YouTube
 
