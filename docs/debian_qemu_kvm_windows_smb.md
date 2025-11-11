@@ -54,27 +54,24 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
     Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
     ```ini
-    ##############################################################
-    # Compartilhamento Personalizado: gsantana/work
-    ##############################################################
-    [work]
-        comment = Pasta de Trabalho do gsantana
-        path = /home/gsantana/work
-        browseable = yes
-        read only = no
-        valid users = gsantana
-        public = no
-        writable = yes
-        follow symlinks = yes
-        wide links = yes
-        
-        # Máscaras de permissão
-        create mask = 0644
-        directory mask = 0755
-        
-        # Configurações de segurança para mapeamento de usuário
-        force user = gsantana
-        force group = gsantana
+[work]
+    comment = Pasta de Trabalho do gsantana
+    path = /home/gsantana/work
+    browseable = yes
+    read only = no
+    valid users = gsantana
+    public = no
+    writable = yes
+    follow symlinks = yes
+    wide links = yes
+
+    # Máscaras de permissão
+    create mask = 0644
+    directory mask = 0755
+
+    # Configurações de segurança para mapeamento de usuário
+    force user = gsantana
+    force group = gsantana
     ```
 
 4.  **Salvar e Sair** do editor.
