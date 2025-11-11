@@ -56,18 +56,18 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
     Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:  
     
     Adicione a diretiva `unix extensions = no` na seção `[global]` do arquivo `/etc/samba/smb.conf`. Esta linha desabilita a tentativa do Samba de usar atributos de arquivo UNIX, melhorando a compatibilidade com o Windows, especialmente ao lidar com links simbólicos:  
-    ```Ini, TOML
+```Ini, TOML
     [global]
         (...)
         workgroup = WORKGROUP
         unix extensions = no    ; <<< Adicionar esta linha
         (...)
-    ```    
+```  
     
 4.  **Adicionar o Novo Compartilhamento:**
     Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
-    ```ini
+```ini
 [work]
     comment = Pasta de Trabalho do gsantana
     path = /home/gsantana/work
@@ -86,19 +86,20 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
     # Configurações de segurança para mapeamento de usuário
     force user = gsantana
     force group = gsantana
-    ```
+```
 
 5.  **Salvar e Sair** do editor.
 
 ### 1.4. Verificação de Permissões no Linux
 
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
-
+Define gsantana como dono (se necessário):  
 ```bash
-# Define gsantana como dono (se necessário)
 sudo chown -R gsantana:gsantana /home/gsantana/work
+```
 
-# Garante permissões rwx (7) ao proprietário
+Garante permissões rwx (7) ao proprietário:  
+```
 sudo chmod -R 755 /home/gsantana/work
 ```
 
