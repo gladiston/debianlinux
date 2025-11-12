@@ -1,6 +1,8 @@
 # Compartilhamento de Pastas com Samba no Debian 13 e Acesso via Windows
 
 Este documento fornece um guia completo, passo a passo, para configurar um compartilhamento de rede (SMB/CIFS) seguro usando o Samba no Debian 13 (Trixie) e acessá-lo a partir de um cliente Windows, utilizando um link simbólico local.  
+Usar um compartilhamento da forma a seguir é mais familiar para usuários do mundo Windows, é provavel que prefiram este método conhecido do que usar os métodos usando virtio-fs ou virtio-webdav.  
+
 Para o correto entendimento, nos exemplos a seguir, assumiremos que:
 **IP do hospedereiro**: 192.168.1.50
 **Usuario/conta do hospedeiro**: gsantana
