@@ -15,7 +15,11 @@ Instale os pacotes necessários para o servidor Samba e as ferramentas de client
 
 ```bash
 sudo apt update
-sudo apt install -y samba smbclient
+sudo apt install -y samba smbclient cifs-utils kio-fuse
+```
+Mas dependendo da distro debian-like ou ubuntu-like, o servidor de dominios também pode ser habilitado e não precisamos dele então para garantir que não esteja habilitado, executamos também:  
+```bash
+sudo systemctl disable samba-ad-dc
 ```
 
 ### 1.2. Criação e Configuração do Usuário Samba
