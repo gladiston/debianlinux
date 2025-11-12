@@ -118,19 +118,19 @@ O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
 
 Se não estiver funcionando, confirme se o host está com o serviço spice-vdagentd e spice-webdavd funcionando, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, esta parte do guia também não funcionará.  
 
-### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
-Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o virtiofs+WinSFP. Esse é o método mais performático que existe.  
-Siga as instruções abaixo:  
-[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_virtiofs.md)  
-
 ### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SAMBA
 Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o protocolo SMB/CIFS, ele é a implementação Linux do compartilhamento de arquivos/pastas do Windows.  
 Usando este tipo de compartilhamento, não apenas suas VMs acessam o que voce decidir compartilhar, mas também suas VMs.  
-Este tipo de compartilhamento é bem versátil, no entanto, entenda que para funcionar você precisa de interface de rede, NAT ou BRIDGE. Seu computador sozinho funcionará desde que a interface de rede esteja habilitada, desligou a interface de rede, não haverá mais compartilhamentos.  
+Para usuários do mundo Windows, este método será o mais familiar, por isso, vamos começar por ele, mas existem outros dois tipos **virtio-fs** e **virtio-webdav** que são completamente novos para muitos usuários e carecem de instalação de software exterior. Por outro lado, o compartilhamento via SAMBA é muito simples e não requer instalação adicional dentro da VM windows.   
+Conforme dito, este tipo de compartilhamento é bem versátil, no entanto, entenda que para funcionar você precisa de interface de rede, NAT ou BRIDGE, não importa, mas precisa existir. 
 
 Siga as instruções abaixo:  
 [Compartilhamento de arquivos via SMB/CIFS](debian_qemu_kvm_windows_smb.md)  
 
+### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
+Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o virtiofs+WinSFP. Esse é o método mais performático que existe.  
+Siga as instruções abaixo:  
+[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_virtiofs.md)  
 
 
 ### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
