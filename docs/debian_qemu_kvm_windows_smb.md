@@ -119,7 +119,13 @@ sudo chmod -R 755 /home/gsantana/work
     sudo systemctl restart smbd
     ```
 
-3.  **Testar o Acesso Localmente (Opcional):**
+4.  **Iniciar o Serviço SMB após o boot:**
+
+    ```bash
+    sudo systemctl enable smbd
+    ```
+    
+4.  **Testar o Acesso Localmente (Opcional):**
 
     ```bash
     smbclient //localhost/work -U gsantana
