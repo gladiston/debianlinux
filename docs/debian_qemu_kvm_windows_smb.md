@@ -1,6 +1,9 @@
 # Compartilhamento de Pastas com Samba no Debian 13 e Acesso via Windows
 
-Este documento fornece um guia completo, passo a passo, para configurar um compartilhamento de rede (SMB/CIFS) seguro usando o Samba no Debian 13 (Trixie) e acessá-lo a partir de um cliente Windows, utilizando um link simbólico local.
+Este documento fornece um guia completo, passo a passo, para configurar um compartilhamento de rede (SMB/CIFS) seguro usando o Samba no Debian 13 (Trixie) e acessá-lo a partir de um cliente Windows, utilizando um link simbólico local.  
+Para o correto entendimento, nos exemplos a seguir, assumiremos que:
+**IP do hospedereiro**: 192.168.1.50
+**Usuario/conta do hospedeiro**: gsantana
 
 ## 1\. Configuração do Servidor Debian/Ubuntu (Samba)
 
@@ -63,7 +66,8 @@ Edite o arquivo principal de configuração para definir o novo recurso de compa
         unix extensions = no    ; <<< Adicionar esta linha
         (...)
 ```  
-    
+Se você tiver um dominio em sua rede, troque **WORKGROUP** pelo nome do seu dominio, ex **LOCALDOMAIN**. Isso acelera nosso trabalho porque ao mapear unidades não precisamos informar o usuário desse jeito **localdomain\gsantana**, apenas **gsantana** será suficiente.      
+
 4.  **Adicionar o Novo Compartilhamento:**
     Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
@@ -145,14 +149,25 @@ Após a configuração no Debian, o compartilhamento pode ser acessado em qualqu
 2.  No Windows, pressione **`Win + R`** para abrir o **Executar**.
 3.  Digite o caminho UNC do compartilhamento:
     ```
-    \\IP_DO_SEU_LINUX\work
+    \\192.168.1.50\work
     ```
 4.  Insira o nome de usuário (`gsantana`) e a **senha do Samba**. Marque a opção para lembrar credenciais.
 
+### 2.2. Credenciais do Windows
+Precisamos que o Windows memorize as credenciais de nossa máquina hospedeira, digamos que neste exemplo, o ip dela seja 192.168.1.50, então vá no Windows, procure pelo **Gerenciador de Credenciais**, depois vá em **Credenciais do Windows** e então clique em **Adicionar uma credencial do Windows**:   
+![Gerenciador de Credenciais](../img/debian_qemu_kvm_windows_smb01.png)  
+E então informe as suas credenciais para o host(192.168.1.50):  
+![Adicionando Credenciail](../img/debian_qemu_kvm_windows_smb02.png)  
+Agora que nossa credencial está incluída, vamos aos links simbolicos...
+
+
 ### 2.2. Recomendação: Mapeamento Local com Link Simbólico (Symlink)
 
-Uma vez que você manteve sua senha "lembrada", o Windows guardará suas credenciais para que uma próxima vez que for mapeá-los não precise mais fornecer senha. Isso é muito bom, mas pode ficar ainda melhor, para um acesso mais integrado e transparente, crie um link simbólico que aponta o caminho de rede para um diretório local.  
+Uma vez que você manteve sua senha(credencial) "lembrada", o Windows guardará suas credenciais para que uma próxima vez que for mapeá-los não precise mais fornecer senha.  
+Isso é muito bom, mas pode ficar ainda melhor, para um acesso mais integrado e transparente, crie um link simbólico que aponta o caminho de rede para um diretório local.  
 Iremos criar uma pasta C:\mnt e dentro dela links simbólicos que apontam para nosso compartilhamento e com isso, voce não precisa mais usar letras de drives para acessá-los.  
+Mas antes de prosseguir, é importante que letras de drivers mapeadas para nosso hospedeiro sejam removidas porque se o Windows Explorer perceber que c:\mnt\work é o mesmo que Z:, tanto o explorer como também as janelas de dialogo dos programas vão tratar como um simples atalho, fazendo o salto para a letra Z: ao inves de tratar c:\mnt\work como uma pasta igual as demais, então a letra Z: deve ser removida. Simplesmente desconecte-a e remova-a, assim o seus aplicativos, janelas de dialogo tratarão c:\mnt como se fossem pastas reais.
+![desconectando a unidade](../img/debian_qemu_kvm_windows_smb03.png)
 
 **Requer: Prompt de Comando executado como Administrador.**
 
@@ -163,20 +178,27 @@ Iremos criar uma pasta C:\mnt e dentro dela links simbólicos que apontam para n
     Crie a pasta que servirá de destino para o link simbólico.
 
     ```cmd
-    mkdir C:\mnt   # ou \@mnt, caso queira que seja listado no seu explorer como primeira pasta
+    mkdir C:\mnt   
     ```
+    Você pode usar **C:\@mnt**, caso queira que essa pasta seja listado como sendo a primeira pasta a ser vista no seu explorer, fica esteticamente melhor na minha humilde opinião.
+
 
 3.  **Criar o Link Simbólico:**
     Use o comando `MKLINK` com a opção `/D` (para diretórios), apontando o caminho local (`C:\mnt\work`) para o caminho de rede (UNC).
 
-    Substitua `IP_DO_SEU_DEBIAN` pelo endereço real do seu servidor.
-
     ```cmd
-    mklink /D C:\mnt\work \\IP_DO_SEU_LINUX\work
+    cd \mnt
+    mklink /D c:\mnt\work \\192.168.1.50\work
     ```
+    O resultado será:  
+    > Link simbólico criado para c:\mnt\work <<===>> \\192.168.1.50\work
 
-4.  **Resultado:**
-    A pasta compartilhada do Linux agora é acessível diretamente no seu sistema Windows através do caminho local **`C:\mnt\work`**.
+    Você pode repetir o processo para outras pastas para o hospedeiro e até mesmo para outras unidades de rede. Sinceramente, acho o uso de letras de drives confuso para unidades de rede, é mais interessante usar links simbolicos.
+    
+
+6.  **Resultado:**
+    A pasta compartilhada do Linux agora é acessível diretamente no seu sistema Windows através do caminho local **`C:\mnt\work`** :
+![A pasta compartilhada do Linux agora é acessível diretamente no seu sistema Windows através do caminho local](../img/debian_qemu_kvm_windows_smb04.png)
 
 -----
 ## 3\. Configuração do Firewall (UFW) no Debian/Ubuntu
