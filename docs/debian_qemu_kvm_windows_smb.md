@@ -202,72 +202,12 @@ Mas antes de prosseguir, é importante que letras de drivers mapeadas para nosso
 
 -----
 ## 3\. Configuração do Firewall (UFW) no Debian/Ubuntu
-Se você tem o firewall instalado, então vai precisar liberar o protocolo SMB para que outros computadores e suas VMs possam te acessar.  
-O protocolo SMB (Samba) utiliza portas específicas para comunicação. Se o firewall Uncomplicated Firewall (UFW) estiver ativo no seu Debian/Ubuntu, você precisará liberar essas portas para permitir o acesso da rede local ao compartilhamento.
-
-### 3.1. Verificar o Status do UFW
-
-Primeiro, verifique se o UFW está ativo no seu sistema:
-
-```bash
-sudo ufw status
-```
-
-Se o status for `inactive`, você pode pular esta seção. Se o status for `active`, continue com as regras.
-
-### 3.2. Regras de Firewall para Samba (SMB/CIFS)
-
-O Samba utiliza as portas TCP e UDP para os serviços NetBIOS e SMB. Você deve liberá-las para a sua rede local.
-
-**1. Liberar Portas Essenciais do Samba:**
-
-O Samba geralmente requer as seguintes portas:
-
+Se você tem o firewall instalado, então vai precisar liberar as seguintes portas:  
   * **Portas NetBIOS:** UDP 137, UDP 138
   * **Porta SMB/CIFS:** TCP 139 (para compatibilidade legada)
   * **Porta Net Logon/Replication:** TCP 445 (a porta SMB moderna e mais comum)
 
-Você pode liberar todas elas usando o nome do serviço `samba` no UFW, se a regra estiver definida:
+Recapitule o documento a página sobre [Firewall](debian_firewall.md).    
 
-```bash
-sudo ufw allow samba
-```
-
-ou, de forma mais específica, liberando as portas diretamente:
-
-```bash
-# Permite NetBIOS (name/datagram service) e compatibilidade com SMB
-sudo ufw allow 137,138/udp
-sudo ufw allow 139/tcp
-
-# Permite SMB/CIFS (o tráfego mais moderno)
-sudo ufw allow 445/tcp
-```
-
-**2. Restringir o Acesso à Sub-rede Local (Melhor Prática de Segurança):**
-
-Se você quiser liberar o acesso **somente** para a sua rede local (por exemplo, `192.168.1.0/24`), e não para a Internet, a sintaxe de segurança é a seguinte. Substitua `192.168.1.0/24` pelo bloco CIDR da sua rede:
-
-```bash
-# Permite SMB/CIFS (Porta 445 TCP) apenas da sub-rede local
-sudo ufw allow from 192.168.1.0/24 to any port 445 proto tcp
-
-# Permite a porta TCP 139 apenas da sub-rede local
-sudo ufw allow from 192.168.1.0/24 to any port 139 proto tcp
-```
-
-### 3.3. Aplicar e Verificar as Alterações
-
-Recarregue o UFW para que as novas regras entrem em vigor:
-
-```bash
-sudo ufw reload
-```
-
-Em seguida, verifique o status do firewall para confirmar que as regras do Samba estão ativas:
-
-```bash
-sudo ufw status verbose
-```
-
-O Samba agora deve estar acessível por outros dispositivos na sua rede, respeitando as regras de acesso do seu firewall.
+-----
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)
