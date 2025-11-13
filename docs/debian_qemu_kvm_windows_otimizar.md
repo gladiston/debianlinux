@@ -1,10 +1,14 @@
 # OTIMIZAÇÃO DA VM WINDOWS
 O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar. Siga as instruções abaixo para otimizá-lo:  
 
-### Otimizando o Windows - Removendo o Gerenciador do Servidor do Startp do Windows:
+---
+
+## Otimizando o Windows - Removendo o Gerenciador do Servidor do Startp do Windows:
 Se estiver usando uma edição Servidor do Windows, provavelmente você se aborrecerá do Gerenciador do Servidor que é carregado todas as vezes que faz o logon. Para desabilitá-lo vá em **Gerenciar|Propriedades do Gerenciador do Servidor** e então marque a opção **Não iniciar o Gerenciador do Servidor automaticamente no logon**:  
 
 ![Ativando o autologon](../img/debian_qemu_kvm_windows51.png)    
+
+---
 
 ## Otimizando o Windows - Menu do Windows
 No painel de menu, remova os recursos que não precisa como caixa de pesquisa e visão de tarefas:   
@@ -12,10 +16,14 @@ No painel de menu, remova os recursos que não precisa como caixa de pesquisa e 
 
 Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
 
+---
+
 ## Otimizando o Windows - Papel de parede
 Remova o papel de parede e use uma cor solida como preto. Antes que pergunte, sim, isso faz muito a diferença.  
 ![Remova o papel de parede e use uma cor solida como preto](../img/debian_qemu_kvm_windows53.png)    
 Lembre-se de que qualquer coisa que consuma ciclos de CPU e não são úteis, devem ser desativados.  
+
+---
 
 ## Otimizando o Windows - Energia
 Você esta usando uma VM e por isso, você não tem compromisso de economia de energia.  
@@ -23,6 +31,8 @@ No Windows vá em **Configurações**, procure por **Energia**, e desative qualq
 ![Remova a economia de energia](../img/debian_qemu_kvm_windows54.png)    
 
 Em outras palavras, você quer um Windows com **Alto desenpenho**.  
+
+---
 
 ## Otimizando o Windows - Proteção contra vírus e ameaças
 O Windows Server e a versao Desktop incluem um sistema integrado de vigilância e proteção chamado de **Proteção contra vírus e ameaças** que fazem muito sentido num desktop, e que tem como compromisso periodicamente varrer todos os seus arquivos, além disso, cada arquivo executado, criado ou copiado também será vasculhado imediatamente. Isso parece bom, mas não faz tanto sentido assim em ambientes controlados como VMs, então é bom você desativá-lo para que o desempenho da VM fique ainda melhor.   
@@ -35,9 +45,71 @@ Vá no menu iniciar do Windows e procure por **Segurança** e encontrará **Segu
 Caso ache isso imprudente porque no seu contexto irá expor a VM a coisas críticas, então pelo menos indique pastas que sejam seguras o antivírus não ficar varrendo-as em horários programados, mas tenha certeza de eleger uma pasta que tenham contato com o mundo exterior para ser sempre várrida, por exemplo a pasta **Usuários(Users)** onde são manipulados arquivos dos usuários, inclusive os arquivos advindos da Internet:   
 ![Otimizando o Windows - Recursos Visuais](../img/debian_qemu_kvm_windows_otimizar04.png)   
 
+---
 
 ## Otimizando o Windows - Programas dispensáveis
 Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
+
+---
+
+## Otimizando o Windows - Recursos Visuais
+A configuração de vídeo é um aspecto muito importante porque não importa o quanto a VM seja rápida para processar, o aspecto mais valorizado é a responsividade. As vezes você pode achar a VM lenta, mas quando roda um processo, o processo roda rápido, mas a impressão que se tem é de lerdeza ao operar a VM, isto é a responsividade.  
+Se você tiver um notebook que tem uma placa de vídeo Intel e outra NVIDIA, parabens você pode configurar sua máquina virtual para passthrough, isto é, deixar o sistema hospedeiro ficar 100% com uma placa de vídeo(Intel) enquanto a VM fica 100% com a outra placa de vídeo(NVIDIA) por meio de passthrough e poderá inclusive jogar nessa VM com desempenho similar sem virtualização.  
+Mas voltando ao assunto, este guia passo a passo foi feito para mortais que usufruem apenas de uma placa de vídeo e como ela fica com o hospedeiro, as VMs "emulam" uma placa de vídeo que usa um driver QXL que é apenas um quebra-galho aceitando apenas a parte 2D, por isso dentro do Windows vocÊ precisa urgentemente desligar todos os efeitos visuais que puder, vá em **Configurações\>ConfiguraçõesaAvançadas do sistema\>Desempenho** e clique em **Configurações** e deixe selecionado apenas a opção **Usar fontes de tela com cantos arredondados** porque nossos olhos não precisam sangrar também:  
+
+![Otimizando o Windows - Recursos Visuais](../img/debian_qemu_kvm_windows_otimizar02.png)  
+
+---
+
+## Otimizando o Windows - Agendador de tarefas
+Depois de instalar dentro da VM todos os programas de que precisa, vá no agendador de tarefas e desative os agendamentos de atualizações que estes programas gostam de deixar lá, por exemplo, o Oracle Java e Adobe Reader deixam no Agendador de tarefas programas para atualização de seus produtos. Normalmente ficam programados para conferir se há atualizações de seu produtos quando o computador esta ocioso e diariamente, e isso é horrivel para a nossa VM.  
+
+---
+
+## Otimizando o Windows - Relogio
+Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) como fonte principal de tempo do sistema, afinal, isso será fornecido pelo nosso hypervisor. Abra o terminal `cmd` como administrador e execute:  
+```cmd
+bcdedit /set useplatformclock No
+```
+**ALERTA:** Não confunda PowerShell com o `cmd` do Windows.  
+
+## Otimizando o Windows - Apps no iniciar do Windows
+Vá em **Configurações** e procure por **Aplicativos** e então aparecerá um **Aplicativos na inicialização**, execute ele.  
+A seguir serão listados programas que são carregados juntos com o Windows:  
+![Remova a economia de energia](../img/debian_qemu_kvm_windows55.png)    
+
+Desabiltie o máximo de programas que puder.
+
+---
+
+## Desativando o *Shutdown Event Tracker* no Windows Server
+
+Por padrão, o **Windows Server** exibe uma janela chamada **Shutdown Event Tracker**, que solicita ao usuário o **motivo do desligamento ou reinicialização**.
+Esse recurso foi criado para registrar eventos de parada no **Event Viewer** (ID 1074, origem USER32), sendo útil em ambientes com auditoria, mas desnecessário em VMs de teste ou servidores pessoais.
+
+### 🪟 Desativando via Política de Grupo
+
+1. Pressione **Win + R** e digite:
+
+   ```
+   gpedit.msc
+   ```
+2. Navegue até:
+
+   ```
+   Configuração do Computador >
+   Modelos Administrativos >
+   Sistema >
+   Exibir Controlador de eventos de desligamento
+   ```
+3. Dê duplo clique em **Exibir rastreador de eventos de desligamento**.
+4. Marque **Desabilitado** e confirme com **OK**.
+5. Reinicie o servidor (ou apenas encerre e entre novamente) para aplicar a alteração.
+
+Após aplicar essa configuração, o **Shutdown Event Tracker** deixará de ser exibido, permitindo que o Windows Server **desligue diretamente**, sem solicitar justificativas.
+
+  
+---
 
 ## Otimizando o Windows - Serviçõs dispensáveis
 Alguns serviços o Windows sao dispensáveis, execute `services.msc` e desative alguns desses(ou todos eles):  
@@ -103,31 +175,7 @@ Caso se arrependa de ter desativado algum serviço em particular, execute `servc
 
 **OBSERVAÇÃO**: Você está desativando o `defragsvc`, o que lhe impossibilitará a desfragmentação do disco e deve estar pensando se isso é uma boa idéia, sim, é uma boa idéia porque caso precisemos desfragmentar o disco, não usaremos o desfragmentador do Windows, mas a ferramenta de otimização para arquivos qcow2 que é muito mais eficiente e limpa espaços vazios do disco fazendo recuar o tamanho do arquivo da VM.  
 
-
-## Otimizando o Windows - Recursos Visuais
-A configuração de vídeo é um aspecto muito importante porque não importa o quanto a VM seja rápida para processar, o aspecto mais valorizado é a responsividade. As vezes você pode achar a VM lenta, mas quando roda um processo, o processo roda rápido, mas a impressão que se tem é de lerdeza ao operar a VM, isto é a responsividade.  
-Se você tiver um notebook que tem uma placa de vídeo Intel e outra NVIDIA, parabens você pode configurar sua máquina virtual para passthrough, isto é, deixar o sistema hospedeiro ficar 100% com uma placa de vídeo(Intel) enquanto a VM fica 100% com a outra placa de vídeo(NVIDIA) por meio de passthrough e poderá inclusive jogar nessa VM com desempenho similar sem virtualização.  
-Mas voltando ao assunto, este guia passo a passo foi feito para mortais que usufruem apenas de uma placa de vídeo e como ela fica com o hospedeiro, as VMs "emulam" uma placa de vídeo que usa um driver QXL que é apenas um quebra-galho aceitando apenas a parte 2D, por isso dentro do Windows vocÊ precisa urgentemente desligar todos os efeitos visuais que puder, vá em **Configurações\>ConfiguraçõesaAvançadas do sistema\>Desempenho** e clique em **Configurações** e deixe selecionado apenas a opção **Usar fontes de tela com cantos arredondados** porque nossos olhos não precisam sangrar também:  
-
-![Otimizando o Windows - Recursos Visuais](../img/debian_qemu_kvm_windows_otimizar02.png)  
-
-
-## Otimizando o Windows - Agendador de tarefas
-Depois de instalar dentro da VM todos os programas de que precisa, vá no agendador de tarefas e desative os agendamentos de atualizações que estes programas gostam de deixar lá, por exemplo, o Oracle Java e Adobe Reader deixam no Agendador de tarefas programas para atualização de seus produtos. Normalmente ficam programados para conferir se há atualizações de seu produtos quando o computador esta ocioso e diariamente, e isso é horrivel para a nossa VM.  
-
-## Otimizando o Windows - Relogio
-Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) como fonte principal de tempo do sistema, afinal, isso será fornecido pelo nosso hypervisor. Abra o terminal `cmd` como administrador e execute:  
-```cmd
-bcdedit /set useplatformclock No
-```
-**ALERTA:** Não confunda PowerShell com o `cmd` do Windows.  
-
-## Otimizando o Windows - Apps no iniciar do Windows
-Vá em **Configurações** e procure por **Aplicativos** e então aparecerá um **Aplicativos na inicialização**, execute ele.  
-A seguir serão listados programas que são carregados juntos com o Windows:  
-![Remova a economia de energia](../img/debian_qemu_kvm_windows55.png)    
-
-Desabiltie o máximo de programas que puder.
+---
 
 ## Otimizando o Windows - Tarefas agendadas desnecessárias
 Vamos remover todas as tarefas agendadas desnecessárias, abra o terminal **PS(PowerShell)** como administrador e execute:  
@@ -170,35 +218,6 @@ Disable-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\' -TaskName 'S
 ```
 Não sei se percebeu, mas até mesmo o 'Windows Update' esta na lista para ser desativado, então para atualizar seu Windows, só indo diretamente nas configurações e mandando atualizar manualmente.
 
----
-
-## Desativando o *Shutdown Event Tracker* no Windows Server
-
-Por padrão, o **Windows Server** exibe uma janela chamada **Shutdown Event Tracker**, que solicita ao usuário o **motivo do desligamento ou reinicialização**.
-Esse recurso foi criado para registrar eventos de parada no **Event Viewer** (ID 1074, origem USER32), sendo útil em ambientes com auditoria, mas desnecessário em VMs de teste ou servidores pessoais.
-
-### 🪟 Desativando via Política de Grupo
-
-1. Pressione **Win + R** e digite:
-
-   ```
-   gpedit.msc
-   ```
-2. Navegue até:
-
-   ```
-   Configuração do Computador >
-   Modelos Administrativos >
-   Sistema >
-   Exibir Controlador de eventos de desligamento
-   ```
-3. Dê duplo clique em **Exibir rastreador de eventos de desligamento**.
-4. Marque **Desabilitado** e confirme com **OK**.
-5. Reinicie o servidor (ou apenas encerre e entre novamente) para aplicar a alteração.
-
-Após aplicar essa configuração, o **Shutdown Event Tracker** deixará de ser exibido, permitindo que o Windows Server **desligue diretamente**, sem solicitar justificativas.
-
-  
 ---
 
 [Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)   
