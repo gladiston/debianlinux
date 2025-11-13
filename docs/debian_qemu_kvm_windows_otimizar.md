@@ -39,7 +39,8 @@ O Windows Server e a versao Desktop incluem um sistema integrado de vigilância 
 
 Antes de executar essa ação, saiba que essa ação só é recomendada para os casos onde a VM tem um ambiente controlado onde há baixos riscos, ou seja, troca de troca de arquivos de procedencia duvidosa. Não iremos desligar o Firewall, esse item é imprescindivel.  
 
-Vá no menu iniciar do Windows e procure por **Segurança** e encontrará **Segurança do Windows** então depois vá em **Proteção contra virus e ameaças e desative-o: 
+Vá no menu iniciar do Windows e procure por **Segurança** e encontrará **Segurança do Windows** então depois vá em **Proteção contra virus e ameaças e desative-o:  
+
 ![Desativando Proteção contra vírus e ameaças](../img/debian_qemu_kvm_windows_otimizar01.png)  
 
 Caso ache isso imprudente porque no seu contexto irá expor a VM a coisas críticas, então pelo menos indique pastas que sejam seguras o antivírus não ficar varrendo-as em horários programados, mas tenha certeza de eleger uma pasta que tenham contato com o mundo exterior para ser sempre várrida, por exemplo a pasta **Usuários(Users)** onde são manipulados arquivos dos usuários, inclusive os arquivos advindos da Internet:   
