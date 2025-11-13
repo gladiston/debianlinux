@@ -24,6 +24,16 @@ No Windows vá em **Configurações**, procure por **Energia**, e desative qualq
 
 Em outras palavras, você quer um Windows com **Alto desenpenho**.  
 
+## Otimizando o Windows - Proteção contra vírus e ameaças
+O Windows Server e a versao Desktop incluem um sistema integrado de vigilância e proteção chamado de **Proteção contra vírus e ameaças** que fazem muito sentido num desktop, e que tem como compromisso periodicamente varrer todos os seus arquivos, além disso, cada arquivo executado, criado ou copiado também será vasculhado imediatamente. Isso parece bom, mas não faz tanto sentido assim em ambientes controlados como VMs, então é bom você desativá-lo para que o desempenho da VM fique ainda melhor.   
+
+Antes de executar essa ação, saiba que essa ação só é recomendada para os casos onde a VM tem um ambiente controlado onde há baixos riscos, ou seja, troca de troca de arquivos de procedencia duvidosa. Não iremos desligar o Firewall, esse item é imprescindivel.  
+
+Vá no menu iniciar do Windows e procure por **Segurança** e encontrará **Segurança do Windows** então depois vá em **Proteção contra virus e ameaças e desative-o. Caso ache isso imprudente porque no seu contexto irá expor a VM a coisas críticas, então pelo menos indique pastas que sejam seguras o antivírus não ficar varrendo-as em horários programados, mas tenha certeza de eleger uma pasta que tenham contato com o mundo exterior para ser sempre várrida, por exemplo a pasta **Downloads** onde são depositados os arquivos advindos da Internet:   
+![Desativando Proteção contra vírus e ameaças](../img/debian_qemu_kvm_windows_otimizar01.png)  
+
+
+
 ## Otimizando o Windows - Programas dispensáveis
 Se você não usa os serviços Microsoft 365 nesta VM, não instale o onedrive e afins, só vão lhe roubar recursos.  
 
