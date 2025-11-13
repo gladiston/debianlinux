@@ -46,6 +46,8 @@ Vá no menu iniciar do Windows e procure por **Segurança** e encontrará **Segu
 Caso ache isso imprudente porque no seu contexto irá expor a VM a coisas críticas, então pelo menos indique pastas que sejam seguras o antivírus não ficar varrendo-as em horários programados, mas tenha certeza de eleger uma pasta que tenham contato com o mundo exterior para ser sempre várrida, por exemplo a pasta **Usuários(Users)** onde são manipulados arquivos dos usuários, inclusive os arquivos advindos da Internet:   
 ![Otimizando o Windows - Recursos Visuais](../img/debian_qemu_kvm_windows_otimizar04.png)   
 
+**ATENÇÃO**: É quase certo que após alguma atualização, este serviço seja religado. Isso acontece com alguma frequencia no Windows 11, então, periodicamente reveja esta configuração.   
+
 ---
 
 ## Otimizando o Windows - Programas dispensáveis
@@ -176,6 +178,8 @@ Caso se arrependa de ter desativado algum serviço em particular, execute `servc
 
 **OBSERVAÇÃO**: Você está desativando o `defragsvc`, o que lhe impossibilitará a desfragmentação do disco e deve estar pensando se isso é uma boa idéia, sim, é uma boa idéia porque caso precisemos desfragmentar o disco, não usaremos o desfragmentador do Windows, mas a ferramenta de otimização para arquivos qcow2 que é muito mais eficiente e limpa espaços vazios do disco fazendo recuar o tamanho do arquivo da VM.  
 
+**ATENÇÃO**: Após alguma atualização, pode acontecer de este ou aquele serviço ser religado, então, periodicamente reveja esta configuração.  
+
 ---
 
 ## Otimizando o Windows - Tarefas agendadas desnecessárias
@@ -218,6 +222,8 @@ Disable-ScheduledTask -TaskPath '\Microsoft\Windows\Windows Defender\' -TaskName
 Disable-ScheduledTask -TaskPath '\Microsoft\Windows\WindowsUpdate\' -TaskName 'Scheduled Start'
 ```
 Não sei se percebeu, mas até mesmo o 'Windows Update' esta na lista para ser desativado, então para atualizar seu Windows, só indo diretamente nas configurações e mandando atualizar manualmente.
+
+**ATENÇÃO**: Após alguma atualização, pode acontecer de esta ou aquela programação agendada seja religada, então, periodicamente reveja esta configuração.  
 
 ---
 
