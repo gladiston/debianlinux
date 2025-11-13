@@ -118,7 +118,7 @@ Vamos desativar o uso do relógio de hardware HPET (High Precision Event Timer) 
 ```cmd
 bcdedit /set useplatformclock No
 ```
-Não confunda PowerShell com o `cmd` do Windows.  
+**ALERTA:** Não confunda PowerShell com o `cmd` do Windows.  
 
 ## Otimizando o Windows - Apps no iniciar do Windows
 Vá em **Configurações** e procure por **Aplicativos** e então aparecerá um **Aplicativos na inicialização**, execute ele.  
