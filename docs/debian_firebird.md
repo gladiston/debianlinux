@@ -1,4 +1,4 @@
-# FIREBIRDSQL
+# FIREBIRD
 O FirebirdSQL é um banco de dados relacional open source, leve e poderoso, derivado do InterBase da Borland. Ele roda em Windows, Linux, macOS e ARM, e é amplamente usado em sistemas comerciais, ERP e aplicações embarcadas. 
 
 Pontos positivos do FirebirdSQL:  
@@ -9,7 +9,8 @@ Pontos positivos do FirebirdSQL:
 * Portabilidade — Um único arquivo .fdb contém todo o banco, facilitando backup e migração.  
 * Ferramentas familiares — Linguagem SQL padrão, PSQL para stored procedures e triggers.  
 * Configuração simples — Fácil de instalar e manter; ideal para sistemas que exigem confiabilidade sem administração constante.  
-  
+
+## INSTALAÇÃO
 O FirebirdSQL não é empacotado para Debian, RedHat ou outras distros, isso já aconteceu no passado, mas atualmente o FirebirdSQL inclui seu próprio instalador, mas antes de prosseguir com a instalação dele, vamos instalar a lib 'libtommath' que é uma dependencia, execute:
 ```
 sudo apt install -y libtommath-dev
@@ -113,40 +114,7 @@ sudo chmod -R 664 /var/fdb/*
 ```  
 Pois o arquivo copiado pode ter outro 'dono' e este mantêm-se, ao invés de ter como dono o usuário 'firebird' e com isso, causando problema de acesso.  
 
-### BANCO DE DADOS FIREBIRD - ALIASES PARA ESCONDER OS BANCOS
-Ao conectar-se ao banco de dados, geralmente usamos algo como:
-|String de conexão:|
-|:--|
-|localhost/3050:/var/banco/banco.fdb|
- 
-Qual o problema disso? Essa string revela de forma cruel onde nosso banco de dados está localizado dentro do servidor. Qual a maneira correta? A maneira correta é criar um alias e usá-lo na string de conexão do banco no lugar do caminho do banco. 
-Edite o arquivo /opt/firebird/databases.conf, execute:  
-```  
-sudo editor /opt/firebird/databases.conf
-```  
-E acrescente ao final do arquivo:  
-```  
-banco.link = /var/fdb/banco.fdb 
-```  
-Agora, poderá usar a seguinte string de conexão:  
-|String de conexão:|
-|:--|
-|localhost/3050:banco.link|
-
-E assim, nenhum caminho para nossos arquivos de dados serão revelados, isso serve muito bem para o ambiente de produção como também o de desenvolvimento porque geralmente desenvolvimento espelha a forma de produção. Caso seu banco de dados precise de parametros de ajustes associados ao banco, o /opt/firebird/databases.conf deverá ser modificado como o exemplo abaixo:  
-```  
-banco.link = /var/fdb/banco.fdb 
-{
-  RemoteAccess = true
-  DefaultDbCachePages = 131072
-  LockMemSize = 30M
-  TempCacheLimit  = 512M  
-  StatementTimeout = 0 # 0=ilimitado
-}
-```  
-E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.  
-
-### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE
+### VARIAVEIS DE AMBIENTE
 Essas variaveis serão usadas para ao inves de logar-se digitando a usuário e senha, elas sejam suprimidas, você pode achar que isso é um risco, mas o vamos colocá-la no nosso perfil onde somente nós mesmos e o root tem acesso, então não há riscos. Edite o arquivo ~/.bash_profile:
 ```  
 sudo editor ~/.bash_profile
@@ -168,7 +136,7 @@ Observe o resultado:
 > SYSDBA  
 Indicando que a variavel já está com cnoteúdo.  
 
-### BANCO DE DADOS FIREBIRD - VARIAVEIS DE AMBIENTE GLOBAIS
+### VARIAVEIS DE AMBIENTE GLOBAIS
 Também podemos criar variaveis de ambiente globalmente, neste caso, todos os usuários se beneficiam dessas variaiveis, faça isso quando todos os usuários e/ou serviços precisam se beneficiar dessas variaveis. Edite o arquivo /etc/environment.d/999-firebird.conf:
 ```  
 sudo editor /etc/environment.d/999-firebird.conf 
@@ -191,7 +159,7 @@ Observe o resultado:
 Indicando que a variavel já está com cnoteúdo.  
 
 
-### BANCO DE DADOS FIREBIRD - AJUSTANDO PATH
+### AJUSTANDO PATH
 Vez ou outra, alguns programas são instalados em diretórios não convencionais, e isso inclui seus binários executáveis.
 Um exemplo típico é o FirebirdSQL, que é instalado em /opt/firebird, e seus utilitários (como isql e gbak) ficam em /opt/firebird/bin.
 
@@ -235,6 +203,128 @@ E observe o resultado:
 >/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:**/opt/firebird/bin**
 
 Se **/opt/firebird/bin** apareceu então este tópico foi concluido com sucesso.
+
+
+## GERENCIADORES DE BASE DE DADOS PARA LINUX
+Terminologias confundem muito, quando falamos em “gerenciador de banco de dados” estamos sendo muito generalistas, seria melhor não usá-la porque não está definido em lugar nenhum o que um gerenciador de banco de dados deveria fazer, mas se dissermos “Administrador de banco de dados” então concluímos que deve ser uma ferramenta criada para administrar a maioria das opções que banco de dados precisa como cópia de segurança(backup) e, restauração, administrar permissões de logins e roles, replicações, packages, etc… quando a ferramenta não oferecer recursos de administração, então procuramos uma terminologia mais correta como “Ferramenta de desenvolvimento” (Deploy de banco de dados) ou consulta à dados. É fácil sabermos quando uma ferramenta é para administrar uma base de dados ou para desenvolvimento, basta se perguntar num momento que a base de dados não estiver acessível: qual programa vou usar para restaurar a base?
+
+### RDBExpert (gratuíto, multiplataforma)
+O RDBExpert é um administrador de banco de dados e ferramenta de desenvolvimento.  
+Ele foi renomeado recentemente, antes chamava-se RedExpert. Esse administrador foi feito para a versão comercial do Firebird chamada de RedDatabase que é um FirebirdSQL recheado de recursos novos e agradáveis. O download pode ser obtido no endereço abaixo, você precisará fazer o registro porque o software é gratuito, porém não é livre:  
+[https://rdb.red-soft.ru/en/downloads/redexpert/](https://rdb.red-soft.ru/en/downloads/redexpert/)  
+
+Sua instalação é simples, supondo que tenha baixado em ~/Downloads:  
+```bash
+cd ~/Downloads
+chmod +x ~/RedExpert-2025.05-linux-x86_64.bin
+./RedExpert-2025.05-linux-x86_64.bin
+```
+O próprio instalador criará um atalho na tela, mas você pode ir no menu e digitar ‘rdbexpert’ para encontrá-lo. A instalação é feita no perfil do usuário em:  
+```
+/home/gsantana/.local/share/rdbexpert
+```
+Se tiver outra instalação do RDBExpert, poderá copiar do mesmo local para esta nova instalação e não precisará reconfigurar ou cadastrar nenhuma nova conexão onde já existia na outra instalação porque elas serão transferidas para a nova. Minhas considerações pessoais sobre ele:  
+* Não entende domínios, tente gerar DDLs e ele os tratará como tipos normais;
+* Não roda scripts.
+* Não faz debug de psql
+**OBSERVAÇÃO**: Se ele não rodar, verifique se o pacote java-devel foi instalado (`java-21-openjdk java-21-openjdk-devel`).  
+
+
+
+### FlameRobin Multi-plataforma (opensource, multiplataforma)
+O FlameRobin é um administrador de banco de dados e ferramenta de desenvolvimento.  
+É uma ferramenta opensource, disponível para Mac, Windows e Linux. Com ele podemos administrar e desenvolver nosso banco de dados. É uma ferramenta com uma interface incomum com janelas soltas que às vezes podem confundir à primeira vista. Ele possui diversos assistentes visuais, mas apenas para no final construir um statement que você próprio irá executá-lo, por exemplo, ao criar uma tabela, ele vai te dar um modelo já em SQL, daí voce altera e executa. Este é o fluxo de trabalho dele para quase tudo, isto é, voce escolhe o wizard e ele te cospe o SQL para voce modificar e executar. Iniciantes preguiçosos  vão odiá-lo, mas pessoas mais pacientes em aprender os comandos ou os mais experientes vão gostar desse método, especialmente porque não te prende a uma versão particular do firebird, funciona com qualquer versão em que o statement é reconhecido, é um pouco mais sofisticado, mas dá para compará-lo ao isql, ferramenta de prompt.
+Ele está no repositório da maioria das distribuiçoes, incuindo Debian/Ubuntu, então basta instalar por lá. Eu prefiro compilar eu mesmo e usar a versão mais recente em desenvolvimento, caso você também queira fazer isso [clique aqui](debian_firebird._flamerobin.md). 
+
+Mas você irá encontrá-lo na sua loja de aplicativos.  
+
+Minhas considerações pessoais sobre ele:  
+* Gera um DDL não confiável. Como exemplo, temos as triggers. Além disso, tabelas com campos calculados “somem” e a estrutura não é limpa, isto é, ao inves de fazer o create e depois o alter para adicionar/modificar PK, FK e campos calculados, tenha fazer tudo no create table.
+Ao extrair dados para script, inclui os campos calculados no INSERT/UPDATE, evidentemente falhará.
+* Não entende domínios, gere DDLs e ele os tratará como tipos normais;
+* Não roda scripts.
+* Não faz debug de psql
+* Embora funcione perfeitamente nas mais recentes versões do FB, os wizards mostram claramente que o mesmo foi idealizado para oferecer apenas tipos usados até o FB3.
+
+### DBEaver (opensource, multiplatafdorma)
+O DBEaver é uma ferramenta de desenvolvimento (Deploy de banco de dados) ou consulta à dados, não é útil para administrar, ou seja, você não vai administrar backups/restaurações, permissões, roles e coisas do tipo. Porém, é ótimo para escrever queries, garimpar dados e extraí-los.  
+
+A melhor forma de instalá-lo é via flatpak, as instruções se encontram no próprio site::
+[https://dbeaver.io](https://dbeaver.io)  
+
+Mas você irá encontrá-lo na sua loja de aplicativos.  
+
+Minhas considerações pessoais sobre ele:  
+* Não entende campos calculados e nem domínios, ao gerar um script de tabela, ele cria esses campos como campos e tipos comuns. Por isso não se deve extrair DDLs usando este programa.
+* Não faz debug de psql
+
+
+### IBExpert (gratuito, comercial, somente Windows ou Linux via Bottles)
+O IBExpert é um administrador de banco de dados e ferramenta de desenvolvimento.  
+É uma ferramenta comercial para Windows, mas que possui uma versão gratuíta com limitações. Mesmo a versão gratuíta podemos administrar e desenvolver nosso banco de dados. A versão completa faz debug de código psql, gera modelos, faz administração de permissões via roles, trace, gera dados de testes e outras coias muito úteis para desenvolvimento. Sua interface gráfica é bastante consistente com muita tecla de atalho para reduzir o esforço de desenvolvimento.  
+
+O link para download é:  
+[https://www.ibexpert.net](https://www.ibexpert.net)  
+
+Se precisar fazer a instalação dele no linux, siga o link abaixo:  
+[https://github.com/gladiston/ibexpert_linux](https://github.com/gladiston/ibexpert_linux)  
+
+Minhas considerações pessoais sobre ele:  
+* A versão comercial é um produto completo, atinge de A-Z todas as etapas de administração e desenvolvimento de banco de dados
+* A versão gratuita é autosuficiente para administrar o banco de dados
+* A versão comercial é completa e vai agradar desenvolvedores.
+* O licenciamento deles é chato, periodicamente, provavelmente uma vez por mês ela irá parar para que você obtenha a contra-chave, se você estiver conectado a internet será até fácil, de outra forma, voce terá de repetir instruções a partir de uma máquina que esteja online.
+
+### IBManager (comercial, somente Windows)
+O IBManager é um administrador de banco de dados e ferramenta de desenvolvimento.  
+É uma ferramenta comercial para Windows, mas que pode ser instalado e funciona por 15 dias sem expirar para você testá-lo. Eu fiz isso e ele tem os mesmos recursos que o IBExpert, mas é mais eficiente na exportação de relatórios.  
+
+O link para download é:  
+[https://www.sqlmanager.net/products/ibfb/manager](https://www.sqlmanager.net/products/ibfb/manager)  
+
+Minhas considerações pessoais sobre ele:  
+* A versão comercial é um produto completo, atinge de A-Z todas as etapas de administração e desenvolvimento de banco de dados
+* Não tem versão gratuita
+* Melhores ferramentas de exportação de relatórios
+
+---
+
+## CONFIGURAÇÃO
+As configurações que irei detalhar a seguir são as rotineiras, se você usa o Firebird e não configura ele é muito provavel que o rendimento do banco esteja muito subestimado, isto ocorre porque a configuração padrão do Firebird é bem minimalista guardando valores que veem desde o Interbase quando o Windows 95 ainda era chamado de sistema operacional vigente. Recomendo fortemente que reveja suas configurações lendo os tópicos abaixo.  
+
+
+### ALIASES PARA ESCONDER OS BANCOS
+Ao conectar-se ao banco de dados, geralmente usamos algo como:
+|String de conexão:|
+|:--|
+|localhost/3050:/var/banco/banco.fdb|
+ 
+Qual o problema disso? Essa string revela de forma cruel onde nosso banco de dados está localizado dentro do servidor. Qual a maneira correta? A maneira correta é criar um alias e usá-lo na string de conexão do banco no lugar do caminho do banco. 
+Edite o arquivo /opt/firebird/databases.conf, execute:  
+```  
+sudo editor /opt/firebird/databases.conf
+```  
+E acrescente ao final do arquivo:  
+```  
+banco.link = /var/fdb/banco.fdb 
+```  
+Agora, poderá usar a seguinte string de conexão:  
+|String de conexão:|
+|:--|
+|localhost/3050:banco.link|
+
+E assim, nenhum caminho para nossos arquivos de dados serão revelados, isso serve muito bem para o ambiente de produção como também o de desenvolvimento porque geralmente desenvolvimento espelha a forma de produção. Caso seu banco de dados precise de parametros de ajustes associados ao banco, o /opt/firebird/databases.conf deverá ser modificado como o exemplo abaixo:  
+```  
+banco.link = /var/fdb/banco.fdb 
+{
+  RemoteAccess = true
+  DefaultDbCachePages = 131072
+  LockMemSize = 30M
+  TempCacheLimit  = 512M  
+  StatementTimeout = 0 # 0=ilimitado
+}
+```  
+E assim, cada banco de dados, além de possuir seu alias, terá também sua parametrização.  
 
 ### BANCO DE DADOS FIREBIRD - Timezone
 O Firebird vem configurado com o timezone, execute:  
