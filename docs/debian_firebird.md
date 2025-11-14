@@ -105,7 +105,7 @@ sudo mkdir -p /var/fdb
 ```  
 Vamos dar permissão com bitstick para que as subpastas herdem a pasta do pai, onde apenas apenas o usuário 'firebird' tem acesso de leitura e escrita e os demais(outros) somente leitura, execute:
 ```  
-sudo chmod 2775 /var/fdb
+sudo chmod 1775 /var/fdb
 ```  
 Pronto, agora você pode copiar arquivos .fdb para essa pasta, em alguns casos, depois que copiar, é muito provavel que também precise repetir este comando:
 ```  
@@ -216,17 +216,23 @@ Ele foi renomeado recentemente, antes chamava-se RedExpert. Esse administrador f
 Sua instalação é simples, supondo que tenha baixado em ~/Downloads:  
 ```bash
 cd ~/Downloads
-chmod +x ~/RedExpert-2025.05-linux-x86_64.bin
+ +x ~/RedExpert-2025.05-linux-x86_64.bin
 ./RedExpert-2025.05-linux-x86_64.bin
 ```
 O próprio instalador criará um atalho na tela, mas você pode ir no menu e digitar ‘rdbexpert’ para encontrá-lo. A instalação é feita no perfil do usuário em:  
 ```
 /home/gsantana/.local/share/rdbexpert
 ```
-Se tiver outra instalação do RDBExpert, poderá copiar do mesmo local para esta nova instalação e não precisará reconfigurar ou cadastrar nenhuma nova conexão onde já existia na outra instalação porque elas serão transferidas para a nova. Minhas considerações pessoais sobre ele:  
+Porém, as configurações ficam em:  
+```
+~/.rdbexpert
+```
+No Windows ele fica praticamente no mesmo lugar `C:\Users\perfildousuario\.rdbexpert`. S
+e tiver outra instalação do RDBExpert, poderá copiar do mesmo local para esta nova instalação e não precisará reconfigurar ou cadastrar nenhuma nova conexão onde já existia na outra instalação porque elas serão transferidas para a nova. Minhas considerações pessoais sobre ele:  
 * Não entende domínios, tente gerar DDLs e ele os tratará como tipos normais;
 * Não roda scripts.
 * Não faz debug de psql
+
 **OBSERVAÇÃO**: Se ele não rodar, verifique se o pacote java-devel foi instalado (`java-21-openjdk java-21-openjdk-devel`).  
 
 
