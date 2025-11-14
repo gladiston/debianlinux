@@ -55,7 +55,7 @@ Observe o resultado do comando:
 
 Se o seu login aparaceu no grupo **firebird**  então é um excelente indicativo que a operação foi realizada com sucesso.   
 
-### BANCO DE DADOS FIREBIRD - CLIENTE
+### BANCO DE DADOS FIREBIRD - SQL Client
 Cliente de banco de dados ou `SQL Client` é a biblioteca que estabelece conectividade com o banco de dados, sem ela, nenhum aplicativo local ou remoto consegue conectar-se a base. Depois de instalado, confira se a mesma está presente no sistema:
 ```bash
 ls -l /lib64/libfbclient.so
