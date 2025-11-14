@@ -260,6 +260,24 @@ A melhor forma de instalá-lo é via flatpak, as instruções se encontram no pr
 
 Mas você irá encontrá-lo na sua loja de aplicativos.  
 
+A pasta DBeaverData no Linux quando instalado de repositórios nativos fica em:
+```
+~/.local/share/DBeaverData
+```
+No entanto, se for instalá-lo via flat-pak, seus arquivos ficam em:
+```
+~/.var/app/io.dbeaver.DBeaverCommunity
+```
+
+Enquanto no Windows pode ficar numa dessas pastas:  
+```
+%APPDATA%\DBeaverData\
+%APPDATA%\Roaming\DBeaverData
+```
+(No Windows, geralmente o dbeaver reutiliza a pasta de configuração que ele encontra primeiro, por isso é bom manter um padrão)  
+
+Por que isso é importante? Porque voce pode reaproveitar a configuração em outro coputador e copiá-lo para cá e reaproveitar o que já havia na instalação em outro local.  
+
 Minhas considerações pessoais sobre ele:  
 * Não entende campos calculados e nem domínios, ao gerar um script de tabela, ele cria esses campos como campos e tipos comuns. Por isso não se deve extrair DDLs usando este programa.
 * Não faz debug de psql
