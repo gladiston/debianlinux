@@ -6,6 +6,8 @@ Não se trata apenas de uma sequência de comandos — aqui você também entend
 A ideia é que, ao final, você não apenas tenha um ambiente pronto para trabalhar, mas também compreenda o que está por trás de cada ajuste:  
 desde o gerenciamento de pacotes e permissões, até a montagem de partições, configuração de compartilhamentos de rede e automação de tarefas.  
 
+Quando chegar ao final do artigo desde a intalação e apenas pulando o que realmente não necessita em seu computador, então parabens, você fez a jornada do heroi e podemos dizer que você é um usuário avançado de Linux.  
+
 Cada seção foi escrita para ser **autoexplicativa e prática**, apresentando o comando, o motivo de usá-lo e o que esperar de seu resultado.  
 Assim, mesmo que você esteja acostumado a copiar instruções da internet, este guia vai além — ele busca **fortalecer seu entendimento** sobre o funcionamento do sistema Linux e seus principais utilitários.
 
