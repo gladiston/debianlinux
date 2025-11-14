@@ -239,10 +239,12 @@ e tiver outra instalação do RDBExpert, poderá copiar do mesmo local para esta
 
 ### FlameRobin Multi-plataforma (opensource, multiplataforma)
 O FlameRobin é um administrador de banco de dados e ferramenta de desenvolvimento.  
-É uma ferramenta opensource, disponível para Mac, Windows e Linux. Com ele podemos administrar e desenvolver nosso banco de dados. É uma ferramenta com uma interface incomum com janelas soltas que às vezes podem confundir à primeira vista. Ele possui diversos assistentes visuais, mas apenas para no final construir um statement que você próprio irá executá-lo, por exemplo, ao criar uma tabela, ele vai te dar um modelo já em SQL, daí voce altera e executa. Este é o fluxo de trabalho dele para quase tudo, isto é, voce escolhe o wizard e ele te cospe o SQL para voce modificar e executar. Iniciantes preguiçosos  vão odiá-lo, mas pessoas mais pacientes em aprender os comandos ou os mais experientes vão gostar desse método, especialmente porque não te prende a uma versão particular do firebird, funciona com qualquer versão em que o statement é reconhecido, é um pouco mais sofisticado, mas dá para compará-lo ao isql, ferramenta de prompt.
-Ele está no repositório da maioria das distribuiçoes, incuindo Debian/Ubuntu, então basta instalar por lá. Eu prefiro compilar eu mesmo e usar a versão mais recente em desenvolvimento, caso você também queira fazer isso [clique aqui](debian_firebird._flamerobin.md). 
+É uma ferramenta opensource, disponível para Mac, Windows e Linux. Com ele podemos administrar e desenvolver nosso banco de dados. É uma ferramenta com uma interface incomum com janelas soltas que às vezes podem confundir à primeira vista. Ele possui diversos assistentes visuais, mas apenas para no final construir um statement que você próprio irá executá-lo, por exemplo, ao criar uma tabela, ele vai te apresentar um *Wizard* e no final apresenta o statement do `CREATE TABLE`, daí voce pode alterar e executar. Este é o fluxo de trabalho dele, iniciantes preguiçosos  vão odiá-lo, mas pessoas mais pacientes em querer aprender SQL ou os mais experientes vão gostar desse método porque não te prende a uma versão particular do firebird, funciona com qualquer versão em que o statement é reconhecido.  
 
-Mas você irá encontrá-lo na sua loja de aplicativos.  
+Ele está no repositório da maioria das distribuiçoes, incuindo Debian/Ubuntu, então basta instalar por lá.   
+No Windows, há builds noturnos e recentes, mas no Linux para ter a ultima versão é mandatório compilar você mesmo, caso queira fazer isso [clique aqui](debian_firebird._flamerobin.md).  
+
+Mas você irá encontrá-lo na sua loja de aplicativos.   
 
 Minhas considerações pessoais sobre ele:  
 * Gera um DDL não confiável. Como exemplo, temos as triggers. Além disso, tabelas com campos calculados “somem” e a estrutura não é limpa, isto é, ao inves de fazer o create e depois o alter para adicionar/modificar PK, FK e campos calculados, tenha fazer tudo no create table.
@@ -253,14 +255,14 @@ Ao extrair dados para script, inclui os campos calculados no INSERT/UPDATE, evid
 * Embora funcione perfeitamente nas mais recentes versões do FB, os wizards mostram claramente que o mesmo foi idealizado para oferecer apenas tipos usados até o FB3.
 
 ### DBEaver (opensource, multiplatafdorma)
-O DBEaver é uma ferramenta de desenvolvimento (Deploy de banco de dados) ou consulta à dados, não é útil para administrar, ou seja, você não vai administrar backups/restaurações, permissões, roles e coisas do tipo. Porém, é ótimo para escrever queries, garimpar dados e extraí-los.  
+O DBEaver é uma ferramenta de desenvolvimento (Deploy de banco de dados) ou consulta à dados, não é útil para administrar o banco, ou seja, você não vai administrar backups/restaurações, permissões, roles e coisas do tipo. Porém, é ótimo para escrever queries, gerar alguns relatórios, garimpar dados e extraí-los.  
 
-A melhor forma de instalá-lo é via flatpak, as instruções se encontram no próprio site::
+A melhor forma de instalá-lo é via flatpak, então você irá encontrá-lo na sua loja de aplicativos, mas caso não encontre, siga as instruções se encontram no próprio site::
 [https://dbeaver.io](https://dbeaver.io)  
 
 Mas você irá encontrá-lo na sua loja de aplicativos.  
 
-A pasta DBeaverData no Linux quando instalado de repositórios nativos fica em:
+A pasta DBEaverData no Linux quando instalado de repositórios nativos fica em:
 ```
 ~/.local/share/DBeaverData
 ```
