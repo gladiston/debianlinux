@@ -192,7 +192,16 @@ sudo make install
 
 -----
 
-### 6\. Criando uma Entrada de Menu (Atalho)
+### 6\. Confgurações do FlameRobin
+As configurações do FlameRobin são armazenadas na seguinte pasta: 
+```
+~/.flamerobin
+```
+Então caso precise aproveitar configurações advindas de outros computadores, basta copiá-las para a pasta acima.
+
+-----
+
+### 7\. Criando uma Entrada de Menu (Atalho)
 
 Se o `sudo make install` não tiver criado um atalho de menu, ou se você escolheu a "Opção A" (Rodar Localmente), você pode criar um atalho manual.
 
@@ -227,7 +236,7 @@ Salve e feche o arquivo. A partir de agora, você encontrará o ícone do FlameR
 
 -----
 
-### 7\. Minhas Considerações Pessoais sobre o FlameRobin
+### 8\. Minhas Considerações Pessoais sobre o FlameRobin
 
 Agora que está instalado, quero compartilhar minha análise pessoal sobre a ferramenta, baseada na minha experiência de uso (incluindo as versões recentes de desenvolvimento):
 
