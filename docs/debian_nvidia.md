@@ -1,10 +1,11 @@
-# **Instalar Drivers NVIDIA no Debian 13 (Trixie) usando o repositório oficial da NVIDIA**
+# **Instalar Drivers NVIDIA no Debian 13+ usando o repositório oficial da NVIDIA**
 
 A seguir você encontrará um guia seguro e atualizado para instalar os drivers proprietários da NVIDIA no Debian 13 usando **o repositório oficial da NVIDIA** em vez dos repositórios Debian.
 Esse método fornece drivers mais recentes, compatíveis com Wayland e com suporte pleno ao DKMS.  
-Também alguns softwares funcionam melhor com os drivers nativos da NVIDIA, por exemplo, o OBS Studio, DaVinci Resolve, Audacity e seus plugins de processamento baseado em IA, e outros.  
+Também alguns softwares funcionam melhor com os drivers nativos da NVIDIA, por exemplo, o OBS Studio, DaVinci Resolve, Audacity e seus plugins de processamento baseado em IA, entre outros.  
 
-Videos baseados em INTEL ou AMD não precisa desses procedimentos porque essas empresas fornecem drivers opensource integrado ao kernel do Linux, a NVIDIA recentemente integrou alguns drivers no kernel, mas essa integração é parcial e não dá suporte a tudo.  
+Sistemas com GPUs Intel ou AMD não precisam desses procedimentos, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa.  
+A NVIDIA recentemente integrou parte do seu driver ao kernel, mas essa integração é parcial e não inclui o restante do stack gráfico (OpenGL, Vulkan, CUDA, NVENC etc.), que ainda depende do driver proprietário completo.  
 
 ---
 
