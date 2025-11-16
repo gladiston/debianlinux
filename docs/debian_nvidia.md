@@ -192,8 +192,29 @@ Para garantir que:
 ```bash
 nvidia-smi
 ```
+E então é esperado mostrar algo como:  
+```
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.105.08             Driver Version: 580.105.08     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1650        Off |   00000000:01:00.0  On |                  N/A |
+| N/A   36C    P8              1W /   50W |     100MiB /   4096MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
 
-Se aparecer a tabela com informações da GPU, tudo está funcionando.
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|    0   N/A  N/A            2211      G   /usr/bin/kwin_wayland                     1MiB |
++-----------------------------------------------------------------------------------------+
+```
+Se aparecer a tabela com informações da GPU, tudo está funcionando.  
 
 ### **Verificar se Wayland está ativo**
 
