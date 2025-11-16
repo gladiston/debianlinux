@@ -18,6 +18,11 @@ Esse passo evita instalar um driver incompatível que pode causar tela preta.
 ```bash
 lspci | grep -i nvidia
 ```
+Será mostrado algo como:
+> 01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] (rev a1)
+> 01:00.1 Audio device: NVIDIA Corporation Device 10fa (rev a1)
+
+Isso indicará que há uma placa NVIDIA no sistema.  
 
 ---
 
@@ -48,6 +53,8 @@ Atualize:
 ```bash
 sudo apt update
 ```
+Geralmente a parte `non-free non-free-firmware` não está habilitado, se for este o caso, inclua-os.  
+
 
 ---
 
