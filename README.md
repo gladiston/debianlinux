@@ -312,6 +312,26 @@ Daqui em diante, toda vez que você acrescentar um novo repositório ou editar a
 
 ---  
 
+## NVIDIA NO DEBIAN
+
+Sistemas com GPUs Intel ou AMD não precisam de procedimentos extras para funcionarem, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa. A NVIDIA, porém, funciona de maneira diferente.
+
+A NVIDIA recentemente integrou parte do seu driver ao kernel, mas essa integração é parcial e não inclui o restante do stack gráfico (OpenGL, Vulkan, CUDA, NVENC etc.), que ainda depende do driver proprietário completo.  
+
+Se o seu computador ou notebook possui uma placa de vídeo NVIDIA, esses drivers **não são instalados por padrão no Debian**. Na verdade, é muito comum o sistema carregar automaticamente o driver `nouveau`, que é limitado, instável, não oferece aceleração completa e não tem suporte aos recursos modernos da NVIDIA.  
+
+Por isso, é **imprescindível instalar o driver proprietário da NVIDIA** caso você tenha:
+
+- uma GPU NVIDIA dedicada  
+- um notebook com tecnologia **NVIDIA Prime** (Intel + NVIDIA), onde o sistema usa a GPU Intel por padrão, mas permite executar aplicativos com “Executar com NVIDIA”.  
+
+Siga o link a seguir:  
+[Instruções para instalação dos drivers NVIDIA para Debian](docs/debian_nvidia.md)
+
+**OBSERVAÇÃO**: Distros baseadas em Ubuntu já incluem uma opção em seu painel de configurações para fazer essa instalação  de maneira fácil.  
+
+---
+
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
 Sim, a Microsoft tem um repositório para distribuições *Debian-like*, o que inclui também as outras derivações como **Ubuntu** e seus sabores, **Linux Mint**, **ZorinOS**, entre outras.  
 Não vamos instalar nada de lá ainda; vamos apenas incluir o repositório. E, por mais paradoxal que seja, há um *download* e instalação necessários justamente para que possamos ter esse repositório.  
