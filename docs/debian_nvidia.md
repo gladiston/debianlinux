@@ -1,9 +1,7 @@
-# **How To — Instalar Drivers NVIDIA no Debian 13 (Trixie) usando o repositório oficial da NVIDIA**
+# **Instalar Drivers NVIDIA no Debian 13 (Trixie) usando o repositório oficial da NVIDIA**
 
 A seguir você encontrará um guia seguro e atualizado para instalar os drivers proprietários da NVIDIA no Debian 13 usando **o repositório oficial da NVIDIA** em vez dos repositórios Debian.
 Esse método fornece drivers mais recentes, compatíveis com Wayland e com suporte pleno ao DKMS.
-
-O guia explica **não apenas o que fazer**, mas **por que fazer**, para que você tenha completa clareza sobre cada etapa.
 
 ---
 
