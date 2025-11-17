@@ -25,9 +25,9 @@ sudo apt install -y libqt5pas-dev libqt5pas1 qtbase5-dev qtbase5-dev-tools libqt
 Se você usa GNOME ou ambientes baseados em GTK, também precisará:
 ```bash
 # GTK2 (legado, mas amplamente usado pelo Lazarus)
-sudo apt install -y libgtk2.0-dev libcanberra-gtk-module 
+sudo apt install -y libgtk2.0-0 
 # ou GTK3
-sudo apt install -y libgtk-3-dev libcanberra-gtk3-module
+sudo apt install -y libgtk3.0-0 
 ```
 
 ## FPCUPDELUXE
