@@ -55,14 +55,14 @@ Um sistema previsível e repetível, com configurações documentadas, pronto pa
 
 ---
 
-## Os padrões usados neste HowTo
-Para o correto entendimento deste HowTo, usarei alguns padrões:  
+## Os padrões usados neste guia
+Para o correto entendimento deste guia, usarei alguns padrões:  
 **Nome do host**: ti-01  
 **Nome do usuário**: gsantana  
 **Nome do dominio local**: localdomain.lan  
 **Debian-Like**: É o termo que uso para distro Linux baseadas em Debian que pode se referir aos vários sabores do Ubuntu e também Linux Mint, Zorin OS,... quando algo for específico para o Debian, irei realçar.   
 **Ubuntu-Like**: É o termo que uso para distro Linux baseadas em Ubuntu que pode se referir aos vários sabores do Ubuntu e também Linux Mint, Zorin OS,...   
-**HowTo**: É o termo que designamos para guia passo-a-passo.    
+**HowTo**: É o termo que designamos para este guia passo-a-passo.    
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
 ```
@@ -546,7 +546,7 @@ sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-ut
 
 ## INSTALANDO PROGRAMAS BASICOS PARA COMPILAÇÃO DE FONTES
 Os pacotes a seguir são essenciais para quem pretende compilar programas ou bibliotecas no ambiente Linux.  
-Neste HowTo, vamos precisar deles, portanto execute:
+Neste guia, vamos precisar deles, portanto execute:
 
 ```bash
 sudo apt install -y build-essential
@@ -865,7 +865,7 @@ Da ultima vez que verifiquei, o scanner integrado é reconhecida automaticamente
 ---  
 
 ## LEITOR DE CERTIFICADO DIGITAL
-Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um howto na internet apropriado.
+Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um guia na internet apropriado.
 
 ---  
 
