@@ -43,7 +43,7 @@ O Ubuntu é uma derivação do Debian otimizada para **desktops e usuários meno
 | **Firewall padrão** | iptables (apenas CLI, muito técnico) | ufw (com GUI integrada no GNOME/KDE) |
 | **Configuração de rede** | `/etc/network/interfaces` (tradicional) | netplan (moderno) |
 | **Drivers proprietários** | Instalação manual | Pré-integrados (impressoras, Bluetooth, WiFi) |
-| **Filosofia** | Minimalista, pouca mudança | Pronto para uso, focado em UX |
+| **Filosofia** | Minimalista, pouca mudança | Pronto para uso, focado em uso corporativo e doméstico |
 
 ### Exemplo Prático: GPU nVIDIA
 
