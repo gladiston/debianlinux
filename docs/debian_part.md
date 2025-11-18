@@ -84,7 +84,7 @@ Neste caso, você terá a RAM física mais o SWAP funcionando em conjunto.
 
 Se preferir usar o **Btrfs**, o particionamento muda um pouco, nesse caso, `"/"` e `"/home"` ficam na **mesma partição**, que ocupa todo o espaço restante do disco.
 
-O ideal seria ter subvolumes separados para `"/"`, `"/var"` e `"/home"`, mas o instalador padrão do Debian, Ubuntu e da maioria das distros ainda não permitem subvolumes. Dá para fazer manualmente, claro, mas exigiria etapas extras que deixariam este HowTo mais complicado — então vamos manter o foco no básico.
+O ideal seria ter subvolumes separados para `"/"`, `"/var"` e `"/home"`, mas o instalador padrão do Debian, Ubuntu e da maioria das distros ainda não permitem subvolumes. Dá para fazer manualmente, claro, mas exigiria etapas extras que deixariam este Guia mais complicado — então vamos manter o foco no básico.
 
 O Btrfs é um sistema de arquivos excelente para quem desenvolve software graças ao recurso de **snapshots**, onde é possível recuperar versões anteriores de arquivos apagados ou sobrescritos sem precisar recorrer a backups tradicionais.
 
@@ -94,4 +94,4 @@ Além disso, a **compactação transparente** ajuda a economizar espaço sem per
 
 Caso prefira **ext4**, mantenha, se possível, `"/"` e `"/home"` em partições separadas.  
 
-Especialistas em virtualização também recomendam ter `"/var"` em separado; contudo, neste HowTo, as VMs ficarão no `$HOME`.
+Especialistas em virtualização também recomendam ter `/var/libvirt` em partição ou disco separado; contudo, neste Guia, as VMs ficarão no `$HOME` para simplificar aos iniciantes.
