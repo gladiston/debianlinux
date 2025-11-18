@@ -1,6 +1,6 @@
 # UBUNTU vs DEBIAN: Qual Escolher para Sua Produtividade?
 
-## 📦 O que são Distribuições Linux?
+## O que são Distribuições Linux?
 
 Uma **distribuição Linux** é um sistema operacional baseado no kernel Linux, combinado com ferramentas, gerenciadores de pacotes e aplicativos pré-configurados. Diferentemente do Windows ou macOS, que possuem uma única versão oficial, **existem centenas de distribuições Linux**, cada uma com filosofia, propósito e público-alvo distintos.
 
@@ -14,7 +14,7 @@ As duas distribuições mais influentes no ecossistema Linux são **Debian** e *
 
 ---
 
-## 🎯 Sobre Distribuições Ubuntu
+## Sobre Distribuições Ubuntu
 
 Quando menciono **Ubuntu**, refiro-me não apenas à distribuição oficial, mas também a suas derivadas baseadas em **Ubuntu LTS**, como Linux Mint e ZorinOS. Para ambientes de produção ou uso corporativo, **recomendo exclusivamente as edições LTS** (Long Term Support) — não as versões intermediárias de suporte curto.
 
@@ -30,7 +30,7 @@ O Windows Server 2025, por exemplo, está disponível desde 2024 e é extremamen
 
 ---
 
-## 🔄 Debian 13 vs Ubuntu LTS: Qual a Diferença?
+## Debian 13 vs Ubuntu LTS: Qual a Diferença?
 
 Costumo dizer que é como **matar a sede com água gelada (Ubuntu) ou com pedra de gelo (Debian)** — ambas resolvem o problema, mas de formas diferentes.
 
@@ -51,7 +51,7 @@ Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até suger
 
 ---
 
-## 💻 Minha Recomendação
+## Minha Recomendação
 
 | Cenário | Recomendação | Motivo |
 |---------|--------------|--------|
