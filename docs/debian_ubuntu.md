@@ -56,6 +56,6 @@ Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até suger
 | Cenário | Recomendação | Motivo |
 |---------|--------------|--------|
 | **Ambiente corporativo/servidor** | Debian 13 ou Ubuntu LTS (indiferente) | Ambas igualmente estáveis e confiáveis |
-| **Desktop pessoal/casa** | **Ubuntu LTS** | Melhor reconhecimento de hardware, menos configuração manual |
+| **Desktop pessoal/doméstico** | **Ubuntu LTS** | Melhor reconhecimento de hardware, menos configuração manual |
 
 **Conclusão:** Para trabalho, escolha qualquer uma — a diferença é mínima. Para uso doméstico, Ubuntu LTS e seus derivados oferecem melhor experiência de uso com menos ajustes técnicos necessários.
