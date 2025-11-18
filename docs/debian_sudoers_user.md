@@ -9,12 +9,12 @@ su root
 
 No comando acima, precisará digitar a senha, e então depois disso, execute:  
 ```bash
-sudo usermod -aG sudo gsantana
+sudo usermod -aG sudo $USER
 ```
 
 E confirme se realmente o gsantana esta no grupo 'sudo', execute:
 ```bash
-groups gsantana
+groups $USER
 ```
 
 O resultado deve demonstrar que o usuário **gsantana** esta incluso no grupo **sudo**:  
