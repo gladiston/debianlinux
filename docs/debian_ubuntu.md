@@ -47,7 +47,7 @@ O Ubuntu é uma derivação do Debian otimizada para **desktops e usuários meno
 
 ### Exemplo Prático: GPU nVIDIA
 
-Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até sugere sua instalação. No Debian, há jeitos diferentes, mas o que mais aprecio é instalar os repositórios da nVIDIA ou comunitário, apontar o apt para eles e instalar a versão mais recente.  
+Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até sugere sua instalação. No Debian, há jeitos diferentes, mas o que mais aprecio é instalar os repositórios da nVIDIA ou comunitário, apontar o apt para eles e instalar a versão mais recente do driver.  
 
 ---
 
