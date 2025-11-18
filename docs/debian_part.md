@@ -20,6 +20,8 @@ A instalação do Debian/Ubuntu não tem grandes mistérios — o ponto mais del
 | ext4 | `/` | #disco1-root | 100 GB |
 | ext4 | `/home` | #dados1 | Máximo |
 
+Se irá usar virtualização qemu+kvm e entende dos beneficios do particionamento, recomendo ter um outro disco separado para este proposito, claro que também pode usar uma partição separada, mas ter um ponto de montagem separado como **/var/libvirt** irá lhe garantir maior facilidade de gerenciamento e simplifica as permissões. Neste guia, mais adiante, teremos o procedimento para a virtualização, mas ele irá usar o **/home** porque fica mais fácil para usuários novatos entenderem, mas se for usuário avançado em particionamento e puder, use **/var/libvirt** num ponto ponto de montagem separado.  
+
 ---
 
 ## 💾 Entendendo a Partição SWAP
