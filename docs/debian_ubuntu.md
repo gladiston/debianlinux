@@ -45,9 +45,9 @@ O Ubuntu é uma derivação do Debian otimizada para **desktops e usuários meno
 | **Drivers proprietários** | Instalação manual | Pré-integrados (impressoras, Bluetooth, WiFi) |
 | **Filosofia** | Minimalista, pouca mudança | Pronto para uso, focado em UX |
 
-### Exemplo Prático: Impressora
+### Exemplo Prático: GPU nVIDIA
 
-Tenho uma **Epson L355**. No Ubuntu, é reconhecida automaticamente na rede sem qualquer configuração. No Debian, seria necessário instalar drivers manualmente, mas simples. No Windows, ainda é um processo sofrível.
+Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até sugere sua instalação. No Debian, há jeitos diferentes, mas o que mais aprecio é instalar os repositórios da nVIDIA ou comunitário, apontar o apt para eles e instalar a versão mais recente.  
 
 ---
 
