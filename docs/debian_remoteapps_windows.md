@@ -75,19 +75,19 @@ sudo apt install -y freerdp3-x11
 Utilizaremos o `xfreerdp3` para rodar aplicações centralizadas em um servidor Windows. Exemplo: `IBExpert`.
 A estação Windows atua como um servidor de aplicações, onde programas licenciados ou exclusivos (AutoCAD, ERPs, Ferramentas de BD) estão instalados. O objetivo é rodá-los no Linux como se fossem locais.
 
-### 3\. 🔑 Parâmetros Essenciais do xfreerdp3
+### 3\. Parâmetros Essenciais do xfreerdp3
 
-Abaixo estão os parâmetros obrigatórios para a nova sintaxe do FreeRDP v3.x.
+Abaixo estão os parâmetros obrigatórios para a nova sintaxe do FreeRDP v3.x.  
 
-| Parâmetro | Função | Exemplo | Nota Importante |
-| :--- | :--- | :--- | :--- |
-| **Executável** | O cliente RDP. | `xfreerdp3` | Usamos a versão X11 pela estabilidade visual. |
-| **`/v:`** | **Servidor** (IP/DNS). | `/v:192.168.1.11` | Endereço do Windows Server. |
-| **`/u:`** | **Usuário**. | `/u:gsantana` | Seu login de rede. |
-| **`/p:`** | **Senha**. | `/p:'Senha#123'` | **Atenção:** Use **aspas simples** `'` se a senha tiver caracteres especiais (\#, \!, @). |
-| **`/app:`** | Modo **RemoteApp**. | `/app:program:"\|\|IBExpert"` | Use `program:"||Alias"`. As duas barras `||` indicam que é um apelido publicado no servidor. |
-| **`/gdi:sw`** | **Renderização**. | `/gdi:sw` | **Crucial:** Força renderização por software. Corrige telas pretas, fantasmas e recortes errados no Linux. |
-| **`/tls:seclevel:0`** | **Compatibilidade**. | `/tls:seclevel:0` | Necessário no Debian 13+ para aceitar a criptografia de servidores Windows antigos. |
+| Parâmetro | Função | Exemplo | Nota Importante |  
+| :--- | :--- | :--- | :--- |  
+| **Executável** | O cliente RDP. | `xfreerdp3` | Usamos a versão X11 pela estabilidade visual. |  
+| **`/v:`** | **Servidor** (IP/DNS). | `/v:192.168.1.11` | Endereço do Windows Server. |  
+| **`/u:`** | **Usuário**. | `/u:gsantana` | Seu login de rede. |  
+| **`/p:`** | **Senha**. | `/p:'Senha#123'` | **Atenção:** Use **aspas simples** `'` se a senha tiver caracteres especiais (\#, \!, @). |  
+| **`/app:`** | Modo **RemoteApp**. | `/app:program:"\|\|IBExpert"` | Use `program:"||Alias"`. As duas barras `||` indicam que é um apelido publicado no servidor. |  
+| **`/gdi:sw`** | **Renderização**. | `/gdi:sw` | **Crucial:** Força renderização por software. Corrige telas pretas, fantasmas e recortes errados no Linux. |  
+| **`/tls:seclevel:0`** | **Compatibilidade**. | `/tls:seclevel:0` | Necessário no Debian 13+ para aceitar a criptografia de servidores Windows antigos. |  
 
 -----
 
