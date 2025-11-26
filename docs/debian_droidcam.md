@@ -87,8 +87,11 @@ Para facilitar o acesso ao programa sem usar o terminal, você pode criar um ata
     Categories=GNOME;GTK;Video;
     Name[it]=droidcam
     ```
+
+3.  **Salve e feche o arquivo.** A partir de agora, você encontrará o ícone do **DroidCam** no menu de aplicativos do seu sistema.
+
 ---
 
 Para retornar a página inicial, [clique aqui](../README.md)
-3.  **Salve e feche o arquivo.** A partir de agora, você encontrará o ícone do **DroidCam** no menu de aplicativos do seu sistema.
+
 
