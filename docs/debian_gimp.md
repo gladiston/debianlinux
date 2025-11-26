@@ -57,3 +57,8 @@ Os plugins originais que você mencionou têm as seguintes equivalências ou sta
 | **LiquidRescale** | Redimensionamento consciente de conteúdo. | Geralmente, requer instalação externa. |
 | **Gimp Lens Fans** | Correção de lentes. | Muitos desses filtros são agora integrados no **GIMP base** ou disponíveis via **G'MIC**. |
 | **Gimp Transformação Fourier** | Remoção de padrões (*Moire*). | Esta é uma funcionalidade que pode ser replicada com filtros avançados no **G'MIC**. |
+
+
+---
+
+Para retornar a página inicial, [clique aqui](../README.md)
