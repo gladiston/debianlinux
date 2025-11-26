@@ -1,4 +1,4 @@
-# EXECUTANDO REMOTE-APPS WINDOWS
+# EXECUTANDO REMOTE-APPS NO WINDOWS
 
 Hoje é o seu dia de sorte, o que vou explicar aqui é um material dificil de encontrar na internet.  
 Primeiro, o que é são RemoteApps?  
@@ -125,4 +125,11 @@ Para instalar no Debian 13/Ubuntu, você precisa ter o suporte a flatpak instala
 flatpak install --system com.thincast.client
 ```
 
-Após instalar, nas configurações da conexão, ele tem caixas de seleção específicas para "RemoteApp" e opções avançadas para forçar o TLS e renderização.
+Após instalar, nas configurações da conexão, ele tem caixas de seleção específicas para "RemoteApp" e opções avançadas para forçar o TLS e renderização. Mas não funcionará sem TLS habilitado no servidor.  
+
+A Thincast fornece seu cliente gratuitamente porque ela visa o solução paga dela que envolve as mesmas coisas que o serviço RDS da Microsoft fornece só que mais(bem mais) barato, incluindo rodar seus aplicativos via navegador, sim, a solução dela permite que voce possa criar um portal com os aplicativos exportados e rodar ele via navegador, maiores informações você obtêmn diretamente do site deles:   
+[https://thincast.com/en](https://thincast.com/en)  
+
+----
+
+
