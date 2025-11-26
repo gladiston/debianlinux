@@ -38,3 +38,7 @@ Para usuários que preferem uma interface gráfica para simplificar as operaçõ
     ```
 
 O scrcpy estará agora instalado e pronto para espelhar seu celular no ambiente desktop.
+
+---
+
+Para retornar a página inicial, [clique aqui](../README.md)
