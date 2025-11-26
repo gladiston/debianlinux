@@ -6,7 +6,7 @@ Neste guia, utilizaremos a distribuição **Flathub** para a instalação, garan
 
 ---
 
-## 📦 Instalação via GUI (Opcional)
+## Instalação via GUI (Opcional)
 
 Se sua distribuição Debian possui **GNOME Desktop** ou **KDE Plasma**, você pode utilizar as lojas virtuais integradas:
 
@@ -17,7 +17,7 @@ Este é o método mais intuitivo para novos usuários, mas como preferimos econo
 
 ---
 
-## 🖥️ Instalação via Terminal (Recomendado)
+## Instalação via Terminal (Recomendado)
 
 ### Instalando o Remmina
 
@@ -39,7 +39,7 @@ Ou simplesmente procure por **"Remmina"** no menu de aplicações de sua distrib
 
 ---
 
-## 📋 Migração de Configurações de Instalações Antigas
+## Migração de Configurações de Instalações Antigas
 
 Caso você possua uma instalação anterior do Remmina em outro perfil de usuário ou máquina, as configurações, perfis de conexão e histórico ficam armazenados em:
 
@@ -74,7 +74,13 @@ Caso você possua uma instalação anterior do Remmina em outro perfil de usuár
 
 ---
 
-## ✅ Conclusão
+## EXECUTANDO REMOTE-APPS NO WINDOWS
+RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows e que podem ser *exportados*  para rodarem em qualquer estação de trabalho, seja Windows, Mac ou Linux. O serviço mais famoso desse tipo é o RDS Server da Microsoft também conhecido como Terminal Services, mas existem muitos outros que usam protocolos diferentes.  Se você não tem um servidor de terminal, pule esta etapa, mas se você tem e gostaria de executar os aplicativos *exportados* no Linux então siga as instruções no link abaixo:   
+[Executando remote-apps no Linux](debian_remoteapps_windows.md).
+
+---
+
+## Conclusão
 
 Com o Remmina instalado e configurado via Flatpak, você dispõe de um cliente de acesso remoto moderno, atualizado e isolado em seu ambiente Debian. A containerização via Flatpak garante compatibilidade com múltiplas distribuições Linux e evita conflitos com dependências do sistema base, facilitando a manutenção e atualizações futuras.
 
