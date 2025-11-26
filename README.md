@@ -778,6 +778,13 @@ Para instalá-lo, siga as orientações no link abaixo:
 
 ---  
 
+## EXECUTANDO REMOTE-APPS NO WINDOWS
+RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows e que podem ser *exportados*  para rodarem em qualquer estação de trabalho, seja Windows, Mac ou Linux. O serviço mais famoso desse tipo é o RDS Server da Microsoft também conhecido como Terminal Services, mas existem muitos outros que usam protocolos diferentes.  Se você não tem um servidor de terminal, pule esta etapa, mas se você tem e gostaria de executar os aplicativos *exportados* no Linux então siga as instruções no link abaixo:  
+
+[Executando remote-apps no Linux](docs/debian_remoteapps_windows.md).
+
+---  
+
 ## INSTALANDO O CLIENTE DE MENSAGERIA 'TELEGRAM'
 O Telegram é um aplicativo de mensageria instantânea baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
 
