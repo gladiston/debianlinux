@@ -87,3 +87,7 @@ Com o Remmina instalado e configurado via Flatpak, você dispõe de um cliente d
 Caso tenha migrado configurações de uma instalação anterior, seus perfis de conexão, credenciais e preferências de sessão estarão disponíveis imediatamente. O Remmina está pronto para gerenciar múltiplas conexões remotas, seja para acesso a servidores Windows via **RDP**, máquinas Linux via **SSH** ou outras plataformas via **VNC/SPICE**.
 
 Para próximas etapas de administração remota, considere explorar recursos avançados como **port forwarding**, **gerenciamento de grupos de conexão** e **sincronização de credenciais com o libsecret** para elevar a segurança e produtividade em suas operações de TI.
+
+--- 
+
+[Retornar ao indice principal](../README.md)
