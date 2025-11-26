@@ -1,12 +1,18 @@
 # EXECUTANDO REMOTE-APPS NO WINDOWS
+Hoje é o seu dia de sorte! O que vou explicar aqui é um material difícil de encontrar de forma atualizada e organizada na internet.
 
-Hoje é o seu dia de sorte, o que vou explicar aqui é um material dificil de encontrar na internet.  
-Primeiro, o que é são RemoteApps?  
-Para explicar melhor vamos a um cenário real, é comum que algumas empresas queiram controle sobre certos aplicativos que rodam na empresa, por exemplo, o ERP da empresa, eu posso tranquilamente instalar em cada computador que irá usá-lo a sua porção cliente, mas computadores podem falhar e em casos assim a pessoa ficaria sem o programa de uso dela. Então, a solução pode ser ter um computador com todos os programas licenciados de uso da empresa num unico lugar que chamaremos de servidor de aplicação e as estações de trabalho usam um protocolo chamado RDP que permite executar aplicações remotas como se estivessem no computador do usuário e usando recursos como memória e CPU do servidor e não do desktop do usuário, se o equipamento do usuário quebrar ele pula para outro computador e apenas cria um atalho novamente para sua aplicação sem se preocupar em instalar a aplicação novamente, essa é a idéia do RemoteApps. Você pode inclusive acessar o desktop inteiro do Servidor, mas nos dias atuais deixar um desktop inteiro para o usuário pode ser perigoso porque se ele fizer algo que congele o computador, todas as aplicações também vão congelar e se inadivertidamente um usuário desligar o computador, todos os programas deixarão de funcionar para os demais e isso pode ser uma tremenda dor de cabeça, então a solução mais viável e exportar para os desktops apenas os aplicativos sem acesso a área de trabalho.  
+**Primeiro, o que são RemoteApps?**  
+Para explicar melhor, vamos a um cenário real. É comum que empresas queiram controle sobre certos aplicativos críticos, como um ERP. Eu poderia tranquilamente instalar a parte "cliente" do software em cada computador. Mas computadores falham, e quando isso acontece, o colaborador fica parado.
 
-Para que isso funcione, o serviço chamado de RDS (antigamente chamava-se de Terminal Services) precisa estar ativo e usando a porta **3389**. Claro, o firewall deve ter esta porta liberada. Sem essas diretrizes, o que faremos não irá funcionar.
-Uma vez que faça isso, já será possivel usar o [Remmina](debian_remmina.md) para testar o acesso remoto. Como eu disse, o remmina acessará o desktop inteiro e para alguns isso já resolve, mas a intenção deste guia é usar um modo conhecido como **SeamLess**, isto é, como rodá-lo como **RemoteApp** onde o comportamento deste programa seja exatamente como no ambiente do hospedeiro, se eu minimizar o programa ele minimizará dentro do meu Desktop Linux e não dentro da janela do Remmina.  
+A solução ideal é ter um **Servidor de Aplicação**: um único computador robusto com todos os programas licenciados instalados. As estações de trabalho usam o protocolo **RDP** para executar essas aplicações remotamente. A "mágica" é que o processamento (CPU e Memória) ocorre no servidor, não no desktop do usuário. Se o equipamento do usuário quebrar, ele pula para outro, cria um atalho e volta a trabalhar imediatamente, sem precisar reinstalar nada. Essa é a ideia do RemoteApp.
 
+Você poderia acessar a **Área de Trabalho** (Desktop) inteira do servidor? Sim. Mas, nos dias atuais, isso é perigoso. Se um usuário fizer algo que trave a máquina ou, inadvertidamente, desligar o servidor, **todos** os outros usuários param. É uma tremenda dor de cabeça. Por isso, a solução mais profissional é exportar para os desktops apenas as janelas dos aplicativos, sem acesso à barra de tarefas ou ao botão iniciar do servidor.
+
+**Pré-requisitos:**
+Para que isso funcione, o serviço de **RDS** (antigo Terminal Services) precisa estar ativo no Windows e escutando na porta **3389**, que também deve estar liberada no Firewall. Sem isso, nada feito.
+
+**O Objetivo deste Guia:**
+Muitos usam o [Remmina](debian_remmina.md) para acessar o desktop remoto completo. Isso resolve para alguns casos. Porém, a intenção deste guia é usar o modo **Seamless** (sem emendas). Queremos rodar o **RemoteApp** de forma que ele se comporte exatamente como um programa nativo do Linux: se você minimizar o programa, ele vai para o painel do seu Linux, e não para dentro de uma janela do Remmina.
 
 ## Windows Server
 RemoteApps podem ser feitos usando diversos programas, neste guia usaremos um Windows Server.   
