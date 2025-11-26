@@ -14,11 +14,21 @@ Para que isso funcione, o serviço de **RDS** (antigo Terminal Services) precisa
 **O Objetivo deste Guia:**
 Muitos usam o [Remmina](debian_remmina.md) para acessar o desktop remoto completo. Isso resolve para alguns casos. Porém, a intenção deste guia é usar o modo **Seamless** (sem emendas). Queremos rodar o **RemoteApp** de forma que ele se comporte exatamente como um programa nativo do Linux: se você minimizar o programa, ele vai para o painel do seu Linux, e não para dentro de uma janela do Remmina.
 
-## Windows Server
-RemoteApps podem ser feitos usando diversos programas, neste guia usaremos um Windows Server.   
-No Windows Server, você não pode dizer que deseja executar "C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe" porque isso não funciona, você precisa criar um alias (apelido) para esse programa, por exemplo, **IBExpert** e dizer que ele aponta para **C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe** e então publicá-lo para que todos na rede tenham acesso, quando for rodá-lo em forma de atalho, apenas dizer que quer executar **IBExpert** - nome como foi publicado - e o Windows se encarrega do resto.   
+## Windows Server: Publicando o RemoteApp
+RemoteApps podem ser implementados usando diversas soluções, mas neste guia focaremos no ambiente **Windows Server** através dos **Serviços de Área de Trabalho Remota (RDS)**.
 
-Para descobrir o **Alias** (apelido) ou publicar o programa corretamente no seu **Windows Server**, você precisa acessar o servidor (via Área de Trabalho Remota normal) e usar o **Gerenciador de Servidores (Server Manager)**.
+É importante notar que, em um ambiente RDS configurado para RemoteApps, você não pode simplesmente solicitar que o cliente execute o caminho físico `"C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe"`. O servidor irá rejeitar o comando ou cairá no modo Desktop completo.
+
+Em vez disso, você deve seguir este processo no **Gerenciador de Servidores**:
+
+1.  **Publicação:** Você precisa publicar o programa (**IBExpert**) através da sua **Coleção de Sessão** do RDS.
+2.  **Alias:** Durante a publicação, o Windows Server cria automaticamente um **Alias** (apelido) para a aplicação, por exemplo, `IBExpert`, e associa esse nome ao caminho físico (`C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe`).
+3.  **Execução:** Quando o usuário for rodá-lo via atalho ou linha de comando (`xfreerdp3`), ele apenas precisa solicitar o **Alias** (o nome como foi publicado), e o Windows se encarrega de:
+    * Autenticar o usuário.
+    * Abrir uma sessão RDP.
+    * Executar o aplicativo no modo **Seamless**.
+
+O ponto chave é que a aplicação só estará disponível após ser publicada na coleção do RDS.
 
 Aqui está o passo a passo exato para encontrar o nome que o Linux precisa:
 
@@ -138,4 +148,4 @@ A Thincast fornece seu cliente gratuitamente porque ela visa o solução paga de
 
 ----
 
-
+[Retornar ao indice principal](../README.md)
