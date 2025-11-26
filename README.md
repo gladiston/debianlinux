@@ -834,19 +834,25 @@ Para instalá-lo, siga as orientações no link abaixo:
 
 ---  
 
-## SOFTWARE PARA TREINAMENTO
-Para criar material de treinamento que incluirá vídeo é sugerível instalar a seguinte extensão Draw On Your Screen cuja instrução para instalação se encontra em:
-https://codeberg.org/som/DrawOnYourScreen
+## SOFTWARE PARA TREINAMENTO DRAWONYOURSCREEN
+O **DrawOnYourScreen** é um aplicativo simples e útil projetado para permitir que o usuário **desenhe ou faça anotações diretamente sobre qualquer parte da tela** do seu desktop Linux. Ele é muito utilizado em apresentações, tutoriais ou videoconferências (como no Zoom, que acabamos de mencionar) para destacar elementos, traçar setas ou fazer anotações rápidas sem interferir no conteúdo original da janela.
 
-```
-git clone https://codeberg.org/som/DrawOnYourScreen --depth=1 --single-branch --branch face ~/.local/share/gnome-shell/extensions/draw-on-your-screen@som.codeberg.org
-```
-Depois vá até .local/share/gnome-shell/extensions e abra o arquivo metadata.json e adicione "41" e então reinicie o gnome-shell.
+Para instalá-lo, siga as instruções abaixo:  
+(docs/debian_drawonyourscreen.md)
 
 ---  
 
 ## ZOOM CLOUD MEETINGS
-Para baixá-lo use a loja de software (Programas) e procure por “Zoom” e instale-o.
+
+O **Zoom Cloud Meetings** é uma das plataformas de **videoconferência** e **comunicação unificada** mais populares do mundo. Ele oferece serviços de reuniões online por vídeo e áudio de alta qualidade, chat, e colaboração em conteúdo, sendo amplamente utilizado por empresas, instituições de ensino e usuários individuais para comunicação remota.
+
+Este tutorial demonstra o método mais simples e isolado para instalar o **Zoom Client** (o aplicativo de desktop) no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install flathub us.zoom.Zoom
+```
+
+O Zoom Cloud Meetings estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 ---  
 
@@ -889,185 +895,206 @@ Na realidade, para qualquer aplicativo WEB, você seguiria estas mesmas instruç
 ---  
 
 ## INSTALANDO O GIMP
-Vá no app  Software e procure por GIMP no repositório do ‘Flathub’:
 
-Clique nas propriedades dele e encontrará alguns plugins(complementos) que também poderá instalar, são eles:
+O **GIMP** (GNU Image Manipulation Program) é um **editor de imagens** de código aberto e gratuito, considerado a alternativa mais completa e poderosa ao Adobe Photoshop no ambiente Linux e em outras plataformas. Ele é utilizado por designers gráficos, fotógrafos e ilustradores para diversas tarefas de manipulação e retoque de imagens, composição e autoria de imagens.  
+Para instalá-lo, siga as instruções no link abaixo:   
+(docs/debian_gimp.md)  
 
-### BIMP - Realizar operações em batch com vários arquivos
-https://www.youtube.com/watch?v=CaeTkgPNkkg
+---
 
-### FocusBlur - Capacidade de efeito de profundidade
-https://www.youtube.com/watch?v=u-YB-KipWzk
+## ESPELHAMENTO DE CELULAR (SCRCPY)
 
-### Gimp transformação Fourier
-Técnica para remover ou manipular padrões em fotos, geralmente as antigas
-https://www.youtube.com/watch?v=se9I3uGITR0
+O **scrcpy** (Screen Copy) é uma aplicação de código aberto que permite espelhar e controlar dispositivos Android (celular ou tablet) em um desktop Linux, macOS ou Windows. O programa foca em **desempenho** e **baixa latência**, fornecendo controle total do dispositivo via teclado e mouse sem a necessidade de *root*.
 
-### Gimp Lens Fans
-Aplicar e corrigir efeitos por lentes
-https://www.youtube.com/watch?v=FQGDgBT1tWk
-
-### G’MIC
-GRAYC’s Efeitos
-https://www.youtube.com/watch?v=kZnEpkNsDK0
-https://www.youtube.com/watch?v=VOPHbSgJUSI
-
-### LiquidRescale
-Permite remover um elemento e redimensionar uma imagem como se o elemento nunca estivesse existido.
-https://www.youtube.com/watch?v=hhFVWKJA76U
-
-### Resynthesizer
-Retire manchas ou outros defeitos de imagens
-https://www.youtube.com/watch?v=n76owcpShqw
-
-## ESPELHAMENTO DE CELULAR  
-Usaremos um programa chama scrcpy, para instalar executamos:  
-
-```
-sudo dnf install -y adb android-tools 
-sudo dnf install -y scrcpy scrcpy-server
-```
-Para usá-lo terá de ativar o modo de depuração de seu celular ou tablet:  
-(https://developer.android.com/studio/command-line/adb#Enabling)
-
-E em alguns aparelhos também:  
-(https://github.com/Genymobile/scrcpy/issues/70#issuecomment-373286323)
-
-Existe também uma GUI que para alguns simplifica algumas operações, faça a instalação a partir da loja de aplicativos:
-```
-guiscrcpy
-```
+O link a seguir explica como fazer:  
+(docs/debain_mobile_espelho.md)  
 
 ---  
 
-## USANDO O CELULAR COMO WEBCAM
-Instruções: https://www.dev47apps.com/droidcam/linux/
+## USANDO O CELULAR COMO WEBCAM (DROIDCAM)
 
-No celular Android instale o app DroidCam.
-No terminal, execute:
-```
-sudo apt install -y android-tools-adb
-cd /tmp
-wget https://files.dev47apps.net/linux/droidcam_latest.zip
-unzip droidcam_latest.zip -d droidcam
-cd droidcam
-sudo ./install-client
-```
-E prossiga com a instalação, para acionar a parte de vídeo:
-```
-sudo ./install-video
-```
-E prossiga com a instalação, para acionar a parte de áudio:
-```
-sudo ./install-sound
-```
-E prossiga com a instalação.
-Para ter acesso a webcam, execute no terminal droidcam ou droidcam-cli, haverá as opções de usar o celular como webcam plugado na USB ou via Wifi. Para criar um atalho no ambiente GNOME:
-```
-editor ~/.local/share/applications/droidcam.desktop
-```
-e então colar:
-```
-[Desktop Entry]
-Version=1.0
-Type=Application
-Terminal=false
-Name=DroidCam
-Exec=droidcam
-Comment=Use seu celular Android como uma Webcam wireless/USB ou como IP Cam!
-Icon=droidcam
-Categories=GNOME;GTK;Video;
-Name[it]=droidcam
-```
-Salve e feche o arquivo e a partir de agora encontrará o ícone do DroidCam no seu sistema.
+O **DroidCam** é uma solução popular que permite transformar seu celular ou tablet Android em uma **webcam de alta qualidade** para seu computador Linux, utilizando a conexão **USB** ou **Wi-Fi**. Isso é útil para quem precisa de melhor qualidade de vídeo do que as webcams embutidas ou para quem não tem uma webcam dedicada.
+
+O link a seguir explica como fazer:  
+(docs/debian_droidcam.md)  
 
 ---  
 
 ## OBS STUDIO
-Este é o melhor programa de studio e studio de streaming. É incrível acreditar que é opensource e extremamente profissional. Para instalar basta ir na loja e escolher OBS Studio.  
+
+O **OBS Studio** (Open Broadcaster Software) é o programa de código aberto mais popular e poderoso para **gravação de tela** e **transmissão ao vivo (streaming)**. É amplamente utilizado por profissionais e criadores de conteúdo devido à sua capacidade de lidar com múltiplas cenas, fontes de áudio e vídeo, e diversas plataformas de streaming.
+
+Para instalar, execute no terminal:
+
+```bash
+flatpak install flathub com.obsproject.Studio
+```
+
+O OBS Studio estará agora instalado e deve aparecer no menu de seu ambiente gráfico.  
 
 ---  
 
 ## MINDER
-Este é o melhor programa para mapas mentais no formato que roda no modo desktop. Ele é muito similar ao femi. Para instalar:  
-```
-flatpak install --user https://flathub.org/repo/appstream/com.github.phase1geo.minder.flatpakref
-flatpak --user update com.github.phase1geo.minder
-```
-ou se preferir pelo repositório do Ubuntu:
-```
-sudo apt install minder
-```
+
+O **Minder** é um excelente programa de código aberto dedicado à criação de **mapas mentais** (mind maps) no formato de aplicação desktop nativa. Ele oferece recursos robustos para estruturar ideias, notas e conceitos de forma hierárquica e visual, sendo muito similar a outras ferramentas de mapeamento mental.
+
+Este tutorial apresenta duas formas de instalação: via Flatpak (recomendado para isolamento e uso no `$HOME`) e via repositório APT do Ubuntu (recomendado para integração mais profunda com o sistema).
+
+### Opção 1: Instalação via Flatpak (Recomendada)
+
+O Flatpak garante que o programa seja instalado de forma isolada, apenas para o seu usuário (`--user`), e facilita a obtenção da versão mais recente do software:
+
+1.  **Instale o Minder:**
+
+    ```bash
+    flatpak install --user https://flathub.org/repo/appstream/com.github.phase1geo.minder.flatpakref
+    ```
+
+2.  **Atualize o programa (opcional, mas recomendado):**
+
+    ```bash
+    flatpak --user update com.github.phase1geo.minder
+    ```
+
+### Opção 2: Instalação via Repositório APT (Ubuntu e Derivados)
+
+Se você utiliza Ubuntu ou uma distribuição derivada e prefere a integração tradicional do sistema de pacotes, use o APT:
+
+1.  **Instale o Minder:**
+    ```bash
+    sudo apt install minder
+    ```
+
+O Minder estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 ---  
 
-## HYPNOTIX
-Este é o melhor programa de iptv. Ótimo para assistir TVs que são transmitidas via tv. Para instalar:
-```
-wget https://github.com/linuxmint/hypnotix/releases/download/1.1/hypnotix_1.1_all.deb
-sudo dpkg -i hypnotix_1.1_all.deb
-sudo apt -f install
-```
-Algumas fontes de TVs podem estar irregulares, então acaso não queira assistir TVs então poderá desinstalar o programa com o comando:
-```
-sudo apt remove hypnotix*
-```
+## OPENTV
+
+O **OpenTV** é um programa desenvolvido para assistir a canais de televisão através do protocolo IPTV (Televisão por Protocolo de Internet). Ele permite ao usuário adicionar e gerenciar suas próprias listas de canais (.m3u ou outros formatos compatíveis) para consumir conteúdo de TV e streaming. Para usar o programa, você precisará de uma lista de canais M3U, como a mantida pelo projeto IPTV-ORG, que agrega canais de acesso livre globalmente.. Para instalar, siga as instruções no link abaixo:  
+(docs/debian_opentv.md)  
 
 ---  
 
 ## INSYNC
-Este é o melhor programa cliente de Google Drive, ele simula uma unidade de drive local e comumente é usado para colocar backups no Google Drive sem a necessidade do browser. Para instalar é simples e complicado, simples porque você só tem que dar dois cliques no arquivo e complicado porque se trata dum software proprietário que por não poder ser auditado você terá de confiar no fornecedor. Se você deseja prosseguir assim mesmo então visite a página:  
-(https://www.insynchq.com/downloads)
 
-E baixe o instalador e depois dê dois cliques sobre o arquivo baixado e o processo de instalação se iniciará. Se você deseja instalar a partir do repositório, no link acima eles fornecem instruções para serem executados no terminal e você terá atualizações do insink como qualquer outro programa advindo dos repositórios oficiais, neste caso, oficiais do publicador do insink.  
+O **Insync** é reconhecido como um dos melhores clientes de sincronização para o Google Drive e OneDrive. Ele simula uma **unidade de disco local**, permitindo que você gerencie arquivos e realize **backups diretamente no Google Drive** ou OneDrive sem a necessidade de utilizar o navegador web.
+
+A instalação do Insync é notavelmente diferente das anteriores, pois trata-se de um **software proprietário** que não está disponível no repositório Flatpak. Devido à sua natureza proprietária, a instalação requer confiança no fornecedor, já que o código não pode ser auditado publicamente.
+
+Existem duas formas principais de instalar o Insync no seu sistema Linux:
+
+### Opção 1: Instalação via Instalador Direto (Dois Cliques)
+
+Para uma instalação mais direta, você pode baixar o pacote específico para sua distribuição (por exemplo, `.deb` para Debian/Ubuntu ou `.rpm` para Fedora/Red Hat) e iniciar a instalação gráfica:
+
+1.  **Visite a página de downloads oficial:**
+    [https://www.insynchq.com/downloads](https://www.insynchq.com/downloads)
+
+2.  **Baixe o instalador** compatível com sua distribuição Linux.
+
+3.  **Execute a instalação:** Dê **dois cliques** sobre o arquivo baixado (por exemplo, o arquivo `.deb`). O processo de instalação será iniciado pelo gerenciador de pacotes gráfico do seu sistema.
+
+### Opção 2: Instalação via Repositório Oficial do Fornecedor
+
+Para garantir que o Insync receba **atualizações automáticas** junto com o restante dos seus programas, a instalação via repositório é a mais recomendada. Neste caso, o repositório é fornecido oficialmente pelo publicador do Insync.
+
+* As instruções detalhadas para adicionar o repositório e instalar o Insync via terminal estão disponíveis na mesma **página de downloads** do Insync. Você deve seguir os comandos fornecidos na seção correspondente à sua distribuição Linux (Debian, Ubuntu, Fedora, etc.).
+
+Ao instalar via repositório, o Insync será atualizado como qualquer outro programa advindo dos repositórios oficiais.
 
 ---  
 
 ## BLANKET
-Programa para exibir sons no ambiente de fundo, geralmente usado para focar no trabalho, com sons ambiente da natureza ou urbanos como de uma cafeteria. Para instalar basta ir na loja e escolhê-lo pelo nome Blanket.  
+
+O Blanket é um programa de produtividade projetado para exibir **sons de fundo** (ou *white noise*) no ambiente, sendo frequentemente utilizado para ajudar a **focar no trabalho**, relaxar ou mascarar ruídos indesejados. Ele oferece uma variedade de sons ambiente, como sons da natureza, chuva, ou sons urbanos como os de uma cafeteria.
+
+Este tutorial demonstra o método mais simples e isolado para instalar o Blanket no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install flathub com.rafaelmardojai.Blanket
+```
+
+O Blanket estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 ---  
 
 ## HOMESERVER
-Este programa serve para compartilhar uma ou varias pastas de uma forma simples, voce inicia o programa, indica as pastas a serem compartilhadas e momentaneamente eles estarão disponíveis para os computadores na mesma rede local através do navegador. Para instalar basta ir na loja e escolhê-lo pelo nome homeserver.  
 
-Quando os clientes copiarem o que queriam, você fecha o aplicativo e o compartilhamento estará encerrado ou pode encerrar pasta a pasta.
-Observação: Geralmente se você habilitou o compartilhamento de arquivos, talvez não precise do HOMESERVER.  
+O **HomeServer** (servidor doméstico), neste contexto, refere-se a um aplicativo leve e temporário projetado para **compartilhar uma ou mais pastas** de forma simples e rápida com outros dispositivos na mesma rede local. Você inicia o programa, indica as pastas a serem compartilhadas e elas ficam disponíveis via navegador. Quando os clientes copiarem o que queriam, você fecha o aplicativo e o compartilhamento estará encerrado ou pode encerrar pasta a pasta.
+
+**Observação:** Geralmente, se você já habilitou o compartilhamento de arquivos nativo do sistema operacional (como Samba no Linux ou compartilhamento de rede no Windows), talvez não precise do HomeServer.
+
+Este tutorial demonstra o método mais simples e isolado para instalar o HomeServer no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install --user flathub com.gitlab.HomeServer
+```
+
+O HomeServer estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 ---  
 
 ## HANDBRAKE
-HandBrake é um dos mais poderosos conversores de vídeo. Para instalar basta ir na loja e escolhê-lo pelo nome handbrake.  
+
+O HandBrake é um conversor de vídeo de código aberto, gratuito e amplamente utilizado, conhecido por sua capacidade de transcodificar arquivos de vídeo de quase todos os formatos para um conjunto selecionado de codecs modernos e amplamente suportados. Este tutorial demonstra o método mais simples e isolado para instalar o HandBrake no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install --user flathub fr.handbrake.ghb
+```
+
+O HandBrake estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 ---  
 
 ## FORMATLAB
-FormatLab é um dos mais promissores conversores de vídeo após o HandBrake. Ele faz as mesmas atividades do handbrake, porém é mais simples de operar. Para instalar basta ir na loja e escolhê-lo pelo nome FormatLab.  
+
+O FormatLab é um conversor de vídeo que se destaca pela sua **simplicidade de operação**, sendo considerado um dos mais promissores programas da categoria, com funcionalidades semelhantes às do popular HandBrake. Ele é ideal para usuários que precisam converter, compactar ou redimensionar arquivos de mídia de forma rápida e intuitiva. Este tutorial demonstra o método mais simples e isolado para instalar o FormatLab no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install --user flathub com.warlordsoftwares.formatlab
+```
+
+O FormatLab estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 
 ---  
 
 ## BLENDER
-Blender, também conhecido como blender3d, é um programa de código aberto, desenvolvido pela Blender Foundation, para modelagem, animação, texturização, composição, renderização, e edição de vídeo.  Para instalar basta ir na loja e escolhê-lo pelo nome blender. Se você não cria animações, ignore a instalação desse programa.  
+
+O Blender é um software de código aberto, gratuito e de ponta, utilizado para modelagem 3D, animação, renderização, composição, edição de vídeo, criação de jogos e muito mais. Este tutorial demonstra o método mais simples e isolado para instalar o Blender no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:  
+
+```bash
+flatpak install --user flathub org.blender.Blender
+```
+
+O Blender estará agora instalado e deve aparecer no menu de seu ambiente gráfico.  
 
 ---  
 
 ## VIDCUTTER
-(analogo ao vidcoder para windows)
 
-(http://bluegriffon.org)
+O VidCutter é um programa de código aberto, rápido e eficiente, projetado para cortar e juntar segmentos de arquivos de vídeo e áudio em diversos formatos. Este tutorial demonstra o método mais simples e isolado para instalar o VidCutter no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
+
+```bash
+flatpak install --user flathub com.ozmartians.VidCutter
+```
+Caso ache interessante, poderá estudá-lo no site [http://bluegriffon.org](http://bluegriffon.org).  
+
+O VidCutter estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
+
+
 
 
 ---  
 
 ## INKSCAPE
-Para instalar basta ir na loja e escolhê-lo pelo nome INKSCAPE.  
 
----  
+O Inkscape é um software de código aberto para a criação de gráficos vetoriais escaláveis (SVG), amplamente utilizado por designers e ilustradores. Este tutorial demonstra o método mais simples e isolado para instalar o Inkscape no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:  
+```bash
+flatpak install --user flathub org.inkscape.Inkscape
+```
 
-## OUTROS TÓPICOS INTERESSANTES
-* Ambiente de programação JAVA
-* Ambiente de programação Python
-* Versionamento com o asdf
+O Inkscape estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
 
