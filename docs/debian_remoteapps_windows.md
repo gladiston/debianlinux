@@ -44,18 +44,6 @@ Se o programa não aparecer na lista do Passo 2, o Windows recusa a conexão por
 3.  Conclua o assistente.
 4.  Agora, faça o **Passo 2** novamente para confirmar qual **Alias** o Windows criou para ele.
 
-Fico muito feliz que tenha funcionado perfeitamente\! 🎉
-
-Aqui está a versão corrigida e polida do seu guia. Fiz as seguintes alterações técnicas para refletir o que descobrimos:
-
-1.  **Executável:** Substituí referências de `wlfreerdp3` (Wayland) por `xfreerdp3` (X11), pois foi este que resolveu o recorte da janela.
-2.  **Renderização:** Adicionei o parâmetro `/gdi:sw` na tabela, pois ele é crucial para corrigir os bugs visuais.
-3.  **Segurança:** Adicionei `/tls:seclevel:0` como essencial para Debian 13/Ubuntu novos.
-4.  **Sintaxe do App:** Padronizei a explicação do `/app` para usar o método de **Alias** (`||Nome`), que é mais robusto.
-5.  **Limpeza:** Removi menções a `-decorations` e `+seamless` antigos que não se aplicam ao comando final que funcionou.
-
-Pode copiar e colar o texto abaixo para sua documentação:
-
 -----
 
 ## Linux: Acesso a RemoteApps via FreeRDP
@@ -128,3 +116,13 @@ Categories=Network;Development;
 ```
 Onde **Senha#123** deve ser a senha real, claro. 
 Resultado: Agora, se você abrir o menu do KDE/GNOME e digitar "IBExpert", o ícone aparecerá. Ao clicar, ele abre a janela flutuante direto.
+
+
+## CLIENTE GRÁFICO COM SUPORTE A REMOTE APP - Thincast Client
+Se você quer uma interface gráfica de verdade, moderna e que gerencia várias conexões, o Thincast Client é, na minha opinião, o melhor para RemoteApps hoje. Ele é desenvolvido pela mesma empresa que mantém o projeto FreeRDP que usamos no terminal. A vantagem dele é ter suporte nativo e visual para RemoteApps, suporte a arquivos .rdp e uma interface muito polida.  
+Para instalar no Debian 13/Ubuntu, você precisa ter o suporte a flatpak instalado, daí basta executar:  
+```bash
+flatpak install --system com.thincast.client
+```
+
+Após instalar, nas configurações da conexão, ele tem caixas de seleção específicas para "RemoteApp" e opções avançadas para forçar o TLS e renderização.
