@@ -87,7 +87,10 @@ net use * http://localhost:9843/
 
 REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2\##localhost@9843#DavWWWRoot" /v  "_LabelFromReg" /t REG_SZ /d "Spice client" /f
 ```
-O que ele faz por padrão é mapear a unidade compartilhada com a primeira letra de drive disponivel e dar um nome de "Spice client" para ela. No entanto, você pode personalizá-lo se desejar. O script a seguir é um exemplo disso, onde nós podemos escolher uma letra de drive especifica para trabalharmos.  
+O que ele faz por padrão é mapear a unidade compartilhada com a primeira letra de drive disponivel e dar um nome de "Spice client" para ela:
+![Compartilhamento de pasta desabilitado](../img/debian_qemu_kvm_windows_spice-webdav03.png)  
+
+No entanto, você pode personalizá-lo se desejar, o script a seguir é um exemplo disso, onde nós podemos escolher uma letra de drive especifica para trabalharmos.  
 
 ### Exemplo do Conteúdo do `map-drive.bat`
 
@@ -96,8 +99,7 @@ Este *script* é um arquivo *batch* simples que utiliza o comando `net use` do W
 ```bat
 @echo off
 rem Script para mapear a pasta compartilhada do host como uma unidade de rede no guest.
-
-set HOST_SHARE="\\Spice\\org.spice-space.webdav.0"
+set HOST_SHARE=http://localhost:9843/
 set DRIVE_LETTER=W:
 
 rem Verifica se a unidade de rede já existe. Se existir, é removida.
@@ -118,15 +120,17 @@ if %errorlevel% neq 0 (
 )
 ```
 
-A pasta escolhida no **`virt-viewer`** aparecerá no Windows geralmente mapeada como a letra de unidade (`W:` no exemplo acima) ou como um **local de rede**.
+A pasta escolhida no **`virt-viewer`** aparecerá no Windows geralmente mapeada como a letra de unidade (`W:` no exemplo acima).  
 
 Você também pode tentar acessar digitando o caminho na barra de endereços do Explorador de Arquivos do Windows:
 
 ```
-Spice://org.spice-space.webdav.0
+http://localhost:9843/
 ```
+E poderá nevegar pelas pastas/subpastas:  
+![Compartilhamento de pasta desabilitado](../img/debian_qemu_kvm_windows_spice-webdav04.png)   
 
-Isso pode fazer com que o Windows reconheça o compartilhamento.
+E daí voce pode inclusive mapear pastas/subpastas com letras separadas se desejar.
 
 -----
 
@@ -144,12 +148,4 @@ O **virt-manager** é a ferramenta de **gerenciamento** que cria e configura a m
 
 -----
 
-## Dicas do YouTube
-
-Este vídeo demonstra o poder e o uso do **Virtio-FS** no Proxmox, reforçando a performance da tecnologia e mostrando a diferença de velocidade em relação a métodos mais lentos como o WebDAV:
-
-[COMPARTILHANDO ARQUIVOS ENTRE VMs NO PROXMOX? VEJA O PODER DO VIRTIO-FS\!](https://www.youtube.com/watch?v=1kGtxAVFIqc)
-
------
-
-[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md)
+[Retornar à página de Virtualização nativa com QAEMU+KVM Usando VM/Windows](debian_qemu_kvm_windows.md#virt-manager---compartilhando-arquivos-via-spice-webdav)
