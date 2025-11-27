@@ -124,7 +124,7 @@ Isso pode fazer com que o Windows reconheça o compartilhamento.
 
 ### Esclarecendo `virt-manager` vs. `virt-viewer`
 
-O **`virt-manager`** é a ferramenta de **gerenciamento** que cria e configura a máquina virtual e seus dispositivos (como o canal WebDAV no Passo 1). O **`virt-viewer`** é o programa **cliente/visualizador** que se conecta à saída gráfica (desktop) da VM. A janela que mostra o sistema Windows em execução é, na verdade, o `virt-viewer`, e é neste programa que você deve ir ao menu **"Arquivo"** para configurar o compartilhamento de pastas.
+O **virt-manager** é a ferramenta de **gerenciamento** que cria e configura a máquina virtual e seus dispositivos (como o canal WebDAV no Passo 1). O **`virt-viewer`** é o programa **cliente/visualizador** que se conecta à saída gráfica (desktop) da VM. Quando você abre uma janela para visualizar a VM rodando por dentro do **virt-manager** você está usando uma versão que se parece com o `virt-viewer`, mas não é ele, daí você não encontra algumas opções que só o `virt-viewer` possui, por exemplo. você não irá achar no menu hamburguer a opção para configurar o compartilhamento de pastas.  
 
 -----
 
