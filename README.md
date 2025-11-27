@@ -838,7 +838,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 O **DrawOnYourScreen** é um aplicativo simples e útil projetado para permitir que o usuário **desenhe ou faça anotações diretamente sobre qualquer parte da tela** do seu desktop Linux. Ele é muito utilizado em apresentações, tutoriais ou videoconferências (como no Zoom, que acabamos de mencionar) para destacar elementos, traçar setas ou fazer anotações rápidas sem interferir no conteúdo original da janela.
 
 Para instalá-lo, siga as instruções abaixo:  
-(docs/debian_drawonyourscreen.md)
+[Software para treinamento](docs/debian_drawonyourscreen.md)
 
 ---  
 
@@ -898,7 +898,7 @@ Na realidade, para qualquer aplicativo WEB, você seguiria estas mesmas instruç
 
 O **GIMP** (GNU Image Manipulation Program) é um **editor de imagens** de código aberto e gratuito, considerado a alternativa mais completa e poderosa ao Adobe Photoshop no ambiente Linux e em outras plataformas. Ele é utilizado por designers gráficos, fotógrafos e ilustradores para diversas tarefas de manipulação e retoque de imagens, composição e autoria de imagens.  
 Para instalá-lo, siga as instruções no link abaixo:   
-(docs/debian_gimp.md)  
+[Instalando o Gimp](docs/debian_gimp.md)  
 
 ---
 
@@ -907,7 +907,7 @@ Para instalá-lo, siga as instruções no link abaixo:
 O **scrcpy** (Screen Copy) é uma aplicação de código aberto que permite espelhar e controlar dispositivos Android (celular ou tablet) em um desktop Linux, macOS ou Windows. O programa foca em **desempenho** e **baixa latência**, fornecendo controle total do dispositivo via teclado e mouse sem a necessidade de *root*.
 
 O link a seguir explica como fazer:  
-(docs/debain_mobile_espelho.md)  
+[Espelando o celular](docs/debain_mobile_espelho.md)  
 
 ---  
 
@@ -916,7 +916,7 @@ O link a seguir explica como fazer:
 O **DroidCam** é uma solução popular que permite transformar seu celular ou tablet Android em uma **webcam de alta qualidade** para seu computador Linux, utilizando a conexão **USB** ou **Wi-Fi**. Isso é útil para quem precisa de melhor qualidade de vídeo do que as webcams embutidas ou para quem não tem uma webcam dedicada.
 
 O link a seguir explica como fazer:  
-(docs/debian_droidcam.md)  
+[Usando o celular como Webcam no Linux](docs/debian_droidcam.md)  
 
 ---  
 
@@ -972,7 +972,7 @@ O Minder estará agora instalado e deve aparecer no menu de seu ambiente gráfic
 ## OPENTV
 
 O **OpenTV** é um programa desenvolvido para assistir a canais de televisão através do protocolo IPTV (Televisão por Protocolo de Internet). Ele permite ao usuário adicionar e gerenciar suas próprias listas de canais (.m3u ou outros formatos compatíveis) para consumir conteúdo de TV e streaming. Para usar o programa, você precisará de uma lista de canais M3U, como a mantida pelo projeto IPTV-ORG, que agrega canais de acesso livre globalmente.. Para instalar, siga as instruções no link abaixo:  
-(docs/debian_opentv.md)  
+[Instalando IPTV](docs/debian_opentv.md)  
 
 ---  
 
