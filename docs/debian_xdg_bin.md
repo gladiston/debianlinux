@@ -41,7 +41,7 @@ A forma recomendada no Debian é ajustar o arquivo `~/.profile`.
 Edite:
 
 ```bash
-nano ~/.profile
+editor ~/.profile
 ```
 
 Adicione no final:
