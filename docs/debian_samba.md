@@ -82,3 +82,6 @@ sudo systemctl disable smbd nmbd
 Isso deixará o sistema mais leve.
 
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#compartilhamento-de-arquivos)
