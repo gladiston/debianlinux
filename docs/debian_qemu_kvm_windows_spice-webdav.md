@@ -14,7 +14,7 @@ O **SPICE WebDAV proxy** é um componente do SPICE que permite o compartilhament
 Dito isso, o WebDAV via SPICE é uma alternativa estável, embora **mais lenta**, para o compartilhamento de arquivos com VMs Windows.
 
 -----
-## 1\. Configuração no Hospedeiro (Linux) com `virt-manager`
+## 1\. Configuração no Hospedeiro (Linux) com virt-manager
 
 1.  **Desligue a VM** Windows.
 2.  Vá até as **configurações de *hardware*** da VM.
