@@ -79,4 +79,6 @@ Vamos reiniciar, execute:
 ```bash
 sudo systemctl restart NetworkManager 
 ```
+----
 
+[Clique aqui para retornar a página principal](../README.md#backuprestore-da-configura%C3%A7%C3%A3o-original-de-rede)
