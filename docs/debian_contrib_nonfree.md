@@ -1,6 +1,6 @@
 # ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE' NO DEBIAN (SOMENTE PARA DEBIAN)
 
-## 📚 Estendendo os Repositórios Oficiais do Debian: Incluindo `contrib` e `non-free`
+## Estendendo os Repositórios Oficiais do Debian: Incluindo `contrib` e `non-free`
 
 O projeto Debian mantém um **compromisso rigoroso** com os princípios do Software Livre, conforme estabelecido pelas **Diretrizes Debian de Software Livre (DFSG)**. Por padrão, o repositório principal do sistema (**`main`**) inclui apenas pacotes que cumprem integralmente esses critérios.
 
@@ -18,6 +18,8 @@ Para garantir o **suporte completo ao hardware** e aumentar a disponibilidade de
 | **`contrib`** | Contém Software Livre (DFSG-compliant), mas que depende de pacotes que estão no repositório `non-free` para ser compilado ou executado. |
 | **`non-free`** | Contém software que não atende às DFSG, geralmente **drivers e firmware proprietário**, que são essenciais para o funcionamento de hardwares específicos. |
 
+
+## Modificando o arquivo sources.list
 A inclusão de `contrib` e `non-free` é a maneira padrão de expandir o escopo do software no Debian, **removendo estas limitações** para o uso diário. Siga as instruções abaixo para modificar o seu arquivo `sources.list`:
 
 Primeiro, vamos fazer um backup do arquivo original sources.list:
