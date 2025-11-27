@@ -123,3 +123,8 @@ Quando precisar reverter, isto é, usar **QEMU+KVM** apenas comente as linhas no
 
 
 **Reinicie o computador** e notará que agora é possivel iniciar as VMs dentro do VirtualBox.  
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#virtualbox)
