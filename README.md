@@ -710,16 +710,10 @@ O link a seguir explica como fazer:
 ---  
 
 ## OBS STUDIO
+O **OBS Studio** (Open Broadcaster Software) é a ferramenta de código aberto mais poderosa e amplamente utilizada para captura de tela e transmissões ao vivo em sistemas **Debian** e **Ubuntu**. Reconhecido por sua flexibilidade e recursos avançados no gerenciamento de múltiplas fontes, a abordagem mais robusta e recomendada para a instalação é via **Flatpak**, que garante a utilização das bibliotecas mais recentes e a estabilidade em diferentes ambientes de desktop.   
 
-O **OBS Studio** (Open Broadcaster Software) é o programa de código aberto mais popular e poderoso para **gravação de tela** e **transmissão ao vivo (streaming)**. É amplamente utilizado por profissionais e criadores de conteúdo devido à sua capacidade de lidar com múltiplas cenas, fontes de áudio e vídeo, e diversas plataformas de streaming.
-
-Para instalar, execute no terminal:
-
-```bash
-flatpak install flathub com.obsproject.Studio
-```
-
-O OBS Studio estará agora instalado e deve aparecer no menu de seu ambiente gráfico.  
+Prepare seu sistema para produção de conteúdo e *streaming* de alta qualidade, seguindo o guia completo para a instalação:  
+[OBS Studio via Flatpak](docs/debian_obsstudio.md)
 
 ---  
 
