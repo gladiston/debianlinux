@@ -672,14 +672,10 @@ Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um gui
 ---  
 
 ## MICROSOFT OFFICE (web apps)
-Visite a página a seguir usando um navegador Google Chrome(ou compatível com webapps):
-[Site do office.com](office.com)   
-E autentique-se com uma conta live da Microsoft.
-Estando na home da página, precisará de usar o navegador para transformar a página em um aplicativo WEB. Usando o Google Chrome você iria nos 3 pontinhos no canto superior direito>Transmitir, salvar e compartilhar>Instalar página como app...   
+Para obter a experiência completa da suíte de escritório da Microsoft sem a necessidade de instalação de software nativo, aprenda a transformar a plataforma **Microsoft 365 (Office.com)** em um **Aplicativo Web Progressivo (PWA)** no seu sistema. Usando um navegador compatível como o Google Chrome, você pode criar um atalho isolado que se comporta como um aplicativo de desktop, garantindo acesso rápido e organizado ao Word, Excel e PowerPoint online.  
 
-![Instalação do app MSOFFICE](img/app-msoffice-web.png)  
-
-Na realidade, para qualquer aplicativo WEB, você seguiria estas mesmas instruções.  
+Siga o guia para configurar seu **PWA** do Microsoft 365:   
+[Criando o PWA do Microsoft Office](docs/web_msoffice.md)
 
 ---  
 
