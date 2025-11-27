@@ -71,7 +71,7 @@ O compartilhamento efetivo da pasta do hospedeiro é configurado através do `vi
       * Vá em **Arquivo** (*File*) \> **Preferências** (*Preferences*).
       * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`.
         Se a opção de **Compartilhar Pasta** (*Share Folder*) estiver desligada como na imagem abaixo é porque o canal `org.spice-space.webdav.0` não foi adicionado:
-        ![Compartilhamento de pasta desabilitado](debian_qemu_kvm_windows_spice-webdav01.png)
+        ![Compartilhamento de pasta desabilitado](../img/debian_qemu_kvm_windows_spice-webdav01.png)
         
         Então volte aos passos anteriores para corrigir e só então prossiga.  
 
