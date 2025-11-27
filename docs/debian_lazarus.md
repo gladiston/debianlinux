@@ -117,3 +117,7 @@ $ code --install-extension Wosi.omnipascal \
 
 Se seu codigo pascal precisar de IDE, neste caso recomendo que use a IDE do Lazarus ou do Delphi, o vscode com plugin de pascal não tem suporte a formulários de design.    
 
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-ide-de-programa%C3%A7%C3%A3o-pascal-com-a-ide-lazarus)
