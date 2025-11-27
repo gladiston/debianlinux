@@ -510,7 +510,8 @@ Para entender melhor e ajustar seu sistema de acordo, siga as orientações no l
 ---  
 
 ## ACESSANDO ARQUIVOS NA REDE
-O Linux é muito versátil ao acessar arquivos pela rede. Diferente do Windows onde o compartilhamento de arquivos se dá apenas pelo protocolo smb/cifs do próprio Windows, no Linux, qualquer tipo de compartilhamento que tenha um protocolo de comunicação aberto pode ser montado em forma de pasta em seu sistema.  
+O Linux é muito versátil ao acessar arquivos pela rede. Diferente do Windows onde o compartilhamento de arquivos se dá apenas pelo protocolo smb/cifs do próprio Windows, no Linux, qualquer tipo de compartilhamento que tenha um protocolo de comunicação aberto pode ser montado em forma de pasta em seu sistema.   
+
 Vamos considerar agora alguns tipos de compartilhamentos no link abaixo:  
 [Acessando compartilhamentos na rede Windows/outros](docs/debian_fstab_network.md).
 
