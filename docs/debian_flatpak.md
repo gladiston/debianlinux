@@ -70,3 +70,7 @@ E colar as pastas acima em uma nova instalação em:
 E quando instalar o Remmina e o Telegram pelo FlatPak, eles já estarão configurados.  
 
 **Curiosidade**: Na pasta ~/.var/app, há pastas com nomes bem sugestivos que parecem ser, mas não são, **com.google.Chrome**, **com.google.ChromeDev** e **io.github.ungoogled_software.ungoogled_chromium** não estão relacionados ao navegador Google Chrome que instalamos, de fato, ainda é uma incognita porque estas pastas passam a existir assim que instalamos o flat-pak.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#ative-o-suporte-a-flatpak-central)
