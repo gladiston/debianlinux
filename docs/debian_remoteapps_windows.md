@@ -146,6 +146,7 @@ Após instalar, nas configurações da conexão, ele tem caixas de seleção esp
 A Thincast fornece seu cliente gratuitamente porque ela visa o solução paga dela que envolve as mesmas coisas que o serviço RDS da Microsoft fornece só que mais(bem mais) barato, incluindo rodar seus aplicativos via navegador, sim, a solução dela permite que voce possa criar um portal com os aplicativos exportados e rodar ele via navegador, maiores informações você obtêmn diretamente do site deles:   
 [https://thincast.com/en](https://thincast.com/en)  
 
+
 ----
 
-[Retornar ao indice principal](../README.md)
+[Clique aqui para retornar a página principal](../README.md#executando-remote-apps-no-windows)
