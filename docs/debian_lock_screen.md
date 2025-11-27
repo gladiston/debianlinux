@@ -13,3 +13,6 @@ E então ajuste o tempo:
 ### KDE
 ![tela de bloqueio](../img/kde_tela_bloqueio01.png)
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#bloqueio-de-tela-autom%C3%A1tico)  
