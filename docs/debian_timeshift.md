@@ -6,7 +6,7 @@ Neste guia, utilizaremos a instalação via repositório padrão do Debian **sem
 
 ---
 
-## 📦 Instalação via GUI (Opcional)
+## Instalação via GUI (Opcional)
 
 Se sua distribuição Debian possui **GNOME Desktop** ou **KDE Plasma**, você pode utilizar as lojas virtuais integradas:
 
@@ -17,7 +17,7 @@ Este é o método mais intuitivo para novos usuários, mas como preferimos econo
 
 ---
 
-## 🖥️ Instalação via Terminal (Recomendado)
+## Instalação via Terminal (Recomendado)
 
 ### Instalando o Timeshift
 
@@ -40,7 +40,7 @@ Ou procure por **"Timeshift"** no menu de aplicações de sua distribuição.
 
 ---
 
-## ⚙️ Configuração Inicial
+## Configuração Inicial
 
 Ao iniciar o Timeshift pela primeira vez, você será solicitado a:
 
@@ -56,7 +56,7 @@ Ao iniciar o Timeshift pela primeira vez, você será solicitado a:
 
 ---
 
-## 📋 Migração de Configurações de Instalações Antigas
+## Migração de Configurações de Instalações Antigas
 
 Caso você possua uma instalação anterior do Timeshift em outro perfil de usuário ou máquina, as configurações de snapshots e agendamento ficam armazenadas em:
 
@@ -104,10 +104,15 @@ Dá para recuperar tanto arquivos quanto o sistema operacional.
 
 ---
 
-## ✅ Conclusão
+## Conclusão
 
 Com o Timeshift instalado e configurado em seu ambiente Debian, você dispõe de um mecanismo robusto e eficiente de proteção do sistema através de snapshots incrementais. Diferentemente da containerização via Flatpak, a instalação nativa do Timeshift integra-se completamente ao kernel Linux, permitindo acesso privilegiado necessário para gerenciar snapshots em nível de sistema de arquivos.
 
 O Timeshift está pronto para criar pontos de restauração automáticos, protegendo sua infraestrutura contra atualizações problemáticas, corrupções de sistema e alterações indesejadas de configuração. Caso tenha migrado configurações de uma instalação anterior, seus agendamentos e políticas de retenção de snapshots estarão operacionais imediatamente.
 
 Para próximas etapas de proteção de dados, considere explorar recursos avançados como **agendamento customizado de snapshots**, **retenção de múltiplos pontos de restauração**, **testes periódicos de recuperação** e **documentação de procedimentos de restauração em desastres críticos** para fortalecer a resiliência operacional de sua infraestrutura Debian.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-utilit%C3%A1rio-de-backup-e-restaura%C3%A7%C3%A3o-timeshift)
