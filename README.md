@@ -184,10 +184,13 @@ Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu c
 
 ---  
 
-## ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE' NO DEBIAN (SOMENTE PARA DEBIAN)
-O Debian 13 é bastante limitado com respeito a programas e módulos(drivers), resumidamente, ele não incluir nada que não tenha licença opensource e seja copy-left e isso pode ser ótimo para servidores, mas se pretende usar um Debian como desktop, essa restrição irá nos limitar muito. Para remover esta restrição ou limitação precisaremos incluir os repositórios `contrub` e `non-free` então siga as instruções no link abaixo:  
+## Estendendo Repositórios Oficiais com contrib, non-free e non-free-firmware
+O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**. Siga o guia completo para remover essa restrição e garantir o suporte total ao seu desktop:  
+[Adicionando os repositorios contrib e nonfree](https://www.google.com/search?q=docs/debian_contrib_nonfree.md)
 
-[Adicionando os repositorios contrib e nonfree](docs/debian_contrib_nonfree.md)
+-----
+
+Gostaria de refinar ainda mais a chamada, talvez focando em um aspecto específico (como Wi-Fi ou placas de vídeo)?
 
 ---  
 
