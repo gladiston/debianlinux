@@ -88,6 +88,7 @@ Caso tenha migrado configurações de uma instalação anterior, seus perfis de 
 
 Para próximas etapas de administração remota, considere explorar recursos avançados como **port forwarding**, **gerenciamento de grupos de conexão** e **sincronização de credenciais com o libsecret** para elevar a segurança e produtividade em suas operações de TI.
 
---- 
 
-[Retornar ao indice principal](../README.md)
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-cliente-de-acesso-remoto-remmina)
