@@ -50,4 +50,4 @@ Estes pacotes fornecem desde o compilador GNU (GCC) até utilitários de empacot
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#xxxxxx)
+[Clique aqui para retornar a página principal](../README.md#instalando-compactadoresdescompactadores-de-arquivos)
