@@ -71,7 +71,7 @@ Por tratar-se de um desktop, faça a instalação mais completa:
 ```bash
 sudo apt install -y virt-manager virtiofsd 
 sudo apt install -y spice-vdagent spice-webdavd qemu-guest-agent
-#sudo apt install -y davfs2 # requer sudo usermod -aG davfs2 $USER
+sudo apt install -y virt-viewer
 ```
 Depois:
 ```bash
