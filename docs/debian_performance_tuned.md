@@ -113,3 +113,9 @@ Exemplo de uso: estações de áudio profissional (JACK), robótica, processamen
 *Uso*: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
 *O que faz*: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
 *Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.  
+
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-perfis-de-performance-tuned)
