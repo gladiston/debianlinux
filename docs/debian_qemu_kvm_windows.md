@@ -171,12 +171,10 @@ Siga as instruções abaixo:
 ---
 
 ## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
-Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o SPICE-WEBDAV. Esse é o método conhecido por muitos devs no mundo windows.  
-Siga as instruções abaixo:  
-(em criação)
-~[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)~
+Embora o Virtio-FS seja o método de compartilhamento de arquivos mais rápido e performático, ele possui limitações notáveis em ambientes Windows devido à diferença na arquitetura dos sistemas de arquivos, o Virtio-FS tentará transliterar as permissões Posix do Linux para as ACLs do Windows, mas tem coisas que faz o Windows se perder, por exempo, arquivos no linux são case-sensitive então obviamente podemos ter dois arquivos de nomes iguais apenas com case diferente e isso faz o Windows entrar em parafuso, outra coisa são as permissões, o Windows lê as ACLs e muitas vezes interpreta como somente leitura, especialmente quando se trata de links simbolicos no lado Linux. Então, se vocÊ precisa de extrema compatibilidade com o Windows o Virtio-FS pode ser ruim.  Você pode contornar este problema usando o SPICE-WEBDAV, ele cria uma ponte entre hospedeiro e VM com o protocolo webdav que é basicamente mapear uma letra de drive para http://ip.do.serviço/pastacompartilhada e isso cria uma camada que torna o acesso mais compativel com o mundo Windows.   
 
-
+Se desejar usar o acesso webdav, siga as instruções abaixo:  
+[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)
 
 ---
 
