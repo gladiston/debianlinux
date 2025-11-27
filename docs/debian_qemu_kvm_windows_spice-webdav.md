@@ -69,9 +69,10 @@ O compartilhamento efetivo da pasta do hospedeiro é configurado através do `vi
     Isso permite que você exporte um único ponto de entrada para todas as pastas necessárias.  
 2.  No `virt-viewer` (a janela que mostra o desktop do Windows):
       * Vá em **Arquivo** (*File*) \> **Preferências** (*Preferences*).
-      * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`.
-        Se a opção de **Compartilhar Pasta** (*Share Folder*) estiver desligada como na imagem abaixo é porque o canal `org.spice-space.webdav.0` não foi adicionado:
+      * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`:
         ![Compartilhamento de pasta desabilitado](../img/debian_qemu_kvm_windows_spice-webdav01.png)
+        Se a opção de **Compartilhar Pasta** (*Share Folder*) estiver desligada como na imagem abaixo é porque o canal `org.spice-space.webdav.0` não foi adicionado:
+        ![Compartilhamento de pasta desabilitado](../img/debian_qemu_kvm_windows_spice-webdav02.png)
         
         Então volte aos passos anteriores para corrigir e só então prossiga.  
 
@@ -80,6 +81,13 @@ Alternativamente, dentro do Windows, você pode executar o *script* de mapeament
 ```bash
 "C:\Program Files\SPICE webdavd\map-drive.bat"
 ```
+O arquivo acima já existe e tem esse conteúdo:  
+```
+net use * http://localhost:9843/
+
+REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2\##localhost@9843#DavWWWRoot" /v  "_LabelFromReg" /t REG_SZ /d "Spice client" /f
+```
+O que ele faz por padrão é mapear a unidade compartilhada com a primeira letra de drive disponivel e dar um nome de "Spice client" para ela. No entanto, você pode personalizá-lo se desejar. O script a seguir é um exemplo disso, onde nós podemos escolher uma letra de drive especifica para trabalharmos.  
 
 ### Exemplo do Conteúdo do `map-drive.bat`
 
@@ -131,8 +139,8 @@ O **virt-manager** é a ferramenta de **gerenciamento** que cria e configura a m
 ## SEGURANÇA
 
 1.  Não é recomendado exportar o seu diretório `$HOME` inteiro.
-2.  **Siga a OPÇÃO 1 do Virtio-FS:** Para máxima segurança e organização, crie uma pasta consolidada similar ao exemplo **`/home/gsantana/work`** e use *bind mounts* para incluir apenas as subpastas desejadas. Em seguida, exporte apenas esta pasta consolidada através do `virt-viewer`.
-3.  Lembre-se que o WebDAV via SPICE é mais lento que o Virtio-FS, sendo mais adequado para arquivos pequenos ou acesso esporádico.
+2.  Para máxima segurança e organização, crie uma pasta consolidada similar ao exemplo **/home/gsantana/work** e use *bind mounts* para incluir apenas as subpastas desejadas. Em seguida, exporte apenas esta pasta consolidada através do `virt-viewer`.
+3.  Lembre-se que o WebDAV via SPICE é mais lento que o Virtio-FS, no entanto, é mais compativel com as permissões de arquivos do Windows, ele entende melhor os links simbolicos que usamos no hospedeiro Linux.  
 
 -----
 
