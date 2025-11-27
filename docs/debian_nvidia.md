@@ -283,3 +283,8 @@ Este é o método mais seguro e moderno para instalar NVIDIA no Debian 13:
 * sem instaladores problemáticos
 * suporte a DKMS
 * sem configurações manuais de Xorg
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#nvidia-no-debian)
