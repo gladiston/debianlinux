@@ -213,56 +213,10 @@ Siga o link a seguir:
 ---
 
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
-Sim, a Microsoft tem um repositório para distribuições *Debian-like*, o que inclui também as outras derivações como **Ubuntu** e seus sabores, **Linux Mint**, **ZorinOS**, entre outras.  
-Não vamos instalar nada de lá ainda; vamos apenas incluir o repositório. E, por mais paradoxal que seja, há um *download* e instalação necessários justamente para que possamos ter esse repositório.  
+Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribuições Debian-like como Debian 13 e Ubuntu, oferecendo acesso a ferramentas e bibliotecas essenciais, notavelmente as do ambiente Mono. Embora pareça paradoxal, o processo de inclusão exige a instalação inicial de um pacote configurador, que subsequentemente gerencia a atualização do próprio repositório, garantindo que você tenha acesso a pacotes como o mono e outros.  
 
-Descubra a versão do seu Ubuntu executando:
-```bash
-cat /etc/issue
-```
-Exemplo de saída:
-```
-Debian GNU/Linux 13 \n \l
-```
-No exemplo acima, a versão é o **Debian 13**.  
-Agora visite a página:  
-[https://packages.microsoft.com/config/](https://packages.microsoft.com/config/)  
-Você verá algo assim:  
-```
-Index of config/
-../
-alma/                                                                                                 
-amazonlinux/                                                                                          
-centos/                                                                                               
-debian/                                                                                               
-fedora/                                                                                               
-opensuse/                                                                                             
-rhel/                                                                                                 
-rocky/                                                                                                
-sles/                                                                                                 
-ubuntu/                                                                                               
-```
-Se for Ubuntu ou Debian, acesse a página correspondente a sua distribuição e uma vez que escolhê-la, aparecerá então pastas com as versões suportadas pela distro escolhida e então acesse a pasta correspondente à sua versão, e baixe o arquivo **packages-microsoft-prod.deb**.  
-Depois, dê um duplo clique nele para instalá-lo.  
-
-Atualize os repositórios:
-```bash
-sudo apt update -y
-```
-
-Isso criará o arquivo **/etc/apt/sources.list.d/microsoft-prod.list**, que aponta para o repositório oficial da Microsoft.  
-
-Está curioso para saber o que a Microsoft está compartilhando?  
-Então execute:
-```bash
-apt-cache policy | grep packages.microsoft.com
-```
-Mas antecipando, temos essencialmente as bibliotecas do `mono`.  
-
-É curioso que a atualização do repositório da Microsoft seja mantida por um pacote que precisa ser instalado manualmente — e depois ele mesmo passa a ser atualizado pelo próprio repositório.  
-Isso sim é uma implementação diferenciada.  
-O time da Microsoft claramente não conhece a oração dos programadores em C/C++:  
-> “Salve-nos da recursividade; main().”  - hahahhahahah.
+Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
+[Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
 ---  
 
