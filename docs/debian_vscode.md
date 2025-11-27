@@ -97,3 +97,6 @@ Essas opções ativam:
 * Execução direta de scripts (Ctrl+Alt+N)
 * Indentação de 2 espaços padrão
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-vscode)
