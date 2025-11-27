@@ -86,3 +86,8 @@ sudo crontab -l      # lista do usuário root
 
 O uso do **crontab** aqui vale para todas as distribuições Linux, inclusive em desktops.  
 GNOME, KDE e outras DEs possuem utilitários visuais para agendar tarefas, mas, neste HowTo, priorizamos o terminal por ser a forma mais consistente e portátil de configurar.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#crontab)
