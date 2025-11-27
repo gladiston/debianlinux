@@ -81,3 +81,8 @@ Este certificado local funcionará em sua rede local, mas se for para um acesso 
 
 ### COMO TESTAR
 Você pode testar usando o Remmina(Linux) ou Remote Desktop(Windows) e apontando para o IP do seu Linux.  
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#habilitando-area-de-trabalho-remota)
