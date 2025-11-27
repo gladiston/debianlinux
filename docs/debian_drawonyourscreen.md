@@ -29,6 +29,7 @@ Se a instalação via APT falhar ou o aplicativo não funcionar devido à incomp
 
 Após a instalação (por qualquer um dos métodos), você precisará **ativar a extensão** usando o aplicativo "Extensões" ou a ferramenta "Ajustes" (GNOME Tweaks).
 
----
 
-Para retornar a página inicial, [clique aqui](../README.md)
+----
+
+[Clique aqui para retornar a página principal](../README.md#software-para-treinamento-drawonyourscreen)
