@@ -1,4 +1,4 @@
-# Guia Debian 13: Estendendo Repositórios Oficiais com `contrib`, `non-free` e `non-free-firmware`
+# Estendendo Repositórios Oficiais com `contrib`, `non-free` e `non-free-firmware`
 
 O projeto Debian mantém um **compromisso rigoroso** com os princípios do Software Livre, conforme estabelecido pelas **Diretrizes Debian de Software Livre (DFSG)**. Por padrão, o repositório principal do sistema (**`main`**) inclui apenas pacotes que cumprem integralmente esses critérios.
 
