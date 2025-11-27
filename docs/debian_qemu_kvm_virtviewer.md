@@ -103,6 +103,6 @@ Categories=System;
 Onde `/home/gsantana/.local/bin/vm_win2k25-dx.sh` é o shell script que criamos. O comando é precedido por `pkexec` porque precisamos elevar as permissões, senão falhará.  
 Agora você tem um atalho no seu sistema para esta maquina virtual, procure por `Windows`e ela aparecerá e se acaso você precisa dela muitas vezes, coloque-a na seção de favoritos de seu ambiente gráfico.  
 
---
+---
 
 [Retornar ao artigo sobre virtualização](debian_qemu_kvm.md#executando-maquinas-virtuais-via-virt-viewer)
