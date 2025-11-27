@@ -47,3 +47,7 @@ Se quiser liberar qualquer comando sem senha (não recomendado em estações com
 - Para desfazer, remova as linhas adicionadas ou restaure a linha original `%sudo   ALL=(ALL:ALL) ALL`.
 
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).    
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#sudo---personalizando-op%C3%A7%C3%B5es)
