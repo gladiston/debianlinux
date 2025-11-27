@@ -87,3 +87,8 @@ Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
 
 > **Curiosidade histórica**:  
 > O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#ajustando-aliases-para-comandos-repetitivos)
