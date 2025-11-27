@@ -25,3 +25,7 @@ Como visto nesta imagem:
 
 Depois, encerre e entre novamente na sessão.  
 
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#completando-o-idioma-portugu%C3%AAs)
