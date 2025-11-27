@@ -51,3 +51,6 @@ Após a execução do `upgrade`, observe o sumário fornecido pelo APT. O result
 
 Se o *output* mostrar números diferentes de zero (por exemplo, `Atualizando: 5`), significa que o sistema encontrou atualizações de segurança ou correções de *bugs* que foram aplicadas.
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#reposit%C3%B3tios-restricted-e-multiverse---apenas-para-ubuntu-e-derivados)
