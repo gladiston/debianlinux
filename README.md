@@ -976,9 +976,10 @@ O **OpenTV** é um programa desenvolvido para assistir a canais de televisão at
 
 ---  
 
-# INSYNC
+# SINCRONIZANDO PASTAS COM GDRIVE/ONEDRIVE USANDO O INSYNC
 
-O **Insync** é reconhecido como um dos melhores clientes de sincronização para o Google Drive e OneDrive. Ele simula uma **unidade de disco local**, permitindo que você gerencie arquivos e realize **backups diretamente no Google Drive** ou OneDrive sem a necessidade de utilizar o navegador web.
+O **Insync** é reconhecido como um dos melhores clientes de sincronização para o Google Drive e OneDrive. Ele simula uma **unidade de disco local**, permitindo que você gerencie arquivos e realize **backups diretamente no Google Drive** ou OneDrive sem a necessidade de utilizar o navegador web.  
+
 Clique no link abaixo se desejar instalá-lo:  
 [Instalando o InSync](docs/debian_insync.md)  
 
