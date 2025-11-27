@@ -25,19 +25,58 @@ Dito isso, o WebDAV via SPICE é uma alternativa estável, embora **mais lenta**
 > **Nota:** A pasta a ser compartilhada do lado do host será configurada posteriormente através do **`virt-viewer`** (o cliente SPICE).
 
 -----
+## 2\. Virt-Viwer instalado?
+Vamos conferir se o virt-viwer está instalado, execute:
+```bash
+virt-viewer --version
+```
+Se o comando acima falhar com uma mensagem:  
+> virt-viewer: comando não encontrado
 
-## 2\. Configuração no Convidado (Windows)
+É porque o mesmo não está instalado, então vamos instalá-lo:  
+```bash
+sudo apt install virt-viewer
+```
 
-1.  Inicie a VM.
-2.  Baixe e instale o **`spice-webdavd`** no Windows convidado. Este pacote contém o serviço necessário para que o Windows se conecte ao canal WebDAV.
+Nossa VM precisa precisa ser executada usando o `virt-viewer` porque há rumores de que o serviço chamado `Spice webdav proxy` não inicia no Windows se a VM estiver usando o virt-manager.
+Agora, precisamos identificar a nossa VM, cada VM tem um **NOME** e um **UUID** próprio, em algumas operações podemos usar o NOME, mas em outras - especialmente as mais perigosas - precisamos usar o UUID. Em nosso exemplo, o nome/dominio de nossa VM é **win2k25-dx**, então para descobrir o UUID, executamos:  
+```bash
+sudo virsh domuuid win2k25-dx
+```
+E algo similar a isso será exibido:  
+> ca25da76-55eb-45f7-8102-f54864480d4e  
+
+O codigo acima é o **UUID** para a VM **win2k25-dx**, agora vamos iniciar a VM, execute:
+```bash
+sudo virsh start win2k25-dx
+```
+E algo similar a isso será exibido:  
+> Domain 'win2k25-dx' started  
+
+Isso indica que nossa VM já está rodando, mas antes de prosseguir, **feche o virt-manager**.  
+
+Agora podemos abrir a VM usando o `virt-viwer`, execute:  
+```bash
+virt-viewer --connect qemu:///system --wait win2k25-dx
+```
+
+
+Agora que ele está instalado, podemos prosseguir.  
+
+-----
+
+## 3\. Configuração no Convidado (Windows)
+
+1.  Tenha certeza de ter iniciado a VM usando o **virt-viewer** e não estar executando nenhuma sessão do **virt-manager**, senão irá falhar.  
+2.  Dentro da VM Windows, baixe e instale o **`spice-webdavd`** no Windows convidado. Este pacote contém o serviço necessário para que o Windows se conecte ao canal WebDAV.
       * O instalador pode ser encontrado na página oficial do projeto:
         [spice-webdavd (Download)](https://www.spice-space.org/download/windows/spice-webdavd/)
-3.  Após a instalação, verifique se o serviço **`Spice webdav proxy`** está em execução.
+3.  Após a instalação, verifique se o serviço `Spice webdav proxy` está em execução.
       * Execute `services.msc` no Windows.
       * Localize o serviço **`Spice webdav proxy`**.
       * Defina o **Tipo de Inicialização** como **Automático** e inicie o serviço, se necessário.
 
-> **ADVERTÊNCIA**: O serviço `Spice webdav proxy` pode não iniciar corretamente se você estiver usando o console do `virt-manager` diretamente. Para que o recurso funcione, você pode precisar abrir a VM usando o **`virt-viewer`** separadamente.
+> **ADVERTÊNCIA**: O serviço `Spice webdav proxy` pode não iniciar corretamente se você estiver usando o console do **virt-manager** diretamente. Para que o recurso funcione, você pode precisar abrir a VM usando o **`virt-viewer`** separadamente e não estar com nenhuma sessão do **virt-manager** aberta.
 
 -----
 
@@ -63,6 +102,9 @@ O compartilhamento efetivo da pasta do hospedeiro é configurado através do `vi
 2.  No `virt-viewer` (a janela que mostra o desktop do Windows):
       * Vá em **Arquivo** (*File*) \> **Preferências** (*Preferences*).
       * Marque a opção **Compartilhar Pasta** (*Share Folder*) e escolha a pasta consolidada que você criou, como `/home/gsantana/work`.
+        Se a opção de **Compartilhar Pasta** (*Share Folder*) estiver desligada como na imagem abaixo é porque o canal `org.spice-space.webdav.0` não foi adicionado:
+        xxxxx
+        Então volte aos passos anteriores para corrigir e só então prossiga.  
 
 Alternativamente, dentro do Windows, você pode executar o *script* de mapeamento de unidade (se instalado com o `spice-webdavd`), que é o atalho para montar o compartilhamento WebDAV como uma letra de *drive*:
 
