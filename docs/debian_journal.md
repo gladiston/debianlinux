@@ -25,3 +25,7 @@ Em seguida, atualize sua sessão para que a mudança tenha efeito:
 newgrp systemd-journal  # ou faça logout/login
 ```
 Essa alteração só concede acesso de leitura aos logs do sistema. Ela é segura e recomendada para administradores que precisam analisar mensagens de serviços sem usar sudo o tempo todo.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#permiss%C3%A3o-ao-journal)
