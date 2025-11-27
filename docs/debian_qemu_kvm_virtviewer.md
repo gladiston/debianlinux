@@ -45,24 +45,33 @@ E colar o seguinte conteúdo:
 
 VM_NAME="win2k25-dx"
 
+# Garante que há ambiente gráfico antes de chamar o virt-viewer
+if [ -z "$DISPLAY" ]; then
+    echo "Erro: nenhuma sessão gráfica detectada (DISPLAY vazio)."
+    echo "Abra uma sessão gráfica (ex.: KDE, GNOME) e rode o script novamente."
+    exit 1
+fi
+
 # Descobre como rodar o virsh com permissão administrativa
-if command -v pkexec >/dev/null 2>&1; then
-    VIRSH_RUN="pkexec virsh -c qemu:///system"
-elif command -v sudo >/dev/null 2>&1; then
-    VIRSH_RUN="sudo virsh -c qemu:///system"
+# primeiro tenta sudo (melhor para linha de comando) e depois
+# tenta pkexec, mas só se estivermos em ambiente gráfico
+if command -v sudo >/dev/null 2>&1; then
+    VIRSH_RUN=(sudo virsh -c qemu:///system)
+elif command -v pkexec >/dev/null 2>&1; then
+    VIRSH_RUN=(pkexec virsh -c qemu:///system)
 else
-    echo "Erro: nem pkexec nem sudo encontrados. Não é possível executar virsh com permissões administrativas."
+    echo "Erro: nem sudo nem pkexec encontrados. Não é possível executar virsh com permissões administrativas."
     exit 1
 fi
 
 echo "Verificando estado da VM..."
-STATUS=$($VIRSH_RUN domstate "$VM_NAME" 2>/dev/null)
+STATUS=$("${VIRSH_RUN[@]}" domstate "$VM_NAME" 2>/dev/null)
 
 if [[ "$STATUS" == "running" ]]; then
     echo "A VM '$VM_NAME' já está em execução."
 else
     echo "A VM '$VM_NAME' não está ligada. Iniciando..."
-    $VIRSH_RUN start "$VM_NAME"
+    "${VIRSH_RUN[@]}" start "$VM_NAME"
     if [[ $? -ne 0 ]]; then
         echo "Erro: não foi possível iniciar a VM."
         exit 1
@@ -72,18 +81,6 @@ fi
 
 echo "Abrindo o virt-viewer como usuário normal..."
 virt-viewer --connect qemu:///system --wait "$VM_NAME"
-```
-Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X) e depois dê permissão de execução:  
-```bash
-sudo chmod a+x ~/.local/bin/vm_win2k25-dx.sh  
-```
-Pronto, quando precisar executar a VM, basta:
-```bash
-sudo ~/.local/bin/vm_win2k25-dx.sh 
-```
-ou se, ~/.local/bin já estiver no seu $PATH, basta apenas:  
-```bash
-sudo vm_win2k25-dx.sh 
 ```
 
 Talvez você queira executá-la no ambiente gráfico, neste caso, apenas crie um atalho:  
