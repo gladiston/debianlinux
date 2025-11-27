@@ -62,3 +62,7 @@ Para acompanhar em tempo real:
 watch -n 2 sensors
 ```
 Assim, o comando atualizará as temperaturas a cada 2 segundos — útil durante compilações ou testes de carga.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#monitorando-temperaturas-com-o-lm-sensors)
