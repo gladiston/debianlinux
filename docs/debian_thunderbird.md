@@ -6,7 +6,7 @@ Neste guia, utilizaremos a distribuição **Flathub** para a instalação, garan
 
 ---
 
-## 📦 Instalação via GUI (Opcional)
+## Instalação via GUI (Opcional)
 
 Se sua distribuição Debian possui **GNOME Desktop** ou **KDE Plasma**, você pode utilizar as lojas virtuais integradas:
 
@@ -17,7 +17,7 @@ Este é o método mais intuitivo para novos usuários, mas como preferimos econo
 
 ---
 
-## 🖥️ Instalação via Terminal (Recomendado)
+## Instalação via Terminal (Recomendado)
 
 ### Instalando o Thunderbird
 
@@ -39,7 +39,7 @@ Ou simplesmente procure por **"Thunderbird"** no menu de aplicações de sua dis
 
 ---
 
-## 📋 Migração de Configurações de Instalações Antigas
+## Migração de Configurações de Instalações Antigas
 
 Caso você possua uma instalação anterior do Thunderbird em outro perfil de usuário ou máquina, as configurações, contas de email, contatos, calendários e filtros ficam armazenados em:
 
@@ -74,10 +74,15 @@ Caso você possua uma instalação anterior do Thunderbird em outro perfil de us
 
 ---
 
-## ✅ Conclusão
+## Conclusão
 
 Com o Thunderbird instalado e configurado via Flatpak, você dispõe de um cliente de email e calendário moderno, seguro e isolado em seu ambiente Debian. A containerização via Flatpak garante compatibilidade com múltiplas distribuições Linux e evita conflitos com dependências do sistema base, facilitando a manutenção e atualizações futuras.
 
 Caso tenha migrado configurações de uma instalação anterior, suas contas de email, contatos, calendários, filtros e preferências de sincronização estarão disponíveis imediatamente. O Thunderbird está pronto para gerenciar múltiplas contas de email corporativas, sincronizar calendários compartilhados e manter organização avançada de mensagens através de filtros e tags.
 
 Para próximas etapas de comunicação corporativa, considere explorar recursos avançados como **configuração de criptografia OpenPGP para emails sensíveis**, **sincronização de calendários CalDAV com servidores corporativos**, **criação de filtros automáticos para categorização de mensagens** e **backup periódico de perfis de email** para garantir conformidade com políticas de retenção de dados empresariais.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-utilit%C3%A1rio-de-email-thunderbird)
