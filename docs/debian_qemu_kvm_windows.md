@@ -45,19 +45,29 @@ sudo systemctl start spice-webdavd
 ```
 Se não resolver, ou após o boot, estiverem novamente desligados, provavelmente faltou habilitar o "start"  junto com o boot `sudo systemctl enable [serviço]`.  
 
+---
+
 ## Instalando o Windows dentro de uma VM
 Siga as instruções abaixo:  
 [Instalando o Windows dentro de uma VM](debian_qemu_kvm_windows_inst.md)   
+
+
+---
 
 ## Mudando o idioma do Windows
 Siga as instruções abaixo:  
 [Mudando o idioma do Windows](debian_qemu_kvm_windows_lang.md)  
 
 
+---
+
 ## VIRT-MANAGER - WINDOWS - RENOMEANDO O COMPUTADOR
 Vamos renomear o computador para um nome mais apropriado, ex: **ti-01a**.  Aqui não vou colocar instruções porque acredito que você saiba como fazer isso.  
 
-### VIRT-MANAGER - WINDOWS - CRIANDO A PRIMEIRA CONTA DE LOGIN
+
+---
+
+## VIRT-MANAGER - WINDOWS - CRIANDO A PRIMEIRA CONTA DE LOGIN
 Não podemos usar a conta **Admnistrador** o tempo todo, então precisamos criar uma conta, ex: **gsantana**. Eu imagino que não tenha dificuldade com isso, mas se estiver usando o Windows Server, é um pouco diferente, neste sistema vá até o **Gerenciador do servidor|Ferramentas|Gerenciamento do computador**:  
 
 ![Gerenciamento do computador](../img/debian_qemu_kvm_windows46.png)  
@@ -69,19 +79,26 @@ Lembre-se de colocar o novo usuário no grupo de **Administradores**, assim não
 ![Novo usuário como membro de administradores](../img/debian_qemu_kvm_windows48.png)    
 
 
-### VIRT-MANAGER - WINDOWS - ATIVANDO O AUTOLOGON
+---
+
+## VIRT-MANAGER - WINDOWS - ATIVANDO O AUTOLOGON
 É muito chato o logon do Windows, especialmente no servidor porque é preciso enviar CTRL+ALT+DEL para então digitar a senha. Uma vez que as VMs só rodam depois que vocÊ faz o login no sistema hospedeiro, é bem provável que você não queira ficar burocratizando digitar a senha na VM Windows também, então para isso temos uma solução, instale o programa de [autologon](https://learn.microsoft.com/pt-br/sysinternals/downloads/autologon).  
 Ele é simples e ao executá-lo pela primeira vez você fornecerá sua autenticação e após o boot, ele entrará sozinho com a conta que foi informada.    
 ![Ativando o autologon](../img/debian_qemu_kvm_windows49.png)    
 
-### CONFIGURAÇÃO DA BARRA DE TAREFAS
+
+---
+
+## CONFIGURAÇÃO DA BARRA DE TAREFAS
 Faça o seguintes ajustes no painel do menu iniciar do Windows, clique com o botão direito do mouse e escolha **Configurações da barra de tarefas**:
 1. Em **Pesquisa** troque **Caixa de pesquisa** por **Ocultar**;
 2. Em **Visão de Tarefas**, desative-o;
 3. Em comportamento da barra de tarefas, ajuste o **Alinhamento da barra de tarefas** do **Centro** para **Esquerda**, isso é importante porque uns glices às vezes acontece ao desligar e quando o botão fica no meio, às vezes ele aparece cortado, mas este tipo de cliches não acontece quando a barra de tarefas está alinhada à esquerda.
 4. Em comportamento da barra de tarefas, ajuste o **Combine botões da barra de tarefas e oculte rótulos** de **Sempre** para **Quando a barra de tarefas estiver cheia**, este é mais um ajuste para evitar gliches.
 
-### MODO DESENVOLVEDOR
+---
+
+## MODO DESENVOLVEDOR
 Novamente vá em **Configurações** e procure por **Desenvolvedor** e então encontrará **Configurações do desenvolvedor**, clique nele e faça os seguintes ajustes:  
 1. **Modo desenvovedor** mude para **Ativado**;  
 2. **Finalizar Tarefa** mude para **Ativado**;  
@@ -93,22 +110,33 @@ Novamente vá em **Configurações** e procure por **Desenvolvedor** e então en
 Na seção **Área de Trabalho Remota**, ative a **Área de Trabalho Remota**.  
 Ainda na seção **Área de Trabalho Remota**, vá em **Usuários da Área de Trabalho Remota** e acrescente os usuários/grupos que poderão acessar remotamente esta máquina virtual pela rede. Salvo engano da minha parte, membros do grupo **Administradores** já tem acesso, então se for acrescentar novos, não precisa repetir membros desse grupo.  
 
-### PROGRAMAS ESSENCIAIS DENTRO DO WINDOWS
+---
+
+## PROGRAMAS ESSENCIAIS DENTRO DO WINDOWS
 A seguir apenas uma pequena lista de programas que não devem ser esquecidos para sua instalação, é uma lista pequena que considero essencial a qualquer um Windows de um administrador de sistemas ou desenvolvedor:  
 [Programas de windows básicos e essenciais](debian_qemu_kvm_windows_apps.md)    
 
-### VIRT-MANAGER - REMOVENDO O CDROM SECUNDÁRIO
+
+---
+
+## VIRT-MANAGER - REMOVENDO O CDROM SECUNDÁRIO
 O CDROM secundário foi usado para a instalação dos drivers de convidado durante a instalação do Windows, então ele não é mais necessário, vamos removê-lo.  
 Primeiro, desligue a máquina virtual Windows.  
 Depois vá na configuração de hardware da VM, selecione o **CDROM SATA 2**, ejete o `.iso` e enfim, escolha **Remover**.
 Aproveite o momento e ejete o `.iso` de instalação do Windows do **CDROM SATA 1**, cuidado, neste você apenas irá ejetar, não remova  dispositivo de hardware dele.   
 ![Removendo CDROM secundario](../img/debian_qemu_kvm_windows50.png)    
 
+
+---
+
 ## OTIMIZAÇÃO DA VM WINDOWS
 O Windows depois de instalado está carregado de coisas que roubam performance, vamos tentar melhorar. Siga as instruções abaixo para otimizá-lo:  
 [Otimizando o Windows](debian_qemu_kvm_windows_otimizar.md)
 
-### VIRT-MANAGER - COMPARTILHANDO CLIPBOARD
+
+---
+
+## VIRT-MANAGER - COMPARTILHANDO CLIPBOARD
 Basta testar o copiar/colar, uma vez que tenha instalado o programa cliente dentro da VM Windows, o recurso de copiar/colar da área de clipboard funcionará perfeitamente.  
 
 Se não estiver funcionando, talvez seja necessário seguir os passos anteriores.  
@@ -118,7 +146,10 @@ O teste é simplesmente, abra a VM no virt-manager (janela SPICE) e:
 
 Se não estiver funcionando, confirme se o host está com o serviço spice-vdagentd e spice-webdavd funcionando, falamos sobre ele logo no inicio artigo. Se eles não estiverem funcionando, esta parte do guia também não funcionará.  
 
-### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SAMBA
+
+---
+
+## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SAMBA
 Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o protocolo SMB/CIFS, ele é a implementação Linux do compartilhamento de arquivos/pastas do Windows.  
 Usando este tipo de compartilhamento, não apenas suas VMs acessam o que voce decidir compartilhar, mas também suas VMs.  
 Para usuários do mundo Windows, este método será o mais familiar, por isso, vamos começar por ele, mas existem outros dois tipos **virtio-fs** e **virtio-webdav** que são completamente novos para muitos usuários e carecem de instalação de software exterior. Por outro lado, o compartilhamento via SAMBA é muito simples e não requer instalação adicional dentro da VM windows.   
@@ -127,18 +158,27 @@ Conforme dito, este tipo de compartilhamento é bem versátil, no entanto, enten
 Siga as instruções abaixo:  
 [Compartilhamento de arquivos via SMB/CIFS](debian_qemu_kvm_windows_smb.md)  
 
-### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
+
+---
+
+## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
 Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o virtiofs+WinSFP. Esse é o método mais performático que existe.  
 Siga as instruções abaixo:  
 [COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_virtiofs.md)  
 
 
-### VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
+
+---
+
+## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
 Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o SPICE-WEBDAV. Esse é o método conhecido por muitos devs no mundo windows.  
 Siga as instruções abaixo:  
 (em criação)
 ~[COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)~
 
+
+
+---
 
 ## MAXIMIZANDO PERFORMANCE NAS VMs
 O sistema está ajustado para performar no modo 'desktop' ou 'generico', alguns passos atrás neste guia vocÊ conheceu o programa chamado **tuned**, então provavelemnte você está usando seu computador no perfil 'balanceado', execute:
@@ -159,12 +199,17 @@ sudo tuned-adm profile desktop # ou balanced(anterior)
 ```
 Se estiver usando 'kde' ou 'gnome' existe applets gráficos para você fazer essa troca de perfil de um jeito mais rápido sem ter que abrir o terminal.  
 
-### OTIMIZANDO O DISCO QCOW2
+
+---
+
+## OTIMIZANDO O DISCO QCOW2
 O QCOW2 é um formato copy-on-write com recursos como snapshots, compressão e alocação sob demanda. Esses recursos trazem overhead e, com o tempo, geram fragmentação interna. Mas máquinas Windows são muito mais afetadas do que as demais porque o Windows gera memória virtual, arquivos temporários a todo instante. Então o link a seguir descreve como podemos otimizar e compactar o disco virtual para que o desempenho - especialmente para VMs Windows - fique sempre máximizado.  
 
 [Instruções para melhorar o desempenho](debian_qemu_kvm_otimizar_disco.md)  
 
 
+
+---
 
 ## DICAS DO YOUTUBE
 Sem falsa modéstia, mas este guia passo a passo é mais completo que a maioria dos vídeos no YouTube que mostram como criar VMs Windows.
@@ -180,12 +225,17 @@ Por isso, depois deste guia pronto, fui fuçar alguns videos e vou recomendar al
 Esses vídeos incluiem coisas que mencionei e alguns deles vão além disso, por exemplo, há algumas coisas que são possiveis fazer, mas é dificil explicar com palavras "como fazer", mas vão estender ainda mais as funcionalidades de computadores virtualizados com o Windows, um dos exemplos é usufruir de uma GPU dedicada por meio de passtrough.
 
 
+---
+
 ## VIRTUALIZAÇÃO NATIVA QEMU+KVM - Criando conexões bridge
 O padrão de rede da VM é usar **NAT**, se você deseja colocar essa VM como cliente de sua rede, troque de **NAT** por **bridge** e forneça a conexão bridge para suas VMs. Algumas formas de compartilhamento de arquivos entre anfitrião e convidado só funcionará se a VM estiver usando a rede em modo bridge.  
 
 Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
 
 [Criando conexões bridge pelo terminal](debian_qemu_kvm_bridge.md)  
+
+
+---
 
 ## CONCLUSÃO
 Não se trata mais de criar VMs, as informações que obteve até aqui cobriram essa etapa e algumas foram além disso. Então os links a seguir são para "tunar" suas estações Windows.
