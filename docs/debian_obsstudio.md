@@ -11,3 +11,8 @@ flatpak install flathub com.obsproject.Studio
 ```
 
 Após a conclusão da instalação, o OBS Studio estará disponível e deve ser localizado no menu de aplicativos do seu ambiente gráfico de desktop.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#obs-studio)
