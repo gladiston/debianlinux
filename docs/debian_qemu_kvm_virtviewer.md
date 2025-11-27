@@ -43,26 +43,16 @@ E colar o seguinte conteúdo:
 ```
 #!/bin/bash
 
-# Verifica se está rodando como root
-if [[ $EUID -ne 0 ]]; then
-    # Se estiver num ambiente gráfico, tentar pkexec para pedir senha visual
-    if command -v pkexec >/dev/null 2>&1; then
-        exec pkexec "$0" "$@"
-    else
-        exec sudo "$0" "$@"
-    fi
-fi
-
 VM_NAME="win2k25-dx"
 
 echo "Verificando estado da VM..."
-STATUS=$(virsh domstate "$VM_NAME" 2>/dev/null)
+STATUS=$(virsh -c qemu:///system domstate "$VM_NAME" 2>/dev/null)
 
 if [[ "$STATUS" == "running" ]]; then
     echo "A VM '$VM_NAME' já está em execução. Abrindo o virt-viewer..."
 else
     echo "A VM '$VM_NAME' não está ligada. Iniciando..."
-    virsh start "$VM_NAME"
+    virsh -c qemu:///system start "$VM_NAME"
     if [[ $? -ne 0 ]]; then
         echo "Erro: não foi possível iniciar a VM."
         exit 1
@@ -71,6 +61,7 @@ else
 fi
 
 virt-viewer --connect qemu:///system --wait "$VM_NAME"
+
 ```
 Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X) e depois dê permissão de execução:  
 ```bash
