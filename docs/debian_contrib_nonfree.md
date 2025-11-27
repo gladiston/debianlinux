@@ -1,152 +1,97 @@
-# ADICIONANDO OS REPOSITORIOS 'CONTRIB' e 'NON-FREE' NO DEBIAN (SOMENTE PARA DEBIAN)
-
-## Estendendo os Repositórios Oficiais do Debian: Incluindo `contrib` e `non-free`
+# Guia Debian 13: Estendendo Repositórios Oficiais com `contrib`, `non-free` e `non-free-firmware`
 
 O projeto Debian mantém um **compromisso rigoroso** com os princípios do Software Livre, conforme estabelecido pelas **Diretrizes Debian de Software Livre (DFSG)**. Por padrão, o repositório principal do sistema (**`main`**) inclui apenas pacotes que cumprem integralmente esses critérios.
 
-Essa adesão estrita ao software livre é fundamental para a integridade, segurança e estabilidade do Debian, tornando-o a escolha ideal para ambientes de **servidores** e sistemas onde a liberdade de código é a prioridade máxima.
+Essa adesão estrita é fundamental para a integridade, segurança e estabilidade do Debian, tornando-o a escolha ideal para ambientes de **servidores** e sistemas onde a liberdade de código é a prioridade máxima.
 
-No entanto, ao configurar o **Debian 13** (ou derivados) para uso como **Desktop** ou em hardware moderno, essa restrição pode levar à falta de componentes críticos, como:
+No entanto, ao configurar o **Debian 13** para uso como **Desktop** ou em hardware moderno, essa restrição pode levar à falta de componentes críticos, como *drivers* ou *firmware* proprietários.
 
-1.  **Firmware Proprietário:** Arquivos binários essenciais para que dispositivos de hardware (como placas Wi-Fi, controladoras de rede, ou GPUs) funcionem corretamente.
-2.  **Software com Licenças Não-DFSG:** Programas e bibliotecas cuja licença, embora possam ser redistribuídos, não se alinha completamente com as DFSG (o que os impede de estar no `main`).
+## Componentes do Repositório
 
-Para garantir o **suporte completo ao hardware** e aumentar a disponibilidade de software em um cenário de desktop, é amplamente recomendado que sejam adicionados os repositórios complementares:
+Para garantir o **suporte completo ao hardware** e aumentar a disponibilidade de software, é necessário garantir a inclusão dos repositórios complementares. A distinção entre eles é crucial para entender a filosofia do Debian:
 
-| Repositório | Conteúdo e Propósito |
-| :--- | :--- |
-| **`contrib`** | Contém Software Livre (DFSG-compliant), mas que depende de pacotes que estão no repositório `non-free` para ser compilado ou executado. |
-| **`non-free`** | Contém software que não atende às DFSG, geralmente **drivers e firmware proprietário**, que são essenciais para o funcionamento de hardwares específicos. |
+| Repositório | Conformidade DFSG | Conteúdo e Propósito |
+| :--- | :--- | :--- |
+| **`main`** | **Sim** | O repositório central. Contém apenas pacotes que aderem integralmente às DFSG. |
+| **`contrib`** | **Sim** | Contém Software Livre, mas que depende de pacotes presentes em `non-free` ou `non-free-firmware` para ser compilado ou executado. |
+| **`non-free`** | **Não** | Contém pacotes que **não são Software Livre** e que não se qualificam como *firmware* (Ex: certos codecs e fontes proprietárias, ou drivers legados). |
+| **`non-free-firmware`** | **Não** | Contém **firmware proprietário/não-livre** (drivers binários para Wi-Fi, GPUs e outros periféricos). **Incluído por padrão no instalador** desde o Debian 12 e mantido no Debian 13. |
 
+## Procedimento para Adicionar os Repositórios
 
-## Modificando o arquivo sources.list
-A inclusão de `contrib` e `non-free` é a maneira padrão de expandir o escopo do software no Debian, **removendo estas limitações** para o uso diário. Siga as instruções abaixo para modificar o seu arquivo `sources.list`:
+Para ativar todos os componentes de software, incluindo `contrib`, `non-free` e `non-free-firmware`, é preciso editar o arquivo de configuração de repositórios do APT.
 
-Primeiro, vamos fazer um backup do arquivo original sources.list:
-```
-sudo cp /etc/apt/sources.list /etc/apt/sources.list.ori
-```
-Depois edite o arquivo sources.list:
-```
+### 1\. Modificar o Arquivo `sources.list`
+
+Abra o arquivo de configuração de repositórios com privilégios de `root`:
+
+```bash
 sudo editor /etc/apt/sources.list
 ```
 
-A depender do repositório que escolheu durante a instalação, o sources.list estará parecido como este:  
->deb http://deb.debian.org/debian/ trixie main non-free-firmware  
->deb-src http://deb.debian.org/debian/ trixie main non-free-firmware  
->deb http://security.debian.org/debian-security trixie-security main non-free-firmware  
->deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware  
->  
->\# trixie-updates, to get updates before a point release is made;  
->\# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports  
->deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware  
->deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware  
+Localize as linhas de repositório do Debian (referentes a `trixie` ou `stable`) e modifique-as para incluir os componentes **`contrib`**, **`non-free`** e **`non-free-firmware`** no final de cada linha.
 
-Como poderá notar, em cada linha cita **main** e  **non-free-firmware**, precisaremos acrescenter às essas linhas também os repositórios **contrib** e **non-free** na mesma linha, ficando assim:
+**Exemplo da Modificação (adicionando todos os componentes):**
+
 ```
-deb http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
-deb-src http://deb.debian.org/debian/ trixie main non-free-firmware contrib non-free 
-
-deb http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free 
-deb-src http://security.debian.org/debian-security trixie-security main non-free-firmware contrib non-free 
-
-# trixie-updates, to get updates before a point release is made;
-# see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
-deb http://deb.debian.org/debian/ trixie-updates main non-free-firmware contrib non-free 
-deb-src http://deb.debian.org/debian/ trixie-updates main non-free-firmware contrib non-free 
+deb http://deb.debian.org/debian/ trixie main contrib non-free non-free-firmware
+deb http://deb.debian.org/debian/ trixie-updates main contrib non-free non-free-firmware
+deb http://security.debian.org/debian-security trixie/updates main contrib non-free non-free-firmware
 ```
-Se não pretende fazer construção de pacotes (build) a partir dos fontes, poderá comentar a linhas que começam com 'deb-src', isso tornará os comandos de atualização mais rápidos. Enfim, agora precisaremos atualizar o banco de dados de pacotes, execute:  
-```
-sudo apt update -y
-```
-E todos os repositórios seráo verificados, inclusive os recém acrescentados:   
 
->Atingido:1 http://security.debian.org/debian-security trixie-security InRelease  
->Atingido:2 http://deb.debian.org/debian trixie InRelease      
->Atingido:3 http://deb.debian.org/debian trixie-updates InRelease              
->Obter:4 http://deb.debian.org/debian trixie/non-free Sources [75,8 kB]        
->Obter:5 http://deb.debian.org/debian trixie/contrib Sources [52,3 kB]          
->Obter:6 http://deb.debian.org/debian trixie/contrib amd64 Packages [53,8 kB]  
->Obter:7 http://deb.debian.org/debian trixie/contrib Translation-en [49,6 kB]                            
->Obter:8 http://deb.debian.org/debian trixie/contrib amd64 Components [41,5 kB]                                  
->Obter:9 http://deb.debian.org/debian trixie/contrib Icons (48x48) [60,1 kB]                                           
->Obter:10 http://deb.debian.org/debian trixie/contrib Icons (64x64) [132 kB]                      
->Obter:11 http://deb.debian.org/debian trixie/contrib Icons (128x128) [281 kB]               
->Obter:12 http://deb.debian.org/debian trixie/non-free amd64 Packages [100 kB]                  
->Obter:13 http://deb.debian.org/debian trixie/non-free Translation-en [67,1 kB]               
->Obter:14 http://deb.debian.org/debian trixie/non-free amd64 Components [3.784 B]              
->Obter:15 http://deb.debian.org/debian trixie/non-free Icons (48x48) [578 B]                       
->Obter:16 http://deb.debian.org/debian trixie/non-free Icons (64x64) [10,4 kB]            
->Obter:17 http://deb.debian.org/debian trixie/non-free Icons (128x128) [2.167 B]             
->Obter:18 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]          
->Obter:19 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1.206 B]
->Obtidos 933 kB em 1s (1.856 kB/s)      
->Todos os pacotes estão atualizados.  
+Salve o arquivo (`Ctrl+O`, `Enter`) e saia (`Ctrl+X`).
 
----  
+### 2\. Atualizar a Lista de Pacotes
 
-## APT
-A partir do Debian 13 e do Ubuntu 25.04, or **APT** foi atualizado, e toda vez que você usar o comando `apt` poderá surgir uma nova mensagem ao final, veja este exemplo:
+Para que o APT reconheça os novos repositórios e seus pacotes, é necessário executar o comando de atualização:
 
 ```bash
-$ sudo apt update -y
-Obter:1 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]
-Obter:2 https://dl.google.com/linux/chrome/deb stable/main amd64 Packages [1.210 B]                                           
-Atingido:3 http://archive.ubuntu.com/ubuntu questing InRelease                                             
-Atingido:4 http://security.ubuntu.com/ubuntu questing-security InRelease
-Atingido:5 http://archive.ubuntu.com/ubuntu questing-updates InRelease
-Atingido:6 http://archive.ubuntu.com/ubuntu questing-backports InRelease
-Obter:7 http://archive.ubuntu.com/ubuntu questing/main Translation-pt_BR [349 kB]
-Obter:8 http://archive.ubuntu.com/ubuntu questing/main Translation-pt [161 kB]
-Obter:9 http://archive.ubuntu.com/ubuntu questing/universe Translation-pt [823 kB]
-Obter:10 http://archive.ubuntu.com/ubuntu questing/universe Translation-pt_BR [1.668 kB]
-Obter:11 http://archive.ubuntu.com/ubuntu questing/restricted Translation-pt_BR [584 B]
-Obter:12 http://archive.ubuntu.com/ubuntu questing/restricted Translation-pt [588 B]
-Obter:13 http://archive.ubuntu.com/ubuntu questing/multiverse Translation-pt [7.720 B]
-Obter:14 http://archive.ubuntu.com/ubuntu questing/multiverse Translation-pt_BR [18,3 kB]
-Obtidos 3.031 kB em 4s (848 kB/s)                                              
-Todos os pacotes estão atualizados.         
-Nota: Algumas fontes podem ser modernizadas. Execute 'apt modernize-sources' para fazer isso.
+sudo apt update
 ```
 
-> **OBSERVE A NOTA:**  
-> *Nota: Algumas fontes podem ser modernizadas. Execute 'apt modernize-sources' para fazer isso.*
+## Instalação e Verificação do Software Non-Free
 
-### O que significa “modernizar fontes” (modernize sources)
+Com os repositórios ativados, o próximo passo é garantir que o *firmware* essencial para seu hardware seja instalado.
 
-O sistema provavelmente detectou em `/etc/apt/sources.list` ou algum arquivo dentro de `/etc/apt/sources.list.d/` usando o formato **antigo** do APT, em vez do novo formato **deb822**, que é mais estruturado — organizado em “blocos” com chaves como `Types:`, `URIs:`, etc.  
-Esse novo formato torna os arquivos mais legíveis, seguros e flexíveis. O Debian embora esteja usando a nova versão APT, não sugere a migração do formato de arquivo. Caso não modernize, não há problemas, tanto o Debian como Ubuntu e derivados vão aceitar o "jeito" antigo.  
+### 1\. Instalação do Pacote `firmware-linux-nonfree`
 
-No meu caso, a mensagem apareceu porque a instalação do **Google Chrome** adicionou um repositório usando o formato antigo.  
-Para resolver, basta executar:
+Execute o seguinte comando para instalar o meta-pacote principal de *firmware* não-livre, que abrange uma ampla gama de dispositivos (gráficos, rede, etc.):
 
 ```bash
-sudo apt modernize-sources
+sudo apt install firmware-linux-nonfree
 ```
 
-Saída típica do comando:
+Este comando garantirá a instalação de pacotes como `firmware-misc-nonfree`, `firmware-realtek`, e outros necessários.
 
-```
-The following files need modernizing:
-  - /etc/apt/sources.list.d/google-chrome.list
+### 2\. Verificação de Módulos de Kernel
 
-Modernizing will replace .list files with the new .sources format,
-add Signed-By values where they can be determined automatically,
-and save the old files into .list.bak files.
+Após a instalação, é possível verificar se os novos módulos e *firmware* estão sendo reconhecidos pelo kernel.
 
-This command supports the 'signed-by' and 'trusted' options. If you
-have specified other options inside [] brackets, please transfer them
-manually to the output files; see sources.list(5) for a mapping.
+Liste todos os módulos carregados no sistema:
 
-For a simulation, respond N in the following .
-Reescrever 1 fontes? [S/n] s
-Modernizing /etc/apt/sources.list.d/google-chrome.list...
-- Writing /etc/apt/sources.list.d/google-chrome.sources
+```bash
+lsmod
 ```
 
-Daqui em diante, toda vez que você acrescentar um novo repositório ou editar algum arquivo em `/etc/apt/sources.list` ou `/etc/apt/sources.list.d`, se desejar, use o comando `sudo apt modernize-sources`, mas não irei mais comentar sobre ele no restante do tutorial para ele não ficar tão grande.  
+Inspecione os logs do sistema (`dmesg`) para verificar se o kernel está carregando o *firmware* sem erros ou se ainda reporta arquivos faltando:
 
-----
+```bash
+sudo dmesg | grep -i firmware
+```
+
+Se o *firmware* tiver sido instalado corretamente, o *output* mostrará o kernel carregando os arquivos.
+
+### 3\. Reinicialização do Sistema
+
+Para garantir que todos os drivers e *firmware* sejam inicializados corretamente pelo kernel e aplicados a dispositivos de baixo nível (especialmente placas de vídeo e adaptadores Wi-Fi/rede), uma reinicialização é altamente recomendada:
+
+```bash
+sudo reboot
+```
+
+Após o reinício, você terá total funcionalidade do seu hardware de desktop, **removendo a limitação** imposta pelo repositório `main` puro.
+
+-----
 
 [Clique aqui para retornar a página principal](../README.md#adicionando-os-repositorios-contrib-e-non-free-no-debian-somente-para-debian)
 
