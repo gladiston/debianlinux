@@ -340,33 +340,10 @@ Esses programas são amplamente usados em **scripts**, **automações** e **test
 ---  
 
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
-São instalados poucos formatos por padrão; portanto, é recomendável instalar os pacotes abaixo para garantir suporte aos formatos mais comuns e também a outros que, embora pouco usados por usuários comuns, são bastante utilizados por desenvolvedores — por exemplo, o formato **RAR**.
+Para garantir que seu sistema **Debian** ou **Ubuntu** possa lidar com todos os formatos de arquivos comprimidos, de `.zip` e `.rar` a `.7z` e `.squashfs`, é vital instalar um conjunto abrangente de *utilities* de compressão. Além disso, se você planeja compilar programas, *drivers* ou bibliotecas no ambiente Linux, a instalação do meta-pacote **`build-essential`** e outras ferramentas de desenvolvimento é mandatório.  
 
-```bash
-sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract
-```
-
-|Pacote|Função / Formato|
-|:--|:--|
-|tar|Criação e extração de arquivos `.tar` e `.tar.gz`|
-|zip, unzip|Manipulação de arquivos `.zip`|
-|p7zip-full|Suporte a arquivos `.7z` (formato 7-Zip)|
-|p7zip-rar, rar, unrar|Suporte a arquivos `.rar`|
-|lzip, lzma, xz-utils, bzip2, gzip|Compactações livres amplamente usadas em pacotes Linux|
-|squashfs-tools|Criação e extração de arquivos `.squashfs`|
-
----  
-
-## INSTALANDO PROGRAMAS BASICOS PARA COMPILAÇÃO DE FONTES
-Os pacotes a seguir são essenciais para quem pretende compilar programas ou bibliotecas no ambiente Linux.  
-Neste guia, vamos precisar deles, portanto execute:
-
-```bash
-sudo apt install -y build-essential
-sudo apt install -y dh-make exuberant-ctags dpkg-dev debhelper fakeroot
-sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
-sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc tree
-```
+Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de *software* seguindo as instruções detalhadas: 
+[Instalação de Ferramentas de Compressão e Compilação](docs/debian_compact.md)
 
 ---  
 
