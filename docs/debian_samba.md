@@ -84,4 +84,5 @@ Isso deixará o sistema mais leve.
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#compartilhamento-de-arquivos)
+[Clique aqui para retornar a página principal](../README.md#compartilhamento-de-arquivos)  
+
