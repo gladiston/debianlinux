@@ -89,3 +89,6 @@ A partir de agora, toda vez que abrir o terminal, seu prompt será assim:
 Muito bacana, hein?  
 
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#ajustando-o-prompt-do-terminal)
