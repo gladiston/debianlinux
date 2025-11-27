@@ -144,3 +144,6 @@ E sobre systemd.automount:
 
 
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#acessar-parti%C3%A7%C3%B5es-linux-no-sistema)
