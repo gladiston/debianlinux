@@ -160,9 +160,7 @@ Em várias distribuições modernas, o diretório `~/.local/bin` é adicionado a
 Entretanto, no Debian 13 (Trixie) e em algumas distribuições derivadas, esse caminho não vem habilitado por padrão. Assim, scripts colocados em `~/.local/bin` não podem ser executados diretamente pelo nome.   
 
 Precisamos corrigir isso, leia as instruções no link abaixo:  
-[Como adicionar `~/.local/bin` ao PATH no Debian 13](docs/debian_xdg_bin.md)
-
-
+[Como adicionar `~/.local/bin` ao PATH](docs/debian_xdg_bin.md)
 
 ---  
 
