@@ -16,3 +16,7 @@ Se você tiver uma cópia do Google Chrome em algum outro computador, você o co
 do computador antigo para o novo, exatamente o mesmo lugar.   
 Funciona? Sim, desde que sejam a mesma versão e o mesmo perfil, mas requeirerá as autenticações, aparentemente os cookies são invalidados.   
 Este navegador quando é executado pela primeira vez, se apercebe da instalação anterior e faz upgrade, depois disso, não adianta mais fazer a cópia substituindo a configuração anterior, há alguma inteligência que bloqueia repetir o processo várias vezes, então a primeira cópia sempre funciona, as demais, nem sempre.  
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-google-chrome)
