@@ -93,7 +93,7 @@ Após o reinício, você terá total funcionalidade do seu hardware de desktop, 
 
 -----
 
-[Clique aqui para retornar a página principal](../README.md#adicionando-os-repositorios-contrib-e-non-free-no-debian-somente-para-debian)
+[Clique aqui para retornar a página principal](../README.md#estendendo-reposit%C3%B3rios-oficiais-com-contrib-non-free-e-non-free-firmware)
 
 
 
