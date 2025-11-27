@@ -1,6 +1,6 @@
 # GNOME ou KDE PLASMA: Qual Ambiente de Trabalho Escolher?
 
-## 🖥️ O que são Ambientes de Trabalho (Desktop Environments)?
+## O que são Ambientes de Trabalho (Desktop Environments)?
 
 Em sistemas Linux, o **ambiente de trabalho** (ou **Desktop Environment - DE**) é a camada gráfica que interage diretamente com o usuário. Diferentemente do Windows ou macOS, que possuem uma interface fixa, **Linux oferece múltiplas opções de ambientes gráficos**, cada um com filosofia, funcionalidade e estética próprias.
 
@@ -14,7 +14,7 @@ Os dois principais ambientes de trabalho no ecossistema Linux são **GNOME** e *
 
 ---
 
-## 🎯 GNOME: Simplicidade e Elegância
+## GNOME: Simplicidade e Elegância
 
 O **GNOME** (GNU Network Object Model Environment) é um ambiente minimalista focado em **facilidade de uso e estética**. Ele prioriza uma interface limpa, com poucos ícones visíveis, buscando reduzir distrações. O GNOME é padrão em distribuições como **Ubuntu**, **Fedora** (Red Hat) e **Debian** (instalação padrão).
 
@@ -26,7 +26,7 @@ O **GNOME** (GNU Network Object Model Environment) é um ambiente minimalista fo
 
 ---
 
-## ⚡ KDE PLASMA: Funcionalidade e Customização
+## KDE PLASMA: Funcionalidade e Customização
 
 O **KDE Plasma** (abreviado para KDE) é um ambiente **altamente customizável e funcionalmente robusto**, projetado para oferecer máxima produtividade a profissionais. O KDE oferece controle granular sobre cada aspecto do sistema, widgets interativos e aplicativos nativos mais potentes. É predominante em distribuições focadas em profissionais como **Kubuntu**, **openSUSE** e disponível em praticamente todas as distribuições Linux.
 
@@ -38,7 +38,7 @@ O **KDE Plasma** (abreviado para KDE) é um ambiente **altamente customizável e
 
 ---
 
-## 🚀 KDE Plasma para Produtividade Profissional
+## KDE Plasma para Produtividade Profissional
 
 Para administradores de sistemas, desenvolvedores e profissionais de TI, **KDE Plasma é a escolha superior** em termos de produtividade e funcionalidade. Embora eu aprecie a filosofia e workflow do GNOME, existe um **abismo qualitativo** entre seus respectivos aplicativos nativos.
 
@@ -54,7 +54,7 @@ Para administradores de sistemas, desenvolvedores e profissionais de TI, **KDE P
 
 ---
 
-## 🔄 Filosofias Diferentes de Desenvolvimento
+## Filosofias Diferentes de Desenvolvimento
 
 ### GNOME: Inovação Constante
 
@@ -66,7 +66,7 @@ O KDE **mantém seus aplicativos históricos** — **Kate** (editor) e **Okular*
 
 ---
 
-## 💡 Diferença Funcional: Exemplo Prático
+## Diferença Funcional: Exemplo Prático
 
 Tente criar uma **interface bridge de rede** (necessária para virtualização):
 
@@ -77,14 +77,23 @@ Este é apenas um exemplo de como o **KDE foi projetado para profissionais de TI
 
 ---
 
-## 🎨 Estética vs Funcionalidade
+## Estética vs Funcionalidade
 
 Reconheço que o **GNOME é visualmente mais elegante** que o KDE. Porém, em ambientes profissionais, **produtividade supera beleza**. O KDE oferece temas customizáveis que podem alcançar níveis similares de refinamento visual.
 
 ---
 
-## 📝 Recomendação Final
+## Recomendação Final
 
 Para administradores de sistemas e desenvolvedores, **KDE Plasma é a escolha profissional** graças à sua robustez funcional e aplicativos nativos superiores. Para usuários domésticos que valorizam estética e simplicidade, GNOME oferece uma experiência mais refinada e com menor curva de aprendizado.
 
 A maioria dos procedimentos técnicos descritos neste guia funcionam independentemente do ambiente escolhido, pois ocorrem primariamente via **terminal**. Porém, tarefas administrativas como gerenciamento de rede e compartilhamento de arquivos ganham significativamente em produtividade quando executadas através da interface gráfica do **KDE**.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#gnome-ou-kde-plasma-qual-ambiente-de-trabalho-escolher)
+
+
+
+
