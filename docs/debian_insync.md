@@ -27,4 +27,4 @@ Ao instalar via repositório, o Insync será atualizado como qualquer outro prog
 
 ----
 
-[Clique aqui para retornar a págna principal](../README.md)
+[Clique aqui para retornar a págna principal](../README.md#sincronizando-pastas-com-gdriveonedrive-usando-o-insync)
