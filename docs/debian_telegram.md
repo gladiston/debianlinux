@@ -6,7 +6,7 @@ Neste guia, utilizaremos a distribuição **Flathub** para a instalação, garan
 
 ---
 
-## 📦 Instalação via GUI (Opcional)
+## Instalação via GUI (Opcional)
 
 Se sua distribuição Debian possui **GNOME Desktop** ou **KDE Plasma**, você pode utilizar as lojas virtuais integradas:
 
@@ -17,7 +17,7 @@ Este é o método mais intuitivo para novos usuários, mas como preferimos econo
 
 ---
 
-## 🖥️ Instalação via Terminal (Recomendado)
+## Instalação via Terminal (Recomendado)
 
 ### Instalando o Telegram
 
@@ -39,7 +39,7 @@ Ou simplesmente procure por **"Telegram"** no menu de aplicações de sua distri
 
 ---
 
-## 📋 Migração de Configurações de Instalações Antigas
+## Migração de Configurações de Instalações Antigas
 
 Caso você possua uma instalação anterior do Telegram em outro perfil de usuário ou máquina, as configurações, histórico de chats e preferências ficam armazenados em:
 
@@ -74,10 +74,15 @@ Caso você possua uma instalação anterior do Telegram em outro perfil de usuá
 
 ---
 
-## ✅ Conclusão
+## Conclusão
 
 Com o Telegram instalado e configurado via Flatpak, você dispõe de um cliente de mensageria moderno, seguro e isolado em seu ambiente Debian. A containerização via Flatpak garante compatibilidade com múltiplas distribuições Linux e evita conflitos com dependências do sistema base, facilitando a manutenção e atualizações futuras.
 
 Caso tenha migrado configurações de uma instalação anterior, sua conta, chats, contatos e preferências de notificação estarão disponíveis imediatamente. O Telegram está pronto para gerenciar comunicações corporativas, receber notificações de monitoramento de sistemas via bots customizados e facilitar a colaboração em tempo real com sua equipe de TI.
 
 Para próximas etapas de automação e integração, considere explorar recursos avançados como **bots Telegram para monitoramento de servidores**, **notificações automáticas de alertas do sistema** e **canais privados para documentação técnica** e aumentar a eficiência operacional de suas infraestruturas.
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-cliente-de-mensageria-telegram)
