@@ -95,3 +95,7 @@ Além disso, a **compactação transparente** ajuda a economizar espaço sem per
 Caso prefira **ext4**, mantenha, se possível, `"/"` e `"/home"` em partições separadas.  
 
 Especialistas em virtualização também recomendam ter `/var/libvirt` em partição ou disco separado; contudo, neste Guia, as VMs ficarão no `$HOME` para simplificar aos iniciantes.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#particionamento-durante-a-instala%C3%A7%C3%A3o-do-debianubuntu)
