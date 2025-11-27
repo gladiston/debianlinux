@@ -221,31 +221,10 @@ Aprenda como adicionar este repositório confiável, descubra o que a Microsoft 
 ---  
 
 ## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
-Durante a instalação do Ubuntu, há uma opção para incluir os repositórios adicionais.  
-Se você **não** habilitou essa opção, é recomendável fazê-lo agora.  
+Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
 
-Abra o menu de configurações e procure por **“Repositórios”**.  
-Provavelmente você encontrará o aplicativo **“Programas e Atualizações”** (no GNOME) ou o **Discover** (no KDE).  
-Qualquer um desses programas possui uma seção chamada **“Configurações”** ou **“Repositórios”**, onde é possível habilitar os repositórios extras.  
-
-No caso do Ubuntu e derivações, precisamos habilitar os repositórios **restricted** e **multiverse**.  
-Esses repositórios **estendem o repertório de pacotes e programas** disponíveis no sistema, incluindo codecs, drivers e utilitários não livres.  
-
-Com os repositórios adicionais ativados, podemos instalar alguns pacotes importantes que liberarão codecs e *players* de áudio e vídeo no sistema.
-
----  
-
-## ATUALIZAÇÃO DO SISTEMA
-Vamos atualizar o repositório de programas e atualizar o sistema:  
-```  
-sudo apt update -y
-sudo apt upgrade -y 
-```  
-E então observe o resultado:  
->Resumo:                                     
->  Atualizando: 0, Instalando: 0, Removendo: 0, Não atualizando: 0
-
-No meu exemplo, não há atualizações, mas talvez em seu computador seja direferente.  
+Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:  
+[Habilitando Repositórios `restricted` e `multiverse` (Apenas para Ubuntu e Derivados](docs/ubuntu_restricted_multiverse.md)  
 
 ---  
 
