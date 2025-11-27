@@ -577,3 +577,7 @@ sudo systemctl start firebird
 ```
 E pronto, agora repita o comando 'sudo systemctl status firebird' e notará que o serviço já esta funcionando (**active**).   
 
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#banco-de-dados-firebird)
