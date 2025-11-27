@@ -55,3 +55,7 @@ Se achar que o **preload** não trouxe vantagens perceptíveis, você pode remov
 ```bash
 sudo apt remove -y --purge preload
 ```
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#preload-opcional)
