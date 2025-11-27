@@ -154,6 +154,18 @@ Se você observar um aviso como este:
 
 ---  
 
+## CADÊ O ~/LOCAL/BIN ?
+
+Em várias distribuições modernas, o diretório `~/.local/bin` é adicionado automaticamente ao PATH, permitindo ao usuário guardar scripts pessoais em um local organizado, sem exigir permissões administrativas.  
+Entretanto, no Debian 13 (Trixie) e em algumas distribuições derivadas, esse caminho não vem habilitado por padrão. Assim, scripts colocados em `~/.local/bin` não podem ser executados diretamente pelo nome.   
+
+Precisamos corrigir isso, leia as instruções no link abaixo:  
+[Como adicionar `~/.local/bin` ao PATH no Debian 13](docs/debian_xdg_bin.md)
+
+
+
+---  
+
 ## BACKUP/RESTORE DA CONFIGURAÇÃO ORIGINAL DE REDE
 Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, assim se algo der errado, restauramos.
 
