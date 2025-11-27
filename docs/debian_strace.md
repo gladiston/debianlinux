@@ -58,3 +58,7 @@ sudo umount /media/rede
 > ou rastreie o uso direto da pasta:
 >**sudo strace -f -p $(pidof bash) -e trace=open,openat 2>&1 | grep "/media/rede"**
 Esses comandos mostram quais processos ainda estão “segurando” o ponto de montagem.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-strace)
