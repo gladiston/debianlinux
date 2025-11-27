@@ -59,6 +59,6 @@ Os plugins originais que você mencionou têm as seguintes equivalências ou sta
 | **Gimp Transformação Fourier** | Remoção de padrões (*Moire*). | Esta é uma funcionalidade que pode ser replicada com filtros avançados no **G'MIC**. |
 
 
----
+----
 
-Para retornar a página inicial, [clique aqui](../README.md)
+[Clique aqui para retornar a página principal](../README.md#instalando-o-gimp)
