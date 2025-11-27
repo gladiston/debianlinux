@@ -87,3 +87,8 @@ Embora o Debian 13 ainda não inclua esse caminho no PATH automaticamente, a cor
 Ao ajustá-lo no arquivo `~/.profile`, você passa a ter um ambiente mais organizado, consistente e padronizado para scripts pessoais.
 
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#cad%C3%AA-o-localbin-)
+
+
