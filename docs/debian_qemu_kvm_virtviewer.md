@@ -45,14 +45,24 @@ E colar o seguinte conteúdo:
 
 VM_NAME="win2k25-dx"
 
+# Descobre como rodar o virsh com permissão administrativa
+if command -v pkexec >/dev/null 2>&1; then
+    VIRSH_RUN="pkexec virsh -c qemu:///system"
+elif command -v sudo >/dev/null 2>&1; then
+    VIRSH_RUN="sudo virsh -c qemu:///system"
+else
+    echo "Erro: nem pkexec nem sudo encontrados. Não é possível executar virsh com permissões administrativas."
+    exit 1
+fi
+
 echo "Verificando estado da VM..."
-STATUS=$(virsh -c qemu:///system domstate "$VM_NAME" 2>/dev/null)
+STATUS=$($VIRSH_RUN domstate "$VM_NAME" 2>/dev/null)
 
 if [[ "$STATUS" == "running" ]]; then
-    echo "A VM '$VM_NAME' já está em execução. Abrindo o virt-viewer..."
+    echo "A VM '$VM_NAME' já está em execução."
 else
     echo "A VM '$VM_NAME' não está ligada. Iniciando..."
-    virsh -c qemu:///system start "$VM_NAME"
+    $VIRSH_RUN start "$VM_NAME"
     if [[ $? -ne 0 ]]; then
         echo "Erro: não foi possível iniciar a VM."
         exit 1
@@ -60,8 +70,8 @@ else
     echo "VM iniciada com sucesso."
 fi
 
+echo "Abrindo o virt-viewer como usuário normal..."
 virt-viewer --connect qemu:///system --wait "$VM_NAME"
-
 ```
 Salve e feche o arquivo (Ctrl+O, Enter, Ctrl+X) e depois dê permissão de execução:  
 ```bash
@@ -86,7 +96,7 @@ E colar o seguinte conteúdo:
 Type=Application
 Name=Iniciar VM Windows Win2k25-DX
 Comment=Inicia a VM win2k25-dx e abre no virt-viewer
-Exec=pkexec /home/gsantana/.local/bin/vm_win2k25-dx.sh
+Exec=/home/gsantana/.local/bin/vm_win2k25-dx.sh
 Icon=computer
 Terminal=false
 Categories=System;
