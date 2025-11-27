@@ -115,3 +115,6 @@ E sobre systemd.automount:
 [https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html](https://www.freedesktop.org/software/systemd/man/latest/systemd.mount.html)
 
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#acessar-parti%C3%A7%C3%B5es-ntfs-no-sistema)
