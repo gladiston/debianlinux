@@ -504,8 +504,6 @@ Para entender melhor e ajustar seu sistema de acordo, siga as orientações no l
 ## ACESSAR PARTIÇÕES NTFS NO SISTEMA
 Se você utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser.  
 
----  
-
 Para entender melhor e ajustar seu sistema de acordo, siga as orientações no link abaixo:  
 [Acessando partições Windows/NTFS](docs/debian_fstab_ntfs.md).
 
