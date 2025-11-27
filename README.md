@@ -163,11 +163,14 @@ Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, as
 ---  
 
 ## BLOQUEIO DE TELA AUTOMÁTICO
-O sistema normalmente é ajustado automaticamente para bloquear após 5 minutos de atividade, mas ‘falta de atividade’ é um termo incorreto, o correto seria ‘tempo sem interatividade’, isto é, o tempo que você fica sem ter que interagir com o computador. Às vezes estamos processando algo demorado e temos de esperar ou acompanhar a movimentação de log de status e o computador durante este tempo estará tendo muito trabalho, porém com pouca interatividade, a tela será bloqueada. Então precisamos saber quanto tempo precisamos nas tarefas do dia a dia ou então desligá-la.  
+O sistema operacional implementa uma medida de segurança padrão ajustando o bloqueio de tela após um período de inatividade. O termo **"falta de atividade"** é muitas vezes interpretado de forma incorreta; o que o sistema realmente mede é o **tempo sem interatividade** – ou seja, o período em que o usuário não interage ativamente com o teclado ou mouse.  
 
-Neste guia passo a passo, em algumas opotunidades ficará sem interatividade esperando downloads e aguardando procedimentos serem finalizados, então é uma boa ideia fazer esse ajuste agora.  Então, este é um bom momento para ajustá-la, siga as instruções:  
+Essa configuração pode ser inconveniente quando se está executando tarefas longas que exigem monitoramento visual sem intervenção manual, como esperar o término de *downloads* extensos, compilações ou acompanhar logs de status. Nesses casos, a tela será bloqueada, interrompendo o fluxo de trabalho, mesmo que o computador esteja trabalhando intensamente.  
 
-[Ajustando o bloqueio de tela automático](docs/debian_lock_screen.md).  
+Como este guia de configuração pode envolver períodos de espera por downloads e finalização de procedimentos, é altamente recomendável que você ajuste a configuração do bloqueio de tela automático agora. Você pode aumentar o tempo limite ou desativar a função temporariamente, conforme sua necessidade.  
+
+Siga as instruções para realizar esse ajuste:  
+[Ajustando o bloqueio de tela automático](docs/debian_lock_screen.md).    
 
 ---  
 
