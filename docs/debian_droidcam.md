@@ -90,8 +90,7 @@ Para facilitar o acesso ao programa sem usar o terminal, você pode criar um ata
 
 3.  **Salve e feche o arquivo.** A partir de agora, você encontrará o ícone do **DroidCam** no menu de aplicativos do seu sistema.
 
----
 
-Para retornar a página inicial, [clique aqui](../README.md)
+----
 
-
+[Clique aqui para retornar a página principal](../README.md#usando-o-celular-como-webcam-droidcam)
