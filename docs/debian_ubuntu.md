@@ -62,4 +62,4 @@ Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até suger
 
 ----
 
-(Clique aqui para retornar a página principal](../README.md#ubuntu-vs-debian-qual-escolher-para-sua-produtividade)  
+[Clique aqui para retornar a página principal](../README.md#ubuntu-vs-debian-qual-escolher-para-sua-produtividade)  
