@@ -224,7 +224,7 @@ Aprenda como adicionar este repositório confiável, descubra o que a Microsoft 
 Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
 
 Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:  
-[Habilitando Repositórios `restricted` e `multiverse` (Apenas para Ubuntu e Derivados](docs/ubuntu_restricted_multiverse.md)  
+[Habilitando Repositórios restricted e multiverse](docs/ubuntu_restricted_multiverse.md)  
 
 ---  
 
