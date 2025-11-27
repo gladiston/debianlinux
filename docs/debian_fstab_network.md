@@ -166,3 +166,7 @@ O único problema dessa solução é que ambientes como KDE e GNOME fazem a leit
 |x-systemd.automount|Faz a montagem sob demanda|
 |zero e zero no final da linha|Desativa dump e fsck automático.|
 
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#acessando-arquivos-na-rede)
