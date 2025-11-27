@@ -83,3 +83,6 @@ Assim, você terá uma visão completa de todos os serviços, inclusive os de ke
 Com o **htop**, você consegue identificar gargalos de CPU, processos zumbis e programas travados em segundos.  
 É uma ferramenta essencial para quem administra sistemas Linux ou desenvolve software e quer entender o comportamento real do sistema.
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#monitorando-o-sistema-com-o-htop)
