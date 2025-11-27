@@ -72,8 +72,6 @@ Caso você possua uma instalação anterior do Remmina em outro perfil de usuár
    chmod 600 ~/.var/app/org.remmina.Remmina/data/remmina/*.remmina
    ```
 
----
-
 ## EXECUTANDO REMOTE-APPS NO WINDOWS
 RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows e que podem ser *exportados*  para rodarem em qualquer estação de trabalho, seja Windows, Mac ou Linux. O serviço mais famoso desse tipo é o RDS Server da Microsoft também conhecido como Terminal Services, mas existem muitos outros que usam protocolos diferentes.  Se você não tem um servidor de terminal, pule esta etapa, mas se você tem e gostaria de executar os aplicativos *exportados* no Linux então siga as instruções no link abaixo:   
 [Executando remote-apps no Linux](debian_remoteapps_windows.md).
