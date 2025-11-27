@@ -27,3 +27,6 @@ Depois vamos reiniciar o sistema para que as alterações acima entrem em vigor:
 
 Após o boot, o `sudoers` estará funcionando para os membros do grupo `sudo`.  
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#sudo---somente-para-o-debian)
