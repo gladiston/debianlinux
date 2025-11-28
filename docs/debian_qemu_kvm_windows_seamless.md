@@ -37,9 +37,9 @@ O modo Seamless pode ser configurado de duas formas principais, dependendo dos p
 
 1.  **Protocolo RDP (Remote Desktop Protocol):**
 
-      * Requer que o sistema operacional convidado (Windows) tenha suporte ao recurso **RemoteApps** (ou programas de área de trabalho remota).
-      * Este recurso é nativo em sistemas como **Windows Server** (Terminal Server/RDS).
-      * No **Windows 11** nativo, o serviço RDP padrão geralmente não permite a execução de aplicativos únicos da forma como RemoteApps são onde geralmente os aplicativos remotos precisam ser publicaos, eu falei de RemoteApps [neste artigo](debian_qemu_kvm_windows_seamless.md).
+      * Requer que o sistema operacional convidado (Windows) tenha suporte ao recurso **Área de Trabalho Remota**  ativado.
+      * Este recurso é nativo em sistemas como **Windows Server** (Terminal Server/RDS), mas no Windows 11 ele não tem um frontend bonito preciusando executar comandos via powershell.
+      * Esse método é um quebra-galho porque devido aos DPIs de Windows e Linux serem diferentes há muitos glitches e cortes e por isso, completamente desaconselhado.
 
 2.  **Recurso Nativo do QEMU/KVM:**
 
@@ -47,36 +47,36 @@ O modo Seamless pode ser configurado de duas formas principais, dependendo dos p
       * Geralmente envolve a instalação dos drivers ou agentes apropriados (como o **spice-guest-tools** e o agente QEMU) dentro da VM para habilitar a comunicação necessária entre o host e o convidado para o modo seamless.
       * No entanto, ela é ainda experimental e depois de alguns testes achei muito insipiente e parece não funcionar no Debian.
   
-Como não achei producente ainda usar o recurso nativo do qemu/kvm para seamless, iremos usar o protocolo RDP para simular o modo seamless em nosso desktop, siga as instruções abaixo.
+
 
 -----
 
-## Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KVM + FreeRDP
+## Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KVM 
 No exemplo, eu usarei o programa **Calculadora do Windows** cuja localização no sistema operacional é:  
 ```
-%windir%\system32\win32calc.exe
+"C:\\Windows\\System32\\notepad.exe"
 ```
 O nome da máquina virtual é **win2k25-dx**.
 
-Para que o modo Seamless funcione, é necessário que o **xfreerdp3** esteja instalado em nosso Linux e também que o Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
+## Recurso Aplicativos do Windows no Linux em Modo Seamless Nativo do QEMU/KVM
+Infelizmente é meio incipiente, parece que os drivers para Windows que deveriam fazer este método funcionar ainda estão em beta e em meus testes não funcionaram adequadamente no Debian 13. Há relatos desse método funcionando no Fedora, mas as pessoas que fizeram funcionar contornaram problemas e/ou estão usando uma versão mais recente do qemu/kvm. Não é seguro testá-lo no Debian ainda.
 
-Aqui está um **artigo completo, limpo e direto**, explicando como rodar programas do Windows no Linux usando **modo seamless (RemoteApp)** no QEMU/KVM, com VM em **NAT** e conexão via **xfreerdp3**.
 
-Claro! Aqui está o **artigo completo**, agora usando a porta **33890** no host em vez de 40000.
-
----
-
-# # Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KKVM + FreeRDP (xfreerdp3)
+## Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KKVM + FreeRDP (xfreerdp3)
 
 Executar programas do Windows diretamente no ambiente Linux — e não a área de trabalho inteira — é possível combinando QEMU/KVM, RDP e FreeRDP.
-Esse modo é conhecido como **seamless** ou **RemoteApp**, e permite abrir apenas uma janela específica do Windows integrada ao KDE/GNOME.
+Esse modo é conhecido como **seamless** ou **RemoteApp**, e permite abrir apenas uma janela específica do Windows integrada ao KDE/GNOME.  
 
-Neste guia você aprenderá a:
+Mas antes de prosseguir por esse método, saiba as limitações:  
+* A resoluçao que em DPI que o Windows usa, se diferir do ambiente Linux, os programas tem glitches.  
+* Não rodará aplicativos obtidos da Microsoft Store ou qualquer outro que use o formato UWP.  
+Então mesmo que você chegue ao final, o resultado pode não ser agradável aos olhos. Na minha opinião profissional, fazer isso será apenas para demonstrar que você é uma pessoa resiliente e que faz as coisas apenas porque pode e não porque será útil porque rodar apps no Linux usando RemoteApps funciona, não é nada bonito ou agradável aos olhos.  
 
-* usar **VM Windows em NAT**,
-* criar redirecionamento de porta,
+Se desejar prosseguir assim mesmo, neste guia você aprenderá a:
+
+* usar **VM Windows em NAT**, requeirerá criar redirecionamento de porta,
 * usar o `xfreerdp3` para abrir apenas um aplicativo,
-* e executar a Calculadora Win32 (`Win32Calc.exe`) como exemplo.
+* e executar a Calculadora Win32 (`notepad.exe`) como exemplo.
 
 ---
 
@@ -256,12 +256,7 @@ xfreerdp3 \
   +clipboard /dynamic-resolution
 ```
 Vejamos:  
-![Bloco de notas](../img/xxx.png)  
-
-Quais as limitações?  
-* A resoluçao que em DPI que o Windows usa se diferir do ambiente Linux que está usando pode causar uns glitches.
-* Não roda aplicativos da Microsoft Store ou qualquer prgrama em formato UWP.
-
+![Bloco de notas](../img/debian_qemu_kvm_windows_seamless05.png)  
 
 ```
 
