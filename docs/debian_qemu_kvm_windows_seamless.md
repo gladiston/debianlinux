@@ -39,60 +39,230 @@ O modo Seamless pode ser configurado de duas formas principais, dependendo dos p
 
       * Requer que o sistema operacional convidado (Windows) tenha suporte ao recurso **RemoteApps** (ou programas de área de trabalho remota).
       * Este recurso é nativo em sistemas como **Windows Server** (Terminal Server/RDS).
-      * No **Windows 11** nativo, o serviço RDP padrão geralmente não permite a execução de aplicativos únicos (apenas o Desktop Inteiro), a menos que se use soluções proprietárias e pagas de terceiros. Eu falei de RemoteApps [neste artigo](debian_qemu_kvm_windows_seamless.md).
+      * No **Windows 11** nativo, o serviço RDP padrão geralmente não permite a execução de aplicativos únicos da forma como RemoteApps são onde geralmente os aplicativos remotos precisam ser publicaos, eu falei de RemoteApps [neste artigo](debian_qemu_kvm_windows_seamless.md).
 
 2.  **Recurso Nativo do QEMU/KVM:**
 
       * Esta é a forma mais versátil, pois funciona **com qualquer versão do Windows** e é o recurso padrão que o Virt-Manager utiliza para a integração.
       * Geralmente envolve a instalação dos drivers ou agentes apropriados (como o **spice-guest-tools** e o agente QEMU) dentro da VM para habilitar a comunicação necessária entre o host e o convidado para o modo seamless.
-
-As instruções a seguir serão usadas você deseja aprender a usar o modo Seamless via QEMU, que é a maneira mais comum e eficiente no ambiente Virt-Manager:
+      * No entanto, ela é ainda experimental e depois de alguns testes achei muito insipiente e parece não funcionar no Debian.
+  
+Como não achei producente ainda usar o recurso nativo do qemu/kvm para seamless, iremos usar o protocolo RDP para simular o modo seamless em nosso desktop, siga as instruções abaixo.
 
 -----
 
-### INSTRUÇÕES: Como Rodar Aplicativos Windows em Modo Seamless (QEMU/KVM)
+## Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KVM + FreeRDP
 No exemplo, eu usarei o programa **Calculadora do Windows** cuja localização no sistema operacional é:  
 ```
 %windir%\system32\win32calc.exe
 ```
 O nome da máquina virtual é **win2k25-dx**.
 
-Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja instalado no Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
+Para que o modo Seamless funcione, é necessário que o **xfreerdp3** esteja instalado em nosso Linux e também que o Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
 
-1. Primeiro, **Desligue** a VM Windows.  
+Aqui está um **artigo completo, limpo e direto**, explicando como rodar programas do Windows no Linux usando **modo seamless (RemoteApp)** no QEMU/KVM, com VM em **NAT** e conexão via **xfreerdp3**.
 
-2. Depois vá nas propriedades da VM (Hardware Virtual), confirme que o **Display**(Vídeo) para **SPICE** esteja em **QXL** ou **Virtio**:
- 
-![Display em QXL ou Virtio](../img/debian_qemu_kvm_windows_seamless01.png)  
+Claro! Aqui está o **artigo completo**, agora usando a porta **33890** no host em vez de 40000.
 
-3. Confira a existência de um **Canal (Channel)** com o **Nome** definido como `com.redhat.spice.0` e **Tipo de Dispositivo** como `spicevmc` assim:
-   
-![Canal com.redhat.spice.0 existente](../img/debian_qemu_kvm_windows_seamless02.png)  
+---
 
-E se não existir então inclua:  
+# # Rodando Aplicativos do Windows no Linux em Modo Seamless com QEMU/KKVM + FreeRDP (xfreerdp3)
 
-![Criando um canal com.redhat.spice.0](../img/debian_qemu_kvm_windows_seamless03.png)  
+Executar programas do Windows diretamente no ambiente Linux — e não a área de trabalho inteira — é possível combinando QEMU/KVM, RDP e FreeRDP.
+Esse modo é conhecido como **seamless** ou **RemoteApp**, e permite abrir apenas uma janela específica do Windows integrada ao KDE/GNOME.
 
+Neste guia você aprenderá a:
 
-Você precisará das ferramentas de convidado instalados e isso já foi feito em passos anteriores, caso tenha pulado etapas então [revise aqui](debian_qemu_kvm_windows.md). 
+* usar **VM Windows em NAT**,
+* criar redirecionamento de porta,
+* usar o `xfreerdp3` para abrir apenas um aplicativo,
+* e executar a Calculadora Win32 (`Win32Calc.exe`) como exemplo.
 
+---
 
-### Execução do Aplicativo Windows no hospedeiro linux
+# 1. Pré-requisitos
 
-Com a VM ligada e o Spice Agent ativo, no Linux, você usará o comando `remote-viewer` para executar o aplicativo. Utilize o argumento `--spice-app-launch` seguido do caminho completo do executável dentro do Windows.
+### Na VM Windows:
+As coisas que são necessárias nós já fizemos em etapas anteriores, mesmo assim, revise:  
 
-**Sintaxe Geral:**
+* Usuário com senha, [clique aqui](debian_qemu_kvm_windows.md#virt-manager---windows---criando-a-primeira-conta-de-login)  
+* Autologon habilitado, [clique aqui](debian_qemu_kvm_windows.md#virt-manager---windows---ativando-o-autologon)  
+* Protocolo RDP ativado, [clique aqui](debian_qemu_kvm_windows.md#modo-desenvolvedor)  
 
-```bash
-remote-viewer --spice-app-launch "C:\Caminho\Do\Aplicativo.exe" <Nome_da_sua_VM>
+Execute o `powershell` como administrador e execute o comando abaixo para verificar que porta o protocolo RDP está funcionando, geralmente é sempre a mesma **3389**, mesmo assim vams verificar:  
+
+```powershell
+Get-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" -Name PortNumber
 ```
 
-**Exemplo com a sua VM (`win2k25-dx`) rodando a Calculadora (`win32calc.exe`):**
+Saída típica:
 
-```bash
-remote-viewer --spice-app-launch "C:\Windows\System32\win32calc.exe" win2k25-dx
+```
+PortNumber : 3389
 ```
 
-----
+---
+
+# 2. Como funciona o acesso com NAT
+Se sua VM está usando NAT - o padrão do QEMU/KVM - então temos um problema, com NAT, a VM não é diretamente acessível na rede, por isso, precisamos **redirecionar uma porta qualquer do host** para a porta **3389** da VM.
+
+Podemos usar qualquer porta para redirecionar, mas para melhor familiaridade vamos usar **33890**, com um zero na frente apenas para diferenciar da portal local da VM Windows:
+```
+HOST:33890  ->  VM:3389
+```
+
+A porta **33890** foi escolhida por ser próxima da padrão, fácil de lembrar e geralmente livre.
+
+---
+
+Aqui está **somente a seção pedida**, em **Markdown puro**, pronta para copiar/colar:
+
+---
+
+````md
+# 3. Criando o port-forward corretamente no libvirt
+
+O redirecionamento de portas **não deve** ser colocado no XML da VM (isso foi removido em versões modernas do libvirt).  
+A forma correta é configurar o port-forward **na rede NAT**, normalmente chamada `default`.
+
+## 3.1 Verifique o nome da rede NAT
+
+```bash
+sudo virsh net-list --all
+````
+
+A saída deve mostrar algo como:
+
+```
+ Nome      Estado   Auto-iniciar   Persistente
+------------------------------------------------
+ default   ativo    sim            sim
+
+```
+
+Se a rede estiver com Estado como ativo, continue.
+
+---
+
+## 3.2 Criar o port-forward Host:33890 → VM:3389
+Vamos criar uma nova rede e para isso vamos gerar um `nat33890.xml` a partir da configuração atual
+```bash
+editor nat33890.xml
+```
+E cole o seguinte conteúdo:
+```
+<network>
+  <name>nat33890</name>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+    <port protocol='tcp' hostport='33890' guestport='3389'/>
+  </forward>
+
+  <bridge name='virbr10' stp='on' delay='0'/>
+
+  <ip address='192.168.200.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.200.2' end='192.168.200.254'/>
+    </dhcp>
+  </ip>
+</network>
+```
+Se observar com cuidado notará que a linha:
+```
+<port protocol='tcp' hostport='33890' guestport='3389'/>
+```
+A linha acima foi acrescentada numa nova rede virtual fazendo redirecionamento de porta que precisamos.
+
+Agora, precisamos definir a nova rede virtual com o arquivo que criamos, execute:
+```bash
+$ sudo virsh net-define nat33890.xml
+Rede nat33890 definida a partir de nat33890.xml
+```
+Então, iniciamos a nova rede nat33890:  
+```bash
+$ sudo virsh net-start nat33890
+Rede nat33890 iniciada
+```
+Por padrão, elas redes são criadas, mas não são ativadas durante o boot, então precisamos ativá-las:  
+```bash
+$ sudo virsh net-autostart nat33890
+A rede nat33890 foi marcada como auto-iniciada
+```
+E agora ajustamos nossa VM Windows para usar a nova rede virtual, execute:
+```bash
+sudo virsh edit win2k25-dx
+```
+E localize:
+```
+<interface type='network'>
+  <source network='default'/>
+```
+E onde está **default**, troque por **nat33890**:
+```
+<interface type='network'>
+  <source network='nat33890'/>
+```
+Agora, já que a VM estava desligada, vamos iniciá-la:
+```bash
+sudo virsh start win2k25-dx
+```
+> Domain 'win2k25-dx' started
+
+Para prosseguir, precisamos saber qual é o IP dessa nova VM, execute:
+```bash
+sudo virsh domifaddr win2k25-dx
+```
+Algo assim aparecerá:
+```
+ Nome       Endereço MAC        Protocol     Address
+-------------------------------------------------------------------------------
+ vnet0      52:54:00:cc:eb:7e    ipv4         192.168.200.38/24
+```
+Daí descobrimos que o IP é `192.168.200.38`, agora estamos prontos para testar o protocolo RDP acessando o desktop inteiro da VM porque se funcionar, testaremos com os programas individualmente no modo **seamless**, execute:
+```bash
+xfreerdp3 /u:gsantana /p:'Senha#123' /v:192.168.200.38 /cert:tofu
+```
+Como essa `NAT` está usando NAT, ela só está acessivel para você, mas caso algum dia queira criar um servidor de virtualização, troque `NAT` por `Bridge` e não precisará de redirecionar portas e todas as VMs estarão acessíveis pela rede.  
+
+## Finalmenmte vamos aos RemoteApps
+Uma características de RemoteApps no Windows é que o Windows bloqueia qualquer tentativa, de tentar rodar programas dessa forma `C:\\Windows\\System32\\Win32Calc.exe`, isso funcionava no passado, porém muitos hackers fizeram a festa com esse jeito e a microsoft corrigiu fazendo com que você publique o programa que voce pretende executar e depois o caminho dele, ex:  
+
+|Nome      |Caminho                             |  
+|:---------|:-----------------------------------|
+|Win32Calc |C:\\Windows\\System32\\Win32Calc.exe|  
+|(........)|(...)                               |  
+
+E então para executar, você chama apenas "Win32Calc" e o Windows saberá que tem que executar "C:\\Windows\\System32\\Win32Calc.exe", isso é uma lista branca de aplicativos que podem ser executados.  
+Mas diferente do Windows Server, o Windows 11+ não tem um froendend bonitinho para criar esse catalogo de programas, então teremos de apelar para o prompt do powershell no modo de administrador para criar nossa lista de aplicativos:  
+```powershell
+New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList" -Force | Out-Null
+
+New-ItemProperty `
+  -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Terminal Server\TSAppAllowList" `
+  -Name "fDisabledAllowList" `
+  -PropertyType DWord `
+  -Value 1 `
+  -Force | Out-Null
+
+Restart-Service TermService -Force
+```
+O que o comando acima fez foi criar uma lista de aplicativos, só que ao inves de ser uma lista branca, é uma lista negra, ou seja, ele permite todos os programas menos o que eu publicar na lista. Isso torna mais flexivel nosso trabalho de desenvolvedor. Será que funciona? Vamos tentar:
+```bash
+xfreerdp3 \
+  /u:gsantana /p:'Senha#123' /v:192.168.200.38 /cert:ignore \
+  /app:program:"C:\\Windows\\System32\\notepad.exe" \
+  +clipboard /dynamic-resolution
+```
+Vejamos:  
+![Bloco de notas](../img/xxx.png)  
+
+Quais as limitações?  
+* A resoluçao que em DPI que o Windows usa se diferir do ambiente Linux que está usando pode causar uns glitches.
+* Não roda aplicativos da Microsoft Store ou qualquer prgrama em formato UWP.
+
+
+```
 
 [Retornando a página anterior](debian_qemu_kvm_windows.md#virt-manager---seamless)
