@@ -55,19 +55,20 @@ No exemplo, eu usarei o programa **Calculadora do Windows** cuja localização n
 ```
 %windir%\system32\win32calc.exe
 ```
-O nome da máquina virtual é **win2k25-dx**, então, para iniciá-la, executamos:  
-```bash
-sudo virsh start win2k25-dx
-```
-Por trás dos panos, isto é, em background o Windows está iniciando, é muito importante que você tenha ativado o recurso de autologon, caso contrário, os aplicativos não estarão disponíveis até que faça o logon. Eu expliquei o autologon [este artigo](debian_qemu_kvm_windows.md#virt-manager---windows---ativando-o-autologon).
+O nome da máquina virtual é **win2k25-dx**.
 
 Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja instalado no Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
 
-#### 1\. Configuração Essencial da VM no Virt-Manager (Host Linux)
+1. Primeiro, **Desligue** a VM Windows.  
 
-1.  **Desligue** a VM Windows.
-2.  Nas propriedades da VM (Hardware Virtual), defina o **Display** para **SPICE** e o **Vídeo** para **QXL** ou **Virtio**.
-3.  Adicione um **Canal (Channel)** com o **Nome/Tipo de Canal** definido como `com.redhat.spice.0` e **Dispositivo Target** como `spicevmc`.
+2. Depois vá nas propriedades da VM (Hardware Virtual), confirme que o **Display**(Vídeo) para **SPICE** esteja em **QXL** ou **Virtio**:  
+![Display em QXL ou Virtio](debian_qemu_kvm_windows_seamless01.png)
+
+3. Confira a existência de um **Canal (Channel)** com o **Nome** definido como `com.redhat.spice.0` e **Tipo de Dispositivo** como `spicevmc` assim:
+![Canal com.redhat.spice.0 existente](debian_qemu_kvm_windows_seamless02.png)
+
+E se não existir então inclua:
+![Criando um canal com.redhat.spice.0](debian_qemu_kvm_windows_seamless03.png)  
 
 #### 2\. Instalação do Spice Agent (Guest OS - Windows)
 
