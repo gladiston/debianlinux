@@ -62,13 +62,13 @@ Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja i
 1. Primeiro, **Desligue** a VM Windows.  
 
 2. Depois vá nas propriedades da VM (Hardware Virtual), confirme que o **Display**(Vídeo) para **SPICE** esteja em **QXL** ou **Virtio**:  
-![Display em QXL ou Virtio](debian_qemu_kvm_windows_seamless01.png)
+![Display em QXL ou Virtio](../img/debian_qemu_kvm_windows_seamless01.png)
 
 3. Confira a existência de um **Canal (Channel)** com o **Nome** definido como `com.redhat.spice.0` e **Tipo de Dispositivo** como `spicevmc` assim:
-![Canal com.redhat.spice.0 existente](debian_qemu_kvm_windows_seamless02.png)
+![Canal com.redhat.spice.0 existente](../img/debian_qemu_kvm_windows_seamless02.png)
 
 E se não existir então inclua:
-![Criando um canal com.redhat.spice.0](debian_qemu_kvm_windows_seamless03.png)  
+![Criando um canal com.redhat.spice.0](../img/debian_qemu_kvm_windows_seamless03.png)  
 
 #### 2\. Instalação do Spice Agent (Guest OS - Windows)
 
