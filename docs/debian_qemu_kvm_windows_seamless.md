@@ -61,24 +61,25 @@ Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja i
 
 1. Primeiro, **Desligue** a VM Windows.  
 
-2. Depois vá nas propriedades da VM (Hardware Virtual), confirme que o **Display**(Vídeo) para **SPICE** esteja em **QXL** ou **Virtio**:  
-![Display em QXL ou Virtio](../img/debian_qemu_kvm_windows_seamless01.png)
+2. Depois vá nas propriedades da VM (Hardware Virtual), confirme que o **Display**(Vídeo) para **SPICE** esteja em **QXL** ou **Virtio**:
+ 
+![Display em QXL ou Virtio](../img/debian_qemu_kvm_windows_seamless01.png)  
 
 3. Confira a existência de um **Canal (Channel)** com o **Nome** definido como `com.redhat.spice.0` e **Tipo de Dispositivo** como `spicevmc` assim:
-![Canal com.redhat.spice.0 existente](../img/debian_qemu_kvm_windows_seamless02.png)
+   
+![Canal com.redhat.spice.0 existente](../img/debian_qemu_kvm_windows_seamless02.png)  
 
-E se não existir então inclua:
+E se não existir então inclua:  
+
 ![Criando um canal com.redhat.spice.0](../img/debian_qemu_kvm_windows_seamless03.png)  
 
-#### 2\. Instalação do Spice Agent (Guest OS - Windows)
 
-1.  Instale o pacote de ferramentas do convidado SPICE (`virtio-win-guest-tools.exe`) dentro da VM Windows (geralmente encontrado na ISO `virtio-win.iso`) - Já fizemos isso nas etapas anteriores.
-2.  Este pacote instala o **Spice Agent (`spice-vdagent`)**, que é responsável por receber os comandos de execução do Host Linux - Já fizemos isso nas etapas anteriores.
-3.  **Reinicie o Windows** após a instalação.
+Você precisará das ferramentas de convidado instalados e isso já foi feito em passos anteriores, caso tenha pulado etapas então [revise aqui](debian_qemu_kvm_windows.md). 
 
-#### 3\. Execução do Aplicativo (Host Linux)
 
-Com a VM ligada e o Spice Agent ativo, use o comando `remote-viewer` no seu terminal Linux para executar o aplicativo. Utilize o argumento `--spice-app-launch` seguido do caminho completo do executável dentro do Windows.
+### Execução do Aplicativo Windows no hospedeiro linux
+
+Com a VM ligada e o Spice Agent ativo, no Linux, você usará o comando `remote-viewer` para executar o aplicativo. Utilize o argumento `--spice-app-launch` seguido do caminho completo do executável dentro do Windows.
 
 **Sintaxe Geral:**
 
