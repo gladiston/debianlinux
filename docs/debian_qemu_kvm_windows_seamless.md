@@ -71,8 +71,8 @@ Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja i
 
 #### 2\. Instalação do Spice Agent (Guest OS - Windows)
 
-1.  Instale o pacote de ferramentas do convidado SPICE (`virtio-win-guest-tools.exe`) dentro da VM Windows (geralmente encontrado na ISO `virtio-win.iso`).
-2.  Este pacote instala o **Spice Agent (`spice-vdagent`)**, que é responsável por receber os comandos de execução do Host Linux.
+1.  Instale o pacote de ferramentas do convidado SPICE (`virtio-win-guest-tools.exe`) dentro da VM Windows (geralmente encontrado na ISO `virtio-win.iso`) - Já fizemos isso nas etapas anteriores.
+2.  Este pacote instala o **Spice Agent (`spice-vdagent`)**, que é responsável por receber os comandos de execução do Host Linux - Já fizemos isso nas etapas anteriores.
 3.  **Reinicie o Windows** após a instalação.
 
 #### 3\. Execução do Aplicativo (Host Linux)
