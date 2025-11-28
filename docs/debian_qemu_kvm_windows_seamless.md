@@ -16,7 +16,7 @@ Normalmente, quando você executa uma VM, você visualiza o ambiente completo do
 A principal vantagem é o **ganho de produtividade e a melhoria da experiência do usuário**, especialmente em cenários como:
 
 1.  **Monitores Limitados:** Se você usa apenas um monitor, a alternância constante entre a VM em tela cheia e o desktop Linux quebra o fluxo de trabalho. O modo Seamless permite que você use o aplicativo Windows lado a lado com seus aplicativos Linux sem a complicação de gerenciar dois desktops completos.
-2.  **Foco:** Reduz a distração do ambiente desktop completo do Windows. Se você precisa usar apenas um software específico (como o **RAD Studio** com **Delphi** no seu exemplo), o Seamless oferece uma experiência mais focada, como se o aplicativo fosse um "canivete suíço" integrado.
+2.  **Foco:** Reduz a distração do ambiente desktop completo do Windows. Se você precisa usar apenas um software específico, o Seamless oferece uma experiência mais focada, como se o aplicativo fosse um "canivete suíço" integrado.
 3.  **Melhor Gerenciamento de Janelas:** Evita conflitos de atalhos de teclado (como o Alt+Tab) que poderiam ser capturados pela VM em tela cheia, garantindo que eles funcionem no seu sistema operacional host Linux.
 
 -----
@@ -59,8 +59,7 @@ O nome da máquina virtual é **win2k25-dx**, então, para iniciá-la, executamo
 ```bash
 sudo virsh start win2k25-dx
 ```
-Por trás dos panos, isto é, em background o Windows está iniciando, é muito importante que você tenha ativado o recurso de autologon, caso contrário, os aplicativos não estarão disponíveis até que faça o logon. Eu expliquei o autologon [este artigo](xxxx.md).
-
+Por trás dos panos, isto é, em background o Windows está iniciando, é muito importante que você tenha ativado o recurso de autologon, caso contrário, os aplicativos não estarão disponíveis até que faça o logon. Eu expliquei o autologon [este artigo](debian_qemu_kvm_windows.md#virt-manager---windows---ativando-o-autologon).
 
 Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja instalado no Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
 
@@ -92,3 +91,6 @@ remote-viewer --spice-app-launch "C:\Caminho\Do\Aplicativo.exe" win2k25-dx
 remote-viewer --spice-app-launch "C:\Windows\System32\win32calc.exe" win2k25-dx
 ```
 
+----
+
+[Retornando a página anterior](debian_qemu_kvm_windows.md#virt-manager---seamless)
