@@ -83,7 +83,7 @@ Com a VM ligada e o Spice Agent ativo, use o comando `remote-viewer` no seu term
 **Sintaxe Geral:**
 
 ```bash
-remote-viewer --spice-app-launch "C:\Caminho\Do\Aplicativo.exe" <Nome_da_sua_VM>
+remote-viewer --spice-app-launch "C:\Caminho\Do\Aplicativo.exe" win2k25-dx
 ```
 
 **Exemplo com a sua VM (`win2k25-dx`) rodando a Calculadora (`win32calc.exe`):**
