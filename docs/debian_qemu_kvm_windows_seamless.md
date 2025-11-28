@@ -1,17 +1,17 @@
-# VIRT-MANAGER - MODO SEAMLESS: Integração de Aplicativos Windows no Linux
+# MODO SEAMLESS: Integração de Aplicativos Windows no Linux
 
 O recurso **Seamless** (sem emendas, ou **integração perfeita**) no contexto de máquinas virtuais (VMs) rodando no **Virt-Manager** (que utiliza o **QEMU/KVM**) permite que **aplicativos específicos** do sistema operacional convidado (Guest OS), como o Windows, apareçam e se comportem como se fossem aplicativos nativos no seu ambiente gráfico Linux (Host OS, como GNOME ou KDE).
 
 -----
 
-### O Que é o Modo Seamless?
+## O Que é o Modo Seamless?
 
 Normalmente, quando você executa uma VM, você visualiza o ambiente completo do sistema operacional convidado (o desktop do Windows, por exemplo) em uma única janela ou em tela cheia. O modo **Seamless** muda isso:
 
   * Em vez de ver o **desktop completo** da VM, você vê **apenas a janela do aplicativo Windows** que você escolheu executar.
   * Esse aplicativo **interage diretamente** com o seu ambiente Linux: ele aparece no seu painel ou dock, pode ser alternado com o seu atalho de teclado normal (como Alt+Tab no Linux) junto com outros aplicativos Linux, e suas janelas de diálogo (como "Abrir Arquivo" ou "Salvar Como") exibem as unidades e pastas da VM, não do host Linux.
 
-### Por Que Usar Seamless?
+## Por Que Usar Seamless?
 
 A principal vantagem é o **ganho de produtividade e a melhoria da experiência do usuário**, especialmente em cenários como:
 
@@ -21,7 +21,7 @@ A principal vantagem é o **ganho de produtividade e a melhoria da experiência 
 
 -----
 
-### Consideração Importante sobre Consumo de Recursos
+## Consideração Importante sobre Consumo de Recursos
 
 **Não se engane:** O fato de ver apenas a janela do aplicativo, e não o desktop completo do Windows, **não significa que o consumo de recursos (CPU, Memória, Disco) será menor**.
 
@@ -31,7 +31,7 @@ A principal vantagem é o **ganho de produtividade e a melhoria da experiência 
 
 -----
 
-### Como Implementar o Modo Seamless
+## Como Implementar o Modo Seamless
 
 O modo Seamless pode ser configurado de duas formas principais, dependendo dos protocolos e serviços utilizados:
 
@@ -41,7 +41,7 @@ O modo Seamless pode ser configurado de duas formas principais, dependendo dos p
       * Este recurso é nativo em sistemas como **Windows Server** (Terminal Server/RDS).
       * No **Windows 11** nativo, o serviço RDP padrão geralmente não permite a execução de aplicativos únicos (apenas o Desktop Inteiro), a menos que se use soluções proprietárias e pagas de terceiros. Eu falei de RemoteApps [neste artigo](debian_qemu_kvm_windows_seamless.md).
 
-2.  **Recurso Nativo do QEMU/KVM (Via Virt-Manager):**
+2.  **Recurso Nativo do QEMU/KVM:**
 
       * Esta é a forma mais versátil, pois funciona **com qualquer versão do Windows** e é o recurso padrão que o Virt-Manager utiliza para a integração.
       * Geralmente envolve a instalação dos drivers ou agentes apropriados (como o **spice-guest-tools** e o agente QEMU) dentro da VM para habilitar a comunicação necessária entre o host e o convidado para o modo seamless.
@@ -49,4 +49,46 @@ O modo Seamless pode ser configurado de duas formas principais, dependendo dos p
 As instruções a seguir serão usadas você deseja aprender a usar o modo Seamless via QEMU, que é a maneira mais comum e eficiente no ambiente Virt-Manager:
 
 -----
+
+### INSTRUÇÕES: Como Rodar Aplicativos Windows em Modo Seamless (QEMU/KVM)
+No exemplo, eu usarei o programa **Calculadora do Windows** cuja localização no sistema operacional é:  
+```
+%windir%\system32\win32calc.exe
+```
+O nome da máquina virtual é **win2k25-dx**, então, para iniciá-la, executamos:  
+```bash
+sudo virsh start win2k25-dx
+```
+Por trás dos panos, isto é, em background o Windows está iniciando, é muito importante que você tenha ativado o recurso de autologon, caso contrário, os aplicativos não estarão disponíveis até que faça o logon. Eu expliquei o autologon [este artigo](xxxx.md).
+
+
+Para que o modo Seamless funcione, é necessário que o **Spice Agent** esteja instalado no Windows e que a VM esteja configurada para usar o protocolo SPICE. Já fizemos isso nos passos anteriores então há o que se preocupar.  
+
+#### 1\. Configuração Essencial da VM no Virt-Manager (Host Linux)
+
+1.  **Desligue** a VM Windows.
+2.  Nas propriedades da VM (Hardware Virtual), defina o **Display** para **SPICE** e o **Vídeo** para **QXL** ou **Virtio**.
+3.  Adicione um **Canal (Channel)** com o **Nome/Tipo de Canal** definido como `com.redhat.spice.0` e **Dispositivo Target** como `spicevmc`.
+
+#### 2\. Instalação do Spice Agent (Guest OS - Windows)
+
+1.  Instale o pacote de ferramentas do convidado SPICE (`virtio-win-guest-tools.exe`) dentro da VM Windows (geralmente encontrado na ISO `virtio-win.iso`).
+2.  Este pacote instala o **Spice Agent (`spice-vdagent`)**, que é responsável por receber os comandos de execução do Host Linux.
+3.  **Reinicie o Windows** após a instalação.
+
+#### 3\. Execução do Aplicativo (Host Linux)
+
+Com a VM ligada e o Spice Agent ativo, use o comando `remote-viewer` no seu terminal Linux para executar o aplicativo. Utilize o argumento `--spice-app-launch` seguido do caminho completo do executável dentro do Windows.
+
+**Sintaxe Geral:**
+
+```bash
+remote-viewer --spice-app-launch "C:\Caminho\Do\Aplicativo.exe" <Nome_da_sua_VM>
+```
+
+**Exemplo com a sua VM (`win2k25-dx`) rodando a Calculadora (`win32calc.exe`):**
+
+```bash
+remote-viewer --spice-app-launch "C:\Windows\System32\win32calc.exe" win2k25-dx
+```
 
