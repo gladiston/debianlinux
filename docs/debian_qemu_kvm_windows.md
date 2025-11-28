@@ -150,7 +150,7 @@ Se não estiver funcionando, confirme se o host está com o serviço spice-vdage
 ---
 
 ## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP
-Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o virtiofs. Esse é o método mais performático que existe porque você compartilha diretamente os arquivos do hospedereiro com a VM sem emulação de rede. Na VM Windows será instalado um  serviço chamado `Virtio-FS` que irá transliterá os arquivos no Linux para as ACLs no Windows e realmente funciona para usos onde as permisões posix(rwx) são usadas, porém o Windows não entende mais do que isso e pode se perder. Na prática, a pasta que for compartilhar entre hospedeiro e VM tem que tomar cuidado com permissões, links simbolicos e arquivos de mesmo nome, mas com maiusculos e minusculos diferentes, pois  o Windows não lida muito bem com isso e fica o tempo todo abrindo uma janelade dialogo pedindo confirmação para sobregravar ou que não tem permissão suficiente e isso atrapalha especialmente programadores que lidam com muitos arquivos pesquenos e com versionamento, mas se você forçar permissões posix raiz com chmod 666 em arquivos e chmod 777 em pastas, não terá problema e repetindo, este método é de longe o mais performático do que o compartilhamento via `spice-webdav` e `samba` que criam uma camada de rede para conversar com o sistema hospedeiro.  
+Para compartilhar arquivos entre o sistema hospedeiro e convidado, voce pode usar o `Virtio-FS`. Esse é o método mais performático que existe porque você compartilha diretamente os arquivos do hospedereiro com a VM sem emulação de rede. Na VM Windows será instalado um  serviço chamado `Virtio-FS` que irá transliterá os arquivos no Linux para as ACLs no Windows e realmente funciona para usos onde as permisões posix(rwx) são usadas, porém o Windows não entende mais do que isso e pode se perder. Na prática, a pasta que for compartilhar entre hospedeiro e VM tem que tomar cuidado com permissões, links simbolicos e arquivos de mesmo nome, mas com maiusculos e minusculos diferentes, pois  o Windows não lida muito bem com isso e fica o tempo todo abrindo uma janelade dialogo pedindo confirmação para sobregravar ou que não tem permissão suficiente e isso atrapalha especialmente programadores que lidam com muitos arquivos pesquenos e com versionamento, mas se você forçar permissões posix raiz com chmod 666 em arquivos e chmod 777 em pastas, não terá problema e repetindo, este método é de longe o mais performático do que o compartilhamento via `spice-webdav` e `samba` que criam uma camada de rede para conversar com o sistema hospedeiro.  
 
 Se desejar prosseguir com esse método de compartilhamento de arquivos entre hospedeiro e VM então siga as instruções abaixo:  
 [COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_virtiofs.md)  
@@ -160,7 +160,7 @@ Se desejar prosseguir com esse método de compartilhamento de arquivos entre hos
 ---
 
 ## VIRT-MANAGER - COMPARTILHANDO ARQUIVOS VIA SPICE-WEBDAV
-Embora o Virtio-FS seja o método de compartilhamento de arquivos mais rápido e performático, ele possui limitações notáveis em ambientes Windows devido à diferença na arquitetura dos sistemas de arquivos, o Virtio-FS tentará transliterar as permissões Posix do Linux para as ACLs do Windows, mas tem coisas que o Windows fica perdido e cria alguns embaraços, mas você pode contornar este problema usando o `spice-webdav` que cria uma camada de rede e cria uma ponte entre hospedeiro e VM com o protocolo de rede chamado webdav que é basicamente mapear uma letra de drive para um endreço como http://localhost/pastacompartilhada e isso cria uma camada que torna o acesso mais compativel com o mundo Windows.   
+Embora o `Virtio-FS` seja o método de compartilhamento de arquivos mais rápido e performático, ele possui limitações notáveis em ambientes Windows devido à diferença na arquitetura dos sistemas de arquivos, o `Virtio-FS` tentará transliterar as permissões Posix dos arquivos Linux para as ACLs do Windows, mas tem coisas que o Windows não sabe lidar direito e cria alguns embaraços, mas você pode contornar este problema usando o `spice-webdav` que cria uma camada de rede e cria uma ponte entre hospedeiro e VM com o protocolo de rede chamado webdav que é basicamente mapear uma letra de drive para um endreço como http://localhost/pastacompartilhada e assim, o acesso a arquivos é mais compativel com o mundo Windows.   
 
 Se desejar usar o acesso webdav, siga as instruções abaixo:  
 [COMPARTILHANDO ARQUIVOS VIA SHARED FOLDERS+WinSFP](debian_qemu_kvm_windows_spice-webdav.md)
@@ -176,6 +176,15 @@ Conforme dito, este tipo de compartilhamento é bem versátil, no entanto, enten
 Siga as instruções abaixo:  
 [Compartilhamento de arquivos via SMB/CIFS](debian_qemu_kvm_windows_smb.md)  
 
+---
+
+## VIRT-MANAGER - SEAMLESS
+Cansado de alternar entre o desktop Linux e a tela cheia do Windows na sua VM?  
+
+Com o modo Seamless, você executa apenas a janela do seu aplicativo Windows favorito diretamente no seu GNOME ou KDE, ganhando produtividade e foco. O recurso pode ser implementado tanto via QEMU/KVM (mais versátil) quanto via Protocolo RDP (em ambientes como Windows Server).
+
+Se deseja descobrir como funciona o seamless via qemu, siga as instruções abaixo:  
+[QEMU no modo seamless](debian_qemu_kvm_windows_seamless.md)
 
 ---
 
