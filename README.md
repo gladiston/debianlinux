@@ -125,17 +125,17 @@ No link abaixo explico melhor essa questão, é bom que leia antes de fazer a in
 Salvo alguma exceção, os DNS da *Cloudflare* são excelentes para serem usados em desktpos. A Claudfare não cobram pelo uso do DNSs deles porque isso aumenta o uso da infraestrutura global deles, o que melhora a capacidade e visibilidade da rede — e isso faz parte do modelo de negócio deles. Eles possuem DNSs diferentes para cada propósito, você pode usar eles no seu sistema, ou caso tenha acesso, diretamente no roteador. São eles:  
 
 1. **Para Famílias**: O DNS padrão da Cloudflare: rápido, seguro, sem filtros de conteúdo. Apenas privacidade e desempenho.
-* *DNS Primário:* 1.1.1.1
+    * *DNS Primário:* 1.1.1.1
 2. **Bloqueio apenas de Malware**: Bloqueia sites conhecidos por distribuir malware, vírus e ameaças digitais, mantendo todo o restante liberado.
-* *DNS Primário:* 1.1.1.2 (IPv6: 2606:4700:4700::1112)
-* *DNS Secundário:* 1.0.0.2 (IPv6: 2606:4700:4700::1002)
-3. **Bloqueio de Malware e Conteúdo Adulto**: Bloqueia malware, vírus e também sites com conteúdo adulto (pornografia), protegendo especialmente casas com crianças.
-* *DNS Primário:* 1.1.1.3 (IPv6: 2606:4700:4700::1113)
-* *DNS Secundário:* 1.0.0.3 (IPv6: 2606:4700:4700::1003)
+    * *DNS Primário:* 1.1.1.2 (IPv6: 2606:4700:4700::1112)
+    * *DNS Secundário:* 1.0.0.2 (IPv6: 2606:4700:4700::1002)
+   3. **Bloqueio de Malware e Conteúdo Adulto**: Bloqueia malware, vírus e também sites com conteúdo adulto (pornografia), protegendo especialmente casas com crianças.
+    * *DNS Primário:* 1.1.1.3 (IPv6: 2606:4700:4700::1113)
+    * *DNS Secundário:* 1.0.0.3 (IPv6: 2606:4700:4700::1003)
 
 *Links relacionados que explicam esses DNSs em pormenor:*
-* https://www.cloudflare.com/pt-br/learning/dns/what-is-1.1.1.1/br/learning/dns/what-is-1.1.1.1/)
-* https://blog.cloudflare.com/introducing-1-1-1-1-for-families/
+    * https://www.cloudflare.com/pt-br/learning/dns/what-is-1.1.1.1/br/learning/dns/what-is-1.1.1.1/)
+    * https://blog.cloudflare.com/introducing-1-1-1-1-for-families/
 
 ---
 
