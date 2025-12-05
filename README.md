@@ -129,13 +129,15 @@ Salvo alguma exceção, os DNS da *Cloudflare* são excelentes para serem usados
 2. **Bloqueio apenas de Malware**: Bloqueia sites conhecidos por distribuir malware, vírus e ameaças digitais, mantendo todo o restante liberado.
     * *DNS Primário:* 1.1.1.2 (IPv6: 2606:4700:4700::1112)
     * *DNS Secundário:* 1.0.0.2 (IPv6: 2606:4700:4700::1002)
-   3. **Bloqueio de Malware e Conteúdo Adulto**: Bloqueia malware, vírus e também sites com conteúdo adulto (pornografia), protegendo especialmente casas com crianças.
+3. **Bloqueio de Malware e Conteúdo Adulto**: Bloqueia malware, vírus e também sites com conteúdo adulto (pornografia), protegendo especialmente casas com crianças.
     * *DNS Primário:* 1.1.1.3 (IPv6: 2606:4700:4700::1113)
     * *DNS Secundário:* 1.0.0.3 (IPv6: 2606:4700:4700::1003)
 
-*Links relacionados que explicam esses DNSs em pormenor:*
+**Links relacionados que explicam esses DNSs em pormenor:**
     * https://www.cloudflare.com/pt-br/learning/dns/what-is-1.1.1.1/br/learning/dns/what-is-1.1.1.1/)
     * https://blog.cloudflare.com/introducing-1-1-1-1-for-families/
+
+Você pode trocar de DNS diretamente em seu roteador ou no seu desktop. No caso de escolhar mudar no seu desktop, KDE e GNOME tem opções para isso no seu painel de configurações. Se seu ambiente for empresarial, consulte a politica da empresa para saber se alterações assim em seu dispostivo são permitidos, caso contrário, você pode se encrencar.  
 
 ---
 
