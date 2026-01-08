@@ -229,14 +229,14 @@ Siga o guia completo para remover essa restrição e garantir o suporte total ao
 
 Sistemas com GPUs Intel ou AMD não precisam de procedimentos extras para funcionarem, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa. A NVIDIA, porém, funciona de maneira diferente.
 
-A NVIDIA recentemente integrou parte do seu driver ao kernel, mas essa integração é parcial e não inclui o restante do stack gráfico (OpenGL, Vulkan, CUDA, NVENC etc.), que ainda depende do driver proprietário completo.  
+A NVIDIA recentemente integrou **parte** do seu driver ao kernel, mas essa **integração é parcial** e não inclui o restante do stack gráfico (OpenGL, Vulkan, CUDA, NVENC etc.), que ainda dependem do driver proprietário completo.  
 
-Se o seu computador ou notebook possui uma placa de vídeo NVIDIA, esses drivers **não são instalados por padrão no Debian**. Na verdade, é muito comum o sistema carregar automaticamente o driver `nouveau`, que é limitado, instável, não oferece aceleração completa e não tem suporte aos recursos modernos da NVIDIA.  
+Se o seu computador ou notebook possui uma placa de vídeo NVIDIA, esses drivers **não são instalados por padrão no Debian**, na verdade, é muito comum o sistema carregar automaticamente o driver `nouveau`, que é bem limitado e instável, não oferecendo aceleração completa e sem suporte aos recursos modernos da NVIDIA.  
 
 Por isso, é **imprescindível instalar o driver proprietário da NVIDIA** caso você tenha:
 
 - uma GPU NVIDIA dedicada  
-- um notebook com tecnologia **NVIDIA Prime** (Intel + NVIDIA), onde o sistema usa a GPU Intel por padrão, mas permite executar aplicativos com “Executar com NVIDIA”.  
+- um notebook com tecnologia **NVIDIA Prime** (Intel + NVIDIA), onde o sistema usa a GPU Intel por padrão, mas permite executar aplicativos com a instrução “Executar com NVIDIA”.  
 
 Siga o link a seguir:  
 [Instruções para instalação dos drivers NVIDIA para Debian](docs/debian_nvidia.md)
