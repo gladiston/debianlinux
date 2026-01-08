@@ -173,4 +173,4 @@ e outras variações semelhantes, significa que a fonte foi instalada com sucess
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#instalando-compactadoresdescompactadores-de-arquivos)
+[Clique aqui para retornar a página principal](../[README.md#suporte-a-novas-fontes)
