@@ -171,3 +171,6 @@ Se aparecer algo como:
 
 e outras variações semelhantes, significa que a fonte foi instalada com sucesso.
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#instalando-compactadoresdescompactadores-de-arquivos)
