@@ -163,7 +163,10 @@ fc-list | grep "Hack"
 Se aparecer algo como:
 
 ```
-~/.local/share/fonts/ttf/Hack-BoldItalic.ttf: Hack:style=Bold Italic
+/usr/share/fonts/truetype/hack/Hack-Regular.ttf: Hack:style=Regular
+/usr/share/fonts/truetype/hack/Hack-Bold.ttf: Hack:style=Bold
+/usr/share/fonts/truetype/hack/Hack-BoldItalic.ttf: Hack:style=Bold Italic
+/usr/share/fonts/truetype/hack/Hack-Italic.ttf: Hack:style=Italic
 ```
 
 e outras variações semelhantes, significa que a fonte foi instalada com sucesso.
