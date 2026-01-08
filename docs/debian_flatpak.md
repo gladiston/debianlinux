@@ -13,17 +13,18 @@ Para o ambiente **GNOME**, instale também:
 sudo apt install -y gnome-software-plugin-flatpak
 ```
 
-Para o ambiente **KDE**, instale também:
+Para o ambiente **KDE** e usando sistema Debian, instale também:
 ```bash
-sudo apt install -y plasma-discover-backend-flatpak
+sudo apt install plasma-discover-backend-flatpak # Não faça isso no Ubuntu 24+
 ```
-
-Esses pacotes adicionais melhoram a integração do Flatpak com os ambientes GNOME e KDE, permitindo que o **Flathub** apareça como fonte de aplicativos nas lojas gráficas.
-
 Depois disso, adicione o repositório **Flathub**:
 ```bash
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
+
+Para o ambiente **KDE** e usando sistema Ubuntu 24 ou superior, o **Discovery** já vem com o suporte a flatpak, basta ir até Discovery->Configurações e habilitar o suporte e o repositório FlatHub dl.flathub.org, os botões estarão bem visiveis. Nesta versão do Ubuntu, se tentar instalar `plasma-discover-backend-flatpak` serão baixados e instalados cerca de 483 pacotes novos! 
+
+Esses pacotes adicionais melhoram a integração do Flatpak com os ambientes GNOME e KDE, permitindo que o **Flathub** apareça como fonte de aplicativos nas lojas gráficas.
 
 Após a instalação, **reinicie sua sessão** (faça logout e login novamente) para que os repositórios do Flatpak funcionem corretamente.
 
