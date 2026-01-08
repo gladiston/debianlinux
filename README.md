@@ -382,7 +382,9 @@ Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de
 
 ## FERRAMENTAS DE COMPILAÇÃO
 Se você pretende compilar códigos de programas, deploy de frameworks, reempacotar programas ou personalizar sua distro então precisará de algumas ferramentas adicionais, as instruções estão na seção abaixo:    
-[Ferramentas de Compilação](docs/debian_build.md)  
+[Ferramentas de Compilação](docs/debian_build.md)   
+
+---  
 
 ## SUPORTE A NOVAS FONTES
 A aparência das fontes influencia diretamente a legibilidade, o conforto visual e até mesmo a produtividade durante o uso do sistema. No Linux, especialmente em distribuições como Debian e Ubuntu, é possível personalizar facilmente o conjunto de fontes disponíveis — seja para o ambiente gráfico, terminais ou IDEs de programação.
