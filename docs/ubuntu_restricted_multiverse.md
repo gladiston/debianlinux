@@ -13,7 +13,7 @@ Embora a edição manual do arquivo `/etc/apt/sources.list` seja possível, o m�
 
 1.  Acesse o menu de configurações do seu ambiente de trabalho.
 2.  Na maioria dos ambientes baseados em GTK, como GNOME, procure pelo aplicativo **Programas e Atualizações**, mas se utiliza o KDE, esta opção na seção de **Configurações do Sistema->Gerenciador de Drivers** e então selecione a guia **Software Ubuntu**:
-    [Programas e Atualizações](../img/ubuntu_restricted_multiverse01.png)
+    ![Programas e Atualizações](../img/ubuntu_restricted_multiverse01.png)
     
 4.  Dentro da seção apropriada, geralmente rotulada como **"Outro Software"** ou **"Software Ubuntu"**, localize e **habilite as caixas de seleção** correspondentes aos repositórios **`restricted`** e **`multiverse`**.
 5.  O sistema solicitará a atualização dos seus índices de pacotes (o equivalente a rodar `apt update`). Confirme a atualização para aplicar as mudanças imediatamente.
