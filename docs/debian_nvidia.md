@@ -97,7 +97,7 @@ Sem a chave GPG correta, o Debian irá recusar os pacotes do repositório NVIDIA
 curl -fsSL https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/8793F200.pub | \
   sudo gpg --dearmor -o /usr/share/keyrings/nvidia.gpg
 ```
-**Observação**: Se o comando acima gerar um erro 404 é porque a URL acima mudou, neste caso, acesse a raiz, isto é, https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/ e procure por um arquivo que seja .pub e substitua-o na URL acima a menção de 8793F200.pub.  
+**Observação**: Se o comando acima gerar um erro 404 é porque a URL acima mudou, neste caso, acesse a raiz, isto é, https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/ e procure por um arquivo que seja .pub e substitua-o na URL acima a menção de 8793F200.pub.  O método é similar para outras distros Debian-Like, trocando o nome Debian13 pelo nome/release da distro que estiver usando.  
 
 ---
 
@@ -115,7 +115,7 @@ Conteúdo:
 deb [signed-by=/usr/share/keyrings/nvidia.gpg] https://developer.download.nvidia.com/compute/cuda/repos/debian13/x86_64/ /
 ```
 
-Atualize índices:
+Atualize os índices do repositório:
 
 ```bash
 sudo apt update
