@@ -122,37 +122,7 @@ sudo apt update
 ```
 
 ---
-
-# **4. Instalar o driver NVIDIA**
-
-### **Por que este passo funciona no Debian 13?**
-
-No Debian 13 (com Wayland), o driver da NVIDIA já é compatível nativamente.
-Não há necessidade de editar xorg.conf (inclusive o Debian 13 nem usa Xorg por padrão).
-O driver instalará automaticamente:
-
-* módulo do kernel (via DKMS)
-* suporte a aceleradores
-* componentes Vulkan
-* integração com Wayland (GBM + EGL Streams dependendo da versão)
-
-### **Instalação recomendada:**
-
-```bash
-sudo apt install nvidia-driver
-```
-
-Ou, se quiser uma versão mais nova:
-
-```bash
-sudo apt install nvidia-driver-560
-```
-
-*(A numeração pode mudar conforme o repositório liberar novas versões.)*
-
----
-
-# **5. Desabilitar o driver Nouveau**
+# **4. Desabilitar o driver Nouveau**
 
 ### **Por que isso é obrigatório?**
 
@@ -169,8 +139,48 @@ echo 'blacklist nouveau' | sudo tee /etc/modprobe.d/blacklist-nouveau.conf
 echo 'options nouveau modeset=0' | sudo tee -a /etc/modprobe.d/blacklist-nouveau.conf
 sudo update-initramfs -u
 ```
+Depois disso, reinicie para remover o **noveau** do sistema, pois a instalação do driver da NVIDIA requer que este módulo não esteja na memória:  
+```bash
+sudo reboot
+```
+---
+
+# **5. Instalar o driver NVIDIA**
+
+## **Por que este passo funciona no Debian 13?**
+
+No Debian 13 (com Wayland), o driver da NVIDIA já é compatível nativamente.
+Não há necessidade de editar xorg.conf (inclusive o Debian 13 nem usa Xorg por padrão).
+O driver instalará automaticamente:
+
+* módulo do kernel (via DKMS)
+* suporte a aceleradores
+* componentes Vulkan
+* integração com Wayland (GBM + EGL Streams dependendo da versão)
+
+## Conferencia recomendada:
+A NVIDIA é confusa com drivers, atente-se que já houveram casos de atualizações da própria NVIDIA que danificaram GPUs, então a instalação de drivers errados ou extremamente atualizados são pontos que você deve assumir uma pertubação com tempo. Para diminuir este tipo de problema, vamos ter que dividir os drivers da nvidia em duas categorias **legacy** para modelos mais antigos, e as **novas** que obviamente tratam de placas mais recentes. Instalar um driver novo, numa placa considerada legacy fará com que o driver não rode e seu monitor fique com a tela preta.  
+Saiba também, que se for uma placa muito, mas muito antiga, o nvidia deixou de fornecer drivers legacy até para ela.  
+
+### **Instalação recomendada para placas novas:
+```bash
+sudo apt install nvidia-driver
+```
+
+### **Instalação recomendada para placas legacy:
+
+```bash
+sudo apt install nvidia-legacy
+```
+Os nomes **nvidia-driver** e **nvidia-legacy** são meta-pacotes que apontam para a ultima versão do driver novo e legacy, mas é possivel, instalar uma versão específica como:  
+```bash
+sudo apt install nvidia-legacy-390xx-driver
+```
+A numeração (390xx) pode mudar conforme o repositório liberar novas versões.  
+Embora ela tenha melhorado, a NVidia criou muita antipatia pelo tratamento que ela tem dado a seus usuários e comunidade opensource e linux.  
 
 ---
+
 
 # **6. Reiniciar**
 
