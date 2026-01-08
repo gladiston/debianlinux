@@ -6,7 +6,15 @@ Serão exibidas várias versões para Linux — escolha o pacote **.deb de 64 bi
 
 Após o download, dê duplo clique no arquivo baixado. O sistema iniciará o instalador automaticamente; a partir daí, basta seguir as instruções exibidas na tela.  
 
-Após a instalação, o Google adiciona o repositório dela no sistema e as atualizações deste navegador serão automáticas.  
+Caso precise instalar pelo terminal, execute:
+```
+cd /tmp
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+sudo apt install -f
+```
+
+Após a instalação seja via interface gráfica ou terminal, o pacote adiciona o repositório do Google no sistema e as atualizações deste navegador serão automáticas.  
 
 ### Antes de executar pela primeira vez
 Se você tiver uma cópia do Google Chrome em algum outro computador, você o copia de:
