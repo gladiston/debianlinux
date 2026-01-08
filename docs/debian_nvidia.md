@@ -143,6 +143,7 @@ Depois disso, reinicie para remover o **noveau** do sistema, pois a instalação
 ```bash
 sudo reboot
 ```
+
 ---
 
 # **5. Instalar o driver NVIDIA**
@@ -161,6 +162,26 @@ O driver instalará automaticamente:
 ## Conferencia recomendada:
 A NVIDIA é confusa com drivers, atente-se que já houveram casos de atualizações da própria NVIDIA que danificaram GPUs, então a instalação de drivers errados ou extremamente atualizados são pontos que você deve assumir uma pertubação com tempo. Para diminuir este tipo de problema, vamos ter que dividir os drivers da nvidia em duas categorias **legacy** para modelos mais antigos, e as **novas** que obviamente tratam de placas mais recentes. Instalar um driver novo, numa placa considerada legacy fará com que o driver não rode e seu monitor fique com a tela preta.  
 Saiba também, que se for uma placa muito, mas muito antiga, o nvidia deixou de fornecer drivers legacy até para ela.  
+Para tentarmos detectar em qual categoria iremos entrar, instalamos este pacote:
+```bash
+sudo apt install nvidia-driver-assistant
+```
+E depois executamos:
+```bash
+nvidia-driver-assistant
+```
+E a saida do comando nos dirá o que devemos fazer ou instalar:
+```
+Detected GPUs:
+  GeForce GTX 550 Ti - (pci_id 0x1244)
+
+Detected system:
+  Debian GNU/Linux 13
+
+Please copy and paste the following command to install the legacy kernel module flavour:
+  sudo apt-get install -Vy cuda-drivers
+```
+No exemplo acima, o comando não disse para instalar algo como 'nvidia-driver-******', então para esta placa de video (GeForce GTX 550 Ti) - segundo os repositórios da própria NVidia - não se trata nem mesmo de uma placa na categoria 'legacy'. Eu posso instalar os drivers CUDA e outros que me dará processamento de dados, mas provavelmente não terei processamento de saída de vídeo.  
 
 ### **Instalação recomendada para placas novas:
 ```bash
