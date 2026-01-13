@@ -56,3 +56,6 @@ Isso mesmo 'editor' será um alias para o que formos editar no prompt.
 **Dica:** se você é iniciante e prefere um ambiente mais amigável, mantenha o **Nano**.  
 Mas se já se sente à vontade no terminal e quer produtividade, o **Vim** é uma excelente escolha.
 
+----
+
+[Clique aqui para retornar a página principal](../README.md#editor-de-texto-padr%C3%A3o-para-o-terminal)
