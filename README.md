@@ -376,7 +376,8 @@ Esses programas são amplamente usados em **scripts**, **automações** e **test
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
 Para garantir que seu sistema **Debian** ou **Ubuntu** possa lidar com todos os formatos de arquivos comprimidos, de `.zip` e `.rar` a `.7z` e `.squashfs`, é vital instalar um conjunto abrangente de *utilities* de compressão. Além disso, se você planeja compilar programas, *drivers* ou bibliotecas no ambiente Linux, a instalação do meta-pacote **`build-essential`** e outras ferramentas de desenvolvimento é mandatório.  
 
-Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de *software* seguindo as instruções detalhadas: 
+Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de *software* seguindo as instruções detalhadas:  
+
 [Instalação de Ferramentas de Compressão de arquivos e dados](docs/debian_compact.md)
 
 ---  
