@@ -36,3 +36,7 @@ set mouse=
 
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).  
 Pronto — agora o mouse não interferirá mais ao usar o Vim.
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#editor-de-texto-vim)
