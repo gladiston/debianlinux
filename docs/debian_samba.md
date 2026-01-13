@@ -9,8 +9,12 @@ Aparentemente, o **SAMBA** vem pré-instalado, no entanto, foi observado que ele
 ### Instalando o SAMBA
 Execute:
 ```bash
-sudo apt install -y plasma-widgets-addons kdenetwork-filesharing 
-sudo apt install -y cifs-utils kio-fuse
+sudo apt install plasma-widgets-addons kdenetwork-filesharing 
+sudo apt install cifs-utils kio-fuse
+```
+No Ubuntu, os pacotes acima não puxam como dependencia o samba, então neste sistema, adicionalmente deve executar:
+```bash
+sudo apt install samba
 ```
 
 Às vezes, dependendo do perfil de instalação, estes pacotes podem ter sido instalados.
@@ -71,7 +75,11 @@ Caso precise **compartilhar arquivos do seu computador com máquinas Windows** r
 sudo systemctl start smbd nmbd
 sudo systemctl enable smbd nmbd
 ```
+Se você receber mensagem como:  
+> Failed to start smbd.service: Unit smbd.service not found.  
+> Failed to start nmbd.service: Unit nmbd.service not found.  
 
+È porque o SAMBA não foi instalado, isso aconteceu com o Ubuntu 25+, então volte aos passos anteriores e inclua a instalação do meta-pacote 'samba'.  
 Se, por outro lado, você **só precisa acessar** arquivos compartilhados em outros computadores (sem compartilhar os seus), é melhor desativar esses serviços para economizar recursos:
 
 ```bash
