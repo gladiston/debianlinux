@@ -26,8 +26,6 @@ Se você usa GNOME ou ambientes baseados em GTK, também precisará:
 ```bash
 # GTK2 (legado, mas amplamente usado pelo Lazarus)
 sudo apt install -y libgtk2.0-dev
-# ou GTK3
-sudo apt install -y libgtk3.0-dev 
 ```
 
 ## FPCUPDELUXE
