@@ -291,8 +291,9 @@ sudo apt install -y gparted
 Com os repositórios adicionais ativados, podemos instalar alguns pacotes importantes que liberarão codecs e *players* de áudio e vídeo no sistema, ENTÃO EXECUTE:  
 
 ```bash
-sudo apt install -y libavcodec-extra ffmpeg vlc
+sudo apt install -y libavcodec-extra ffmpeg 
 ```
+**Observação**: Depois instale o `vlc`, preferencialmente do repositório flathub.  
 
 ---  
 
