@@ -99,7 +99,7 @@ cd /tmp
 git clone https://github.com/mrbvrz/segoe-ui-linux
 cd segoe-ui-linux
 chmod +x install.sh
-sudo ./install.sh
+./install.sh  # se usar sudo, será instalado no sistema
 ```
 Uma tela semelhante a seguir lhe será mostrada e então você confirma com "y":
 ```
