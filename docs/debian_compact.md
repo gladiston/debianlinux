@@ -1,4 +1,4 @@
-# Suporte Abrangente a Arquivos Comprimidos
+# Suporte a arquivos comprimidos
 
 Por padrão, o sistema operacional possui suporte limitado a formatos de compressão. É fundamental instalar os pacotes abaixo para garantir a manipulação de formatos amplamente utilizados, como `.zip`, `.rar`, `.7z`, além de vários utilitários de compressão essenciais para o ecossistema Linux.
 
