@@ -114,7 +114,39 @@ Exemplo de uso: estações de áudio profissional (JACK), robótica, processamen
 *O que faz*: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
 *Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.  
 
+Claro! Aqui está o **conteúdo em formato Markdown** que você pode **copiar e colar no seu arquivo `debian_performance_tuned.md`**, com o tópico novo **“Usando o tuned no ambiente gráfico”** e as informações que conversamos:
 
+## Usando o tuned no ambiente gráfico
+
+Embora o *tuned* seja tradicionalmente usado via linha de comando (por exemplo, `sudo tuned-adm active` e `sudo tuned-adm profile <perfil>`), existe como tornar a troca de perfis bem mais amigável em um ambiente gráfico, especialmente em desktops como KDE Plasma:
+
+### 🔹 Tuned Switcher (Flatpak)
+
+Uma opção prática é instalar o **Tuned Switcher**, um utilitário que adiciona um ícone na bandeja do sistema (system tray) permitindo:
+- visualizar o perfil ativo;
+- trocar perfis com cliques, sem precisar digitar comandos no terminal;
+- suporte a notificações e modo de widget.
+
+O Tuned Switcher está disponível no **Flathub** como Flatpak, se você ainda não instalou, siga as instruções em:  
+[Instalando e habilitando o suporte a flatpak](debian_flatpak.md)  
+
+Você pode instalá-lo através da loja de aplicativos do KDE ou GNOME, mas se quiser, também pode via terminal:   
+```bash
+flatpak install flathub org.easycoding.TunedSwitcher
+```
+
+Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário. ([Flathub - Apps for Linux][1])
+
+### Alternativa usando script com tecla de atalho
+Se você preferir algo ainda mais integrado ao seu ambiente, pode criar um pequeno script que usa um seletor de menus (por exemplo, `zenity`, `rofi` etc.) para listar perfis disponíveis e permitir a escolha visual, como:
+
+```bash
+#!/bin/bash
+PROFILE=$(tuned-adm list | grep -oP '(?<=- ).*' | zenity --list --title="Escolher perfil Tuned" --column="Perfis")
+[ -n "$PROFILE" ] && sudo tuned-adm profile "$PROFILE"
+```
+
+Depois de salvar e tornar executável (`chmod +x ~/local/bin/tuned-menu.sh`), você pode criar um atalho de teclado ou um item no menu do KDE Plasma/GNOME para executá-lo.
 
 ----
 
