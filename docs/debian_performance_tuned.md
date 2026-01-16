@@ -135,7 +135,7 @@ Você pode instalá-lo através da loja de aplicativos do KDE ou GNOME, mas se q
 flatpak install flathub org.easycoding.TunedSwitcher
 ```
 
-Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário. ([Flathub - Apps for Linux][1])
+Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário ou acrescentá-lo no inicializador de sessão que tanto o KDE como GNOME possuem.  
 
 ### Alternativa usando script com tecla de atalho
 Se você preferir algo ainda mais integrado ao seu ambiente, pode criar um pequeno script que usa um seletor de menus (por exemplo, `zenity`, `rofi` etc.) para listar perfis disponíveis e permitir a escolha visual, como:
