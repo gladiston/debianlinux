@@ -116,11 +116,11 @@ Exemplo de uso: estações de áudio profissional (JACK), robótica, processamen
 
 Claro! Aqui está o **conteúdo em formato Markdown** que você pode **copiar e colar no seu arquivo `debian_performance_tuned.md`**, com o tópico novo **“Usando o tuned no ambiente gráfico”** e as informações que conversamos:
 
-## Usando o tuned no ambiente gráfico
+## Selecionando perfis do tuned no ambiente gráfico
 
 Embora o *tuned* seja tradicionalmente usado via linha de comando (por exemplo, `sudo tuned-adm active` e `sudo tuned-adm profile <perfil>`), existe como tornar a troca de perfis bem mais amigável em um ambiente gráfico, especialmente em desktops como KDE Plasma:
 
-### 🔹 Tuned Switcher (Flatpak)
+### Tuned Switcher (Flatpak)
 
 Uma opção prática é instalar o **Tuned Switcher**, um utilitário que adiciona um ícone na bandeja do sistema (system tray) permitindo:
 - visualizar o perfil ativo;
