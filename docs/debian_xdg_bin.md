@@ -65,20 +65,11 @@ source ~/.profile
 
 ## 5. Testar o funcionamento
 
-Crie um script simples:
+Verificar se o PATH inclui `~/.local/bin`
 
 ```bash
-echo -e '#!/bin/bash\necho Funciona!' > ~/.local/bin/teste
-chmod +x ~/.local/bin/teste
+echo $PATH | tr ':' '\n'
 ```
-
-Execute:
-
-```bash
-teste
-```
-
-Se funcionar, o PATH está configurado corretamente.
 
 ## Conclusão
 
