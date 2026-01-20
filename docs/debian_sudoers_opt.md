@@ -38,6 +38,15 @@ Se quiser liberar qualquer comando sem senha (não recomendado em estações com
 # Permite qualquer comando sem senha — use com cautela
 %sudo   ALL=(ALL:ALL) NOPASSWD: ALL
 ```
+No caso do Ubuntu, faça também a troca de:
+```
+%admin ALL=(ALL) ALL
+```
+Para:
+```
+%admin ALL=(ALL:ALL) NOPASSWD: ALL
+```
+Assim, além do grupo `sudo`, o grupo `admin` também obterá a permissividade.  
 
 > **IMPORTANTE:** liberar `NOPASSWD: ALL` representa um risco de segurança. Faça isso **apenas** se tiver certeza do contexto: a estação não contém chaves privadas, credenciais sensíveis ou arquivos valiosos e está em ambiente controlado. Mesmo com `NOPASSWD` para uma lista, confirme os caminhos absolutos dos comandos (use `command -v`) para evitar entradas inválidas no `sudoers`.
 
