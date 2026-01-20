@@ -321,6 +321,11 @@ O **lm-sensors** mostra as temperaturas, tensões e rotações das ventoinhas da
 Para saber mais e como fazer, siga as instruções no link abaixo:  
 [Instalando e usufruindo do lmsensors](docs/debian_lmsensors.md).  
 
+
+## ATIVANDO O DISPLAY DO WATER COOLER RISE MODE AURA ICE BLACK
+Se você for um possuidor do Water Cooler Rise Mode Aura Ice Black, boas noticias, após instalar o lm-sensors, você pode ativar o display dele sem muito trabalho para mostrar a temperatura de sua CPU, basta seguir as instruções no link a seguir:  
+[Ativando o display do modelo  Water Cooler Rise Mode Aura Ice Black](https://github.com/gladiston/water-cooler-hid)  
+
 ---  
 
 ## INSTALANDO O NOTIFY-SEND
