@@ -63,6 +63,11 @@ watch -n 2 sensors
 ```
 Assim, o comando atualizará as temperaturas a cada 2 segundos — útil durante compilações ou testes de carga.
 
+### Ativando o display do Water Cooler Rise Mode Aura Ice Black
+Se você for um possuidor do Water Cooler Rise Mode Aura Ice Black, boas noticias, você pode ativar o display dele sem muito trabalho, basta seguir as instruções no link a seguir:  
+[Ativando o display do modelo  Water Cooler Rise Mode Aura Ice Black](https://github.com/gladiston/water-cooler-hid)  
+
+
 ----
 
 [Clique aqui para retornar a página principal](../README.md#monitorando-temperaturas-com-o-lm-sensors)
