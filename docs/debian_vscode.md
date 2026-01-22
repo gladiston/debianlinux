@@ -10,48 +10,9 @@ E faça o download da versão .deb que aparece na tela:
 
 Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela e ao final do processo, o vscode estará instalado.  
 
-## FREE PASCAL E DELPHI
-Caso queira instalar o suporte a pascal no vscode, recomendo que leia as instruções no link abaixo, pois uma de suas seções descreve justamente a personalização do vscode para pascal. Segue o link:   
-[Instalando o suporte a pascal no vscode](debian_lazarus.md)     
-
-## NODE.JS  
-É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
-```
-code --install-extension waderyan.nodejs-extension-pack \
-     --install-extension dbaeumer.vscode-eslint \
-     --install-extension christian-kohler.npm-intellisense \
-     --install-extension christian-kohler.path-intellisense \
-     --install-extension ms-vscode.node-debug2
-```
-## JAVA
-É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
-```
-code --install-extension vscjava.vscode-java-pack \
-     --install-extension redhat.java \
-     --install-extension vscjava.vscode-java-debug \
-     --install-extension vscjava.vscode-java-test \
-     --install-extension vscjava.vscode-maven
-```
-
-## EXTENSÕES PARA HTML, CSS E JAVASCRIPT  
-```
-code --install-extension ecmel.vscode-html-css \
-     --install-extension esbenp.prettier-vscode \
-     --install-extension ritwickdey.LiveServer \
-     --install-extension formulahendry.auto-rename-tag \
-     --install-extension xabikos.JavaScriptSnippets
-```
-
-## EXTENSÕES PARA PYTHON   
-É preciso ter a linguagem previamente instalada para prosseguir com as instruções abaixo:  
-```
-code --install-extension ms-python.python \
-     --install-extension ms-python.vscode-pylance \
-     --install-extension ms-toolsai.jupyter \
-     --install-extension ms-python.debugpy
-```
-
 ## EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS
+Execute no terminal:  
+
 ```
 code --install-extension mtxr.sqltools \
      --install-extension mtxr.sqltools-driver-mysql \
@@ -68,7 +29,15 @@ code --install-extension mtxr.sqltools \
 >Para múltiplos bancos, o Database Client (de Cweijan) exibe uma interface visual de fácil navegação, inclusive com editor gráfico de tabelas.     
 >**Dica**: Se for usar o Firebird, certifique-se de que o cliente isql e o driver libfbclient.so estão instalados no sistema.    
 
+---  
+
+## FREE PASCAL E DELPHI
+Caso queira instalar o suporte a pascal no vscode, recomendo que leia as instruções no link abaixo, pois uma de suas seções descreve justamente a personalização do vscode para pascal. Segue o link:   
+[Instalando o suporte a pascal no vscode](debian_lazarus.md)     
+
 ## EXTENSÕES PARA BASH SCRIPT E TERMINAL
+Execute no terminal:  
+
 ```
 code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension timonwong.shellcheck \
@@ -77,6 +46,8 @@ code --install-extension mads-hartmann.bash-ide-vscode \
      --install-extension jeff-hykin.better-shellscript-syntax \
      --install-extension formulahendry.terminal
 ```
+
+---   
 
 ## CONFIGURAÇÕES RECOMENDADAS  
 Após instalar as extensões, adicione estas configurações no arquivo ~/.config/Code/User/settings.json (ou use Ctrl + , → Abrir Configurações JSON):
