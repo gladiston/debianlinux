@@ -10,7 +10,7 @@ O Cursor disponibiliza um arquivo .deb para Debian e derivados. Visite a página
 E faça o download da versão Linux (.deb):  
 ![Tela de Download](../img/debian_cursor1.png)  
 
-Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela. Ao final do processo, o Cursor estará instalado e disponível no seu menu de aplicativos.
+Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela. Ao final do processo, o Cursor estará instalado e disponível no seu menu de aplicativos. Assim como o vscode, a instalação acrescenta um repositório oficial para receber as atualizações automaticamente, mas não se anime, o programa mostra que há atualizações, mas quando voce usa o `apt` para recebê-los, não há nenhum! Ocorre que as atualizações aparecem primeiro no próprio site e depois de algum tempo para os repositórios.  
 
 ## IMPORTANDO CONFIGURAÇÕES E EXTENSÕES DO VSCODE
 Uma das maiores vantagens do Cursor é a transição suave para quem já utiliza o VS Code. Na primeira execução, o editor oferecerá um assistente de configuração (Setup Wizard).
