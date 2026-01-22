@@ -8,41 +8,43 @@ Este artigo descreve algumas configurações no gerenciador de arquivos **Dolphi
 ## Dolphin – Desligar “Recentes”
 
 ### Por que isso é indicado
-Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
+Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10 e Plasma 6.x, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
 O sintoma típico é a janela de diálogo aparecer vazia, sem listar arquivos, acompanhada da mensagem “não está respondendo”.
 
 Na prática, isso quase sempre está relacionado a **caminhos inexistentes ou indisponíveis** (por exemplo, `/mnt`, NFS, discos externos ou pastas removidas) que ficam salvos no histórico do sistema. O diálogo de arquivos tenta resolver esses locais automaticamente e acaba bloqueando a interface.
 
 A funcionalidade **Recentes** mantém referências a arquivos e pastas acessados anteriormente, inclusive locais de rede, discos removíveis e pontos de montagem temporários.  
 Quando algum desses caminhos deixa de existir ou não responde, o diálogo de arquivos pode ficar bloqueado tentando acessá-lo.  
-Programas feitos em electron como as IDEs vscode e cursor sofrem desse problema.  
+Programas feitos em Electron como as IDEs VS Code e Cursor sofrem com esse problema.
 
 Desligar essa funcionalidade é especialmente indicado para:
 - usuários que usam mounts temporários (`/mnt/backup`, `/mnt/nfs-*`)
 - ambientes com NFS ou shares que nem sempre estão ativos
 - estações de trabalho técnicas, servidores ou máquinas de desenvolvimento
-- uso de programas feitos em electron como vscode e cursor.
-  
+- uso de programas feitos em Electron como VS Code e Cursor
 
 O ganho aqui é **estabilidade e previsibilidade**, em troca da perda de um recurso mais voltado a uso doméstico.
 
-### Como configurar
+### Como configurar (KDE Plasma 6.4.5)
 
-1. Abra o **Dolphin**
-2. Vá em **Configurações → Configurar o Dolphin**
-3. Na seção **Geral**, desmarque:
-   - Mostrar arquivos recentes
-   - Mostrar locais recentes
-4. Confirme e feche as configurações
+A partir do KDE Plasma 6, o controle de **Recentes** deixou de ser feito no Dolphin e passou a ser uma configuração **global do sistema**.
 
-Essa mudança afeta todos os diálogos de arquivos do sistema, não apenas o Dolphin.
+1. Abra **Configurações do Sistema**
+2. Vá em **Área de Trabalho → Pesquisa**
+3. Acesse a seção **Histórico**
+4. Desative:
+   - **Lembrar arquivos e locais recentes**
+   - **Mostrar arquivos recentes**
+5. Aplique as alterações
+6. Feche e reabra o Dolphin ou faça logout/login
+
+Essa mudança afeta todos os diálogos de arquivos do sistema, não apenas o Dolphin, incluindo aplicações baseadas em Electron.
 
 ---
 
 ## Dolphin – Lista detalhes dos arquivos
 
 ### Por que isso é indicado para usuários avançados
-
 Ao configurar o Dolphin para usar a visualização **Lista detalhada**, o usuário passa a ter maior controle e previsibilidade sobre a navegação de diretórios.  
 Essa visualização reduz dependências de metadados extras (como miniaturas, prévias e consultas adicionais), tornando o carregamento de pastas mais simples e menos sujeito a bloqueios quando existem caminhos lentos ou problemáticos.
 
@@ -75,9 +77,7 @@ Ao:
 
 o ambiente KDE passa a se comportar de forma mais robusta e previsível, especialmente em cenários avançados com mounts, rede e armazenamento externo.
 
-Essas duas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico. Os demais ajustes citados são cosméticos e você decidiu fazer ou não cada um deles.  
-
-
+Essas duas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico. Os demais ajustes citados são cosméticos e você decidiu fazer ou não cada um deles.
 
 ----
 
