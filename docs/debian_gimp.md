@@ -7,7 +7,7 @@ O **GIMP** (GNU Image Manipulation Program) é um **editor de imagens** de códi
 Para instalar a versão base do GIMP através do Flatpak, execute o seguinte comando no seu terminal, garantindo a instalação na sua área de usuário (`--user`):
 
 ```bash
-flatpak install --user flathub org.gimp.GIMP
+flatpak install org.gimp.GIMP
 ```
 
 -----
@@ -23,7 +23,7 @@ O Resynthesizer é famoso por sua funcionalidade de "Content-Aware Fill" (Preenc
   * **Comando de Instalação:**
 
     ```bash
-    flatpak install --user flathub org.gimp.GIMP.Plugin.Resynthesizer
+    flatpak install org.gimp.GIMP.Plugin.Resynthesizer
     ```
 
   * **Vídeo Tutorial (Exemplo da Função):**
@@ -38,7 +38,7 @@ O G'MIC (GREYC's Magic for Image Computing) é uma biblioteca de filtros e efeit
   * **Comando de Instalação:**
 
     ```bash
-    flatpak install --user flathub org.gimp.GIMP.Plugin.GMic
+    flatpak install org.gimp.GIMP.Plugin.GMic
     ```
 
   * **Vídeo Tutorial (Exemplo da Função):**
