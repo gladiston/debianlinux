@@ -829,7 +829,7 @@ O HomeServer estará agora instalado e deve aparecer no menu de seu ambiente gr�
 O HandBrake é um conversor de vídeo de código aberto, gratuito e amplamente utilizado, conhecido por sua capacidade de transcodificar arquivos de vídeo de quase todos os formatos para um conjunto selecionado de codecs modernos e amplamente suportados. Este tutorial demonstra o método mais simples e isolado para instalar o HandBrake no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
 
 ```bash
-flatpak install --user flathub fr.handbrake.ghb
+flatpak install fr.handbrake.ghb
 ```
 
 O HandBrake estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
@@ -841,7 +841,7 @@ O HandBrake estará agora instalado e deve aparecer no menu de seu ambiente grá
 O FormatLab é um conversor de vídeo que se destaca pela sua **simplicidade de operação**, sendo considerado um dos mais promissores programas da categoria, com funcionalidades semelhantes às do popular HandBrake. Ele é ideal para usuários que precisam converter, compactar ou redimensionar arquivos de mídia de forma rápida e intuitiva. Este tutorial demonstra o método mais simples e isolado para instalar o FormatLab no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
 
 ```bash
-flatpak install --user flathub com.warlordsoftwares.formatlab
+flatpak install com.warlordsoftwares.formatlab
 ```
 
 O FormatLab estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
@@ -854,7 +854,7 @@ O FormatLab estará agora instalado e deve aparecer no menu de seu ambiente grá
 O Blender é um software de código aberto, gratuito e de ponta, utilizado para modelagem 3D, animação, renderização, composição, edição de vídeo, criação de jogos e muito mais. Este tutorial demonstra o método mais simples e isolado para instalar o Blender no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:  
 
 ```bash
-flatpak install --user flathub org.blender.Blender
+flatpak install org.blender.Blender
 ```
 
 O Blender estará agora instalado e deve aparecer no menu de seu ambiente gráfico.  
@@ -866,14 +866,11 @@ O Blender estará agora instalado e deve aparecer no menu de seu ambiente gráfi
 O VidCutter é um programa de código aberto, rápido e eficiente, projetado para cortar e juntar segmentos de arquivos de vídeo e áudio em diversos formatos. Este tutorial demonstra o método mais simples e isolado para instalar o VidCutter no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:
 
 ```bash
-flatpak install --user flathub com.ozmartians.VidCutter
+flatpak install com.ozmartians.VidCutter
 ```
 Caso ache interessante, poderá estudá-lo no site [http://bluegriffon.org](http://bluegriffon.org).  
 
 O VidCutter estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
-
-
-
 
 ---  
 
@@ -881,7 +878,7 @@ O VidCutter estará agora instalado e deve aparecer no menu de seu ambiente grá
 
 O Inkscape é um software de código aberto para a criação de gráficos vetoriais escaláveis (SVG), amplamente utilizado por designers e ilustradores. Este tutorial demonstra o método mais simples e isolado para instalar o Inkscape no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:  
 ```bash
-flatpak install --user flathub org.inkscape.Inkscape
+flatpak install org.inkscape.Inkscape
 ```
 
 O Inkscape estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
