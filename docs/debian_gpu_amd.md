@@ -68,9 +68,25 @@ E depois reinicie o computador, execute:
 ```bash
 sudo reboot
 ```
+Após o boot, vamos conferir, execute:
+```bash
+lspci -k |grep -A 3 -E "VGA|3D"
+```
+E veja o resultado:
+```
+06:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Oland PRO [Radeon R7 240/340 / Radeon 520]
+        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0000
+        Kernel driver in use: amdgpu
+        Kernel modules: radeon, amdgpu
+```
+Agora, como pode notar, o driver em uso é `amdgpu`.
+
+** CONCLUSÃO**  
 A placa de vídeo mencionada Radeon R7 240/340/550 e similares - tem também a Oland PRO entram numa "zona cinzenta" do Linux. 
 O driver `readon` é o padrão por questões históricas, mas o `amdgpu` é o que recebe atualizações de performance. 
 Ao desativar o suporte no `radeon` e ativar no `amdgpu`, nós obrigamos o sistema a usar o driver moderno.  
+
+
 
 
 ----
