@@ -5,7 +5,7 @@ Ele combina a experiência familiar do VS Code com recursos avançados de IA, co
 
 O Cursor disponibiliza um arquivo .deb para Debian e derivados. Visite a página oficial:  
 
-[Site oficial para download do Cursor](https://www.cursor.com/)    
+[Site oficial para download do Cursor](https://cursor.com/download)  
 
 E faça o download da versão Linux (.deb):  
 ![Tela de Download](../img/debian_cursor1.png)  
