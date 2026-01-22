@@ -12,7 +12,7 @@ Execute:
 sudo apt install plasma-widgets-addons kdenetwork-filesharing 
 sudo apt install cifs-utils kio-fuse
 ```
-No Ubuntu, os pacotes acima não puxam como dependencia o samba, então neste sistema, adicionalmente deve executar:
+Nem sempre os pacotes anteriores puxam o samba como dependência então vamos instalá-lo explicitamente:
 ```bash
 sudo apt install samba
 ```
