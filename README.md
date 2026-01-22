@@ -437,6 +437,17 @@ Depois disso, *recomendo que reinicie o computador*.
 
 ---  
 
+## KDE - Ajustes básicos no Dolphin
+Aqui, não importa a distribuição que use, se seu ambiente gráfico for o **KDE** você pode querer alguns ajustes, por exemplo:
+* Acelerar as janelas de dialogo(File|Open) dos programas e sim, isso tem a ver com o Dolphim;  
+* Ao abrir, mostra a lista de arquivos em formato de detalhes e não icones;  
+* e outros...
+
+Se você deseja esse nível de personalização no seu KDE/Dolphi, siga o link:
+[KDE - Ajustes básicos no Dolphin](docs/kde_dolphin.md).
+
+---  
+
 ## PRELOAD (OPCIONAL)
 Se estiver usando **discos mecânicos**, provavelmente sente muita **latência** ao carregar certos programas.  
 Numa situação assim, é bom instalar um serviço chamado **preload**: ele monitora os programas que você mais utiliza e, durante o boot, já os carrega antecipadamente.  
