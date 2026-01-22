@@ -1,19 +1,17 @@
-# Travamento do diálogo “Abrir pasta” em aplicações Electron no KDE
+# KDE - Ajustes básicos no Dolphin
 
 ## Introdução
-
-Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
-O sintoma típico é a janela de diálogo aparecer vazia, sem listar arquivos, acompanhada da mensagem “não está respondendo”.
-
-Na prática, isso quase sempre está relacionado a **caminhos inexistentes ou indisponíveis** (por exemplo, `/mnt`, NFS, discos externos ou pastas removidas) que ficam salvos no histórico do sistema. O diálogo de arquivos tenta resolver esses locais automaticamente e acaba bloqueando a interface.
-
-Este artigo descreve duas configurações no **Dolphin** que ajudam a evitar esse tipo de problema, especialmente para usuários avançados.
+Este artigo descreve algumas configurações no gerenciador de arquivos **Dolphin** que ajudam a evitar alguns problemas conhecidos, e também mostrar como fazer ajustes para usuários avançados.
 
 ---
 
 ## Dolphin – Desligar “Recentes”
 
 ### Por que isso é indicado
+Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
+O sintoma típico é a janela de diálogo aparecer vazia, sem listar arquivos, acompanhada da mensagem “não está respondendo”.
+
+Na prática, isso quase sempre está relacionado a **caminhos inexistentes ou indisponíveis** (por exemplo, `/mnt`, NFS, discos externos ou pastas removidas) que ficam salvos no histórico do sistema. O diálogo de arquivos tenta resolver esses locais automaticamente e acaba bloqueando a interface.
 
 A funcionalidade **Recentes** mantém referências a arquivos e pastas acessados anteriormente, inclusive locais de rede, discos removíveis e pontos de montagem temporários.  
 Quando algum desses caminhos deixa de existir ou não responde, o diálogo de arquivos pode ficar bloqueado tentando acessá-lo.  
@@ -69,7 +67,6 @@ Essa configuração passa a ser reutilizada automaticamente nos diálogos de abr
 ---
 
 ## Conclusão
-
 Travamentos no diálogo “Abrir pasta” raramente são defeitos da aplicação em si. Na maioria dos casos, o problema está no histórico de caminhos que o sistema tenta resolver automaticamente, incluindo pastas que não existem mais ou que estão temporariamente indisponíveis.
 
 Ao:
@@ -78,7 +75,7 @@ Ao:
 
 o ambiente KDE passa a se comportar de forma mais robusta e previsível, especialmente em cenários avançados com mounts, rede e armazenamento externo.
 
-Essas duas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico.
+Essas duas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico. Os demais ajustes citados são cosméticos e você decidiu fazer ou não cada um deles.  
 
 
 
