@@ -425,6 +425,15 @@ Para instalar-lo, siga estas instruções:
 [Instalando o vscode](docs/debian_vscode.md)  
 
 ---  
+## INSTALANDO O CURSOR
+O **Cursor** é um editor de código inovador, construído sobre a base do VS Code, mas redesenhado para colocar a **Inteligência Artificial** no centro do fluxo de trabalho. 
+
+Ele oferece uma experiência familiar para quem já utiliza o VS Code, permitindo a importação de todas as suas extensões e temas, enquanto introduz recursos revolucionários como **edição preditiva**, **chat contextual com todo o seu projeto** e a capacidade de **gerar blocos de código complexos** de forma instantânea através de modelos de IA de última geração.
+
+Para instalá-lo, siga estas instruções:  
+[Instalando o cursor](docs/debian_cursor.md)  
+
+---  
 
 ## OBTENHA O KDE COMPLETO (OPCIONAL)  
 A versão do **KDE** que acompanha o Debian, Ubuntu e outras distros derivadas costuma ser uma edição reduzida e personalizada pelos mantenedores da distribuição, contendo apenas os componentes essenciais e alguns ajustes visuais como papéis de parede, ícones e logotipos próprios que julgaram necessários. Por isso, muitos módulos e aplicativos originais do projeto KDE não vêm instalados por padrão. 
