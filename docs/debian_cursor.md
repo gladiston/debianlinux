@@ -5,20 +5,47 @@ Ele combina a experiência familiar do VS Code com recursos avançados de IA, co
 
 O Cursor disponibiliza um arquivo .deb para Debian e derivados. Visite a página oficial:  
 
-[Site oficial para download do Cursor](https://www.cursor.com/)  
+[Site oficial para download do Cursor](https://www.cursor.com/)    
+
 E faça o download da versão Linux (.deb):  
 ![Tela de Download](../img/debian_cursor1.png)  
 
 Depois, apenas dê um duplo clique no arquivo e siga as instruções na tela. Ao final do processo, o Cursor estará instalado e disponível no seu menu de aplicativos.
 
-## EXTENSÕES PARA SQL E GERENCIAMENTO DE BANCOS DE DADOS
-Como o Cursor utiliza a mesma base de extensões, execute no terminal:  
+## IMPORTANDO CONFIGURAÇÕES E EXTENSÕES DO VSCODE
+Uma das maiores vantagens do Cursor é a transição suave para quem já utiliza o VS Code. Na primeira execução, o editor oferecerá um assistente de configuração (Setup Wizard).
 
-```bash
-cursor --install-extension mtxr.sqltools \
-       --install-extension mtxr.sqltools-driver-mysql \
-       --install-extension mtxr.sqltools-driver-pg \
-       --install-extension mtxr.sqltools-driver-sqlite \
-       --install-extension mtxr.sqltools-driver-firebird \
-       --install-extension adpyke.vscode-sql-formatter \
-       --install-extension cweijan.vscode-database-client2
+* **Importação Automática**: Você verá a opção para importar todas as extensões, temas, atalhos de teclado e configurações do seu VS Code instalado.
+* **Sincronização**: Caso utilize o "Settings Sync" da Microsoft, você também pode fazer login para manter suas preferências alinhadas.
+* **Manual**: Se preferir fazer depois, você pode acessar o comando `Ctrl+Shift+P` e digitar "Import VS Code Extensions".
+
+---
+
+## CONFIGURAÇÕES RECOMENDADAS  
+Após a instalação, você pode ajustar o arquivo `~/.config/Cursor/User/settings.json` para manter o comportamento desejado:
+
+```json
+{
+  "editor.formatOnSave": true,
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "code-runner.executorMap": {
+    "bash": "bash"
+  },
+  "shellformat.flag": "-i 2"
+}
+
+```
+
+Essas opções ativam:
+
+* Formatação automática ao salvar
+* Execução direta de scripts (Ctrl+Alt+N)
+* Indentação de 2 espaços padrão
+
+
+
+---
+
+[Clique aqui para retornar a página principal](../README.md#instalando-o-cursor)
