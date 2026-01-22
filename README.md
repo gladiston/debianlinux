@@ -611,7 +611,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 
 ---  
 
-## HABILITANDO AREA DE TRABALHO REMOTA
+## HABILITANDO AREA DE TRABALHO REMOTA VIA RDS/RDP
 Vez ou outra precisaremos acessar nossa area de trabalho, as mais experientes recomendarão usar o 'ssh -x' ou usar 'xserver' e logar-se no ip de nosso desktop, no entanto, isso não é tão simples para novos usuários do linux e também não permite o acesso onde a origem é um desktop Windows. Portanto, minha recomendação é instalar o xrdp, um protocolo de compartilhamento de sessões compativel com o 'rdp' da Microsoft e assim poderemos acessar nosso terminal Linux até mesmo de um Windows através do programa 'Remote Deskop'. 
 
 Para instalá-lo, siga as orientações no link abaixo:  
@@ -619,6 +619,14 @@ Para instalá-lo, siga as orientações no link abaixo:
 
 ---  
 
+## HABILITANDO AREA DE TRABALHO REMOTA VIA SSH
+Vez ou outra precisaremos acessar nosso computador por SSH, que é o método tradicional o qual também usamos para acessar servidores.  
+Vamos explorar a instalação, configuração, opcionalmente liberação de acesso ao root e protocolo X11.
+
+Ficou interessado, siga as orientações no link abaixo:  
+[Habilitando acesso via ssh](docs/debian_ssh.md).
+
+---  
 ## INSTALANDO O CLIENTE DE ACESSO REMOTO 'REMMINA'
 O Remmina é um cliente de acesso remoto versátil e leve, desenvolvido em GTK+, que suporta múltiplos protocolos de conexão remota (RDP, SSH, VNC, SPICE, X2Go, entre outros). Para ambientes corporativos que necessitam gerenciar múltiplas sessões remotas a partir de uma única aplicação, o Remmina oferece uma solução integrada e de fácil configuração. Se você é um administrador de sistemas ou desenvolvedor que precisa acessar outras máquinas seja Windows ou Linux, o Remmina é indispensável.  
 
