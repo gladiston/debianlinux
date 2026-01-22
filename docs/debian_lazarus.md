@@ -86,7 +86,7 @@ Para iniciar o Lazarus, use esse script ou os atalhos criados automaticamente �
 
 
 ### POSSÍVEIS ERROS E SOLUÇÕES
-Durante a compilação pelo fpcupdeluxe, é comum aparecerem alguns erros de dependência.    
+Durante a compilação pelo fpcupdeluxe - dependendo do ambiente instalado - pode ocorrer alguns erros de dependência.    
 A seguir estão os mais frequentes e suas respectivas soluções.   
   
 >Erro: cannot find -lX11
