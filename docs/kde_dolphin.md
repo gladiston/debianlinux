@@ -79,3 +79,9 @@ Ao:
 o ambiente KDE passa a se comportar de forma mais robusta e previsível, especialmente em cenários avançados com mounts, rede e armazenamento externo.
 
 Essas duas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico.
+
+
+
+----
+
+[Clique aqui para retornar a página principal](../README.md#kde---ajustes-básicos-no-dolphin)
