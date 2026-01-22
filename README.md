@@ -256,8 +256,14 @@ Aprenda como adicionar este repositório confiável, descubra o que a Microsoft 
 ## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
 Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
 
-Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:  
+Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:    
 [Habilitando Repositórios restricted e multiverse](docs/ubuntu_restricted_multiverse.md)  
+
+---  
+
+### VGA RADEON ANTIGAS
+Como possuidor de uma Radeon R7 no meu trabalho, tanto Debian como também Ubuntu instalam drivers da AMD corretamente, mas usam o driver antigo ao invés do novo. Daí o sistema funciona normalmente até que a aceleração gráfica seja acionada daí então tudo aparece borrado ou o sistema trava. Sob estas condições e tendo um modelo AMD VGA Radeon R7 240/340 / Radeon 520 ou similares então siga estas instruções:  
+[Habilitando Repositórios restricted e multiverse](docs/debian_gpu_amd.md)  
 
 ---  
 
