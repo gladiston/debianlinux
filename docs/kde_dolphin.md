@@ -38,7 +38,9 @@ A partir do KDE Plasma 6, o controle de **Recentes** deixou de ser feito no Dolp
 6. Agora vá em Sistema->Sessão->Sesão da área de trabalho
 7. Em **Restauração da sessão** provavelmente estará marcado ~Na última saída~, troque para **Iniciar com uma sessão vazia**.
 8. Aplique as alterações
-9. Feche a sessão, isto é, faça logout/login
+9. Carregue o Dolhin
+10. Na barra superior do lado direito, vá no menu em forma de hamburger, depois Mais->Configurar->Configurar Dolphin e na seção **Interface** vá em **Mostrar ao iniciar** e troque de ~Pastas, abas e estado das janelas da última vez~ para a pasta que você mais usa, geralmente seu $HOME(/home/fulano)e finalmente clique em **OK**.
+11. Feche a sessão, isto é, faça logout/login
 
 Essa mudança afeta todos os diálogos de arquivos do sistema, não apenas o Dolphin, incluindo aplicações baseadas em Electron.
 
@@ -59,14 +61,23 @@ essa configuração diminui a chance de o diálogo de arquivos ficar aguardando 
 
 ### Como configurar
 
-1. Abra o **Dolphin**  
-2. Vá em **Menu → Exibir → Modo de exibição → Lista detalhada**  
-3. (Opcional, mas recomendado) Ajuste as colunas visíveis para exibir apenas o necessário, como:
-   - Nome
-   - Tamanho
-   - Data de modificação  
+1. Abra o **Dolphin**
+2. Na barra superior do lado direito, vá no menu em forma de hamburger, depois Mais->Exibir->Ajustar o estilo de exibição, isso fará lista algumas informações como Modo de Exibição, troque para **Detalhes** e se quiser alterar a ordenação, fique a vontade. 
+3. Vá em informações adicionais e marque as colunas que deseja visualizar na listagem de arquivos como:
+   * Tamanho
+   * Modificado
+   * Tipo
+   * Permissões(no final da lista)
+   * Proprietário(no final da lista)
+   * Grupo do usuário(no final da lista)
+4. Clique em **OK**
+5. Isso só mudará para a pasta atual, então precisamos efetivar este modo como o padrão então volte ao menu em forma de hamburger, depois Mais->Configurar->Configurar Dolphin e na seção **Exibir** e marque as opções:
+   * Usar estilo de exibição comum para todas as pastas
+   * Abrir arquivos compactados como pastas
+   * Abrir pastas durante as operações de arrastar
+   Depois clique em **Aplicar** e depois **OK**.
 
-Essa configuração passa a ser reutilizada automaticamente nos diálogos de abrir/salvar arquivos do sistema.
+Essa configuração passa a ser reutilizada automaticamente nos diálogos de abrir/salvar arquivos do sistema também.
 
 ---
 
