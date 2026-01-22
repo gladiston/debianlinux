@@ -30,13 +30,15 @@ O ganho aqui é **estabilidade e previsibilidade**, em troca da perda de um recu
 A partir do KDE Plasma 6, o controle de **Recentes** deixou de ser feito no Dolphin e passou a ser uma configuração **global do sistema**.
 
 1. Abra **Configurações do Sistema**
-2. Vá em **Área de Trabalho → Pesquisa**
-3. Acesse a seção **Histórico**
+2. Vá em **Espaço(Área) de Trabalho → Pesquisa do Plasma**
+3. No painel direito, na barra de pesquisa, faça pesquisar **recentes**
 4. Desative:
-   - **Lembrar arquivos e locais recentes**
-   - **Mostrar arquivos recentes**
+   - **Arquivos recentes**
 5. Aplique as alterações
-6. Feche e reabra o Dolphin ou faça logout/login
+6. Agora vá em Sistema->Sessão->Sesão da área de trabalho
+7. Em **Restauração da sessão** provavelmente estará marcado ~Na última saída~, troque para **Iniciar com uma sessão vazia**.
+8. Aplique as alterações
+9. Feche a sessão, isto é, faça logout/login
 
 Essa mudança afeta todos os diálogos de arquivos do sistema, não apenas o Dolphin, incluindo aplicações baseadas em Electron.
 
