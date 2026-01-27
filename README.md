@@ -616,7 +616,7 @@ Pontos positivos do FirebirdSQL:
 * Configuração simples — Fácil de instalar e manter; ideal para sistemas que exigem confiabilidade sem administração constante.
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[Instalação do Firebird](docs/debian_firebird.md).
+[Instalação do Firebird e outras ações](https://gladiston.github.io/sgbd_fb_main.html)
 
 ---  
 
