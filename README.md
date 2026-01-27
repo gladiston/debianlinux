@@ -698,7 +698,7 @@ Este tutorial mostra como instalar o Lazarus de forma limpa e moderna usando o f
 Antes de começar, é importante garantir que o sistema esteja atualizado e que todas as dependências necessárias para o ambiente gráfico (Qt ou GTK) estejam instaladas. Nos passos a seguir, você verá como preparar o ambiente e instalar o Lazarus sem precisar de permissões administrativas (homeuser install), ideal para desenvolvedores que preferem manter o sistema limpo e facilmente reversível.   
 
 Para instalá-lo, siga as orientações no link abaixo:   
-[Guia de instalação do Lazarus](docs/debian_lazarus.md)
+[Guia de instalação do Lazarus](https://gladiston.github.io/lazarus_guia.html)  
 
 ---  
 
