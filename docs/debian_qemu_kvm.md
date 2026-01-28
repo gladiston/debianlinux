@@ -70,8 +70,9 @@ Esses acessos são dados para que o usuário possa ter acesso a arquivos e pasta
 Por tratar-se de um desktop, faça a instalação mais completa:
 ```bash
 sudo apt install -y virt-manager virtiofsd 
-sudo apt install -y spice-vdagent spice-webdavd qemu-guest-agent
 sudo apt install -y virt-viewer
+sudo apt install -y spice-vdagent spice-webdavd qemu-guest-agent
+
 ```
 Depois:
 ```bash
@@ -105,7 +106,7 @@ ccp                   163840  1 kvm_amd
 ```
 Se constar na lista o módulo *kvm* e kvm_amd|kvm_intel, então tá tudo certo.
 
-Depois, *reinicie o computador*.   
+Depois, **reinicie o computador**.   
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - ATIVÁ-LO NO BOOT
 Se os módulos do 'kvm' aparecem então agora é o momento de prepará-los para iniciar-se como serviço durante o boot, assim, inicie o serviço do libvirtd com:  
@@ -148,103 +149,148 @@ out 08 16:26:55 ti-01 systemd[1]: Started libvirtd.service - libvirt legacy mono
 ```
 Se retornou `Active: active` então tá tudo certo.
 
+### EXECUTANDO O VIRT-MANAGER
+Vamos executar o frontend para gerenciamento de nossas maquinas virtuais, o virt-manager. No menu de seu ambiente gráfico, procure por `virt-manager` e execute-o pela primeira vez. Procure na árvode de dados, QEMU/KVM, clique com o botão direito e escolha **Conectar**.  
+
+Ao fazer isso pela primeira vez, serão criadas as pastas e arquivos necessários para seu funcionamento em /var/lib/libvirt, veja:
+```bash
+cd /var/lib/libvirt
+sudo  sudo tree -ug --dirsfirst
+```
+E serão exibidas as pastas criadas e notem os donos:  
+```
+[root     root    ]  .
+├── [root     root    ]  boot
+├── [root     root    ]  images
+└── [libvirt-qemu libvirt-qemu]  qemu
+    ├── [libvirt-qemu libvirt-qemu]  checkpoint
+    ├── [libvirt-qemu libvirt-qemu]  dump
+    ├── [libvirt-qemu libvirt-qemu]  nvram
+    ├── [libvirt-qemu libvirt-qemu]  ram
+    ├── [libvirt-qemu libvirt-qemu]  save
+    └── [libvirt-qemu libvirt-qemu]  snapshot
+
+10 directories, 0 files
+```
+Porque é importante você conhecer isso? Porque num passo mais adiante precisaremos mudar esta pasta de lugar e precisaremos copiar as pastas e permissões originais.  
+
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - PASTA PARA ARMAZENAR AS VMs e ISOs
-Então temos o pool **default** usado pelo libvirt é **/var/lib/libvirt/images**, essa é a localização formal criada pelo próprio virt-manager quando você executá-o pela primeira vez, se estivessemos falando de servidores, a partição **/var** seria uma ótima opção desde que fosse uma partição separada, mas em desktops é muito comum jogarmos /var dentro da partição /(root) o que torna **/var** inviável. Assim recomendo que suas VMs estejam numa partição com mais espaço, por exemplo, o seu /home/$USER/libvirt, assim execute:  
+Após, iniciar o virt-manager pela primeira vez então teremos o pool chamado **default** usado pelo libvirt que aponta para **/var/lib/libvirt/images**, essa é a localização padrão.  
+A localização padrão é otima se estivessemos falando de servidores porque a pasta **/var** geralmente seria um ponto de montagem separada da `/home`, mas estamos em um desktop e de maneira geral a partição `/(root)` inclui `/var` como agregado e aí nem sempre tem espaço suficiente se o camarada usou `/home` como partição separada. 
+**IMPORTANTE**: Deixar o /home como partição separada é uma boa estratégia para que novas reinstalações e upgrades, não perca os dados e reaproveite configurações anteriores.  
+
+Então se você tem o `/(root)` com espaço curto e/ou `/home` como partição separada, recomendo que suas VMs estejam na partição com mais espaço, por exemplo, o seu `/home/libvirt`. Antigamente usariamentos um link simbolico apontando `/var/lib/libvirt/images` -> `/home/libvirt`, mas isso nos dias de hoje criaria alguns problemas com o **AppArmor**, então o que iremos fazer se chama **Bind Mount**.
+
+#### Solução para colocar `/var/lib/libvirt/images` em `/home/libvirt`: Bind Mount
+Em vez de um link simbólico, o método mais robusto e "transparente" para o sistema é o Bind Mount. Ele faz com que um diretório em outra partição apareça exatamente como se estivesse no local original, sem que o software (ou o AppArmor) precise lidar com a interpretação de links.  
+
+1. Vamos momentaneamente desligue todas as VMs e pare o serviço do libvirt:  
 ```bash
-mkdir -p ~/libvirt/images
+sudo systemctl stop libvirtd.service libvirtd.socket
 ```
 
-Vamos aproveitar este momento de criação de pastas e vamos criar uma pasta específica para guardar arquivos .iso, execute:
+2. Vamos criar nossa pasta `libvirt`:  
 ```bash
-mkdir -p ~/libvirt/isos
+sudo mkdir -p /home/libvirt
+```
+Vamos usar o comando `rsync` para replicar a pasta `libvirt` para nosso local desejado:  
+```bash
+sudo rsync -aX /var/lib/libvirt/ /home/libvirt/
 ```
 
-Tanto a pasta de `imagens` como a de `isos` você pode trocar a localização para qualquer outro local, desde que o grupo **libvirt* tenha acesso a ela, por isso, damos permissãoà pasta e subpastas ao libvirt e kvm, execute:  
+3. Configurar o Bind Mount no /etc/fstab
+Renomeie o diretório antigo (como backup temporário) e crie um ponto de montagem vazio:
 ```bash
-sudo chmod g+s ~/libvirt
-sudo chmod g+s ~/libvirt/images
-sudo chmod g+s ~/libvirt/isos
-sudo chown -R libvirt-qemu:kvm ~/libvirt
+sudo mv /var/lib/libvirt /var/lib/libvirt.bak
+sudo mkdir /var/lib/libvirt
 ```
 
+Agora, um ponto critico, vamos adicionar ao nosso `/etc/fstab` uma instrução para montar `/var/lib/libvirt` com o conteúdo em `/home/libvirt`:  
 
+```bash
+sudo editor /etc/fstab
+```
+E então acrescente a linha:  
+```
+/home/libvirt  /var/lib/libvirt  none  bind  0  0
+```
+Salve o arquivo e saia do editor.  
+Agora, você já pode montá-la:  
+```bash
+sudo systemctl daemon-reload
+sudo mount /var/lib/libvirt
+```
+**IMPORTANTE**: Nas distros atuais, boa parte delas tem o **App Armor** ou programa similar que atua com perfis rigidos de segurança que sabe diferenciar links simbolicos de pastas comuns e se ele achar que estão tentando enganá-lo então bloqueia a ação. Por essa razão estamos usadno o `bind mount`.
+
+Agora podemos iniciar novamente o serviço:  
+```bash
+sudo systemctl start libvirtd.service libvirtd.socket
+```
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - POOLS PARA ARMAZENAR AS VMs E ISOs
-O sistema trabalha no que chama de 'pools', o conceito é que cada pool tem um nome e aponta para uma pasta ou dispositivo, você pode ter todas as VMs no mesmo lugar, ou criar pools diferentes para cada contexto, vamos ver agora quantos pools temos no sistema, execute:  
+O sistema trabalha no que chamamos de 'pools', o conceito é que cada pool tem um nome e aponta para uma pasta ou dispositivo, você pode ter todas as VMs no mesmo lugar, ou criar pools diferentes para cada contexto, vamos ver agora quantos pools temos no sistema, execute:  
 ```bash
 sudo virsh pool-list --all --details
 ```
 E então será exibo algo assim: 
 ```
- Nome      Estado       Auto-iniciar   Persistente   Capacidade   Alocação    Diposnível
-------------------------------------------------------------------------------------------
+ Nome      Estado       Auto-iniciar   Persistente   Capacidade   Alocação     Diposnível
+-------------------------------------------------------------------------------------------
+ default   executando   sim            sim           937,82 GiB   143,51 GiB   794,31 GiB
 ```
 
-Se não apareceu nada acima, é porque você ainda não executou o `virt-manager` ainda. Quando o `virt-manager` é executado pela primeira vez, ele cria o pool sozinho, porém usando /var como referencia de destino. Então se no seu caso não apareceu nada, então execute:  
+Note que a capacidade exibida e disponivel, ou seja, `937,82 GiB` e `794,31 GiB` representam a nossa unidade `/home`.
+Se o pool `default` estiver com o estado diferente de **executando**, então execute também:  
 ```bash
-sudo virsh pool-define-as default dir --target /home/gsantana/libvirt/images
-sudo virsh pool-autostart default
 sudo virsh pool-start default
 ```
-Agora temos um pool `default`, seja criado por nós ou pelo próprio `virt-manager`, seja como for, vamos olhar para onde nosso pool **default**esta apontando, execute:
+Se o pool `default` estiver com o `auto-iniciar` diferente de **sim**, então execute também:  
 ```bash
-sudo virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
-```
-Se observar que está apontando para o **/var**:
->/var/lib/libvirt/images
-
-Então terá de trocar a localização para qualquer outro local, preferencialmente **~/libvirt/images**, primeiro vamos desativar o pool 'default', execute:
-```
-sudo virsh pool-destroy default
-```
-Esse nome "destroy" dá a ideia de apagar, mas não apaga, apenas desativa, uma vez desativado o pool, podemos agora modificá-lo, execute:  
-```
-sudo virsh pool-edit default
-```
-Agora, procure pelo caminho **path** no arquivo XML, algo como:  
-```
-    <path>/var/lib/libvirt/images</path>
-```
-E então troque pelo caminho desejado:
-```
-    <path>/home/gsantana/libvirt/images</path>
-```
-Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).    
-
-Agora, construa, inicie o pool e ajuste-o para autoinicio após o boot, execute:  
-```
-sudo virsh pool-build default
-sudo virsh pool-start default
 sudo virsh pool-autostart default
 ```
 
-Agora vamos repetir o comando abaixo e conferir se as modificações que implantamos estão corretas:  
+### Onde ficam as imagens?
+As imagens, ou máquinas virtuais ficam em:  
+> /home/libvirt/images    
+
+Esse será nosso padrão, mas pode-se ter outros lugares adicionados com o comando:  
 ```bash
-sudo virsh pool-list --all --details
+mkdir -p /outro/lugar/images
+sudo chmod g+s /outro/lugar/images
+sudo chown -R /outro/lugar/images
 ```
-E então será exibo algo assim: 
-```
- Nome      Estado       Auto-iniciar   Persistente   Capacidade   Alocação    Diposnível
-------------------------------------------------------------------------------------------
- default   executando   sim            sim           821,56 GiB   19,33 GiB   802,22 GiB
-```
-Como poderá observar, a alocação agora está mais generosa, parece que realmente não está mais usando o `/var`, vamos conferir? Execute:
+Depois formalizar com:  
 ```bash
-sudo virsh pool-dumpxml "default" | grep -oP '(?<=<path>).*(?=</path>)'
+sudo virsh pool-define-as <nome-do-pool> dir --target /outro/lugar/images
+sudo virsh pool-autostart <nome-do-pool>
+sudo virsh pool-start <nome-do-pool>
 ```
-E então será exibo algo assim: 
->/home/gsantana/libvirt/images   
-
-Isso confirma que realmente mudamos o pool 'default' de lugar.  
-
-Se você já copiou arquivos para os pools, então seria importante executar também:  
+E então teremos um `nome-do-pool` que armazena suas imagens em `/outro/lugar/images`.  
+Mas gerenciar varios pools diferentes não é algo importante para o nosso caso onde o uso é Desktop. 
+Algo importante de lembrar é ao importar/copiar máquinas virtuais de outros lugares para o nosso pool `default` vamos precisar mudar a permissão dela, algo como:  
 ```bash
-sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+# Ajusta o dono apenas para o arquivo da imagem específica
+sudo chown libvirt-qemu:libvirt-qemu /var/lib/libvirt/images/sua-vm-importada.qcow2
+
+# Garante que o grupo tenha permissão de escrita/leitura
+sudo chmod 660 /var/lib/libvirt/images/sua-vm-importada.qcow2
 ```
+Mas ficar usando chown/chmod para toda vez que importamos imagens não é muito produtivo então vamos usar ACLs no Linux. ACLs no linux são similares as DACLs no Windows, você pode fazer muito mais que as permissões primitivas octais, veja o exemplo abaixo:  
 
-Pronto, novas VMs serão criadas no diretório desejado.  
+Nesta permissão ACL, definiremos que o usuário libvirt-qemu sempre terá rwx (leitura/escrita/execução) em qualquer arquivo NOVO criado na pasta `images`:  
+```bash
+sudo setfacl -R -m d:u:libvirt-qemu:rwx /var/lib/libvirt/images
+```
+Agora, a próxima ACL aplica para os arquivos que já estão lá agora:
+```bash
+sudo setfacl -R -m u:libvirt-qemu:rwx /var/lib/libvirt/images
+```
+Com uso de ACLs damos adeus a chown/chmod constantes.
 
-Se você aponto o pool `default` para um local que usa partição Btrfs, então você terá uma perda de performance se não aplicar as instruções no link abaixo:   
+
+### VIRTUALIZAÇÃO EM UNIDADES DO TIPO BTRFS
+
+Se você apontou o pool `default` para um local que usa partição Btrfs, então você terá uma perda de performance se não aplicar as instruções no link abaixo:   
 
 [Virtualização nativa do qemu+kvm usando Btrfs](debian_qemu_kvm_btrfs.md)
 
@@ -254,11 +300,12 @@ Também precisaremos de um repositório para guardar nossas isos - arquivos de i
 
 Nos passos anteriores, assumimos que nossas ISOs serão gravadas em:  
 ```
-~/libvirt/isos
+/home/libvirt/isos
 ```
 Então criamos o pool 'isos', execute:
 ```
-sudo virsh pool-define-as isos dir - - - - "/home/gsantana/libvirt/isos"
+mkdir -p /home/libvirt/isos
+sudo virsh pool-define-as isos dir - - - - "/home/libvirt/isos"
 ```
 
 O pool 'isos' está definido, mas precisa ser construído e iniciado(também autoiniciado após o boot), então execute:  
@@ -285,22 +332,17 @@ sudo virsh pool-dumpxml "isos" | grep -oP '(?<=<path>).*(?=</path>)'
 ```
 E verá algo como:
 ```
-/home/gsantana/libvirt/isos
+/home/libvirt/isos
 ```
 
 
 Se no futuro quiser mudar o lugar desse pool, você pode excluir e criar de novo, assim:
-```
+```bash
 virsh pool-list --all # para listar todos e ter certeza do nome a excluir
 sudo virsh pool-destroy isos  # parar com o uso do pool
 sudo virsh pool-undefine isos # remover a definição do pool
 ```
 Essa remoção do pool não mexe com os arquivos que estavam na pasta, e caso precise disso, remova-os manualmente.  
-
-Se você já copiou arquivos para os pools, então seria importante executar também:  
-```bash
-sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
-```
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - CRIANDO UMA INTERFACE BRIDGE
 Para trabalhos extensos e mais profissionais com VMs é impossivel viver apenas com NAT porque na maioria dos ambientes de desenvolvimento ou corporativos uma VM precisa enxergar o anfitrião e também as outras VMs, então siga o tutorial a seguir para criar uma conexão do tipo bridge em seu sistema:  
