@@ -17,8 +17,7 @@ kvm                  1396736  1 kvm_amd
 irqbypass              12288  1 kvm
 ccp                   163840  1 kvm_amd
 ```
-Se constar na lista o módulo *kvm* e kvm_amd|kvm_intel, então tá tudo certo.
-Depois, **reinicie o computador** e prossiga para o próximo tópico.    
+Se constar na lista o módulo `kvm` e `kvm_amd` ou `kvm_intel`, então tá tudo certo e pode prosseguir para o próximo tópico.    
 Caso não apareça nada, então é hora de vocÊ ir na BIOS de seu computador e ligar a opção de virtualização. Geralmente, essa configuração fica escondida na BIOS sob um desses nomes: Advanced (Avançado), Processor / CPU Configuration ou Chipset. O suporte para virtualização é chamado de nome diferente entre AMD e Intel:  
 
 |Fabricante|Nome da Opção na BIOS|
