@@ -25,7 +25,7 @@ Dito isso, o WebDAV via SPICE é uma alternativa estável, embora **mais lenta**
 
 -----
 
-## 2\. Virt-Viwer instalado?
+## 2\. Virt-Viewer instalado?
 Para prosseguir, você precisa iniciar a VM, mas sem usar **virt-manager**, terá de ser via **virt-viewer**. Isso acontece porque o serviço que instalaremos chamado de **Spice webdav proxy** não é iniciado com uma sessão do **virt-manager** em execução e ele sempre estará caso você inicie uma VM por ele.  
 
 Então, siga as instruções no link abaixo caso queira prosseguir com este artigo:  
