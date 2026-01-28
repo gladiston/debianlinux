@@ -198,7 +198,7 @@ Vamos usar o comando `rsync` para replicar a pasta `libvirt` para nosso local de
 sudo rsync -aX /var/lib/libvirt/ /home/libvirt/
 ```
 
-3. Configurar o Bind Mount no /etc/fstab
+3. Configurar o Bind Mount no /etc/fstab  
 Renomeie o diretório antigo (como backup temporário) e crie um ponto de montagem vazio:
 ```bash
 sudo mv /var/lib/libvirt /var/lib/libvirt.bak
@@ -238,6 +238,7 @@ E então será exibo algo assim:
 -------------------------------------------------------------------------------------------
  default   executando   sim            sim           937,82 GiB   143,51 GiB   794,31 GiB
 ```
+** OBSERVAÇÃO** Se o ultimo comando não listou nada, é porque voce ainda não usou o `virt-manager` e iniciou o serviço.  
 
 Note que a capacidade exibida e disponivel, ou seja, `937,82 GiB` e `794,31 GiB` representam a nossa unidade `/home`.
 Se o pool `default` estiver com o estado diferente de **executando**, então execute também:  
