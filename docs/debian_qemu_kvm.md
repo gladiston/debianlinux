@@ -150,7 +150,8 @@ out 08 16:26:55 ti-01 systemd[1]: Started libvirtd.service - libvirt legacy mono
 Se retornou `Active: active` então tá tudo certo.
 
 ### EXECUTANDO O VIRT-MANAGER
-Vamos executar o frontend para gerenciamento de nossas maquinas virtuais, o virt-manager. No menu de seu ambiente gráfico, procure por `virt-manager` e execute-o pela primeira vez. Procure na árvode de dados, QEMU/KVM, clique com o botão direito e escolha **Conectar**.  
+Vamos executar o frontend para gerenciamento de nossas maquinas virtuais, o virt-manager. No menu de seu ambiente gráfico, procure por `virt-manager` e execute-o pela primeira vez. Procure na árvode de dados, QEMU/KVM, clique com o botão direito e escolha **Conectar**:  
+![Executando o virt-manager pela primeira vez](img/debian_qemu_kvm01.png)
 
 Ao fazer isso pela primeira vez, serão criadas as pastas e arquivos necessários para seu funcionamento em /var/lib/libvirt, veja:
 ```bash
