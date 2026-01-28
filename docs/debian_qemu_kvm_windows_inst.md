@@ -6,7 +6,7 @@ Faça o teste logo no inicio, se não gostar dessa combinação poderá trocar n
 
 
 ## INSTALANDO O WINDOWS NUMA VM
-Em nosso exemplo, vamos instalar o Windows 2025 Server.  Deixe um `.iso` de instalação deste sistema operacional em **~/libvirt/isos**.  
+Em nosso exemplo, vamos instalar o Windows 2025 Server.  Deixe um `.iso` de instalação deste sistema operacional em **/home/libvirt/isos**.  
 
 ### VIRT-MANAGER - AJUSTES DE PREFERENCIA
 Carregue o virt-manager, vá em **Editar|Preferencias** na guia **Geral** e ligue as opções:  
@@ -49,7 +49,7 @@ sudo virsh vol-create-as default win2k25.qcow2 200G --format qcow2
 
 Agora vamos conferir o tamanho:  
 ```
-$ ls -lh ~/libvirt/images
+$ ls -lh /home/libvirt/images
 total 196K
 -rw------- 1 root kvm 196K Oct 17 14:31 win2k25.qcow2
 ```

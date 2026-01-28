@@ -112,7 +112,7 @@ Use o `qemu-img convert` para criar a cópia, garantindo que apenas os blocos de
 
 ```bash
 qemu-img convert -p -O qcow2 \
-  ~/libvirt/images/win2k25.qcow2 \
+  /home/libvirt/images/win2k25.qcow2 \
   /media/backup-vm/win2k25.qcow2.backup-$(date +%Y%m%d-%H%M%S).qcow2
 ```
 
@@ -161,8 +161,8 @@ Aqui está o script `backup-vm.sh` com o conteúdo completo:
 # Autor: Gladiston Santana <gladiston.santana[at]gmail.dot.com>
 # Uso: sudo ./backup-vm.sh <caminho-da-vm> <label-ou-caminho-destino>
 # Exemplo:
-#   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
-#   sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/backup
+#   sudo ./backup-vm.sh /home/libvirt/images/win2k25.qcow2 "#hist"
+#   sudo ./backup-vm.sh /home/libvirt/images/win2k25.qcow2 /mnt/backup
 # Licença: MIT (Permissiva)
 # Criado em: 06/11/2025
 # Ult. Atualização: 07/11/2025
@@ -185,10 +185,10 @@ if [ $# -lt 2 ]; then
   echo "Uso: sudo $0 <caminho-da-vm> <label-ou-caminho-destino>"
   echo "Exemplos de execução:"
   echo "  # 1. Destino usando o LABEL do disco (ex: 'backup-vms')"
-  echo "  sudo $0 ~/libvirt/images/win2k25.qcow2 \"backup-vms\""
+  echo "  sudo $0 /home/libvirt/images/win2k25.qcow2 \"backup-vms\""
   echo ""
   echo "  # 2. Destino usando o CAMINHO para o diretório"
-  echo "  sudo $0 ~/libvirt/images/win2k25.qcow2 /media/disco2/"
+  echo "  sudo $0 /home/libvirt/images/win2k25.qcow2 /media/disco2/"
   exit 1
 fi
 
@@ -373,13 +373,13 @@ sdb
 Agora vamos fazer o backup para o disco com o label **\#hist**, executando:
 
 ```bash
-sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 "#hist"
+sudo ./backup-vm.sh /home/libvirt/images/win2k25.qcow2 "#hist"
 ```
 
 Mas ao inves de usar o label, também podemos especificar o caminho executando:
 
 ```bash
-sudo ./backup-vm.sh ~/libvirt/images/win2k25.qcow2 /mnt/dados2
+sudo ./backup-vm.sh /home/libvirt/images/win2k25.qcow2 /mnt/dados2
 ```
 
 -----
@@ -459,7 +459,7 @@ virsh destroy win2k25
 Para ter uma cópia de segurança do disco atual (mesmo que corrompido) antes de restaurar:
 
 ```bash
-mv ~/libvirt/images/win2k25.qcow2 ~/libvirt/images/win2k25.qcow2.corrupted-$(date +%Y%m%d)
+mv /home/libvirt/images/win2k25.qcow2 /home/libvirt/images/win2k25.qcow2.corrupted-$(date +%Y%m%d)
 ```
 
 #### 3\. Copiar backup para origem
@@ -467,7 +467,7 @@ mv ~/libvirt/images/win2k25.qcow2 ~/libvirt/images/win2k25.qcow2.corrupted-$(dat
 Substitua o arquivo de disco principal pelo arquivo de backup verificado.
 
 ```bash
-cp /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022 ~/libvirt/images/win2k25.qcow2
+cp /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022 /home/libvirt/images/win2k25.qcow2
 ```
 
 #### 4\. Verificar integridade
@@ -475,7 +475,7 @@ cp /media/backup-vm/libvirt-bak/win2k25/win2k25.qcow2.backup-20250206-143022 ~/l
 Uma verificação rápida da cópia restaurada é sempre recomendada.
 
 ```bash
-qemu-img check ~/libvirt/images/win2k25.qcow2
+qemu-img check /home/libvirt/images/win2k25.qcow2
 ```
 
 #### 5\. Reiniciar VM

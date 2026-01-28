@@ -6,9 +6,9 @@ Neste guia, você verá como criar uma máquina virtual Windows otimizada, usand
 Agora que você entende o contexto, vamos começar preparando o ambiente com o pacote de drivers VirtIO.
 
 O `virtio-win.iso` é um pacote de drivers e utilitários da Red Hat criado para melhorar o desempenho e a compatibilidade de máquinas virtuais Windows executadas em hipervisores baseados em KVM/QEMU (como Virt-Manager, Proxmox, Xen, etc.).
-Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema. Em nosso exemplo anterior, o pool de arquivos `.iso` é a pasta de **~/libvirt/isos**, então vamos baixá-lo lá, execute:  
+Se pretende virtualizar máquinas windows precisará dessa .iso em seu sistema. Em nosso exemplo anterior, o pool de arquivos `.iso` é a pasta de **/home/libvirt/isos**, então vamos baixá-lo lá, execute:  
 ```
-cd ~/libvirt/isos
+cd /home/libvirt/isos
 wget -vc https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso
 ```
 

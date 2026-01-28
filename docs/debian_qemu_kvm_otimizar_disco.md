@@ -83,7 +83,7 @@ Tome muito cuidado a sintaxe, aspas simples no lugar de aspas duplas ou a falta 
 Exemplo de caminho da VM:
 
 ```
-~/libvirt/images/win2k25.qcow2
+/home/libvirt/images/win2k25.qcow2
 ```
 
 Parar a VM:
@@ -98,7 +98,7 @@ sudo virsh destroy win2k25  # se necessário
 ## Passo 1 — Verificar tamanho da imagem
 
 ```bash
-cd ~/libvirt/images/
+cd /home/libvirt/images/
 ls -lh *.qcow2
 ```
 
@@ -113,7 +113,7 @@ Exemplo:
 ## Passo 2 — Verificar integridade
 
 ```bash
-sudo qemu-img check -r all ~/libvirt/images/win2k25.qcow2
+sudo qemu-img check -r all /home/libvirt/images/win2k25.qcow2
 ```
 
 Saída típica:
@@ -133,7 +133,7 @@ A ferramenta `virt-sparsify` do pacote `libguestfs-tools` remove blocos não uti
 ### Opção A — Otimização **in-place** (mantém o mesmo arquivo)
 
 ```bash
-cd ~/libvirt/images/
+cd /home/libvirt/images/
 sudo virt-sparsify --in-place win2k25.qcow2
 ```
 O seguinte resultado é o esperado:  
@@ -150,12 +150,12 @@ Essa é a melhor opção para mim, pois melhora suficientemente a performance do
 ### Opção B — Criar cópia **compactada**
 Tem como usar `virt-sparsify` para compactar uma imagem, é assim:  
 ```bash
-cd ~/libvirt/images/
+cd /home/libvirt/images/
 sudo virt-sparsify --compress win2k25.qcow2 win2k25-optimized.qcow2
 ```
 Mas eu não gosto de usá-la porque demora muito tempo e tem restrições de espaço que se não forem compreendidas, o comando nunca termina, então para compactar vamos ao jeito mais burro que existe que será usando o utilitário `qwmu-img`, eu uso a palavra `burro` porque se trata de reconstituir um arquivo novo a partir do velho removendo a desfragmentação. Contudo, é muito mais rápido do que usando o `virt-sparsify` para a mesma tarefa, vamos então usar o `qwmu-img` para compactar nossa imagem, execute:    
 ```bash
-cd ~/libvirt/images/
+cd /home/libvirt/images/
 sudo qemu-img convert -p -O qcow2 -c -o compat=1.1,cluster_size=1M,lazy_refcounts=on \
   win2k25.qcow2 win2k25-otimized.qcow2
 ```
@@ -183,12 +183,12 @@ O primeiro boot após a otimização usando este método será mais lento, mas n
 * Listar snapshots:
 
   ```bash
-  qemu-img snapshot -l ~/libvirt/images/win2k25.qcow2
+  qemu-img snapshot -l /home/libvirt/images/win2k25.qcow2
   ```
 * Remover snapshot interno:
 
   ```bash
-  qemu-img snapshot -d <ID> ~/libvirt/images/win2k25.qcow2
+  qemu-img snapshot -d <ID> /home/libvirt/images/win2k25.qcow2
   ```
 * “Flatten” (quando há overlay/backing):
 
@@ -201,28 +201,28 @@ O primeiro boot após a otimização usando este método será mais lento, mas n
 ## Validação e métricas
 
 ```bash
-du -h ~/libvirt/images/win2k25*.qcow2
-qemu-img info ~/libvirt/images/win2k25.qcow2
+du -h /home/libvirt/images/win2k25*.qcow2
+qemu-img info /home/libvirt/images/win2k25.qcow2
 ```
 
 Ver mapa de alocação:
 
 ```bash
-qemu-img map --output=json ~/libvirt/images/win2k25.qcow2 | jq .
+qemu-img map --output=json /home/libvirt/images/win2k25.qcow2 | jq .
 ```
 
 Benchmark rápido:
 
 ```bash
-qemu-img bench -c 4k -d 1G -f qcow2 ~/libvirt/images/win2k25.qcow2
+qemu-img bench -c 4k -d 1G -f qcow2 /home/libvirt/images/win2k25.qcow2
 ```
 
 ---
 ## Permissões nos arquivos
 Se fez ajustes e criou novos arquivos, então é razoável conferir se as permissões estão corretas, execute:  
 ```bash
-sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
-sudo find ~/libvirt -type f -exec chown $USER:kvm {} \; -o -type d -exec chown $USER:kvm {} \;
+sudo find /home/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
+sudo find /home/libvirt -type f -exec chown $USER:kvm {} \; -o -type d -exec chown $USER:kvm {} \;
 ```
 
 ## Boas práticas operacionais

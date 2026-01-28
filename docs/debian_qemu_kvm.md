@@ -369,14 +369,6 @@ Instruções de como usar o virt-manager encontra-se na página:
 [Criando máquinas virtuais pelo Virt-Manager](https://sempreupdate.com.br/como-configurar-e-usar-o-virt-manager-para-kvm-no-fedora-ubuntu-debian-e-derivados/#google_vignette)   
 
 
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - Permissões
-A cada copia de arquivos para a pasta **~/libvirt** é bom consertar as permissões, execute:
-```bash
-sudo find ~/libvirt -type f -exec chmod 666 {} \; -o -type d -exec chmod 777 {} \;
-sudo chown -R libvirt-qemu:kvm ~/libvirt
-```
-É bom que faça isso porque o dono (owner) dos arquivos que estão sendo copiados podem ser diferentes de **libvirt-qemu:kvm** e isso pode efetar a execução da VM. Isso não é necessário para VMs que são criadas ali.  
-
 ### EXECUTANDO MAQUINAS VIRTUAIS VIA VIRT-VIEWER
 Você provavelmente está usando o `virt-manager` para iniciar e encerrar suas VMs e não tem nada de errado com isso, no entanto, há um aplicativo mais otimizado para isso, ele se chama `virt-viewer`.  
 Alguns serviços, especialmente para VM Windows, esperam que você use o `virt-viewer` sem o `virt-manager` acionado.  

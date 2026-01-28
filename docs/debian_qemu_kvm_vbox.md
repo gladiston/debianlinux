@@ -44,7 +44,7 @@ Agora, execute a conversão:
 
 ```bash
 qemu-img convert -p -O qcow2 -o compat=1.1,cluster_size=1M,lazy_refcounts=on \
-  ~/VirtualBox\ VMs/win11-dx11/win11-dx11.vdi ~/libvirt/images/win11-dx11.qcow2
+  ~/VirtualBox\ VMs/win11-dx11/win11-dx11.vdi /home/libvirt/images/win11-dx11.qcow2
 ```
 Essa conversão gerará um arquivo de mesmo tamanho que o original, porém no formato qcow2.  
 
@@ -58,7 +58,7 @@ Essa conversão gerará um arquivo de mesmo tamanho que o original, porém no fo
 | `cluster_size=1M`           | Melhora desempenho de I/O              |
 | `lazy_refcounts=on`         | Evita travamentos durante gravação     |
 | `~/VirtualBox VMs/...vdi`   | Caminho do disco de origem             |
-| `~/libvirt/images/...qcow2` | Caminho de destino do novo disco       |
+| `/home/libvirt/images/...qcow2` | Caminho de destino do novo disco       |
 
 Após o processo, você terá um arquivo QCOW2 pronto para uso no KVM.
 
@@ -69,7 +69,7 @@ Após o processo, você terá um arquivo QCOW2 pronto para uso no KVM.
 Para verificar integridade, execute:
 
 ```bash
-sudo qemu-img check -r all ~/libvirt/images/win11-dx11.qcow2
+sudo qemu-img check -r all /home/libvirt/images/win11-dx11.qcow2
 ```
 Saída esperada:
 ```
@@ -81,7 +81,7 @@ Image end offset: 86170927104
 
 Uma vez validado, ou seja **No errors were found on the image.** então podemos obter as informações do disco:  
 ```bash
-qemu-img info ~/libvirt/images/win11-dx11.qcow2
+qemu-img info /home/libvirt/images/win11-dx11.qcow2
 ```
 Saída esperada:
 ```
@@ -117,7 +117,7 @@ Isso indica que podemos prosseguir.
 4. Selecione o arquivo:
 
    ```
-   ~/libvirt/images/win11-dx11.qcow2
+   /home/libvirt/images/win11-dx11.qcow2
    ```
 5. Defina o sistema operacional convidado (ex: *Windows 11*).
 6. Acrescente um CDROM SATA com a imagem  do CDROM DO WINDOWS 11(ou outro).
@@ -361,7 +361,7 @@ Desligue a VM.
 Para reduzir o tamanho do disco, eliminando blocos vazios, use:
 
 ```bash
-$ sudo virt-sparsify --in-place ~/libvirt/images/win2k25.qcow2
+$ sudo virt-sparsify --in-place /home/libvirt/images/win2k25.qcow2
 [   2.6] Trimming /dev/sda1
 [   2.7] Trimming /dev/sda2
 [   4.0] Trimming /dev/sda3
