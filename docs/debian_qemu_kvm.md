@@ -25,6 +25,7 @@ Caso não apareça nada, então é hora de vocÊ ir na BIOS de seu computador e 
 |:--|:--|
 |Intel|Intel Virtualization Technology ou VT-x|
 |AMD|SVM Mode (Secure Virtual Machine) ou AMD-V|
+
 Boa sorte encontrar essas opções em sua BIOS, nem sempre é fácil encontrá-los.  
 
 ### Vamos instalar os pacotes principais:  
