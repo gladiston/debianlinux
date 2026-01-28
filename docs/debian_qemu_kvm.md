@@ -5,6 +5,27 @@ O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será
 Antes de prosseguirmos, que tal fazer o backup da sua configuração de rede original?  Isso é importante porque assim que instalar o `libvirt` ele vai criar uma interface NAT para virtualizar e isso vai mudar o ambiente inicial, se quiser saber como fazer isso, siga as instruções no link a seguir:  
 [Fazendo um backup das configurações de rede](debian_backup_restore_network.md)  
 
+### VIRTUALIZAÇÃO NATIVA QEMU+KVM - CONFERINDO MÓDULOS
+Agora, verifique se os módulos do KVM estão carregados no kernel:
+```bash
+lsmod | grep kvm
+```
+Uma saída aceitável seria:  
+```
+kvm_amd               217088  0
+kvm                  1396736  1 kvm_amd
+irqbypass              12288  1 kvm
+ccp                   163840  1 kvm_amd
+```
+Se constar na lista o módulo *kvm* e kvm_amd|kvm_intel, então tá tudo certo.
+Depois, **reinicie o computador** e prossiga para o próximo tópico.    
+Caso não apareça nada, então é hora de vocÊ ir na BIOS de seu computador e ligar a opção de virtualização. Geralmente, essa configuração fica escondida na BIOS sob um desses nomes: Advanced (Avançado), Processor / CPU Configuration ou Chipset. O suporte para virtualização é chamado de nome diferente entre AMD e Intel:  
+
+|Fabricante|Nome da Opção na BIOS|
+|:--|:--|
+|Intel|Intel Virtualization Technology ou VT-x|
+|AMD|SVM Mode (Secure Virtual Machine) ou AMD-V|
+Boa sorte encontrar essas opções em sua BIOS, nem sempre é fácil encontrá-los.  
 
 ### Vamos instalar os pacotes principais:  
 ```bash
@@ -91,22 +112,6 @@ sudo systemctl start spice-vdagentd
 |spice-vdagent|copiar/colar e ajuste automatico de resolução|  
 |spice-webdavd|arrastar e soltar arquivos (SPICE-WebDAV)|  
 |qemu-guest-agent|sincronização de tempo|    
-
-### VIRTUALIZAÇÃO NATIVA QEMU+KVM - CONFERINDO MÓDULOS
-Agora, verifique se os módulos do KVM estão carregados no kernel:
-```bash
-lsmod | grep kvm
-```
-Uma saída aceitável seria:  
-```
-kvm_amd               217088  0
-kvm                  1396736  1 kvm_amd
-irqbypass              12288  1 kvm
-ccp                   163840  1 kvm_amd
-```
-Se constar na lista o módulo *kvm* e kvm_amd|kvm_intel, então tá tudo certo.
-
-Depois, **reinicie o computador**.   
 
 ### VIRTUALIZAÇÃO NATIVA QEMU+KVM - ATIVÁ-LO NO BOOT
 Se os módulos do 'kvm' aparecem então agora é o momento de prepará-los para iniciar-se como serviço durante o boot, assim, inicie o serviço do libvirtd com:  
