@@ -51,7 +51,7 @@ A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pu
 ---
 
 ## Resultado esperado
-Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e virtualização.
+Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e ção.
 
 ---
 
@@ -667,7 +667,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias, clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[Guia de instalação do QEMU/KVM](docs/debian_qemu_kvm.md)
+[Virtualização nativa QEMU+KVM](https://github.com/gladiston/debian-qemukvm/#prepara%C3%A7%C3%A3o-do-ambiente-ubuntu-para-virtualiza%C3%A7%C3%A3o-usando-qemukvm)
 
 ---  
 
