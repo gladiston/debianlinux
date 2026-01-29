@@ -183,15 +183,6 @@ Precisamos corrigir isso, leia as instruções no link abaixo:
 [Como adicionar `~/.local/bin` ao PATH](docs/debian_xdg_bin.md)
 
 ---  
-
-## BACKUP/RESTORE DA CONFIGURAÇÃO ORIGINAL DE REDE
-Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, assim se algo der errado, restauramos.
-
-É imprescindivel que façamos isso, siga as orientações abaixo:  
-[Fazendo o backup da configuração de rede](docs/debian_backup_restore_network.md).  
-
----  
-
 ## BLOQUEIO DE TELA AUTOMÁTICO
 O sistema operacional implementa uma medida de segurança padrão ajustando o bloqueio de tela após um período de inatividade. O termo **"falta de atividade"** é muitas vezes interpretado de forma incorreta; o que o sistema realmente mede é o **tempo sem interatividade** – ou seja, o período em que o usuário não interage ativamente com o teclado ou mouse.  
 
