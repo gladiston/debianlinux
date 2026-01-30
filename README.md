@@ -1,6 +1,6 @@
-# PREPARAÇÃO DO AMBIENTE UBUNTU PARA DESENVOLVEDORES E PROFISSIONAIS DE TI
+# PREPARAÇÃO DO AMBIENTE PARA DESENVOLVEDORES E PROFISSIONAIS DE TI
 
-Este documento tem como objetivo preparar um ambiente Ubuntu sólido e funcional para desenvolvedores, administradores de sistemas e demais profissionais de TI.  
+Este documento tem como objetivo preparar um ambiente Debian-Like sólido e funcional para desenvolvedores, administradores de sistemas e demais profissionais de TI.  
 Não se trata apenas de uma sequência de comandos — aqui você também entenderá **como e por que** cada parte do sistema é configurada da maneira proposta.
 
 A ideia é que, ao final, você não apenas tenha um ambiente pronto para trabalhar, mas também compreenda o que está por trás de cada ajuste:  
@@ -275,6 +275,16 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 
 ---  
 
+## GIT
+O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
+
+No Linux, especialmente nas distribuições Debian e Ubuntu, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, compilar o suporte ao libsecret (necessário para armazenar credenciais com segurança) e configurar o Git para utilizar tokens de acesso pessoal, substituindo o antigo método de login por senha.
+
+Vamos configurar e corrigir alguns problemas, siga o link abaixo:  
+[Configurar e corrigir alguns problemas](docs/debian_git.md).  
+
+---  
+
 ## INSTALANDO O GPARTED
 O `gparted` é o programa mais eficiente para gerenciar discos permitindo criar, editar e excluir partições. Seria inapropriada não instalá-lo, execute:  
 
@@ -476,15 +486,6 @@ Para instalar e entender melho, siga as orientações no link abaixo:
 O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
 [Completando o idioma português do Brasil](docs/debian_pt_br.md).  
 
----  
-
-## GIT
-O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
-
-No Linux, especialmente nas distribuições Debian e Ubuntu, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, compilar o suporte ao libsecret (necessário para armazenar credenciais com segurança) e configurar o Git para utilizar tokens de acesso pessoal, substituindo o antigo método de login por senha.
-
-Vamos configurar e corrigir alguns problemas, siga o link abaixo:  
-[Configurar e corrigir alguns problemas](docs/debian_git.md).  
 
 ---  
 
