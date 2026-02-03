@@ -1,6 +1,6 @@
-# PREPARAÇÃO DO AMBIENTE UBUNTU PARA DESENVOLVEDORES E PROFISSIONAIS DE TI
+# PREPARAÇÃO DO AMBIENTE PARA DESENVOLVEDORES E PROFISSIONAIS DE TI
 
-Este documento tem como objetivo preparar um ambiente Ubuntu sólido e funcional para desenvolvedores, administradores de sistemas e demais profissionais de TI.  
+Este documento tem como objetivo preparar um ambiente Debian-Like sólido e funcional para desenvolvedores, administradores de sistemas e demais profissionais de TI.  
 Não se trata apenas de uma sequência de comandos — aqui você também entenderá **como e por que** cada parte do sistema é configurada da maneira proposta.
 
 A ideia é que, ao final, você não apenas tenha um ambiente pronto para trabalhar, mas também compreenda o que está por trás de cada ajuste:  
@@ -51,7 +51,7 @@ A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pu
 ---
 
 ## Resultado esperado
-Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e virtualização.
+Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e ção.
 
 ---
 
@@ -183,15 +183,6 @@ Precisamos corrigir isso, leia as instruções no link abaixo:
 [Como adicionar `~/.local/bin` ao PATH](docs/debian_xdg_bin.md)
 
 ---  
-
-## BACKUP/RESTORE DA CONFIGURAÇÃO ORIGINAL DE REDE
-Vamos ser cautelosos e fazer um backup de nossa configuração de rede atual, assim se algo der errado, restauramos.
-
-É imprescindivel que façamos isso, siga as orientações abaixo:  
-[Fazendo o backup da configuração de rede](docs/debian_backup_restore_network.md).  
-
----  
-
 ## BLOQUEIO DE TELA AUTOMÁTICO
 O sistema operacional implementa uma medida de segurança padrão ajustando o bloqueio de tela após um período de inatividade. O termo **"falta de atividade"** é muitas vezes interpretado de forma incorreta; o que o sistema realmente mede é o **tempo sem interatividade** – ou seja, o período em que o usuário não interage ativamente com o teclado ou mouse.  
 
@@ -281,6 +272,16 @@ Por padrão, Debian e Ubuntu (e muitas distros derivadas) definem o **nano** com
 
 Para saber mais e como fazer, siga as instruções no link abaixo:  
 [Selecionando o editor de texto padrão para o terminal](docs/debian_terminal_editor.md).  
+
+---  
+
+## GIT
+O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
+
+No Linux, especialmente nas distribuições Debian e Ubuntu, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, compilar o suporte ao libsecret (necessário para armazenar credenciais com segurança) e configurar o Git para utilizar tokens de acesso pessoal, substituindo o antigo método de login por senha.
+
+Vamos configurar e corrigir alguns problemas, siga o link abaixo:  
+[Configurar e corrigir alguns problemas](docs/debian_git.md).  
 
 ---  
 
@@ -485,15 +486,6 @@ Para instalar e entender melho, siga as orientações no link abaixo:
 O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
 [Completando o idioma português do Brasil](docs/debian_pt_br.md).  
 
----  
-
-## GIT
-O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
-
-No Linux, especialmente nas distribuições Debian e Ubuntu, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, compilar o suporte ao libsecret (necessário para armazenar credenciais com segurança) e configurar o Git para utilizar tokens de acesso pessoal, substituindo o antigo método de login por senha.
-
-Vamos configurar e corrigir alguns problemas, siga o link abaixo:  
-[Configurar e corrigir alguns problemas](docs/debian_git.md).  
 
 ---  
 
@@ -667,7 +659,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias, clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
 
 Para instalá-lo, siga as orientações no link abaixo:  
-[Guia de instalação do QEMU/KVM](docs/debian_qemu_kvm.md)
+[Virtualização nativa QEMU+KVM](https://github.com/gladiston/debian-qemukvm/#prepara%C3%A7%C3%A3o-do-ambiente-ubuntu-para-virtualiza%C3%A7%C3%A3o-usando-qemukvm)
 
 ---  
 

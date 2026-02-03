@@ -32,27 +32,6 @@ Pressione <enter> para manter o padrão[*] ou digite o número da seleção:
 Digite o número correspondente ao editor que deseja usar e pressione `Enter`.  
 Por exemplo, para definir o **Vim** como editor padrão, escolha o número referente a `/usr/bin/vim.basic` (modo texto com recursos usuais, colorização, macros) ou `/usr/bin/vim.tiny`(mínimo possível, usado como “emergency editor”).
 
-#### 3. Definindo por usuário
-Se quiser definir o editor apenas para o seu usuário, execute:
-```bash
-editor ~/.bashrc
-```
-E adicione ao final do arquivo:
-```bash
-# Meu editor preferido
-export EDITOR=vim
-```
-Depois, recarregue as configurações:
-```bash
-source ~/.bashrc
-```
-
-A partir desse momento, o Vim (ou o editor escolhido) será o editor padrão em qualquer comando que precise abrir um arquivo para edição. Além disso, não precisa mais ficar digitando no prompt 'nano arquivo' ou 'vim arquivo', basta usar: 
-```bash
-editor ~/.bashrc
-```
-Isso mesmo 'editor' será um alias para o que formos editar no prompt. 
-
 **Dica:** se você é iniciante e prefere um ambiente mais amigável, mantenha o **Nano**.  
 Mas se já se sente à vontade no terminal e quer produtividade, o **Vim** é uma excelente escolha.
 
