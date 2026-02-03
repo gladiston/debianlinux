@@ -20,6 +20,12 @@ A tabela a seguir detalha a função primária de cada pacote instalado:
 | `squashfs-tools` | Criação e extração de arquivos `.squashfs`, comum em pacotes *Snap* e sistemas de arquivos de leitura. |
 | `cabextract` | Utilitário para extração de arquivos `.cab` (Microsoft Cabinet). |
 
+## Cópia e sincronização de arquivos
+Fazer backups, transferencia de arquivos, sincronização e outros tipos de operação é uma tarefa que seria complicada em o uso do `rsync`. Vamos instalá0lo:  
+```bash
+sudo apt install -y rsync
+```
+
 ----
 
 [Clique aqui para retornar a página principal](../README.md#instalando-compactadoresdescompactadores-de-arquivos)
