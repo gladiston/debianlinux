@@ -6,18 +6,17 @@ Este tutorial mostrará como instalar os pacotes necessários, ajustar o workgro
 
 Aparentemente, o **SAMBA** vem pré-instalado, no entanto, foi observado que ele carece de alguns ajustes.
 
-### Instalando o SAMBA
-Execute:
+### Instalando o suporte a arquivos compartilhados
+Execute:  
 ```bash
-sudo apt install plasma-widgets-addons kdenetwork-filesharing 
-sudo apt install cifs-utils kio-fuse
+sudo apt install samba cifs-utils 
 ```
-Nem sempre os pacotes anteriores puxam o samba como dependência então vamos instalá-lo explicitamente:
+Se estiver usando KDE, recomendo instalar também:  
 ```bash
-sudo apt install samba
+sudo apt install plasma-widgets-addons kdenetwork-filesharing kio-fuse
 ```
 
-Às vezes, dependendo do perfil de instalação, estes pacotes podem ter sido instalados.
+Às vezes, dependendo do perfil de instalação, estes pacotes podem ter sido instalados.  
 
 ### Ajustando o workgroup ou domínio
 Se você possui um domínio em sua rede, é recomendável fazer um pequeno ajuste no arquivo de configuração do **Samba**.  
