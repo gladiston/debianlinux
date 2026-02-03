@@ -470,7 +470,7 @@ Aqui, não importa a distribuição que use, se seu ambiente gráfico for o **GN
 * Tiling Assistant
 * e outros...
 
-Se você deseja esse nível de personalização no seu KDE/Dolphi, siga o link:
+Se você deseja esse nível de personalização no seu GNOME, siga o link:
 [GNOME - Ajustes rápidos](docs/gnome_prefs.md).
 
 ---  
