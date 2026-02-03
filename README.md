@@ -463,7 +463,17 @@ Se você deseja esse nível de personalização no seu KDE/Dolphi, siga o link:
 [KDE - Ajustes básicos no Dolphin](docs/kde_dolphin.md).
 
 ---  
+## GNOME - Ajustes rápidos
+Aqui, não importa a distribuição que use, se seu ambiente gráfico for o **GNOME** você pode querer alguns ajustes, por exemplo:
+* Gerenciador de clipboard
+* Painel inferior melhorado (Dash to Panel)
+* Tiling Assistant
+* e outros...
 
+Se você deseja esse nível de personalização no seu KDE/Dolphi, siga o link:
+[GNOME - Ajustes rápidos](docs/gnome_prefs.md).
+
+---  
 ## PRELOAD (OPCIONAL)
 Se estiver usando **discos mecânicos**, provavelmente sente muita **latência** ao carregar certos programas.  
 Numa situação assim, é bom instalar um serviço chamado **preload**: ele monitora os programas que você mais utiliza e, durante o boot, já os carrega antecipadamente.  
