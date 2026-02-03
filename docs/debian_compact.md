@@ -25,6 +25,8 @@ Fazer backups, transferencia de arquivos, sincronização e outros tipos de oper
 ```bash
 sudo apt install -y rsync
 ```
+Um outro motivo para instalá-lo é que o `rsync` é backend para muitos outros programas. Se você não instalá-lo, é muito provavel que o instalará mais tarde como dependencia de outro.  
+
 
 ----
 
