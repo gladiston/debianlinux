@@ -50,9 +50,9 @@ Comente essa linha, e depois a duplique ficando a primeira linha comentada e a s
 
 Agora, dentro das aspas, após a ultima instrução - em nosso exemplo "quiet" - , acrescente as seguintes instruções na mesma linha até fechar aspas:
 > radeon.si_support=0  
-> radeon.cik_support=0
-> amdgpu.si_support=1
-> amdgpu.cik_support=1
+> radeon.cik_support=0  
+> amdgpu.si_support=1  
+> amdgpu.cik_support=1  
 
 Ficando assim:
 ```
