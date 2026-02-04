@@ -6,12 +6,27 @@ Por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt 
 Porém, ao usarmos o desktop, já sabemos quem somos e qual computador estamos usando.  
 Então, vamos ajustar o terminal para que ele **não mostre essas informações**.  
 
-A variável de ambiente responsável por controlar o formato do prompt chama-se **PS1**, e podemos modificá-la assim:
+A variável de ambiente responsável por controlar o formato do prompt chama-se **PS1**, e se executarmos no terminal:  
+```bash
+echo $PS1
+```
+Veremos o conteúdo dessa váriavel:  
+```
+\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$
+```
+Esse é um conjunto de escapes com codigos de cores ANSI para deixar o terminal colorido, voce poderá entender melhor lendo este artigo:  
+[https://www.ibm.com/developerworks/linux/library/l-tip-prompt/](https://www.ibm.com/developerworks/linux/library/l-tip-prompt/)  
+
+Por hora, basta saber que podemos modificá-la, por exemplo, ao inves do nosso prompt mostrar `$` no final, podemos fazer mostrar o `> `, basta trocar no final da string:  
+
+```bash
+export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]> '
+```
+Também podemos mudar as cores se você entender o que os mineumonicos significam, veja:
 ```bash
 export PS1='${debian_chroot:+($debian_chroot)}\[\033[32;40m\]\w:\[\033[00m\] '
 ```
-
-Isso deixará nosso prompt com um visual “old school”, colorido:
+Agora temos um prompt com um visual “old school”, colorido:
 ![Novo prompt](../img/mudando_prompt02.png)  
 
 Na imagem acima, o prompt deixou de mostrar o **usuário** e o **computador**, exibindo apenas o **caminho da pasta atual** em verde.  
@@ -87,6 +102,12 @@ A partir de agora, toda vez que abrir o terminal, seu prompt será assim:
 ![Novo prompt](../img/mudando_prompt06.png)  
 
 Muito bacana, hein?  
+
+Mas evite fazer ajustes de prompt em servidores, eles podem não entender bem cores ANSI e UNICODE quando são acessados por SSH. O mais comum para servidores é o bom e trivial:
+```
+export PS1='\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\W\[\033[00m\]> '
+```
+
 
 
 ----
