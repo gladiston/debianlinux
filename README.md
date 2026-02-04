@@ -174,6 +174,30 @@ Se você observar um aviso como este:
 
 ---  
 
+## REPOSITÓTIOS CONTRIB/NON-FREE/NON-FREE-FIRMWARE - APENAS PARA DEBIAN
+O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**.  
+
+Siga o guia completo para remover essa restrição e garantir o suporte total ao seu desktop:  
+[Adicionando mais repositorios ao Debian](docs/debian_contrib_nonfree.md)
+---  
+
+## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
+Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
+
+Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:    
+[Habilitando Repositórios restricted e multiverse](docs/ubuntu_restricted_multiverse.md)  
+
+---
+
+## INCLUINDO O REPOSITÓRIO DA MICROSOFT
+Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribuições Debian-like como Debian 13 e Ubuntu, oferecendo acesso a ferramentas e bibliotecas essenciais, notavelmente as do ambiente Mono. Embora pareça paradoxal, o processo de inclusão exige a instalação inicial de um pacote configurador, que subsequentemente gerencia a atualização do próprio repositório, garantindo que você tenha acesso a pacotes como o mono e outros.  
+
+Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
+[Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
+
+
+---  
+
 ## CADÊ O ~/LOCAL/BIN ?
 
 Em várias distribuições modernas, o diretório `~/.local/bin` é adicionado automaticamente ao PATH, permitindo ao usuário guardar scripts pessoais em um local organizado, sem exigir permissões administrativas.  
@@ -208,14 +232,6 @@ Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu c
 
 ---  
 
-## Estendendo Repositórios Oficiais com contrib, non-free e non-free-firmware
-O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**.  
-
-Siga o guia completo para remover essa restrição e garantir o suporte total ao seu desktop:  
-[Adicionando os repositorios contrib e nonfree](docs/debian_contrib_nonfree.md)
-
----  
-
 ## NVIDIA NO DEBIAN
 
 Sistemas com GPUs Intel ou AMD não precisam de procedimentos extras para funcionarem, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa. A NVIDIA, porém, funciona de maneira diferente.
@@ -234,25 +250,11 @@ Siga o link a seguir:
 
 **OBSERVAÇÃO**: Distros baseadas em Ubuntu já incluem uma opção em seu painel de configurações para fazer essa instalação  de maneira fácil.  
 
----
 
-## INCLUINDO O REPOSITÓRIO DA MICROSOFT
-Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribuições Debian-like como Debian 13 e Ubuntu, oferecendo acesso a ferramentas e bibliotecas essenciais, notavelmente as do ambiente Mono. Embora pareça paradoxal, o processo de inclusão exige a instalação inicial de um pacote configurador, que subsequentemente gerencia a atualização do próprio repositório, garantindo que você tenha acesso a pacotes como o mono e outros.  
-
-Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
-[Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
 ---  
 
-## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
-Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
-
-Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:    
-[Habilitando Repositórios restricted e multiverse](docs/ubuntu_restricted_multiverse.md)  
-
----  
-
-### VGA RADEON ANTIGAS
+### ATIVANDO VGA RADEON ANTIGAS
 Como possuidor de uma Radeon R7 no meu trabalho, tanto Debian como também Ubuntu instalam drivers da AMD corretamente, mas usam o driver antigo ao invés do novo. Daí o sistema funciona normalmente até que a aceleração gráfica seja acionada daí então tudo aparece borrado ou o sistema trava. Sob estas condições e tendo um modelo AMD VGA Radeon R7 240/340 / Radeon 520 ou similares então siga estas instruções:  
 [Habilitando Repositórios restricted e multiverse](docs/debian_gpu_amd.md)  
 
