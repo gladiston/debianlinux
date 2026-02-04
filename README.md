@@ -261,6 +261,25 @@ Como possuidor de uma Radeon R7 no meu trabalho, tanto Debian como também Ubunt
 
 ---  
 
+## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
+Os aliases são atalhos criados para simplificar comandos repetitivos no terminal. Em vez de digitar longas instruções toda vez, você pode definir abreviações personalizadas — tornando o uso do sistema mais rápido e produtivo.  
+Este recurso existe desde os primeiros sistemas Unix e continua sendo amplamente usado no Linux moderno, permitindo ajustar o ambiente de terminal ao seu estilo de trabalho. Neste tutorial, você aprenderá a criar, editar e ativar seus próprios aliases no arquivo ~/.bashrc.  
+
+[Ajustando aliases para comandos repetitivos](docs/debian_cmd_aliases.md)  
+
+---  
+
+## AJUSTANDO O PROMPT DO TERMINAL
+Às vezes o prompt do terminal pode incomodar alguns usuários.  
+Por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt o **usuário** e o **nome do computador**:  
+![Prompt normal](img/mudando_prompt01.png)  
+que tal deixá-lo assim:  
+![Novo prompt](img/mudando_prompt06.png)  
+
+Então, vamos ajustar o terminal para que o prompt possa ser personalizado conforme nossas necessidades, siga as instruções no link abaixo:    
+[Ajustando o prompt do terminal](docs/debian_set_prompt.md).
+
+---  
 ## EDITOR DE TEXTO VIM
 O **Vim (Vi IMproved)** é um editor de texto poderoso e altamente configurável, baseado no clássico **Vi**, presente em praticamente todas as distribuições Unix e Linux.  
 É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
@@ -546,26 +565,6 @@ O firewall é uma camada essencial de segurança responsável por controlar o tr
 Neste tutorial, optamos pelo firewalld, uma solução moderna, compatível com Debian, Ubuntu e diversas outras distribuições. Ele oferece comandos padronizados, perfis de rede (zones) e integração com KDE e GNOME, tornando o gerenciamento de portas e serviços mais simples, seguro e alinhado com ambientes profissionais.
 
 [Instalando e configurando o firewall no Linux](docs/debian_firewall.md)  
-
----  
-
-## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
-Os aliases são atalhos criados para simplificar comandos repetitivos no terminal. Em vez de digitar longas instruções toda vez, você pode definir abreviações personalizadas — tornando o uso do sistema mais rápido e produtivo.  
-Este recurso existe desde os primeiros sistemas Unix e continua sendo amplamente usado no Linux moderno, permitindo ajustar o ambiente de terminal ao seu estilo de trabalho. Neste tutorial, você aprenderá a criar, editar e ativar seus próprios aliases no arquivo ~/.bashrc.  
-
-[Ajustando aliases para comandos repetitivos](docs/debian_cmd_aliases.md)  
-
----  
-
-## AJUSTANDO O PROMPT DO TERMINAL
-Às vezes o prompt do terminal pode incomodar alguns usuários.  
-Por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt o **usuário** e o **nome do computador**:  
-![Prompt normal](img/mudando_prompt01.png)  
-que tal deixá-lo assim:  
-![Novo prompt](img/mudando_prompt06.png)  
-
-Então, vamos ajustar o terminal para que o prompt possa ser personalizado conforme nossas necessidades, siga as instruções no link abaixo:    
-[Ajustando o prompt do terminal](docs/debian_set_prompt.md).
 
 ---  
 
