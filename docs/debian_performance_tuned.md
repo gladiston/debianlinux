@@ -138,7 +138,7 @@ flatpak install flathub org.easycoding.TunedSwitcher
 Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário.  
 Se vocÊ gostar, poderá acrescentá-lo no inicializador de sessão que tanto o KDE como GNOME possuem, e caso precise da linha de comando, é essa:  
 ```bash
-flatpak run org.easycoding.TunedSwitcher
+sudo flatpak run org.easycoding.TunedSwitcher
 ```
 A linha acima não é para você executar no terminal, é para você copiar e depois colar no programa que estiver usando para indicar os que devem ser inicializados junto com a sessão.  
 
