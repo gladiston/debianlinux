@@ -138,9 +138,10 @@ flatpak install flathub org.easycoding.TunedSwitcher
 Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário.  
 Se vocÊ gostar, poderá acrescentá-lo no inicializador de sessão que tanto o KDE como GNOME possuem, e caso precise da linha de comando, é essa:  
 ```bash
-/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=tuned-switcher org.easycoding.TunedSwitcher
+sh -c "sleep 10 && /usr/bin/flatpak run --branch=stable --arch=x86_64 --command=tuned-switcher org.easycoding.TunedSwitcher"
 ```
 A linha acima não é para você executar no terminal, é para você copiar e depois colar no programa que estiver usando para indicar os que devem ser inicializados junto com a sessão.  
+Vai notar que há um **hack**, eu aguardo 10 segundos antes de executá-lo, isso teve de ser feito porque se executo imediatamente, o GNOME vai pedir senha, mas se eu executo após a sessão ter completado o carregamento então nenhuma senha é solicitada.  
 
 
 ### Alternativa usando script com tecla de atalho
