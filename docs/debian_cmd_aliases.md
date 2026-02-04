@@ -8,19 +8,13 @@ ls -lh --color=auto
 Isso é muito comprido. Que tal digitar apenas `l` e o sistema entender o comando acima?  
 É exatamente isso que faremos agora. Edite o arquivo:
 ```bash
-editor ~/.bashrc
+editor ~/.bash_aliases
 ```
 
 O arquivo acima é executado automaticamente sempre que você abre um terminal **bash**.  
 Acrescente ao final deste arquivo seus **aliases** personalizados, por exemplo:
 ```bash
 alias l='ls -lh --color=auto'
-```
-
-Abaixo estão algumas sugestões úteis.  
-Ao editar o arquivo `~/.bashrc`, você notará que várias delas já existem (algumas comentadas com `#`).
-```
-editor ~/.bashrc
 ```
 E então acrescente estas linhas no final do arquivo:  
 ```
@@ -66,21 +60,9 @@ Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
 Depois, **reinicie o terminal** e teste um dos aliases:
 ```bash
-l
+c
 ```
-
-Saída esperada (exemplo):
-```
-total 0
-drwxr-xr-x 1 gsantana gsantana 20 out 10 17:37 'Área de trabalho'
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Documentos
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:41  Downloads
-drwxr-xr-x 1 gsantana gsantana 32 out 10 18:48  Imagens
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Modelos
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Músicas
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Público
-drwxr-xr-x 1 gsantana gsantana  0 out 10 17:37  Vídeos
-```
+E ele limpará a tela, porque `c` é um alias para `clear`.
 
 Pronto — agora você tem **comandos mais breves e práticos** para as tarefas do dia a dia.  
 Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
