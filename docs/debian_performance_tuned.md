@@ -138,19 +138,9 @@ flatpak install flathub org.easycoding.TunedSwitcher
 Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário.  
 Se vocÊ gostar, poderá acrescentá-lo no inicializador de sessão que tanto o KDE como GNOME possuem, e caso precise da linha de comando, é essa:  
 ```bash
-flatpak run org.easycoding.TunedSwitcher
+/usr/bin/flatpak run --branch=stable --arch=x86_64 --command=tuned-switcher org.easycoding.TunedSwitcher
 ```
 A linha acima não é para você executar no terminal, é para você copiar e depois colar no programa que estiver usando para indicar os que devem ser inicializados junto com a sessão.  
-Uma parte chata de colocá-lo no inicio da sessão é que toda vez que o TunedSwitcher for executado irá pedir a senha, e neste caso, não adianta usar o `sudo` na frente porque o flatpak vai sempre recusar um comando `sudo`. Se tiver usando o GNOME, voce pode contornar isso criado o seguinte arquivo `/etc/polkit-1/rules.d/99-tuned-switcher.rules` com o conteúdo:
-```
-polkit.addRule(function(action, subject) {
-    if (action.id == "org.debian.pc-pkexec.tuned-adm" || 
-        action.id.indexOf("org.easycoding.TunedSwitcher") !== -1) {
-        return polkit.Result.YES;
-    }
-});
-```
-Isso cria uma regra ao `polkit` para que o mesmo entenda que é para executar o programa sem fazer perguntas.  
 
 
 ### Alternativa usando script com tecla de atalho
