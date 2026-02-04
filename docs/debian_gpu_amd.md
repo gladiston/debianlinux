@@ -22,7 +22,7 @@ E veja o resultado:
 Agora que sabemos o modelo podemos resolver o problema.  
 
 ## Radeon R7 240/340 / Radeon 520
-Execute:
+Uma vez que tenha identificado como `Radeon R7 240/340 / Radeon 520`, vamos aos detalhes, execute novamente:  
 ```bash
 lspci -k |grep -A 3 -E "VGA|3D"
 ```
