@@ -278,6 +278,12 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 
 ---  
 
+## FERRAMENTAS DE COMPILAÇÃO
+Se você pretende compilar códigos de programas, deploy de frameworks, reempacotar programas ou personalizar sua distro então precisará de algumas ferramentas adicionais, as instruções estão na seção abaixo:    
+[Ferramentas de Compilação](docs/debian_build.md)   
+
+---  
+
 ## GIT
 O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
 
@@ -393,12 +399,6 @@ Para garantir que seu sistema **Debian** ou **Ubuntu** possa lidar com todos os 
 
 Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de *software* seguindo as instruções detalhadas:  
 [Instalação de Ferramentas de Compressão de arquivos e dados](docs/debian_compact.md)
-
----  
-
-## FERRAMENTAS DE COMPILAÇÃO
-Se você pretende compilar códigos de programas, deploy de frameworks, reempacotar programas ou personalizar sua distro então precisará de algumas ferramentas adicionais, as instruções estão na seção abaixo:    
-[Ferramentas de Compilação](docs/debian_build.md)   
 
 ---  
 
