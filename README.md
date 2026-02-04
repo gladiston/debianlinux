@@ -175,10 +175,11 @@ Se você observar um aviso como este:
 ---  
 
 ## REPOSITÓTIOS CONTRIB/NON-FREE/NON-FREE-FIRMWARE - APENAS PARA DEBIAN
-O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**.  
+O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**.   
 
 Siga o guia completo para remover essa restrição e garantir o suporte total ao seu desktop:  
 [Adicionando mais repositorios ao Debian](docs/debian_contrib_nonfree.md)
+
 ---  
 
 ## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
