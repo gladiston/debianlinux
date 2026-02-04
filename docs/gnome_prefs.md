@@ -16,14 +16,15 @@ sudo apt install gnome-shell-extension-manager
 
 ### Instalando algumas extensões  
 Abra o Extension Manager, clique na pequena "lupa" e busque pelos nomes a seguir e clique em **Instalar..** :  
-   * **Dash to Panel**: Um painel para minimizar/restaurar programas em uso e outras funcionalidades;     
-   * **Clipboard indicator**: Para ter o gerenciador de clipboard;  
+   * **Dash to Panel**: Um painel para minimizar/restaurar programas em uso e outras funcionalidades. Se usa o Ubuntu, não é muito diferente daquela barra lateral;     
+   * **Clipboard history**: Para ter um histórico da clipboard;  
    * **Lock Keys**: apenas se voce usa teclado sem fio ou algum modelo de teclado que não tem indicador de caps lock, num lock e scroll lock;  
    * **Tile assistent**: para usar a comodidate de ajuste automático de janelas.  
 A seguir, alguns ajustes finos que executo em cada uma dessas extensões...  
 
 ### Dash to Panel
-Consolida status do sistema, relógio e aplicativos abertos em uma única barra (estilo clássico, porém moderno).
+Consolida status do sistema, relógio e aplicativos abertos em uma única barra (estilo clássico, porém moderno).  
+Se usa o Ubuntu, ele não precisa ser instalado, afinal a barra lateral do Ubuntu é praticamente o mesmo dash.  
 Algo que costuma me dar produtividade é ir em configurações|Dash To Panel e então na guia **Position**:  
 * **Panel monitor position**: a maioria prefere manter a dock no lado inferior, mas em monitores wide screen, colocá-lo no lado esquerdo(ou direito) aproveita melhor o espaço.
 * **Panel length**: o padrão é 100%, mas se você usar `Dynamic` ele se ajustará sozinho conforme a necessidade.
@@ -33,9 +34,9 @@ Na guia **Style**:
 
 Existem muitos outros ajustes, mas estes eu considero essencais.  
 
-### Clipboard indicator
+### Clipboard history
 O desenvolvedor médio copia e cola centenas de trechos de código, comandos e URLs diariamente. Um histórico de clipboard não é um luxo, é uma necessidade.
-Um applet no painel aparecerá e ali aparecerá todos os seus `ctrl+c` (copiar) para que possa acessar o histórico e recuperar qualquer um deles. Recomendo que vá em `Configurações` desse applet e ajuste a tecla de atalho para ele, trocando o `Ctrl+F8`(default) por `Super+V` que é também o default do Windows, caso que esteja em transição de um ambiente para o outro.
+Um applet no painel aparecerá e ali aparecerá todos os seus `ctrl+c` (copiar) para que possa acessar o histórico e recuperar qualquer um deles. Recomendo que use a tecla de atalho dele, `Ctrl+Super+V`. Voce até pode trocar por outro atalho, mas não deve usar o `Super+V` que é o padrão do Windows porque essa combinação já está em uso pelo painel superior do GNOME.
 
 ### Lock Keys
 Alguns teclados sem fio e de notebook podem não ter os leds indicadores de `Caps Lock`,`Num Lock` e `Scroll Lock`  então nessa situação, esta extesão ela é importante porque mostra estado dessas teclas diretamente no painel.
@@ -44,7 +45,8 @@ Se seu teclado já mostra isso, essa extensão é desnecessária. Porém, teclad
 
 ### Gerenciamento de Janelas (Tiling Assistant)
 
-O GNOME 47+ melhorou o suporte a janelas, mas o **Tiling Assistant** eleva isso ao nível de um Tiling Window Manager (como i3 ou Sway) sem perder a facilidade do GNOME.
+O GNOME 47+ melhorou o suporte a janelas, mas o **Tiling Assistant** eleva isso ao nível de um Tiling Window Manager (como i3 ou Sway) sem perder a facilidade do GNOME.  
+Se você usa o Ubuntu, não precisa instalá-lo porque o Ubuntu teu outra extensão para **Tilling** que é bem similar.  
 
 **Principais Recursos:**
 
