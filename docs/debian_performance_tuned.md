@@ -211,9 +211,9 @@ Salve e saia do editor.
 Agora você já pode executar o menu de perfil de performance, mas apenas no terminal, então vamos criar uma entrada para o menu de seu desktop, execute:
 ```bash
 sudo editor /usr/share/applications/tuned-gui.desktop
-``
+```
 E depois cole este conteúdo
-``
+```
 [Desktop Entry]
 Version=1.0
 Type=Application
@@ -225,12 +225,12 @@ Terminal=false
 Categories=System;Settings;
 Keywords=performance;tuned;kvm;debian;
 StartupNotify=true
-``
+```
 Salve e saia do editor.
 Agora você pode ir no menu do seu sistema e procurar por `tuned` e aparecerá o `Otimização Tuned` para selecionarmos nosso perfil de carga de trabalho, caso ele não apareça, dê uma forçada executando:
 ```bash
 sudo update-desktop-database /usr/share/applications
-``
+```
 Finalmente, agora você poderá ver o `Otimização Tuned` no meu do seu sistema.
 
 
