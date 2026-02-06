@@ -8,24 +8,6 @@ Normalmente, os pacotes a seguir já vêm instalados, mas precisamos conferir, e
 sudo apt install -y fontconfig fontforge fonttools
 ```
 
-## INSTALANDO A FONTE "CONSOLAS"
-A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento de aplicativos como também no ambiente de terminal. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:
-```
-cd /tmp
-mkdir -p ~/.local/share/fonts
-wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
-unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
-```
-Para conferir se foi realmente instalada, execute agora:  
-```
-fc-list | grep "Consolas"
-```
-Se aparacer algo como abaixo, então foi um sucesso:  
-```
-/home/gsantana/.local/share/fonts/YaHei.Consolas.1.12.ttf: YaHei Consolas Hybrid:style=YaHei Consolas Hybrid Regular,Normal,obyčejné,Standard,Κανονικά,Normaali,Normál,Normale,Standaard,Normalny,Обычный,Normálne,Navadno,Arrunta
-```
-
-
 ## INSTALAÇÃO DE FONTES MICROSOFT
 Vamos adicionar um repositório que será útil para acrescentar mais fontes ao sistema:
 
@@ -77,6 +59,22 @@ Testing internet connectivity on interface: enp8s0
 ```
 **Novamente fica o aviso**: Não há uma licença pública da Microsoft que permita livre uso da Segoe UI em sistemas Linux ou para redistribuição / embutimento em aplicações cross-platform sem contato direto/licenciamento especial com a Microsoft ou seus parceiros. Se você fizer isso, há risco de violação de licença.
 
+## INSTALANDO A FONTE "CONSOLAS"
+A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento de aplicativos como também no ambiente de terminal. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:
+```
+cd /tmp
+mkdir -p ~/.local/share/fonts
+wget -O /tmp/YaHei.Consolas.1.12.zip https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/uigroupcode/YaHei.Consolas.1.12.zip
+unzip YaHei.Consolas.1.12.zip -d ~/.local/share/fonts/ 
+```
+Para conferir se foi realmente instalada, execute agora:  
+```
+fc-list | grep "Consolas"
+```
+Se aparacer algo como abaixo, então foi um sucesso:  
+```
+/home/gsantana/.local/share/fonts/YaHei.Consolas.1.12.ttf: YaHei Consolas Hybrid:style=YaHei Consolas Hybrid Regular,Normal,obyčejné,Standard,Κανονικά,Normaali,Normál,Normale,Standaard,Normalny,Обычный,Normálne,Navadno,Arrunta
+```
 
 ## INSTALAÇÃO DA FONTE ROBOTO
 A fonte **fonts-roboto** é bastante interessante para uso em terminais e IDEs de programação:
