@@ -19,7 +19,9 @@ Abra o Extension Manager, clique na pequena "lupa" e busque pelos nomes a seguir
    * **Dash to Panel**: Um painel para minimizar/restaurar programas em uso e outras funcionalidades. Se usa o Ubuntu, não é muito diferente daquela barra lateral;     
    * **Clipboard history**: Para ter um histórico da clipboard;  
    * **Lock Keys**: apenas se voce usa teclado sem fio ou algum modelo de teclado que não tem indicador de caps lock, num lock e scroll lock;  
-   * **Tile assistent**: para usar a comodidate de ajuste automático de janelas.  
+   * **Tile assistent**: para usar a comodidate de ajuste automático de janelas.
+   * **User Themes**: Libera o uso de temas personalizados.
+   * **Force Quit**: Quem trabalha com programação sabe o quanto é ruim quando um programa trava, então essa extensão permite abortá-la quando não está mais respondendo.  
 A seguir, alguns ajustes finos que executo em cada uma dessas extensões...  
 
 ### Dash to Panel
@@ -75,6 +77,32 @@ O gerenciador de arquivos padrão esconde metadados cruciais para quem gerencia 
 
 ---
 
+## Otimização da área de trabalho
+
+Uma Dock embaixo(Dash to Panel) ou do lado (Ubuntu Dock) pode ocupar um espaço razoável se você ainda tem no topo o painel do GNOME mostrando canto de tarefas, data/hora e demais opções.  
+Esse painel no topo em algumas versões do Debian foi removido ficando apenas a Dock embaixo, pessoalmente eu gostei muito.  
+Mas olha a situação do Ubuntu, a Dock fica ao lado e no topo o painel do GNOME e ainda por cima da largura do monitor apenas para mostrar hora e alguns botões estreitos! Se você achar isso um desperdicio de espaço, vamos mudar isso.
+Execute o gerenciador de extensões, vá em mnavegar e procure e instale as extensções:  
+* **App Icons TaskBar**:  Ela traz os seus favoritos e taskbar para o painel superior.   
+* **AppsMenu**: Ele traz um menu para voce encontrar as aplicações de que precisa sem precisar usar a tecla Super.  
+* **Move date menu to the right**: Como o próprio nome sugere, muda a posição de data/hora para o lado direito.  
+
+### Ubuntu
+Depois, no caso do Ubuntu, você deve ir na guia de **Instalados** e desativar as extensões:  
+* **Ubuntu AppIndicators**:  Ela traz os seus favoritos e taskbar para o painel superior.   
+* **Ubuntu Dock**: Ele traz um menu para voce encontrar as aplicações de que precisa sem precisar usar a tecla Super.  
+
+### Debian
+Caso voce tenha o painel do GNOME lá em cima, a extensão **Dash to Panel** perde sua necessidade porque a extensão **App Icons TaskBar** fará a mesma coisa no painel do GNOME, então sugiro desativá-la. Mas se quiser mantê-la por causa da aparência, ótimo, também tá valendo.  
+
+---
+
+## O que deve evitar
+Evite instalar extensões que monitoram seu sistema, é legal você ter algo assim para monitorar tempo de bateria, mas muitas dessas extensões de monitoramente que pegam dados de CPU, Memória, Disco e rede a cada segundo é desperdiçar os recursos do sistema, afinal, o tempo de de monitoramento também roubará ciclos de processamento de seu computador. O meio termo de uso ideal de uma extensão assim seria deixá-lo desabilitado até que pretenda realmente observar um comportamento anômolo.  
+Mas, sendo sincero, se pretende monitorar algo, use o **Gerenciador de Tarefas** do GNOME, ele é personalizável e pode lhe entregar muito mais informaõesd do que essas extensões mostrariam.  
+
+
+---
 ## Conclusão
 
 A filosofia do Debian 13 é oferecer uma base sólida. Ao adicionar essas camadas de personalização, você não quebra a estabilidade do sistema, mas remove os atritos do GNOME "seco". O resultado é um ambiente onde o histórico de cópia é acessível, as janelas se organizam sozinhas e as informações de sistema estão sempre visíveis, permitindo que você gaste mais tempo codando e menos tempo gerenciando sua interface.
