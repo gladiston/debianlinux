@@ -9,7 +9,7 @@ Aparentemente, o **SAMBA** vem pré-instalado, no entanto, foi observado que ele
 ### Instalando o suporte a arquivos compartilhados
 Execute:  
 ```bash
-sudo apt install samba cifs-utils 
+sudo apt install -y samba cifs-utils 
 ```
 Se estiver usando KDE, recomendo instalar também:  
 ```bash
