@@ -8,20 +8,6 @@ Normalmente, os pacotes a seguir já vêm instalados, mas precisamos conferir, e
 sudo apt install -y fontconfig fontforge fonttools
 ```
 
-## INSTALAÇÃO DE FONTE "INTER" e "NOTO"
-As fontes Inter e Noto são famílias tipográficas modernas, criadas para oferecer clareza, compatibilidade e cobertura global.  
-
-A Inter foi projetada especialmente para interfaces e textos em tela, com excelente legibilidade e aparência limpa em qualquer tamanho. Já a Noto, desenvolvida pelo Google, tem como principal objetivo suportar todos os idiomas e sistemas de escrita do mundo, mantendo estilo e espaçamento consistentes entre diferentes alfabetos.
-
-Usá-las juntas garante um visual profissional, uniforme e sem “quadradinhos” (tofu) em caracteres internacionais, além de serem gratuitas, leves e otimizadas para a web — perfeitas para projetos modernos e acessíveis. Para instalá-las, execute:
-
-```bash
-sudo apt install -y fonts-inter fonts-noto
-```
-
-A fonte **fonts-inter** é bonita e versátil, ideal para uso geral, enquanto **fonts-noto-ui** se destaca por sua aparência moderna e legibilidade — uma excelente opção para ser usada na interface de aplicativos.
-
-
 ## INSTALANDO A FONTE "CONSOLAS"
 A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento de aplicativos como também no ambiente de terminal. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:
 ```
@@ -48,46 +34,6 @@ sudo apt install -y ttf-mscorefonts-installer
 ```
 
 O pacote instalado acima complementa as **fontes Microsoft**, que podem ser necessárias para a correta exibição de documentos ou programas portados do Windows.
-
-
-
-
-## INSTALAÇÃO DE FONTE SELAWIK (SIMILAR AO "Segoe UI")
-O Linux não possui a fonte **Segoe UI**, idealizada pela Microsoft para o sistema Windows. Essa fonte é muito popular em interfaces gráficas (UI) do Windows. Embora seja possível copiá-la de uma instalação do Windows, isso violaria a licença de uso da Microsoft, portanto não é recomendado. O Linux não tem essa fonte, ela pode ser copiada de uma instalação do Windows, mas isso infringiria leis de copyright. O Linux não tem ela, apesar disso, existe a fonte **SELAWIK**, ela é “metrics-compatible” com a Segoe UI — ou seja, tem as mesmas métricas (altura, espaçamento) para facilitar troca sem quebrar layout. Está sob licença OFL (SIL Open Font License), o que permite uso, modificação e distribuição livremente, inclusive em Linux/web. Sua obtenção depende de cada distro, em algumas distribuições, como o Arch Linux, oferecem a Selawik diretamente nos repositórios (pacote ttf-selawik). Em outras, é necessário instalá-la manualmente, como mostrado abaixo.  
-
-Então vamos ao procedimento de instalação:    
-```bash
-# Vamos ir para uma pasta de arquivos temporarios
-mkdir -p /tmp/selawik
-cd /tmp/selawik
-wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawk.ttf
-wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawkb.ttf
-wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawkl.ttf
-wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawksb.ttf
-wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawksl.ttf
-
-
-# Crie o diretório de fontes locais:
-sudo mkdir -p /usr/share/fonts/truetype/selawik
-
-# Copie os arquivos .ttf:
-sudo cp *.ttf /usr/share/fonts/truetype/selawik/
-
-# Atualize o cache de fontes:
-sudo fc-cache -f -v
-```
-Será que esta realmente instalada? Vamos conferir, execute:
-Para verificar se o sistema reconheceu:
-```bash
-$ fc-list | grep Selawik
-/usr/share/fonts/truetype/selawik/selawksl.ttf: Selawik,Selawik Semilight:style=Semilight,Regular
-/usr/share/fonts/truetype/selawik/selawkb.ttf: Selawik:style=Bold
-/usr/share/fonts/truetype/selawik/selawksb.ttf: Selawik,Selawik Semibold:style=Semibold,Regular
-/usr/share/fonts/truetype/selawik/selawkl.ttf: Selawik,Selawik Light:style=Light,Regular
-/usr/share/fonts/truetype/selawik/selawk.ttf: Selawik:style=Regular
-```
-
-Esta fonte é mencionada como  solução "cross-plataforma" para as situações onde a Segoe UI não era permitida.   
 
 
 ## INSTALAÇÃO DA FONTE "Segoe UI" (OPCIONAL)
@@ -170,6 +116,60 @@ Se aparecer algo como:
 ```
 
 e outras variações semelhantes, significa que a fonte foi instalada com sucesso.
+
+
+## INSTALAÇÃO DE FONTE "INTER" e "NOTO"
+As fontes Inter e Noto são famílias tipográficas modernas, criadas para oferecer clareza, compatibilidade e cobertura global.  
+
+A Inter foi projetada especialmente para interfaces e textos em tela, com excelente legibilidade e aparência limpa em qualquer tamanho. Já a Noto, desenvolvida pelo Google, tem como principal objetivo suportar todos os idiomas e sistemas de escrita do mundo, mantendo estilo e espaçamento consistentes entre diferentes alfabetos.
+
+Usá-las juntas garante um visual profissional, uniforme e sem “quadradinhos” (tofu) em caracteres internacionais, além de serem gratuitas, leves e otimizadas para a web — perfeitas para projetos modernos e acessíveis. Para instalá-las, execute:
+
+```bash
+sudo apt install -y fonts-inter fonts-noto
+```
+
+A fonte **fonts-inter** é bonita e versátil, ideal para uso geral, enquanto **fonts-noto-ui** se destaca por sua aparência moderna e legibilidade — uma excelente opção para ser usada na interface de aplicativos.
+
+
+
+## INSTALAÇÃO DE FONTE SELAWIK (SIMILAR AO "Segoe UI")
+O Linux não possui a fonte **Segoe UI**, idealizada pela Microsoft para o sistema Windows. Essa fonte é muito popular em interfaces gráficas (UI) do Windows. Embora seja possível copiá-la de uma instalação do Windows, isso violaria a licença de uso da Microsoft, portanto não é recomendado. O Linux não tem essa fonte, ela pode ser copiada de uma instalação do Windows, mas isso infringiria leis de copyright. O Linux não tem ela, apesar disso, existe a fonte **SELAWIK**, ela é “metrics-compatible” com a Segoe UI — ou seja, tem as mesmas métricas (altura, espaçamento) para facilitar troca sem quebrar layout. Está sob licença OFL (SIL Open Font License), o que permite uso, modificação e distribuição livremente, inclusive em Linux/web. Sua obtenção depende de cada distro, em algumas distribuições, como o Arch Linux, oferecem a Selawik diretamente nos repositórios (pacote ttf-selawik). Em outras, é necessário instalá-la manualmente, como mostrado abaixo.  
+
+Então vamos ao procedimento de instalação:    
+```bash
+# Vamos ir para uma pasta de arquivos temporarios
+mkdir -p /tmp/selawik
+cd /tmp/selawik
+wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawk.ttf
+wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawkb.ttf
+wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawkl.ttf
+wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawksb.ttf
+wget https://github.com/winjs/winstrap/raw/master/src/fonts/selawksl.ttf
+
+
+# Crie o diretório de fontes locais:
+sudo mkdir -p /usr/share/fonts/truetype/selawik
+
+# Copie os arquivos .ttf:
+sudo cp *.ttf /usr/share/fonts/truetype/selawik/
+
+# Atualize o cache de fontes:
+sudo fc-cache -f -v
+```
+Será que esta realmente instalada? Vamos conferir, execute:
+Para verificar se o sistema reconheceu:
+```bash
+$ fc-list | grep Selawik
+/usr/share/fonts/truetype/selawik/selawksl.ttf: Selawik,Selawik Semilight:style=Semilight,Regular
+/usr/share/fonts/truetype/selawik/selawkb.ttf: Selawik:style=Bold
+/usr/share/fonts/truetype/selawik/selawksb.ttf: Selawik,Selawik Semibold:style=Semibold,Regular
+/usr/share/fonts/truetype/selawik/selawkl.ttf: Selawik,Selawik Light:style=Light,Regular
+/usr/share/fonts/truetype/selawik/selawk.ttf: Selawik:style=Regular
+```
+
+Esta fonte é mencionada como  solução "cross-plataforma" para as situações onde a Segoe UI não era permitida.   
+
 
 ----
 
