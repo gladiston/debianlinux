@@ -96,6 +96,13 @@ sudo crontab -l      # lista do usuário root
 O uso do **crontab** aqui vale para todas as distribuições Linux, inclusive em desktops.  
 GNOME, KDE e outras DEs possuem utilitários visuais para agendar tarefas, mas, neste HowTo, priorizamos o terminal por ser a forma mais consistente e portátil de configurar.
 
+## CRONTAB DE USUÁRIO vs SISTEMA
+Pessoalmente, sempre uso crontab de usuário, quando quero algo que o sistema deverá executar então uso `sudo crontab -e`. Isso garante que o root executará qualquer a tarefa e a se a sintaxe de linha estiver errado você nem consegue salvar, por outro lado, se vocÊ editar diretamente `/etc/crontab` a sintaxe se estiver errado, não será verificado, até mesmo esquecer de deixar uma linha em branco no final do arquivo pode causar problema.  
+
+## CONCLUSÃO
+Agendar tarefas no Linux é algo trivial, você pode fazê-lo visualmente usando GUIs, mas ao usar o terminal você ganha mais conhecimento sobre como o motor do linux funciona e também em qualquer sistema Unix-like como *BSD.  
+Mas não é a unica forma, em anos recentes Ubuntu (Debian 13+) vem patrocinando o **systemd** que na minha opinião é mais complexo onde envolve criar dois arquivos para cada tarefa, um deles é um arquivo descritivo verboso sobre o que vai executar e o outro para indicar agendamento e repetição. Esse novo método não pegou entre os usuários que ainda preferem o modo Unix-Like com o cron.  
+
 
 ----
 
