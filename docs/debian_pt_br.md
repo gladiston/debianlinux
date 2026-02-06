@@ -1,7 +1,7 @@
 ## COMPLETANDO O IDIOMA PORTUGUÊS
 O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico, portanto, execute:
 ```
-sudo apt install -y locales task-laptop
+sudo apt install -y locales 
 sudo apt install -y task-portuguese task-portuguese-desktop
 sudo apt install -y hunspell-pt-br 
 ```
