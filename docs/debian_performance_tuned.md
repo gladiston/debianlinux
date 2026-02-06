@@ -231,7 +231,7 @@ Agora você pode ir no menu do seu sistema e procurar por `tuned` e aparecerá o
 ```bash
 sudo update-desktop-database /usr/share/applications
 ```
-Finalmente, agora você poderá ver o `Otimização Tuned` no meu do seu sistema.
+Finalmente, agora você poderá ver o `Otimização Tuned` no menu do seu sistema.
 
 
 ----
