@@ -146,14 +146,93 @@ Estes comandos irão copiar o atalho do programa TunedSwitcher para autoiniciali
 
 ### Alternativa usando script com tecla de atalho
 Se você preferir algo ainda mais integrado ao seu ambiente, pode criar um pequeno script que usa um seletor de menus (por exemplo, `zenity`, `rofi` etc.) para listar perfis disponíveis e permitir a escolha visual, como:
-
+```bash
+sudo touch /usr/local/bin/menu-tuned.sh
+sudo chmod a+x /usr/local/bin/menu-tuned.sh
+sudo touch /usr/share/applications/tuned-gui.desktop
+sudo chmod a+x /usr/share/applications/tuned-gui.desktop
+``
+Estes arquivos foram criados vazios, vamos agora dar vida para eles, execute:
+```bash
+sudo editor /usr/local/bin/menu-tuned.sh
+``
+E depois cole este conteúdo
 ```bash
 #!/bin/bash
-PROFILE=$(tuned-adm list | grep -oP '(?<=- ).*' | zenity --list --title="Escolher perfil Tuned" --column="Perfis")
-[ -n "$PROFILE" ] && sudo tuned-adm profile "$PROFILE"
-```
 
-Depois de salvar e tornar executável (`chmod +x ~/local/bin/tuned-menu.sh`), você pode criar um atalho de teclado ou um item no menu do KDE Plasma/GNOME para executá-lo.
+# =================================================================
+# Script: menu-tuned.sh
+# Local: /usr/local/bin/menu-tuned.sh
+# Descrição: Interface gráfica para troca de perfis do Tuned
+# Requisitos: zenity, tuned, policykit-1
+# =================================================================
+
+# 1. Verifica se o Zenity está instalado
+if ! command -v zenity &> /dev/null; then
+    # Como o script pode ser rodado via menu, tentamos avisar via terminal ou log
+    echo "Zenity não encontrado. Por favor, instale com: sudo apt install zenity"
+    exit 1
+fi
+
+# 2. Captura a lista de perfis e descrições
+# O awk remove o prefixo "- ", separa Nome e Descrição e os coloca em linhas
+# individuais para que o Zenity preencha as colunas corretamente.
+LISTA_PERFIS=$(tuned-adm list | awk -F ' - ' '/^- / {sub(/^- /, ""); print $1; print $2}')
+
+# 3. Exibe a interface gráfica (Zenity)
+# Redirecionamos o stderr para /dev/null para ignorar warnings de GTK 4.0
+SELECAO=$(echo "$LISTA_PERFIS" | zenity --list \
+    --title="Otimização de Sistema (Tuned)" \
+    --window-icon="preferences-system-performance" \
+    --width=750 --height=450 \
+    --text="Selecione o perfil de performance desejado.\n(Para KVM, utilize perfis virtual-host ou virtual-guest)" \
+    --column="Perfil" --column="Descrição" 2>/dev/null)
+
+# 4. Processa a escolha do usuário
+if [ -n "$SELECAO" ]; then
+    # pkexec abre a caixa de diálogo nativa do GNOME/KDE para pedir senha de admin
+    if pkexec tuned-adm profile "$SELECAO"; then
+        zenity --info \
+            --title="Sucesso" \
+            --text="O perfil <b>$SELECAO</b> foi aplicado com sucesso!" \
+            --timeout=3 2>/dev/null
+    else
+        # Caso o usuário cancele a senha ou ocorra erro
+        zenity --error \
+            --title="Falha" \
+            --text="Não foi possível aplicar o perfil. Verifique a senha ou o status do Tuned." 2>/dev/null
+    fi
+else
+    # Usuário fechou a janela ou clicou em Cancelar
+    exit 0
+fi
+```
+Salve e saia do editor.  
+Agora você já pode executar o menu de perfil de performance, mas apenas no terminal, então vamos criar uma entrada para o menu de seu desktop, execute:
+```bash
+sudo editor /usr/share/applications/tuned-gui.desktop
+``
+E depois cole este conteúdo
+``
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Otimização Tuned
+Comment=Gerenciar perfis de performance (KVM/Sistema)
+Exec=/usr/local/bin/menu-tuned.sh
+Icon=utilities-terminal
+Terminal=false
+Categories=System;Settings;
+Keywords=performance;tuned;kvm;debian;
+StartupNotify=true
+``
+Salve e saia do editor.
+Agora você pode ir no menu do seu sistema e procurar por `tuned` e aparecerá o `Otimização Tuned` para selecionarmos nosso perfil de carga de trabalho, caso ele não apareça, dê uma forçada executando:
+```bash
+sudo update-desktop-database /usr/share/applications
+``
+Finalmente, agora você poderá ver o `Otimização Tuned` no meu do seu sistema.
+
 
 ----
 
