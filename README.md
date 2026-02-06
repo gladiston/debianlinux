@@ -219,20 +219,6 @@ Siga as instruções para realizar esse ajuste:
 [Ajustando o bloqueio de tela automático](docs/debian_lock_screen.md).    
 
 ---  
-
-## INSTALANDO O GOOGLE CHROME
-Cada distro geralmente acompanha seu próprio navegador, mas geralmente é o Firefox. No entanto, o Google Chrome é muito popular e, de fato, alguns sites só funcionam bem com o motor dele, por essa razão recomendo sua instalação, siga as instruções no link abaixo:    
-[Instalando o Google Chrome](docs/debian_google_chrome.md).  
-
----  
-
-## INSTALANDO O MICROSOFT EDGE
-Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu caso, o navegador Microsoft Edge também está disponível para Linux, os procedimentos de instalação são similares ao Google Chrome, o que muda é basicamente o link para download, então se for do seu interesse obter este navegador então siga as instruções no link abaixo:  
-
-[Instalando o Microsoft EDGE](docs/debian_msedge.md).  
-
----  
-
 ## NVIDIA NO DEBIAN
 
 Sistemas com GPUs Intel ou AMD não precisam de procedimentos extras para funcionarem, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa. A NVIDIA, porém, funciona de maneira diferente.
@@ -294,6 +280,19 @@ Por padrão, Debian e Ubuntu (e muitas distros derivadas) definem o **nano** com
 
 Para saber mais e como fazer, siga as instruções no link abaixo:  
 [Selecionando o editor de texto padrão para o terminal](docs/debian_terminal_editor.md).  
+
+---  
+
+## INSTALANDO O GOOGLE CHROME
+Cada distro geralmente acompanha seu próprio navegador, mas geralmente é o Firefox. No entanto, o Google Chrome é muito popular e, de fato, alguns sites só funcionam bem com o motor dele, por essa razão recomendo sua instalação, siga as instruções no link abaixo:    
+[Instalando o Google Chrome](docs/debian_google_chrome.md).  
+
+---  
+
+## INSTALANDO O MICROSOFT EDGE
+Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu caso, o navegador Microsoft Edge também está disponível para Linux, os procedimentos de instalação são similares ao Google Chrome, o que muda é basicamente o link para download, então se for do seu interesse obter este navegador então siga as instruções no link abaixo:  
+
+[Instalando o Microsoft EDGE](docs/debian_msedge.md).  
 
 ---  
 
