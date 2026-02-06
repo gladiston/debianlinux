@@ -85,7 +85,8 @@ Mas olha a situação do Ubuntu, a Dock fica ao lado e no topo o painel do GNOME
 Execute o gerenciador de extensões, vá em mnavegar e procure e instale as extensções:  
 * **App Icons TaskBar**:  Ela traz os seus favoritos e taskbar para o painel superior.   
 * **AppsMenu**: Ele traz um menu para voce encontrar as aplicações de que precisa sem precisar usar a tecla Super.  
-* **Move date menu to the right**: Como o próprio nome sugere, muda a posição de data/hora para o lado direito.  
+* **Move date menu to the right**: Como o próprio nome sugere, muda a posição de data/hora para o lado direito.
+* **Status Tray**:  Se você remover o Dock, seja ele o _Dash To Dock_, _Ubuntu Dock_ ou qualquer outro, você remove também a bandeja do sistema e algumas aplicações não terão mais onde ficarem e alguns até mesmo deixam de funcionar, então você precisa obrigatoriamente duma bandeja ativa no seu sistema então voce precisará dessa extensão para não ficar sem bandeja.  
 
 ### Ubuntu
 Depois, no caso do Ubuntu, você deve ir na guia de **Instalados** e desativar as extensões:  
