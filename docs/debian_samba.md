@@ -85,35 +85,26 @@ O Samba pode ter suas contas integradas ao Active Directory e com isso não é n
 Mas e se precisarmos compartilhar os arquivos em nosso computador com outros usuários?  
 Neste caso, você deve previamente adicionar os usuários em seu computador, no banco de dados do próprio Samba. Em nosso exemplo, vamos acrescentar a si mesmo no compartilhameto.
 
-### Definir a Senha do Samba:
-    Use o comando `smbpasswd -a` para adicionar o usuário `gsantana` ao banco de dados do Samba e definir uma senha de rede.
-
-    ```bash
-    sudo smbpasswd -a gsantana
-    ```
-
-    (Você será solicitado a digitar e confirmar a nova senha do Samba.)
-
-**Habilitar o Usuário (Garantia)**
-Defina uma senha para o usuário recém adicionado:
-
-    ```bash
-    sudo smbpasswd -e gsantana
-    ```
+Use o comando `smbpasswd -a` para adicionar o usuário `gsantana` ao banco de dados do Samba e definir uma senha de rede:
+```bash
+sudo smbpasswd -a gsantana
+```
+Depois voce deverá fornecer e confirmar a nova senha do `gsantana`, e se isso não acontecer, então execute:  
+```bash
+sudo smbpasswd -e gsantana
+```
 
 **Configuração do Compartilhamento `/etc/samba/smb.conf`**
 
 Edite o arquivo principal de configuração para definir o novo recurso de compartilhamento. Primeiro façamos um backup da configuração original:  
-
-    ```bash
-    sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
-    ```
+```bash
+sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+```
 
 Depois editamos o arquivo de configuração:  
-
-    ```bash
-    sudo editor /etc/samba/smb.conf
-    ```
+```bash
+sudo editor /etc/samba/smb.conf
+```
 
 Vamos eliminar os atributos que somente o Linux enxergaria, isso mesmo, a incompatibilidade na visualização de pastas ou arquivos dentro do Windows ocorre frequentemente quando o Samba encontra **links simbólicos** que apontam para fora do diretório compartilhado. Por padrão, o Samba tenta aplicar as extensões e atributos de segurança do UNIX (permissões, proprietário, grupo) à conexão SMB/CIFS, o que pode confundir clientes Windows.     
 Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:, adicione a diretiva `unix extensions = no` na seção `[global]` do arquivo `/etc/samba/smb.conf`. Esta linha desabilita a tentativa do Samba de usar atributos de arquivo UNIX, melhorando a compatibilidade com o Windows, especialmente ao lidar com links simbólicos:  
