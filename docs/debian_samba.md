@@ -79,6 +79,146 @@ Se você receber mensagem como:
 > Failed to start nmbd.service: Unit nmbd.service not found.  
 
 È porque o SAMBA não foi instalado, isso aconteceu com o Ubuntu 25+, então volte aos passos anteriores e inclua a instalação do meta-pacote 'samba'.  
+
+### Compartilhando meus arquivos
+O Samba pode ter suas contas integradas ao Active Directory e com isso não é necessário nem mesmo digitar a senha para acessar compartilhamentos externos. E sem a integração, você será forçado a digitar a senha, caso a mesma não seja memorizada.  
+Mas e se precisarmos compartilhar os arquivos em nosso computador com outros usuários?  
+Neste caso, você deve previamente adicionar os usuários em seu computador, no banco de dados do próprio Samba. Em nosso exemplo, vamos acrescentar a si mesmo no compartilhameto.
+
+1.  **Definir a Senha do Samba:**
+    Use o comando `smbpasswd -a` para adicionar o usuário `gsantana` ao banco de dados do Samba e definir uma senha de rede.
+
+    ```bash
+    sudo smbpasswd -a gsantana
+    ```
+
+    (Você será solicitado a digitar e confirmar a nova senha do Samba.)
+
+2.  **Habilitar o Usuário (Garantia):**
+
+    ```bash
+    sudo smbpasswd -e gsantana
+    ```
+
+### 1.3. Configuração do Compartilhamento (`/etc/samba/smb.conf`)
+
+Edite o arquivo principal de configuração para definir o novo recurso de compartilhamento.
+
+1.  **Backup da Configuração Original:**
+
+    ```bash
+    sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.bak
+    ```
+
+2.  **Editar o Arquivo de Configuração:**
+
+    ```bash
+    sudo editor /etc/samba/smb.conf
+    ```
+
+3.  **Solução de Compatibilidade para Links Simbólicos (Symlinks)**  
+    A incompatibilidade na visualização de pastas ou arquivos dentro do Windows ocorre frequentemente quando o Samba encontra **links simbólicos** que apontam para fora do diretório compartilhado. Por padrão, o Samba tenta aplicar as extensões e atributos de segurança do UNIX (permissões, proprietário, grupo) à conexão SMB/CIFS, o que pode confundir clientes Windows.  
+    
+    Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:  
+    
+    Adicione a diretiva `unix extensions = no` na seção `[global]` do arquivo `/etc/samba/smb.conf`. Esta linha desabilita a tentativa do Samba de usar atributos de arquivo UNIX, melhorando a compatibilidade com o Windows, especialmente ao lidar com links simbólicos:  
+```Ini, TOML
+    [global]
+        (...)
+        workgroup = WORKGROUP
+        unix extensions = no    ; <<< Adicionar esta linha
+        (...)
+```  
+Se você tiver um dominio em sua rede, troque **WORKGROUP** pelo nome do seu dominio, ex **LOCALDOMAIN**. Isso acelera nosso trabalho porque ao mapear unidades não precisamos informar o usuário desse jeito **localdomain\gsantana**, apenas **gsantana** será suficiente.      
+
+4.  **Adicionar o Novo Compartilhamento:**
+    Adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
+
+```ini
+[work]
+    comment = Pasta de Trabalho do gsantana
+    path = /home/gsantana/work
+    browseable = yes
+    read only = no
+    valid users = gsantana
+    public = no
+    writable = yes
+    follow symlinks = yes
+    wide links = yes
+
+    # Máscaras de permissão
+    create mask = 0644
+    directory mask = 0755
+
+    # Configurações de segurança para mapeamento de usuário
+    force user = gsantana
+    force group = gsantana
+```
+
+5.  **Salvar e Sair** do editor.
+
+### 1.4. Verificação de Permissões no Linux
+
+Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
+Define gsantana como dono (se necessário):  
+```bash
+sudo chown -R gsantana:gsantana /home/gsantana/work
+```
+
+Garanta permissões rwx (7) ao proprietário:  
+```
+sudo chmod -R 755 /home/gsantana/work
+sudo setfacl -R -m d:u:gsantana:rwx /home/gsantana/work
+```
+
+### 1.5. Reinício e Teste do Serviço
+
+1.  **Verificar a Sintaxe da Configuração:**
+
+    ```bash
+    testparm
+    ```
+
+    Confirme que o `smb.conf` foi carregado sem erros.
+
+2.  **Reiniciar o Serviço SMB:**
+
+    ```bash
+    sudo systemctl restart smbd
+    ```
+
+4.  **Iniciar o Serviço SMB após o boot:**
+
+    ```bash
+    sudo systemctl enable smbd
+    ```
+    
+4.  **Testar o Acesso Localmente (Opcional):**
+
+    ```bash
+    smbclient //localhost/work -U gsantana
+    ```
+
+    Digite a senha do Samba e se estiver correta, o prompt `smb: \>` confirma a conexão bem-sucedida e se quiser usar alguns comandos, tente o `ls` e depois o `quit`.  
+    
+
+-----
+
+## 2\. Acesso e Mapeamento no Cliente Windows
+
+Após a configuração no Debian, o compartilhamento pode ser acessado em qualquer máquina Windows na mesma rede.
+
+### 2.1. Teste de Conexão Inicial
+
+1.  Obtenha o **Endereço IP** do seu servidor Debian/Ubuntu (e.g., usando `ip a` no terminal Linux). Mapear usando o nome não funciona muito bem com VMs usando NAT(provavelmente nosso caso).  
+2.  No Windows, pressione **`Win + R`** para abrir o **Executar**.
+3.  Digite o caminho UNC do compartilhamento:
+    ```
+    \\192.168.1.50\work
+    ```
+4.  Insira o nome de usuário (`gsantana`) e a **senha do Samba**. Marque a opção para lembrar credenciais.
+
+### Não quero compartilhar meus arquivos
 Se, por outro lado, você **só precisa acessar** arquivos compartilhados em outros computadores (sem compartilhar os seus), é melhor desativar esses serviços para economizar recursos:
 
 ```bash
