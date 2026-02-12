@@ -93,6 +93,11 @@ Depois voce deverá fornecer e confirmar a nova senha do `gsantana`, e se isso n
 ```bash
 sudo smbpasswd -e gsantana
 ```
+Crie um grupo para compartilhamento e acrescente este mesmo usuário mesmo ao grupo:
+```bash
+sudo groupadd smbwork
+sudo usermod -aG smbwork gsantana
+```
 
 **Configuração do Compartilhamento `/etc/samba/smb.conf`**
 
@@ -121,39 +126,39 @@ Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **f
 
 ```ini
 [work]
-    comment = Pasta de Trabalho do gsantana
-    path = /home/gsantana/work
-    browseable = yes
-    read only = no
-    valid users = gsantana
-    public = no
-    writable = yes
-    follow symlinks = yes
-    wide links = yes
+   comment = Pasta de Trabalho do gsantana
+   path = /home/gsantana/work
+   browseable = yes
+   read only = no
+   writable = yes
 
-    # Máscaras de permissão
-    create mask = 0644
-    directory mask = 0755
+   create mask = 0660
+   directory mask = 2770
 
-    # Configurações de segurança para mapeamento de usuário
-    force user = gsantana
-    force group = gsantana
+   force group = smbwork
+   inherit permissions = yes
 ```
 A pasta e o nome do compartilhamnento você pode ficar a vontade para modificar.  
 Depois salve o arquivo e saia do editor.  
 
 ## Verificação de Permissões no Linux
 
+Ajuste a permissão da pasta:
+```bash
+sudo chown -R gsantana:smbwork /home/gsantana/work
+sudo chmod -R 2770 /home/gsantana/work
+```
+
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
 Define gsantana como dono (se necessário):  
 ```bash
-sudo chown -R gsantana:gsantana /home/gsantana/work
-sudo setfacl -R -m d:u:gsantana:rwx /home/gsantana/work
+sudo setfacl -R -m g:smbwork:rwx /home/gsantana/work
+sudo setfacl -R -m d:g:smbwork:rwx /home/gsantana/work
 ```
 
 Se precisar que mais pessoas tenham acesso, recomendo:  
 ```
-sudo chmod -R 777 /home/gsantana/work
+sudo chmod -R 1777 /home/gsantana/work
 ```
 
 ### Reinício e Teste do Serviço
