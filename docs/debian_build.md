@@ -8,15 +8,19 @@ Execute os comandos a seguir para instalar o conjunto completo de ferramentas de
     ```bash
     sudo apt install -y build-essential
     ```
-2.  **Utilitários de Empacotamento Debian e Meta-dados:**
+2.  **Ambiente Java:**
+    ```bash
+    sudo apt install default-jre
+    ```
+4.  **Utilitários de Empacotamento Debian e Meta-dados:**
     ```bash
     sudo apt install -y dh-make exuberant-ctags dpkg-dev debhelper fakeroot
     ```
-3.  **Utilitários Adicionais de Kernel e Segurança:**
+5.  **Utilitários Adicionais de Kernel e Segurança:**
     ```bash
     sudo apt install -y exuberant-ctags module-assistant dkms patch libssl-dev
     ```
-4.  **Ferramentas de Desenvolvimento e Visualização:**
+6.  **Ferramentas de Desenvolvimento e Visualização:**
     ```bash
     sudo apt install -y libncurses-dev ack fontconfig imagemagick git meson sassc tree
     ```
