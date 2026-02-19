@@ -20,6 +20,17 @@ A tabela a seguir detalha a função primária de cada pacote instalado:
 | `squashfs-tools` | Criação e extração de arquivos `.squashfs`, comum em pacotes *Snap* e sistemas de arquivos de leitura. |
 | `cabextract` | Utilitário para extração de arquivos `.cab` (Microsoft Cabinet). |
 
+## GUI para compactar/descompactar
+Ambientes de desktop como KDE, GNOME e outros tem ferramentas próprias para compactar e descompactar arquivos. Essas ferramentas são fáceis e intuitivas, no entando elas são um wrapper para as ferramentas de backend que instalamos acima, por exemplo, o Ark (o gerenciador de arquivos do KDE) não "lê" o arquivo .7z nativamente. Ele faz um `7z l` em background, captura o output de texto, faz o parsing (processamento do texto) e então preenche a lista na interface gráfica e no GNOME, o File-Roller faz a mesma coisa. Nestes ambientes gráficos, cada vez que você clica em uma pasta compactada, ele pode estar reexecutando comandos para atualizar a visão. Então precisamos de um programa gráfico para substituir estes programas e que faça essas operações nativamente como WinRAR ou 7-Zip faz, e eles até existem para Linux, no entanto, não estão no repositório e precisam ser instalados manualmente. Mas há um programa que faz isso nativamente no Linux, o `PeaZip`, ele é encontrado na loja do flatpak, então procure e instale-o. Caso queira instalar via terminal:  
+```bash
+flatpak install flathub io.github.peazip.PeaZip
+```
+Caso queira instalar uma versão .deb, [poderá fazer o download aqui](https://peazip.github.io/peazip-linux.html). A versão `.deb` tem uma integração melhor com o gerenciador de arquivos, a versão `flatpak` falha quando tentamos clicar com o botão direito do mouse e pedimos para **Extrair aqui**.  
+A diferença entre o PeaZip com o Ark(KDE) ou File Roller(GNOME) é da agua para o vinho. Me faz pensar que KDE e GNOME deveriam descontinuar suas ferramentas de compactação e descompactação. Sério, é muita diferença de tempo. Lembre-se de que as ferramentas de terminal são muito rápidas, o problema mesmo é o frontend nativo do KDE/GNOME que servem de frontend para as mesmas.  
+
+Não acho necessário, mas caso queira experimentar a versão do 7zip para Linux, [ele se encontra aqui](https://www.7-zip.org/download.html).  
+
+
 ## Cópia e sincronização de arquivos
 Fazer backups, transferencia de arquivos, sincronização e outros tipos de operação é uma tarefa que seria complicada em o uso do `rsync`. Vamos instalá0lo:  
 ```bash
