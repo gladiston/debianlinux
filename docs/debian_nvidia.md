@@ -258,10 +258,10 @@ sudo prime-select nvidia
 Em ambientes GNOME e KDE, quando habilitado o **Prime**, o seletor de programas inclui a opção de **Executar com NVIDIA** e assim, você pode executar especialmente jogos diretamente com a GPU NVDIA.  
 
 ---
-## 13. Como reverter caso dê problema
-Se você instalou uma versão muito nova que apresenta bugs, pode voltar para o Nouveau ou para uma versão do Debian.
+## 13. COMO REVERTER
+Se o sistema está apresentando problemas e precisa reverter o que fizemos então siga os passos:  
 
-Para remover completamente:
+Para remover o driver completamente:
 
 ```bash
 sudo apt purge nvidia-driver nvidia-*
