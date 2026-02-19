@@ -241,7 +241,7 @@ sudo apt install nvidia-settings
 
 ---
 ## 11. API VULKAN
-Uma coisa interessante sobre o Vulkan é que ele também requer componentes instalados para ele, mas diferentes de drivers de sistemas, são softwares que fazem a ligação da placa de rede com a principal API usada para aceleração de gráficos via hardware chamada **Vulkan**. Então vamos instalar este componente, execute:
+Uma coisa interessante sobre o Vulkan é que ele também requer componentes instalados para ele, mas diferentes de drivers de sistemas, são softwares que fazem a ligação da GPU com a principal API usada para aceleração de gráficos via hardware chamada **Vulkan**. Então vamos instalar este componente, execute:
 ```bash
 sudo apt install nvidia-vulkan-icd
 ```
