@@ -266,21 +266,16 @@ Para remover completamente:
 ```bash
 sudo apt purge nvidia-driver nvidia-*
 ```
-E então edite o arquivo `/etc/modprobe.d/blacklist-nouveau.conf`:  
+E então remova o arquivo `/etc/modprobe.d/blacklist-nouveau.conf`:  
 ```bash
-sudo editor /etc/modprobe.d/blacklist-nouveau.conf
+sudo rm -f /etc/modprobe.d/blacklist-nouveau.conf
 ```
-E remova as linhas que colocamos, a saber:  
-```
-blacklist nouveau
-options nouveau modeset=0
-```
-Salve e saia do editor, depois atualizamos nosso boot, execute:  
+Depois atualizamos nosso boot, execute:  
 ```bash
-sudo update-initramfs -u
+sudo update-initramfs -u 
 sudo reboot
 ```
-Apenas estes passos retornarão ao original.  
+Apenas estes passos retornarão o sistema ao original.  
 
 ---
 
