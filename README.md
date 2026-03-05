@@ -196,6 +196,13 @@ Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribu
 Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
 [Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
+---
+
+## NOBREAK RAGTECH EASY PRO
+
+Se você tem esse nobreak(UPS) complicado no mundo Linux, há esperança. Sistemas UPS baseados em HUD são plug'n play e simplsmente de serem configurados no linux, mas o modelo 'ragtech ease pro' é um dispositivo USB camuflado, pois é de leitura serial. E por isso, não é tão simples assim, mas leia com cuidado o link a seguir e saberá como instalá-lo em seu sistema:
+
+[NOBREAK RAGTECH EASY PR](docs/debian_xdg_bin.md)
 
 ---  
 
