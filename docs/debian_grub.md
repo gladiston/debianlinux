@@ -95,11 +95,11 @@ Atenção: nunca remova o kernel atualmente em uso.
 ---
 
 ### 2.3 Remover kernel problemático
-Em nosso exemplo, demos boot com o kernel mais antigo, isto é, **linux-image-6.17.0-14-generic** para que seja possível remover o mais recente **linux-image-6.17.0-19-generic** assim:
-
+Em nosso exemplo, demos boot com o kernel mais antigo, isto é, **linux-image-6.17.0-14-generic** para que seja possível remover o mais recente **linux-image-6.17.0-19-generic** assim `sudo apt purge linux-image-6.x.x-xx-generic linux-headers-6.x.x-xx-generic`. Em nosso exemnplo acima:  
 ```bash
-sudo apt purge linux-image-6.x.x-xx-generic linux-headers-6.x.x-xx-generic
+sudo apt purge linux-image-6.17.0-19-generic linux-headers-6.17.0-19-generic
 ```
+Acima, tem um preciosismo da minha parte, porque se você remover apenas `linux-image-6.17.0-19-generic`, o pacote `linux-headers-6.17.0-19-generic` também seria removido.   
 
 ---
 
