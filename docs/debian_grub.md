@@ -197,4 +197,4 @@ Essas práticas são especialmente recomendadas para:
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#MAIS SEGURANÇA COM O GRUB)
+[Clique aqui para retornar a página principal](../README.md#mais-seguran%C3%A7a-com-o-grub)
