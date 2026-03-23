@@ -149,6 +149,10 @@ sudo apt-mark hold linux-image-generic linux-image-generic-hwe-24.04
 ```bash
 apt-mark showhold
 ```
+E então será listado todos os pacotes que você tenha congelado e caso seja seguro "descongelar" algum deles, poderá fazê-lo como no exemplo a seguir onde desconhgelo novamente nossa atualização de kernel:  
+```bash
+sudo apt-mark unhold linux-image-generic linux-image-generic-hwe-24.04
+```
 
 ---
 
