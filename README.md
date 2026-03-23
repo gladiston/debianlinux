@@ -157,6 +157,16 @@ O sudoers e seu utilitário de linha de comando chamado `sudo` é o responsável
 Se você gostaria de personalizar as opções do sudoers, siga as orientações abaixo:  
 [Fazendo a configuração do sudoers no Debian](docs/debian_sudoers_opt.md).  
 
+
+---
+
+## MAIS SEGURANÇA COM O GRUB
+
+Se você utiliza Debian, Ubuntu ou seus derivados, é importante saber que atualizações de kernel podem eventualmente causar falhas no boot do sistema. O Debian adota uma abordagem mais conservadora e estável, enquanto o Ubuntu costuma trazer kernels mais recentes com maior frequência — o que aumenta a probabilidade de incompatibilidades em alguns cenários. Este guia mostra como habilitar um temporizador no GRUB (facilitando a escolha de kernels anteriores em caso de falha) e, no caso do Ubuntu, como remover versões problemáticas e congelar atualizações de kernel para evitar recorrência do problema. Essas práticas aumentam significativamente a previsibilidade e a segurança do ambiente.
+
+Se você usa Debian, Ubuntu ou derivados, recomendamos seguir as instruções no link abaixo:
+[Mais segurança com o GRUB](docs/debian_grub.md)
+
 ---  
 
 ## PERMISSÃO AO JOURNAL 
