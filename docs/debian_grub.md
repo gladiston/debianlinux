@@ -197,4 +197,4 @@ Essas práticas são especialmente recomendadas para:
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#ative-o-suporte-a-flatpak-central)
+[Clique aqui para retornar a página principal](../README.md#MAIS SEGURANÇA COM O GRUB)
