@@ -19,43 +19,33 @@ Prepare-se para não apenas configurar o seu sistema, mas **aprender o Linux de 
 ---
 
 ## Sobre o particionamento (Btrfs vs ext4)
+
 Se o seu foco for virtualização e você pretende usar snapshots (recurso em que o Btrfs brilha), o Btrfs pode ser excelente — mas há nuances para VMs (desempenho, CoW, layout de subvolumes) que exigem atenção.
 Se você não precisa de snapshots ou prefere o caminho mais simples, ext4 é uma escolha direta e estável. No tópico específico de Btrfs explico quando e por que usá-lo (e como ajustar para uso de VMs).  
 Se possivel, todas as partições que contêm dados importantes devem ter um *label* como #dados1, #dados2, #disco1, #home e assim por diante, sempre sendo fáceis de serem identificados quando executarmos o comando **lsblk -f**. Colocar labels em disco é vida!  
 
 ---
 
-## Como usar este guia
-A proposta deste guia não é **decorar comandos**, mas servir como um **repositório pessoal de referência**.  
-Você lê este guia passo a passo e além de instalar, aprende para quê servem o que está instalando.  
+## Visualizando este documento
 
-Embora você possa ler este Guia passo a Passo diretamente do github, existe a opção de baixá-lo para lê-lo offline caso precise, eu recomendo fortemente que você **clone este projeto** localmente porque eu usei imagens nela e o github em planos gratuítos tem um limite mensal então se por acaso este limite for ultrapassado, não irá ver as imagens. Para clonar, execute:  
+Para visualizar este documento em formato markdown corretamente, use o programa **Mark Text**:
+
 ```bash
-git clone https://github.com/gladiston/debianlinux.git
+flatpak install flathub com.github.marktext.marktext
 ```
-Para ler, execute:  
-```bash
-sudo apt install grip -y
-cd debianlinux
-grip
-```
-Você verá algo como:  
-> * Serving Flask app 'grip.app'  
-> * Debug mode: off  
-> * Running on http://localhost:6419  
 
-Então no seu navegador, aponte para o endereço acima e verá o conteúdo desse guia.  Pessoalmente eu gosto do jeito que o github renderiza porque eles colocam um botão de copiar que economiza tempo e a renderização local não faz isso. Em contrapartida, numa cópia local, você verá sempre as imagens sem depender dos limites impostos pelo github.  
-
-A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pulando o que for indesejado.  
+Depois execute o marktext e abra este arquivo.
 
 ---
 
 ## Resultado esperado
+
 Um sistema previsível e repetível, com configurações documentadas, pronto para trabalho diário, testes e ção.
 
 ---
 
 ## Os padrões usados neste guia
+
 Para o correto entendimento deste guia, usarei alguns padrões:  
 **Nome do host**: ti-01  
 **Nome do usuário**: gsantana  
@@ -65,6 +55,7 @@ Para o correto entendimento deste guia, usarei alguns padrões:
 **HowTo**: É o termo que designamos para este guia passo-a-passo.    
 
 As vezes, comandos que precisam ser executados no terminal são mesclados com o texto da saída do comando, quando isso acontecer, para que você diferencie, qual que é o comando e qual é a saída de texto dele, os comandos serão precedidos de "$", por exemplo:  
+
 ```
 $ sudo apt update -y
 Obter:1 https://dl.google.com/linux/chrome/deb stable InRelease [1.825 B]
@@ -89,6 +80,7 @@ Nota: Algumas fontes podem ser modernizadas. Execute 'apt modernize-sources' par
 ---
 
 ## NOTEBOOKs DA LINHA ACER NITRO
+
 Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga essas instruções:  
 
 [Se tiver um ACER NITRO, siga as instruções aqui](https://github.com/gladiston/fedorainstallonacernitro)
@@ -96,42 +88,43 @@ Se tiver um ACER NITRO ou outro computador similar com “Secure Boot”, siga e
 ---
 
 ## UBUNTU vs DEBIAN: Qual Escolher para Sua Produtividade?
-As duas distribuições mais influentes no ecossistema Linux são **Debian** e **Ubuntu**, sendo o Ubuntu uma derivação direta do Debian otimizada para usuários domésticos e corporativos.  Você conhece as diferenças? Qual escolher para sua produtividade?  No link abaixo, respondo esta pergunta.  
 
+As duas distribuições mais influentes no ecossistema Linux são **Debian** e **Ubuntu**, sendo o Ubuntu uma derivação direta do Debian otimizada para usuários domésticos e corporativos.  Você conhece as diferenças? Qual escolher para sua produtividade?  No link abaixo, respondo esta pergunta.  
 
 [UBUNTU vs DEBIAN: Qual Escolher para Sua Produtividade?](docs/debian_ubuntu.md)  
 
 ---
 
 ## GNOME ou KDE PLASMA: Qual Ambiente de Trabalho Escolher?
+
 Em sistemas Linux, o **ambiente de trabalho** (ou **Desktop Environment - DE**) é a camada gráfica que interage diretamente com o usuário. Diferentemente do Windows ou macOS, que possuem uma interface fixa, **Linux oferece múltiplas opções de ambientes gráficos**, cada um com filosofia, funcionalidade e estética próprias. As mais populares no Linux são: KDE e GNOME, mas qual as diferenças?
 
 Curioso para saber minha opinião? Clique  no link abaixo:  
 [GNOME ou KDE PLASMA: Qual Ambiente de Trabalho Escolher?](docs/debian_kde_gnome.md)  
 
-
 ---
 
 ## PARTICIONAMENTO DURANTE A INSTALAÇÃO DO DEBIAN/UBUNTU
+
 A instalação do Debian/Ubuntu não tem grandes mistérios — o ponto mais delicado é mesmo o **particionamento do disco**.  
 No link abaixo explico melhor essa questão, é bom que leia antes de fazer a instalação. Segue:  
 
 [Particionamento durante a instalação do Debian/Ubuntu](docs/debian_part.md)  
 
-
 ---
 
 ## DNSs
+
 Salvo alguma exceção, os DNS da *Cloudflare* são excelentes para serem usados em desktpos. A Claudfare não cobram pelo uso do DNSs deles porque isso aumenta o uso da infraestrutura global deles, o que melhora a capacidade e visibilidade da rede — e isso faz parte do modelo de negócio deles. Eles possuem DNSs diferentes para cada propósito, você pode usar eles no seu sistema, ou caso tenha acesso, diretamente no roteador. São eles:  
 
 1. **Para Famílias**: O DNS padrão da Cloudflare: rápido, seguro, sem filtros de conteúdo. Apenas privacidade e desempenho.  
-    * *DNS Primário:* 1.1.1.1  
+   * *DNS Primário:* 1.1.1.1  
 2. **Bloqueio apenas de Malware**: Bloqueia sites conhecidos por distribuir malware, vírus e ameaças digitais, mantendo todo o restante liberado.   
-    * *DNS Primário:* 1.1.1.2 (IPv6: 2606:4700:4700::1112)  
-    * *DNS Secundário:* 1.0.0.2 (IPv6: 2606:4700:4700::1002)  
+   * *DNS Primário:* 1.1.1.2 (IPv6: 2606:4700:4700::1112)  
+   * *DNS Secundário:* 1.0.0.2 (IPv6: 2606:4700:4700::1002)  
 3. **Bloqueio de Malware e Conteúdo Adulto**: Bloqueia malware, vírus e também sites com conteúdo adulto (pornografia), protegendo especialmente casas com crianças.  
-    * *DNS Primário:* 1.1.1.3 (IPv6: 2606:4700:4700::1113)  
-    * *DNS Secundário:* 1.0.0.3 (IPv6: 2606:4700:4700::1003)  
+   * *DNS Primário:* 1.1.1.3 (IPv6: 2606:4700:4700::1113)  
+   * *DNS Secundário:* 1.0.0.3 (IPv6: 2606:4700:4700::1003)  
 
 **Links relacionados que explicam esses DNSs em pormenor:**  
     * https://www.cloudflare.com/pt-br/learning/dns/what-is-1.1.1.1/br/learning/dns/what-is-1.1.1.1/)    
@@ -141,7 +134,8 @@ Você pode trocar de DNS diretamente em seu roteador ou no seu desktop. No caso 
 
 ---
 
-## 'SUDO' - SOMENTE PARA O DEBIAN  
+## 'SUDO' - SOMENTE PARA O DEBIAN
+
 O sudoers e seu utilitário de linha de comando chamado `sudo` é o responsável por elevar as permissões do usuário para que ele consiga executar comandos que apenas o **root** teria acesso.  
 
 Por padrão, o usuario comum não é do mesmo grupo do `sudo`, isso impossibilitará de usar o comando `sudo`, vamos resolver essa situação.  
@@ -152,11 +146,11 @@ Se você está usando o Debian, é imprescindivel que façamos isso, siga as ori
 ---  
 
 ## 'SUDO' - PERSONALIZANDO OPÇÕES
+
 O sudoers e seu utilitário de linha de comando chamado `sudo` é o responsável por elevar as permissões do usuário para que ele consiga executar comandos que apenas o **root** teria acesso.  Se você é desenvolver ou administrador de sistemas, tem duas opções que flexibiizam o uso do comando `sudo`, e vou demonstrar cada uma delas.
 
 Se você gostaria de personalizar as opções do sudoers, siga as orientações abaixo:  
 [Fazendo a configuração do sudoers no Debian](docs/debian_sudoers_opt.md).  
-
 
 ---
 
@@ -169,13 +163,17 @@ Se você usa Debian, Ubuntu ou derivados, recomendamos seguir as instruções no
 
 ---  
 
-## PERMISSÃO AO JOURNAL 
+## PERMISSÃO AO JOURNAL
+
 O journal é o mecanismo de logs do systemd. Ele registra praticamente tudo o que ocorre no sistema — mensagens do kernel, inicialização de serviços, eventos de segurança, entre outros. Antigamente, esses registros eram armazenados em simples arquivos texto (como /var/log/syslog), acessíveis a qualquer usuário. Hoje, o journal é um serviço binário centralizado com restrições de acesso.
 Essa restrição afeta alguns comandos como o **systemctrl status [serviço]**, veja este exemplo:  
+
 ```bash
 systemctl status systemd-journald
 ```
+
 Se você observar um aviso como este:
+
 > Warning: some journal files were not opened due to insufficient permissions.
 
 É porque o Debian explicita a mensagem, mas outras distros derivativas do Debian como os sabores do Ubuntu, LinuxMint, ZorinOS e assim por diante, podem tanto já vir com esse problema corrigido como também simplesmente não mostrar logs em comandos como o `systemctrl` e isso não é bom. Então o que iremos fazer é verificar se temos acesso ao **journal** e se não tivermos, iremos acrescentar.
@@ -185,6 +183,7 @@ Se você observar um aviso como este:
 ---  
 
 ## REPOSITÓTIOS CONTRIB/NON-FREE/NON-FREE-FIRMWARE - APENAS PARA DEBIAN
+
 O Debian se baseia em um **compromisso rigoroso** com o Software Livre (**DFSG**), incluindo no repositório **`main`** apenas pacotes que aderem integralmente a esses princípios, o que é ideal para servidores, mas limita drasticamente a compatibilidade de *hardware* e a disponibilidade de software para uso como desktop no Debian 13. Para liberar o potencial completo do seu sistema, obtendo *drivers* e *firmware* proprietários essenciais e expandindo o catálogo de programas, é necessário adicionar e configurar os repositórios complementares **`contrib`**, **`non-free`** e **`non-free-firmware`**.   
 
 Siga o guia completo para remover essa restrição e garantir o suporte total ao seu desktop:  
@@ -193,6 +192,7 @@ Siga o guia completo para remover essa restrição e garantir o suporte total ao
 ---  
 
 ## REPOSITÓTIOS RESTRICTED E MULTIVERSE - APENAS PARA UBUNTU E DERIVADOS
+
 Se você utiliza Ubuntu ou seus derivados e enfrenta problemas de compatibilidade com *hardware* moderno ou a reprodução de mídias proprietárias, é provável que precise habilitar os repositórios **`restricted`** e **`multiverse`**. O `restricted` fornece *drivers* proprietários essenciais para *hardware* (como GPUs NVIDIA), enquanto o `multiverse` libera *codecs* e utilitários não-livres, estendendo significativamente o repertório de pacotes do seu sistema. Siga este guia para ativar esses repositórios vitais via interface gráfica, garantindo o suporte completo ao desktop, e finalize com uma atualização completa do sistema via terminal.  
 
 Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções no link abaixo:    
@@ -201,6 +201,7 @@ Se vocêusa Ubuntu ou derivados, provavelmente precisará seguir as instruções
 ---
 
 ## INCLUINDO O REPOSITÓRIO DA MICROSOFT
+
 Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribuições Debian-like como Debian 13 e Ubuntu, oferecendo acesso a ferramentas e bibliotecas essenciais, notavelmente as do ambiente Mono. Embora pareça paradoxal, o processo de inclusão exige a instalação inicial de um pacote configurador, que subsequentemente gerencia a atualização do próprio repositório, garantindo que você tenha acesso a pacotes como o mono e outros.  
 
 Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
@@ -225,7 +226,9 @@ Precisamos corrigir isso, leia as instruções no link abaixo:
 [Como adicionar `~/.local/bin` ao PATH](docs/debian_xdg_bin.md)
 
 ---  
+
 ## BLOQUEIO DE TELA AUTOMÁTICO
+
 O sistema operacional implementa uma medida de segurança padrão ajustando o bloqueio de tela após um período de inatividade. O termo **"falta de atividade"** é muitas vezes interpretado de forma incorreta; o que o sistema realmente mede é o **tempo sem interatividade** – ou seja, o período em que o usuário não interage ativamente com o teclado ou mouse.  
 
 Essa configuração pode ser inconveniente quando se está executando tarefas longas que exigem monitoramento visual sem intervenção manual, como esperar o término de *downloads* extensos, compilações ou acompanhar logs de status. Nesses casos, a tela será bloqueada, interrompendo o fluxo de trabalho, mesmo que o computador esteja trabalhando intensamente.  
@@ -236,6 +239,7 @@ Siga as instruções para realizar esse ajuste:
 [Ajustando o bloqueio de tela automático](docs/debian_lock_screen.md).    
 
 ---  
+
 ## NVIDIA NO DEBIAN
 
 Sistemas com GPUs Intel ou AMD não precisam de procedimentos extras para funcionarem, pois essas empresas fornecem drivers 100% open source já integrados ao kernel e ao Mesa. A NVIDIA, porém, funciona de maneira diferente.
@@ -254,17 +258,17 @@ Siga o link a seguir:
 
 **OBSERVAÇÃO**: Distros baseadas em Ubuntu já incluem uma opção em seu painel de configurações para fazer essa instalação  de maneira fácil.  
 
-
-
 ---  
 
 ### ATIVANDO VGA RADEON ANTIGAS
+
 Como possuidor de uma Radeon R7 no meu trabalho, tanto Debian como também Ubuntu instalam drivers da AMD corretamente, mas usam o driver antigo ao invés do novo. Daí o sistema funciona normalmente até que a aceleração gráfica seja acionada daí então tudo aparece borrado ou o sistema trava. Sob estas condições e tendo um modelo AMD VGA Radeon R7 240/340 / Radeon 520 ou similares então siga estas instruções:  
 [Habilitando Repositórios restricted e multiverse](docs/debian_gpu_amd.md)  
 
 ---  
 
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
+
 Os aliases são atalhos criados para simplificar comandos repetitivos no terminal. Em vez de digitar longas instruções toda vez, você pode definir abreviações personalizadas — tornando o uso do sistema mais rápido e produtivo.  
 Este recurso existe desde os primeiros sistemas Unix e continua sendo amplamente usado no Linux moderno, permitindo ajustar o ambiente de terminal ao seu estilo de trabalho. Neste tutorial, você aprenderá a criar, editar e ativar seus próprios aliases no arquivo ~/.bashrc.  
 
@@ -273,6 +277,7 @@ Este recurso existe desde os primeiros sistemas Unix e continua sendo amplamente
 ---  
 
 ## AJUSTANDO O PROMPT DO TERMINAL
+
 Às vezes o prompt do terminal pode incomodar alguns usuários.  
 Por exemplo, é justo que ao logarmos em servidores o terminal revele no prompt o **usuário** e o **nome do computador**:  
 ![Prompt normal](img/mudando_prompt01.png)  
@@ -283,7 +288,9 @@ Então, vamos ajustar o terminal para que o prompt possa ser personalizado confo
 [Ajustando o prompt do terminal](docs/debian_set_prompt.md).
 
 ---  
+
 ## EDITOR DE TEXTO VIM
+
 O **Vim (Vi IMproved)** é um editor de texto poderoso e altamente configurável, baseado no clássico **Vi**, presente em praticamente todas as distribuições Unix e Linux.  
 É amplamente utilizado por administradores de sistema e desenvolvedores por ser leve, rápido e disponível mesmo em ambientes sem interface gráfica.  
 
@@ -293,6 +300,7 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 ---  
 
 ## EDITOR DE TEXTO PADRÃO PARA O TERMINAL
+
 Por padrão, Debian e Ubuntu (e muitas distros derivadas) definem o **nano** como editor de texto padrão do terminal. Embora o **nano** seja simples e intuitivo, muitos administradores e desenvolvedores preferem editores mais avançados, como o **Vim**, **Neovim** ou **Micro**, que oferecem recursos adicionais — realce de sintaxe, atalhos poderosos e suporte a múltiplos modos de edição. Sempre que o sistema precisar abrir um editor — por exemplo, ao executar comandos como `crontab -e`, `visudo` ou `git commit` — ele usará o editor definido na variável de ambiente **EDITOR** (ou **VISUAL**).  
 
 Para saber mais e como fazer, siga as instruções no link abaixo:  
@@ -301,12 +309,14 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 ---  
 
 ## INSTALANDO O GOOGLE CHROME
+
 Cada distro geralmente acompanha seu próprio navegador, mas geralmente é o Firefox. No entanto, o Google Chrome é muito popular e, de fato, alguns sites só funcionam bem com o motor dele, por essa razão recomendo sua instalação, siga as instruções no link abaixo:    
 [Instalando o Google Chrome](docs/debian_google_chrome.md).  
 
 ---  
 
 ## INSTALANDO O MICROSOFT EDGE
+
 Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu caso, o navegador Microsoft Edge também está disponível para Linux, os procedimentos de instalação são similares ao Google Chrome, o que muda é basicamente o link para download, então se for do seu interesse obter este navegador então siga as instruções no link abaixo:  
 
 [Instalando o Microsoft EDGE](docs/debian_msedge.md).  
@@ -314,12 +324,14 @@ Algumas pessoas são apaixonados pelo navegador da Microsoft, se este é o seu c
 ---  
 
 ## FERRAMENTAS DE COMPILAÇÃO
+
 Se você pretende compilar códigos de programas, deploy de frameworks, reempacotar programas ou personalizar sua distro então precisará de algumas ferramentas adicionais, as instruções estão na seção abaixo:    
 [Ferramentas de Compilação](docs/debian_build.md)   
 
 ---  
 
 ## GIT
+
 O Git é um dos sistemas de controle de versão mais utilizados no mundo do desenvolvimento de software. Ele permite gerenciar projetos de forma colaborativa, acompanhar alterações no código e garantir segurança e rastreabilidade em cada modificação.
 
 No Linux, especialmente nas distribuições Debian e Ubuntu, a instalação e configuração do Git são simples, mas recentes mudanças no GitHub exigem ajustes adicionais para autenticação segura. Este tutorial mostrará como preparar seu ambiente corretamente, compilar o suporte ao libsecret (necessário para armazenar credenciais com segurança) e configurar o Git para utilizar tokens de acesso pessoal, substituindo o antigo método de login por senha.
@@ -330,6 +342,7 @@ Vamos configurar e corrigir alguns problemas, siga o link abaixo:
 ---  
 
 ## INSTALANDO O GPARTED
+
 O `gparted` é o programa mais eficiente para gerenciar discos permitindo criar, editar e excluir partições. Seria inapropriada não instalá-lo, execute:  
 
 ```bash
@@ -339,16 +352,19 @@ sudo apt install -y gparted
 ---  
 
 ## INSTALANDO CODECS E PLAYERS DE AUDIO/VIDEO
+
 Com os repositórios adicionais ativados, podemos instalar alguns pacotes importantes que liberarão codecs e *players* de áudio e vídeo no sistema, ENTÃO EXECUTE:  
 
 ```bash
 sudo apt install -y libavcodec-extra ffmpeg 
 ```
+
 **Observação**: Depois instale o `vlc`, preferencialmente do repositório flathub.  
 
 ---  
 
 ## INSTALANDO O STRACE
+
 O **strace** mostra as chamadas de sistema (útil para ver onde o erro ocorre) e também detectar recursos que estão sendo usados por outros programas.  
 Para saber mais e como fazer, siga as instruções no link abaixo:  
 [Instalando e usufruindo do strace](docs/debian_strace.md).  
@@ -356,6 +372,7 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 ---  
 
 ## MONITORANDO O SISTEMA COM O HTOP
+
 O **htop** é um monitor interativo de processos para Linux, uma versão aprimorada e muito mais amigável do clássico comando `top`.  
 Ele exibe em tempo real o uso da CPU, memória, swap, tarefas em execução, processos e suas prioridades, tudo com cores e atalhos intuitivos.  
 Ao contrário do `top`, o **htop** permite **navegar com o teclado** pelas listas, **matar processos** com um clique ou tecla e **organizar colunas** conforme sua preferência.
@@ -366,20 +383,22 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 ---  
 
 ## MONITORANDO TEMPERATURAS COM O LM-SENSORS
+
 O **lm-sensors** mostra as temperaturas, tensões e rotações das ventoinhas da sua placa-mãe e processador.  
 É leve, simples e ótimo para acompanhar o aquecimento do sistema.
 
 Para saber mais e como fazer, siga as instruções no link abaixo:  
 [Instalando e usufruindo do lmsensors](docs/debian_lmsensors.md).  
 
-
 ## ATIVANDO O DISPLAY DO WATER COOLER RISE MODE AURA ICE BLACK
+
 Se você for um possuidor do Water Cooler Rise Mode Aura Ice Black, boas noticias, após instalar o lm-sensors, você pode ativar o display dele sem muito trabalho para mostrar a temperatura de sua CPU, basta seguir as instruções no link a seguir:  
 [Ativando o display do modelo  Water Cooler Rise Mode Aura Ice Black](https://github.com/gladiston/water-cooler-hid)  
 
 ---  
 
 ## INSTALANDO O NOTIFY-SEND
+
 O **notify-send** é um utilitário geralmente usado para enviar mensagens de um usuário para outro dentro do mesmo sistema.  
 Ele é análogo ao comando `wall`, que exibe mensagens diretamente no terminal.  
 
@@ -393,18 +412,22 @@ sudo apt install -y libnotify-bin
 ---  
 
 ## INSTALANDO O SILVERSEARCH-AG(ag)
+
 O **Silversearcher-ag**, também conhecido simplesmente como **ag**, é uma ferramenta de busca extremamente rápida para código-fonte e arquivos de texto.  
 Ele é similar ao comando `grep`, porém muito mais veloz e prático — ideal para desenvolvedores e administradores que precisam localizar trechos de texto em grandes projetos.
 
 Instale-o com:
+
 ```bash
 sudo apt install -y silversearcher-ag
 ```
+
 O `silversearch`ou simplesmente `ag` é um comando relativamente novo, mas gradualmente, substitua o uso do `grep` por ele, e perceberá gradualmente as vantagens e especialmente velocidade quando se lida com arquivos grandes.  
 
 ---  
 
 ## INSTALANDO ADICIONAIS PARA O APT
+
 O programa **apt** já está instalado por padrão, mas para algumas operações ele precisa de pacotes adicionais.  
 Eles não são instalados automaticamente, mas — em minha opinião — são obrigatórios:
 
@@ -415,6 +438,7 @@ sudo apt install -y apt-transport-https gpg
 ---  
 
 ## INSTALAÇÃO DE FERRAMENTAS DE DOWNLOAD (WGET E CURL)
+
 O comando abaixo instala duas ferramentas essenciais para realizar downloads e requisições web diretamente pelo terminal Linux:
 
 ```bash
@@ -422,6 +446,7 @@ sudo apt install -y wget curl
 ```
 
 **Descrição dos componentes:**
+
 - **WGET**: utilitário simples e confiável para baixar arquivos via HTTP, HTTPS e FTP.  
 - **CURL**: ferramenta mais avançada para transferir dados ou interagir com APIs, compatível com diversos protocolos (HTTP, HTTPS, FTP, SCP, entre outros).  
 
@@ -430,6 +455,7 @@ Esses programas são amplamente usados em **scripts**, **automações** e **test
 ---  
 
 ## INSTALANDO COMPACTADORES/DESCOMPACTADORES DE ARQUIVOS
+
 Para garantir que seu sistema **Debian** ou **Ubuntu** possa lidar com todos os formatos de arquivos comprimidos, de `.zip` e `.rar` a `.7z` e `.squashfs`, é vital instalar um conjunto abrangente de *utilities* de compressão. Além disso, se você planeja compilar programas, *drivers* ou bibliotecas no ambiente Linux, a instalação do meta-pacote **`build-essential`** e outras ferramentas de desenvolvimento é mandatório.  
 
 Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de *software* seguindo as instruções detalhadas:  
@@ -438,6 +464,7 @@ Prepare seu sistema para manipulação completa de arquivos e desenvolvimento de
 ---  
 
 ## SUPORTE A NOVAS FONTES
+
 A aparência das fontes influencia diretamente a legibilidade, o conforto visual e até mesmo a produtividade durante o uso do sistema. No Linux, especialmente em distribuições como Debian e Ubuntu, é possível personalizar facilmente o conjunto de fontes disponíveis — seja para o ambiente gráfico, terminais ou IDEs de programação.
 
 Este tutorial mostra como instalar e gerenciar fontes no sistema, incluindo opções populares entre desenvolvedores e usuários avançados. Também aborda a instalação de fontes de terceiros (como as da Microsoft) e alternativas modernas e livres que oferecem excelente qualidade visual e compatibilidade.  
@@ -448,6 +475,7 @@ Para instalá-las, siga estas instruções:
 ---  
 
 ## ATIVE O SUPORTE A FLATPAK CENTRAL
+
 Flatpak é um sistema de empacotamento e distribuição de aplicativos para Linux que permite instalar programas de forma isolada do restante do sistema, em um sandbox. Isso garante maior segurança e compatibilidade entre diferentes distribuições (como Debian, Fedora, Ubuntu, etc.), já que o aplicativo traz junto todas as suas dependências e Flathub é o repositório oficial e mais popular de aplicativos distribuídos via Flatpak.
 Não são todas as distros que habilitam este repositório, especialmente o Ubuntu.   
 
@@ -457,6 +485,7 @@ Para habilitá-lo, siga estas instruções:
 ---  
 
 ## INSTALANDO O VSCODE
+
 O **Visual Studio Code (VS Code)** é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
 Ele combina a simplicidade de um editor de texto com recursos avançados de programação, como **autocompletar inteligente (IntelliSense)**, **depuração integrada**, **controle de versão com Git** e uma ampla variedade de extensões para praticamente qualquer linguagem.  
 
@@ -464,7 +493,9 @@ Para instalar-lo, siga estas instruções:
 [Instalando o vscode](docs/debian_vscode.md)  
 
 ---  
+
 ## INSTALANDO O CURSOR
+
 O **Cursor** é um editor de código inovador, construído sobre a base do VS Code, mas redesenhado para colocar a **Inteligência Artificial** no centro do fluxo de trabalho. 
 
 Ele oferece uma experiência familiar para quem já utiliza o VS Code, permitindo a importação de todas as suas extensões e temas, enquanto introduz recursos revolucionários como **edição preditiva**, **chat contextual com todo o seu projeto** e a capacidade de **gerar blocos de código complexos** de forma instantânea através de modelos de IA de última geração.
@@ -474,7 +505,8 @@ Para instalá-lo, siga estas instruções:
 
 ---  
 
-## OBTENHA O KDE COMPLETO (OPCIONAL)  
+## OBTENHA O KDE COMPLETO (OPCIONAL)
+
 A versão do **KDE** que acompanha o Debian, Ubuntu e outras distros derivadas costuma ser uma edição reduzida e personalizada pelos mantenedores da distribuição, contendo apenas os componentes essenciais e alguns ajustes visuais como papéis de parede, ícones e logotipos próprios que julgaram necessários. Por isso, muitos módulos e aplicativos originais do projeto KDE não vêm instalados por padrão. 
 
 A versão completa inclui uma grande variedade de ferramentas — desde jogos simples (como o Paciência) até programas educativos e utilitários diversos. Embora boa parte deles seja dispensável para programadores e administradores de sistema, ela oferece uma experiência mais rica e próxima do que o time do KDE idealizou, lembrando em alguns aspectos o conforto visual do Windows.  
@@ -492,7 +524,9 @@ Depois disso, *recomendo que reinicie o computador*.
 ---  
 
 ## KDE - Ajustes básicos no Dolphin
+
 Aqui, não importa a distribuição que use, se seu ambiente gráfico for o **KDE** você pode querer alguns ajustes, por exemplo:
+
 * Acelerar as janelas de dialogo(File|Open) dos programas e sim, isso tem a ver com o Dolphim;  
 * Ao abrir, mostra a lista de arquivos em formato de detalhes e não icones;  
 * e outros...
@@ -501,8 +535,11 @@ Se você deseja esse nível de personalização no seu KDE/Dolphi, siga o link:
 [KDE - Ajustes básicos no Dolphin](docs/kde_dolphin.md).
 
 ---  
+
 ## GNOME - Ajustes rápidos
+
 Aqui, não importa a distribuição que use, se seu ambiente gráfico for o **GNOME** você pode querer alguns ajustes, por exemplo:
+
 * Gerenciador de clipboard
 * Painel inferior melhorado (Dash to Panel)
 * Tiling Assistant
@@ -512,7 +549,9 @@ Se você deseja esse nível de personalização no seu GNOME, siga o link:
 [GNOME - Ajustes rápidos](docs/gnome_prefs.md).
 
 ---  
+
 ## PRELOAD (OPCIONAL)
+
 Se estiver usando **discos mecânicos**, provavelmente sente muita **latência** ao carregar certos programas.  
 Numa situação assim, é bom instalar um serviço chamado **preload**: ele monitora os programas que você mais utiliza e, durante o boot, já os carrega antecipadamente.  
 
@@ -523,21 +562,22 @@ Para saber mais e como fazer, siga as instruções no link abaixo:
 
 ---  
 
-
 ## INSTALANDO PERFIS DE PERFORMANCE (TUNED)
+
 O **tuned** é um programa que permite trocar, em tempo real, o perfil de desempenho do computador por outro.  
 Por exemplo, você pode usar o perfil **balanceado** enquanto navega na internet e, em seguida, alternar para o perfil **realtime** quando quiser maximizar a performance.  
 Para instalar e entender melho, siga as orientações no link abaixo:  
 [Instalando e usufruindo de perfis de performance](docs/debian_performance_tuned.md).
 
 ## COMPLETANDO O IDIOMA PORTUGUÊS
+
 O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
 [Completando o idioma português do Brasil](docs/debian_pt_br.md).  
 
-
 ---  
 
-## MUDANDO O NOME DO HOST  
+## MUDANDO O NOME DO HOST
+
 Durante a instalação, você provavelmente definiu um nome para o seu computador (**hostname**).  
 Entretanto, caso queira modificá-lo depois, é possível fazer isso facilmente.  
 
@@ -554,6 +594,7 @@ sudo hostnamectl set-hostname novo-nome
 ---  
 
 ## COMPARTILHAMENTO DE ARQUIVOS
+
 O Samba é o componente responsável por permitir que sistemas Linux e Windows troquem arquivos e pastas através da rede local, utilizando o protocolo SMB/CIFS. Ele possibilita tanto o acesso a compartilhamentos de outros computadores quanto a criação de compartilhamentos próprios, tornando a integração entre diferentes sistemas fluida e transparente.
 
 Nas distribuições Debian e Ubuntu, o Samba costuma vir parcialmente instalado, mas requer alguns ajustes para funcionar de forma completa e adequada em ambientes domésticos ou corporativos.
@@ -564,6 +605,7 @@ Este tutorial mostrará como instalar os pacotes necessários, ajustar o workgro
 ---  
 
 ## CRONTAB
+
 No Linux, o crontab é um dos recursos mais práticos e poderosos para automatizar tarefas. Ele permite que comandos e scripts sejam executados automaticamente em horários pré-definidos, sem necessidade de intervenção do usuário.  
 Com ele, é possível agendar desde tarefas simples — como enviar lembretes — até rotinas administrativas complexas, como backups, sincronizações, atualizações de sistema ou limpeza de arquivos temporários.  
 
@@ -575,7 +617,8 @@ Neste tutorial, você aprenderá a editar, configurar e testar seus agendamentos
 
 ---  
 
-## FIREWALL 
+## FIREWALL
+
 O firewall é uma camada essencial de segurança responsável por controlar o tráfego de rede, permitindo ou bloqueando conexões conforme regras definidas. Embora o Linux já inclua o poderoso iptables, ele não vem ativado por padrão e geralmente não possui interface gráfica, o que evita problemas de conectividade para usuários iniciantes.
 
 Neste tutorial, optamos pelo firewalld, uma solução moderna, compatível com Debian, Ubuntu e diversas outras distribuições. Ele oferece comandos padronizados, perfis de rede (zones) e integração com KDE e GNOME, tornando o gerenciamento de portas e serviços mais simples, seguro e alinhado com ambientes profissionais.
@@ -585,14 +628,15 @@ Neste tutorial, optamos pelo firewalld, uma solução moderna, compatível com D
 ---  
 
 ## ACESSAR PARTIÇÕES LINUX NO SISTEMA
+
 Se você utiliza uma ou mais partições Linux que não são automaticamente montadas, pode usar o gerenciador de arquivos do KDE ou GNOME para acessá-las.  
 No entanto, toda vez que fizer isso provavelmente será solicitada uma senha — e isso cansa até o desenvolvedor mais paciente.  
 
 Para entender melhor e ajustar seu sistema de acordo, siga as orientações no link abaixo:  
 [Acessando partições linux](docs/debian_fstab_linux.md).
 
-
 ## ACESSAR PARTIÇÕES NTFS NO SISTEMA
+
 Se você utiliza uma partição Windows (NTFS) para gravar seus arquivos e dados a partir do Linux, pode simplesmente não fazer nada e usar o gerenciador de arquivos do GNOME, KDE e afins para entrar e sair do disco NTFS quando quiser.  
 
 Para entender melhor e ajustar seu sistema de acordo, siga as orientações no link abaixo:  
@@ -601,6 +645,7 @@ Para entender melhor e ajustar seu sistema de acordo, siga as orientações no l
 ---  
 
 ## ACESSANDO ARQUIVOS NA REDE
+
 O Linux é muito versátil ao acessar arquivos pela rede. Diferente do Windows onde o compartilhamento de arquivos se dá apenas pelo protocolo smb/cifs do próprio Windows, no Linux, qualquer tipo de compartilhamento que tenha um protocolo de comunicação aberto pode ser montado em forma de pasta em seu sistema.   
 
 Vamos considerar agora alguns tipos de compartilhamentos no link abaixo:  
@@ -609,13 +654,14 @@ Vamos considerar agora alguns tipos de compartilhamentos no link abaixo:
 ---  
 
 ## INSTALANDO O UTILITÁRIO DE EMAIL Thunderbird
+
 O Thunderbird é um cliente de email, calendário e gerenciador de contatos multiplataforma, desenvolvido pela Mozilla. Para administradores de sistemas, desenvolvedores e equipes de TI, o Thunderbird oferece suporte a múltiplos protocolos de email (IMAP, POP3, SMTP), integração com calendários (CalDAV), gerenciamento avançado de identidades e filtros automáticos. Sua arquitetura modular permite extensões que facilitam a organização corporativa, criptografia de mensagens (OpenPGP) e sincronização de dados entre múltiplos dispositivos.  
 
 Para instalar siga as instruções no link abaixo:  
 [Instalando o utiitário de e-mail Thunderbird'](docs/debian_thunderbird.md).
 
-
 ## INSTALANDO O UTILITÁRIO DE BACKUP E RESTAURAÇÃO TimeShift
+
 O Timeshift é um utilitário de backup e restauração de sistemas de arquivos baseado em snapshots incrementais, desenvolvido especificamente para distribuições Linux. Para administradores de sistemas e desenvolvedores, o Timeshift oferece a capacidade de criar pontos de restauração automáticos ou manuais, permitindo reverter o sistema para um estado anterior em caso de falhas críticas, atualizações problemáticas ou corrupção de arquivos. Diferentemente de ferramentas de backup tradicionais, o Timeshift trabalha diretamente com o sistema de arquivos, proporcionando rapidez e eficiência operacional.  
 
 Para instalar siga as instruções no link abaixo:  
@@ -624,9 +670,11 @@ Para instalar siga as instruções no link abaixo:
 ---  
 
 ## BANCO DE DADOS FIREBIRD
+
 O FirebirdSQL é um banco de dados relacional open source, leve e poderoso, derivado do InterBase da Borland. Ele roda em Windows, Linux, macOS e ARM, e é amplamente usado em sistemas comerciais, ERP e aplicações embarcadas. 
 
 Pontos positivos do FirebirdSQL:  
+
 * Desempenho elevado — Trabalha bem com bancos grandes e muitos usuários simultâneos, mesmo em hardware modesto.
 * Zero administração — Dispensa serviços complexos; pode funcionar como embedded, sem instalação de servidor.
 * Segurança robusta — Criptografia nativa de dados e autenticação integrada.
@@ -641,6 +689,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## HABILITANDO AREA DE TRABALHO REMOTA VIA RDS/RDP
+
 Vez ou outra precisaremos acessar nossa area de trabalho, as mais experientes recomendarão usar o 'ssh -x' ou usar 'xserver' e logar-se no ip de nosso desktop, no entanto, isso não é tão simples para novos usuários do linux e também não permite o acesso onde a origem é um desktop Windows. Portanto, minha recomendação é instalar o xrdp, um protocolo de compartilhamento de sessões compativel com o 'rdp' da Microsoft e assim poderemos acessar nosso terminal Linux até mesmo de um Windows através do programa 'Remote Deskop'. 
 
 Para instalá-lo, siga as orientações no link abaixo:  
@@ -649,6 +698,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## HABILITANDO AREA DE TRABALHO REMOTA VIA SSH
+
 Vez ou outra precisaremos acessar nosso computador por SSH, que é o método tradicional o qual também usamos para acessar servidores.  
 Vamos explorar a instalação, configuração, opcionalmente liberação de acesso ao root e protocolo X11.
 
@@ -656,7 +706,9 @@ Ficou interessado, siga as orientações no link abaixo:
 [Habilitando acesso via ssh](docs/debian_ssh.md).
 
 ---  
+
 ## INSTALANDO O CLIENTE DE ACESSO REMOTO 'REMMINA'
+
 O Remmina é um cliente de acesso remoto versátil e leve, desenvolvido em GTK+, que suporta múltiplos protocolos de conexão remota (RDP, SSH, VNC, SPICE, X2Go, entre outros). Para ambientes corporativos que necessitam gerenciar múltiplas sessões remotas a partir de uma única aplicação, o Remmina oferece uma solução integrada e de fácil configuração. Se você é um administrador de sistemas ou desenvolvedor que precisa acessar outras máquinas seja Windows ou Linux, o Remmina é indispensável.  
 
 Neste guia, utilizaremos a distribuição Flathub para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.  
@@ -667,6 +719,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## EXECUTANDO REMOTE-APPS NO WINDOWS
+
 RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows e que podem ser *exportados*  para rodarem em qualquer estação de trabalho, seja Windows, Mac ou Linux. O serviço mais famoso desse tipo é o RDS Server da Microsoft também conhecido como Terminal Services, mas existem muitos outros que usam protocolos diferentes.  Se você não tem um servidor de terminal, pule esta etapa, mas se você tem e gostaria de executar os aplicativos *exportados* no Linux então siga as instruções no link abaixo:  
 
 [Executando remote-apps no Linux](docs/debian_remoteapps_windows.md).
@@ -674,6 +727,7 @@ RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows 
 ---  
 
 ## INSTALANDO O CLIENTE DE MENSAGERIA 'TELEGRAM'
+
 O Telegram é um aplicativo de mensageria instantânea baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
 
 Neste guia, utilizaremos a distribuição Flathub para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.  
@@ -684,6 +738,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## VIRTUALIZAÇÃO NATIVA QEMU+KVM
+
 O Linux é capaz de criar máquinas virtuais e ele mesmo ser o hypervisor. Será um servidor de virtualização nivel 1, o mais rápido possivel, no entanto com algumas ausencia de recursos que facilitam a configuração que existem no VirtualBox e VMWare, por exemplo, criar redes virtuais com vários tipos de topologias, clipboard e transferencia de arquivos entre host e anfitrião e outras coisas.  
 
 Para instalá-lo, siga as orientações no link abaixo:  
@@ -692,6 +747,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## VIRTUALBOX
+
 O VirtualBox é outro virtualizador, ele é do tipo "2" e isto significa que é um pouco inferior em performance ao qemu+kvm, no entanto, ele tem muito mais recursos para desktop do que o QEMU+KVM, por exemplo, o SEAMLESS que permite puxar um aplicativo Windows dentro da VM para fora, isto é, para o sistema hospedeiro, causando a impressão que estamos rodando uma aplicação Linux nativa.
 No entanto, ele enfrenta alguns bugs chatos desde que os ambientes Linux estão migrando do Xorg para o Wayland. Alguns são problemas grandes, o SEAMLESS não funciona mais, e outros são problemas aleatórios e irritantes como o conteúdo da área de clipboard entre anfitrião e convidado deixar de funcionar, cursor do mouse que deixa de funcionar e coisas assim. Espero que as próximas versões corrijam isso, afinal o VirtualBox é um bom virtualizador e tem uma opção que qemu+kvm não tem: transportar a VM para outros sistemas operacionais, isto é, você pode copiar a VM criado no Linux para rodar num hospedeiro Windows ou Mac OS.  
 
@@ -700,16 +756,18 @@ Para instalá-lo, siga as orientações no link abaixo:
 
 ---  
 
+\#  
+\#  
 
-\#  
-\#  
 ## DAQUI EM DIANTE SÃO PROGRAMAS RECOMENDADOS PARA USO PESSOAL QUE PODEM SER IGNORADOS
+
 \#  
 \#  
 
 ---  
 
 ## INSTALANDO IDE DE PROGRAMAÇÃO PASCAL COM A IDE LAZARUS
+
 O Lazarus é uma IDE completa para desenvolvimento em Object Pascal, baseada no compilador Free Pascal (FPC).
 Ela é multiplataforma (Linux, Windows e macOS) e oferece uma experiência muito próxima do antigo Delphi, com formulários visuais, depurador integrado e suporte a componentes visuais compatíveis com diversos sistemas gráficos (GTK, Qt, Win32, Cocoa etc.).   
 
@@ -723,6 +781,7 @@ Para instalá-lo, siga as orientações no link abaixo:
 ---  
 
 ## SOFTWARE PARA TREINAMENTO DRAWONYOURSCREEN
+
 O **DrawOnYourScreen** é um aplicativo simples e útil projetado para permitir que o usuário **desenhe ou faça anotações diretamente sobre qualquer parte da tela** do seu desktop Linux. Ele é muito utilizado em apresentações, tutoriais ou videoconferências (como no Zoom, que acabamos de mencionar) para destacar elementos, traçar setas ou fazer anotações rápidas sem interferir no conteúdo original da janela.
 
 Para instalá-lo, siga as instruções abaixo:  
@@ -745,32 +804,38 @@ O Zoom Cloud Meetings estará agora instalado e deve aparecer no menu de seu amb
 ---  
 
 ## IMPRESSORA PDF
+
 É muito útil instalar uma impressora PDF no sistema, pode ser usado para economizar impressões e arquivá-las ao escanear um documento e depois armazená-lo como PDF. 
 Na realidade isso já vem instalado no sistema, apenas muda o método caso esteja usando KDE ou GNOME.
 
 ---  
 
 ## INSTALANDO A IMPRESSORA EPSON L355 LOCALIZADA NA REDE
+
 Da ultima vez que verifiquei, essa impressora é reconhecida automaticamente.
 
 ---  
 
 ## INSTALANDO O SCANNER EPSON L355
+
 Da ultima vez que verifiquei, o scanner integrado é reconhecida automaticamente.
 
 ---  
 
 ## INSTALANDO O LEITOR OCR
+
 (todo)
 
 ---  
 
 ## LEITOR DE CERTIFICADO DIGITAL
+
 Cada leitor e modelo pode ter instruções diferentes, é melhor procurar um guia na internet apropriado.
 
 ---  
 
 ## MICROSOFT OFFICE (web apps)
+
 Para obter a experiência completa da suíte de escritório da Microsoft sem a necessidade de instalação de software nativo, aprenda a transformar a plataforma **Microsoft 365 (Office.com)** em um **Aplicativo Web Progressivo (PWA)** no seu sistema. Usando um navegador compatível como o Google Chrome, você pode criar um atalho isolado que se comporta como um aplicativo de desktop, garantindo acesso rápido e organizado ao Word, Excel e PowerPoint online.  
 
 Siga o guia para configurar seu **PWA** do Microsoft 365:   
@@ -805,6 +870,7 @@ O link a seguir explica como fazer:
 ---  
 
 ## OBS STUDIO
+
 O **OBS Studio** (Open Broadcaster Software) é a ferramenta de código aberto mais poderosa e amplamente utilizada para captura de tela e transmissões ao vivo em sistemas **Debian** e **Ubuntu**. Reconhecido por sua flexibilidade e recursos avançados no gerenciamento de múltiplas fontes, a abordagem mais robusta e recomendada para a instalação é via **Flatpak**, que garante a utilização das bibliotecas mais recentes e a estabilidade em diferentes ambientes de desktop.   
 
 Prepare seu sistema para produção de conteúdo e *streaming* de alta qualidade, seguindo o guia completo para a instalação:  
@@ -813,6 +879,7 @@ Prepare seu sistema para produção de conteúdo e *streaming* de alta qualidade
 ---  
 
 # MINDER
+
 Para quem precisa de uma ferramenta nativa e poderosa para organizar pensamentos, o **Minder** é o programa de código aberto ideal para a criação de **mapas mentais** (*mind maps*), oferecendo uma excelente alternativa desktop para estruturar ideias visualmente. Este guia detalha as duas formas de instalar o Minder no seu sistema Debian/Ubuntu: a abordagem **via Flatpak** (recomendada para estabilidade e isolamento) ou a instalação **via Repositório APT** (para integração nativa).   
 
 Escolha o método que melhor se adapta ao seu fluxo de trabalho e comece a mapear seus projetos:  
@@ -833,7 +900,6 @@ O **Insync** é reconhecido como um dos melhores clientes de sincronização par
 
 Clique no link abaixo se desejar instalá-lo:  
 [Instalando o InSync](docs/debian_insync.md)  
-
 
 ---  
 
@@ -889,7 +955,6 @@ flatpak install com.warlordsoftwares.formatlab
 
 O FormatLab estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
 
-
 ---  
 
 ## BLENDER
@@ -911,6 +976,7 @@ O VidCutter é um programa de código aberto, rápido e eficiente, projetado par
 ```bash
 flatpak install com.ozmartians.VidCutter
 ```
+
 Caso ache interessante, poderá estudá-lo no site [http://bluegriffon.org](http://bluegriffon.org).  
 
 O VidCutter estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
@@ -920,10 +986,9 @@ O VidCutter estará agora instalado e deve aparecer no menu de seu ambiente grá
 ## INKSCAPE
 
 O Inkscape é um software de código aberto para a criação de gráficos vetoriais escaláveis (SVG), amplamente utilizado por designers e ilustradores. Este tutorial demonstra o método mais simples e isolado para instalar o Inkscape no seu sistema Linux, utilizando o **Flatpak**, garantindo que o software e todas as suas dependências sejam instaladas de forma confinada e **sem a necessidade de permissões de administrador** (`sudo`). Para instalar, execute no terminal:  
+
 ```bash
 flatpak install org.inkscape.Inkscape
 ```
 
 O Inkscape estará agora instalado e deve aparecer no menu de seu ambiente gráfico.
-
-
