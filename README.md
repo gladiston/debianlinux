@@ -34,7 +34,8 @@ Para visualizar este documento em formato markdown corretamente, use o programa 
 flatpak install flathub com.github.marktext.marktext
 ```
 
-Depois execute o marktext e abra este arquivo.
+Depois execute o `marktext` e abra este arquivo.
+A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pulando o que for indesejado.  
 
 ---
 
