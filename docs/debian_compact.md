@@ -43,8 +43,8 @@ Para instalar via repositório:
 ```bash
 sudo apt install peazip -y
 ```
-Ao instalar pelo repositório, se estiver usando o KDE acesse o link:
-(Peazip Compress Decompress Menu - Quick Simple Install*)[https://store.kde.org/p/1290372]  
+Ao instalar pelo repositório, se estiver usando o KDE acesse o link:  
+(Peazip Compress Decompress Menu - Quick Simple Install)[https://store.kde.org/p/1290372]  
 Nele, instalará um complemento chamado **Peazip Compress Decompress Menu - Quick Simple Install** que adiciona compactar/descompactar ao menu de contexto do gerenciador de arquivos.    
 
 
