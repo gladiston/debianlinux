@@ -127,7 +127,7 @@ Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **f
 ```ini
 [work]
    comment = Pasta de Trabalho do gsantana
-   path = /home/gsantana/work
+   path = /home/work
    browseable = yes
    read only = no
    writable = yes
@@ -145,20 +145,20 @@ Depois salve o arquivo e saia do editor.
 
 Ajuste a permissão da pasta:
 ```bash
-sudo chown -R gsantana:smbwork /home/gsantana/work
-sudo chmod -R 2770 /home/gsantana/work
+sudo chown -R gsantana:smbwork /home/work
+sudo chmod -R 2770 /home/work
 ```
 
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
 Define gsantana como dono (se necessário):  
 ```bash
-sudo setfacl -R -m g:smbwork:rwx /home/gsantana/work
-sudo setfacl -R -m d:g:smbwork:rwx /home/gsantana/work
+sudo setfacl -R -m g:smbwork:rwx /home/work
+sudo setfacl -R -m d:g:smbwork:rwx /home/work
 ```
 
 Se precisar que mais pessoas tenham acesso, recomendo:  
 ```
-sudo chmod -R 1777 /home/gsantana/work
+sudo chmod -R 1777 /home/work
 ```
 
 ### Reinício e Teste do Serviço
