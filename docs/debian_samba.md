@@ -146,7 +146,6 @@ Depois salve o arquivo e saia do editor.
 Ajuste a permissão da pasta:
 ```bash
 sudo chown -R gsantana:smbwork /home/w
-sudo chmod -R 2770 /home/w
 ```
 
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
@@ -154,11 +153,6 @@ Define gsantana como dono (se necessário):
 ```bash
 sudo setfacl -R -m g:smbwork:rwx /home/w
 sudo setfacl -R -m d:g:smbwork:rwx /home/w
-```
-
-Se precisar que mais pessoas tenham acesso, recomendo:  
-```
-sudo chmod -R 1777 /home/w
 ```
 
 ### Reinício e Teste do Serviço
