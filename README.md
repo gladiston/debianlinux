@@ -213,7 +213,7 @@ Alguns programas são instalados automaticamente em seu sistema para identificar
 Se você usa o KDE System Information, um programa para KDE que mostra várias informações sobre o computador, vocÊ precisa que tenha sido instalado os seguintes programas:
 ```bash
 sudo apt install aha fwupd -y
-sudo apt install aha mesa-utils vulkan-tools clinfo mesa-vulkan-drivers -y
+sudo apt install mesa-utils vulkan-tools clinfo mesa-vulkan-drivers -y
 sudo apt install pciutils usbutils smartmontools dmidecode -y
 ```
 Para identificar informações do monitor, infelizmente há um bug no KDE 6.3 onde ele precisa do pacote `edid-decode`, mas ele o chama de `di-edid-decode`. Isso é corrigido da seguinte forma:
