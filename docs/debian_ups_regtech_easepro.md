@@ -125,7 +125,7 @@ sudo editor /etc/nut/ups.conf
 
 ```
 
-Apague o que estiver lá e cole este conteúdo:
+Este arquivo geralmente está todo comentado e não há linhas configuradas. então cole no final deste arquivo o conteúdo abaixo:
 
 ```text
 [meunobreak]
