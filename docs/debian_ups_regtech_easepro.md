@@ -140,12 +140,15 @@ Este arquivo geralmente está todo comentado e não há linhas configuradas. ent
 ### 6. Configurando o Modo e o Monitoramento
 
 Avise ao NUT que ele operará em modo **Standalone** (uso local) no arquivo `/etc/nut/nut.conf`:
+```bash
+sudo editor  /etc/nut/nut.conf
+```
+E então procure a linha `MODE=`, deixando-a assim:
 
 ```text
 MODE=standalone
-
-
 ```
+Talvez a linha acima esteja comentada, neste caso, apenas acrescente abaixo dela, o conteúdo acima.  
 
 Agora, vamos editar o arquivo `/etc/nut/upsmon.conf`, execute:
 
