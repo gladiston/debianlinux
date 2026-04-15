@@ -5,7 +5,7 @@ Por padrão, o sistema operacional possui suporte limitado a formatos de compres
 Execute o comando a seguir para instalar todos os *utilities* necessários:
 
 ```bash
-sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract
+sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract arc
 ```
 
 A tabela a seguir detalha a função primária de cada pacote instalado:
@@ -38,7 +38,19 @@ Um outro motivo para instalá-lo é que o `rsync` é backend para muitos outros 
 ---
 ## INTEGRAÇÃO COM O SISTEMA DE ARQUIVOS DE SEU SISTEMA
 Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, tanto o GNOME, quanto o KDE usam os utilitários acima para compactar ou descompactar e quando se trata de pastas inteiras não há problemas. Mas quando o objetivo é observar seu conteúdo de um arquivo compactado e/ou extrair apenas conteúdo parcial então vem um problema, neste caso, eles usam os utilitarios acima para listar o conteúdo inteiro para dentro de um arquivo .txt e depois fazer o que chamamos de scrap que é ler o .txt e de acordo com o conteúdo então construir a exibição na tela e isso é MUITO LENTO e fica mais lento ainda quando tal arquivo está numa rede local ou num ponto de montagem lento.   
-No Windows, o WinRAR, 7Zip e outros fazem isso nativamente, geralmente arquivos compactados tem um HEADER que tornam a listagem do conteúdo praticamente instantaneo sem precisar varrer o arquivo inteiro. Infelizmente, no Linux, só há um programa que faz acesso a arquivos compactados de forma nativa: PEAZIP, porém nos repositórios do Debian ou Ubuntu, o mesmo não está disponível, a única forma de instalá-lo é por meio de flat-pak.  
+No Windows, o WinRAR, 7Zip e outros fazem isso nativamente, geralmente arquivos compactados tem um HEADER que tornam a listagem do conteúdo praticamente instantaneo sem precisar varrer o arquivo inteiro. Infelizmente, no Linux, eu só conheço um programa que faz este tipo de acesso nativo: **PezZip**. 
+Para instalar via repositório:  
+```bash
+sudo apt install peazip -y
+```
+Ao instalar pelo repositório, se estiver usando o KDE (acesse o link)[https://store.kde.org/p/1290372] para instalar um complemento chamado **Peazip Compress Decompress Menu - Quick Simple Install** que adiciona compactar/descompactar ao menu de contexto do gerenciador de arquivos.    
+
+
+
+Para instalar via flathub:  
+```bash
+flatpak install flathub io.github.peazip.PeaZip
+```
 
 
 
