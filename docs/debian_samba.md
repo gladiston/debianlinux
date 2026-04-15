@@ -175,7 +175,7 @@ sudo systemctl enable smbd
     
 Para testar o acesso localmente (Opcional):  
 ```bash
-smbclient //localhost/work -U gsantana
+smbclient //localhost/w -U gsantana
 ```
 Você terá de fornecerr a senha do `gsantana` que criamos nos passos anteriores e se estiver correta, o prompt `smb: \>` confirmará a conexão bem-sucedida e se quiser usar alguns comandos, tente o `ls` para listar arquivos e depois o `quit` para sair dele.  
     
@@ -186,7 +186,7 @@ Após a configuração no Debian, o compartilhamento pode ser acessado em qualqu
 
 Obtenha o **Endereço IP** do seu servidor Debian/Ubuntu (e.g., usando `ip a` no terminal Linux), neste teste, não use o nome do host ainda, afinal queremos apenas testar o compartilhamento do jeito mais crús que existir, e se funcionar então podemos testar com o nome do host. No Windows, pressione **`Win + R`** para abrir o **Executar** e depois no Explorer, o caminho UNC do compartilhamento:
 ```
-\\192.168.1.50\work
+\\192.168.1.50\w
 ```
 Quando questionado, forneça seu nome de usuário `gsantana` e a senha que criamos para ele e também marque a opção para lembrar das credenciais.
 
