@@ -385,7 +385,14 @@ sudo apt install -y libavcodec-extra ffmpeg
 
 **Observação**: Depois instale o `vlc`, preferencialmente do repositório flathub.  
 
+---
+## COMPLETANDO O IDIOMA PORTUGUÊS
+
+O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
+[Completando o idioma português do Brasil](docs/debian_pt_br.md).   
+
 ---  
+
 
 ## INSTALANDO O STRACE
 
@@ -582,11 +589,6 @@ O **tuned** é um programa que permite trocar, em tempo real, o perfil de desemp
 Por exemplo, você pode usar o perfil **balanceado** enquanto navega na internet e, em seguida, alternar para o perfil **realtime** quando quiser maximizar a performance.  
 Para instalar e entender melho, siga as orientações no link abaixo:  
 [Instalando e usufruindo de perfis de performance](docs/debian_performance_tuned.md).
-
-## COMPLETANDO O IDIOMA PORTUGUÊS
-
-O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
-[Completando o idioma português do Brasil](docs/debian_pt_br.md).  
 
 ---  
 
