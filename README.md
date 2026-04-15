@@ -227,7 +227,7 @@ sudo apt install edid-decode -y
 
 Se você tem esse nobreak(UPS) complicado no mundo Linux, há esperança. Sistemas UPS baseados em HUD são plug'n play e simplsmente de serem configurados no linux, mas o modelo 'ragtech ease pro' é um dispositivo USB camuflado, pois é de leitura serial. E por isso, não é tão simples assim, mas leia com cuidado o link a seguir e saberá como instalá-lo em seu sistema:
 
-[NOBREAK RAGTECH EASY PR](docs/debian_xdg_bin.md)
+[NOBREAK RAGTECH EASY PR](docs/debian_ups_regtech_easepro.md)
 
 ---  
 
