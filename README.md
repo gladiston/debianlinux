@@ -207,6 +207,16 @@ Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribu
 Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
 [Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
+
+---  
+## ATIVE O SUPORTE A FLATPAK CENTRAL
+
+Flatpak é um sistema de empacotamento e distribuição de aplicativos para Linux que permite instalar programas de forma isolada do restante do sistema, em um sandbox. Isso garante maior segurança e compatibilidade entre diferentes distribuições (como Debian, Fedora, Ubuntu, etc.), já que o aplicativo traz junto todas as suas dependências e Flathub é o repositório oficial e mais popular de aplicativos distribuídos via Flatpak.
+Não são todas as distros que habilitam este repositório, especialmente o Ubuntu.   
+
+Para habilitá-lo, siga estas instruções:  
+[Instalando e habilitando o suporte a flatpak](docs/debian_flatpak.md)  
+
 ---
 ## BASICO PARA IDENTIFICAÇÃO DE HARDWARE
 Alguns programas são instalados automaticamente em seu sistema para identificar o hardware presente, mas nem todos.  
@@ -485,16 +495,6 @@ Este tutorial mostra como instalar e gerenciar fontes no sistema, incluindo opç
 
 Para instalá-las, siga estas instruções:  
 [Instalando suporte a novas fontes](docs/debian_new_fonts.md)  
-
----  
-
-## ATIVE O SUPORTE A FLATPAK CENTRAL
-
-Flatpak é um sistema de empacotamento e distribuição de aplicativos para Linux que permite instalar programas de forma isolada do restante do sistema, em um sandbox. Isso garante maior segurança e compatibilidade entre diferentes distribuições (como Debian, Fedora, Ubuntu, etc.), já que o aplicativo traz junto todas as suas dependências e Flathub é o repositório oficial e mais popular de aplicativos distribuídos via Flatpak.
-Não são todas as distros que habilitam este repositório, especialmente o Ubuntu.   
-
-Para habilitá-lo, siga estas instruções:  
-[Instalando e habilitando o suporte a flatpak](docs/debian_flatpak.md)  
 
 ---  
 
