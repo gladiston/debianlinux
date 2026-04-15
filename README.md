@@ -208,8 +208,22 @@ Aprenda como adicionar este repositório confiável, descubra o que a Microsoft 
 [Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
 ---
+## BASICO PARA IDENTIFICAÇÃO DE HARDWARE
+Alguns programas são instalados automaticamente em seu sistema para identificar o hardware presente, mas nem todos.  
+Se você usa o KDE System Information, um programa para KDE que mostra várias informações sobre o computador, vocÊ precisa que tenha sido instalado os seguintes programas:
+```bash
+sudo apt install aha fwupd -y
+sudo apt install aha mesa-utils vulkan-tools clinfo mesa-vulkan-drivers -y
+sudo apt install pciutils usbutils smartmontools dmidecode -y
+```
+Para identificar informações do monitor, infelizmente há um bug no KDE 6.3 onde ele precisa do pacote `edid-decode`, mas ele o chama de `di-edid-decode`. Isso é corrigido da seguinte forma:
+```bash
+sudo apt install edid-decode -y
+! [ -f /usr/bin/di-edid-decode ] && sudo ln -s /usr/bin/edid-decode /usr/bin/di-edid-decode
+```
 
-## NOBREAK RAGTECH EASY PRO
+---
+## UPS(NO-BREAK) RAGTECH EASY PRO
 
 Se você tem esse nobreak(UPS) complicado no mundo Linux, há esperança. Sistemas UPS baseados em HUD são plug'n play e simplsmente de serem configurados no linux, mas o modelo 'ragtech ease pro' é um dispositivo USB camuflado, pois é de leitura serial. E por isso, não é tão simples assim, mas leia com cuidado o link a seguir e saberá como instalá-lo em seu sistema:
 
