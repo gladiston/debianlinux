@@ -125,9 +125,9 @@ Se você tiver um dominio em sua rede, troque **WORKGROUP** pelo nome do seu dom
 Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
 ```ini
-[work]
-   comment = Pasta de Trabalho do gsantana
-   path = /home/work
+[w]
+   comment = Pasta de Trabalho
+   path = /home/w
    browseable = yes
    read only = no
    writable = yes
@@ -145,20 +145,20 @@ Depois salve o arquivo e saia do editor.
 
 Ajuste a permissão da pasta:
 ```bash
-sudo chown -R gsantana:smbwork /home/work
-sudo chmod -R 2770 /home/work
+sudo chown -R gsantana:smbwork /home/w
+sudo chmod -R 2770 /home/w
 ```
 
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
 Define gsantana como dono (se necessário):  
 ```bash
-sudo setfacl -R -m g:smbwork:rwx /home/work
-sudo setfacl -R -m d:g:smbwork:rwx /home/work
+sudo setfacl -R -m g:smbwork:rwx /home/w
+sudo setfacl -R -m d:g:smbwork:rwx /home/w
 ```
 
 Se precisar que mais pessoas tenham acesso, recomendo:  
 ```
-sudo chmod -R 1777 /home/work
+sudo chmod -R 1777 /home/w
 ```
 
 ### Reinício e Teste do Serviço
