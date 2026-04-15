@@ -63,7 +63,17 @@ ALL ALL=NOPASSWD: /usr/bin/systemctl start squid
 ALL ALL=NOPASSWD: /usr/bin/systemctl stop squid
 ALL ALL=NOPASSWD: /usr/bin/systemctl restart squid
 ```
-Apenas um ponto de atenção, se a linha é `/usr/bin/systemctl restart squid`, não funcionará `systemctl restart squid`, mesmo que o comando `systemctl` esteja no $PATH. Isso é uma questão de segurança. Então para saber se um comando funcionará ou não usamos `command -v <comando>` (ex.: `command -v /usr/bin/systemctl restart squid`) . Geralmente o `visudo` faz este teste, mas um bom administrador que lida com muitas distros diferentes não tem como saber se a versão do sudoers de uma tem o mesmo comportamento da outra então ele faz o teste com `command -v <comando>`  sempre.  
+Apenas um ponto de atenção, se a linha se incluirmos no sudoers:
+```bash
+ALL ALL=NOPASSWD: /usr/bin/systemctl restart squid
+```
+Mas executarmos:
+```bash
+sudo systemctl restart squid
+```
+Não funcionará da mesma forma porque para o sudoers, as linhas são diferentes, mesmo que sua execução seja igual. Isso é uma questão de segurança.   
+Então para saber se um comando funcionará ou não, usamos `command -v <comando>` (ex.: `command -v /usr/bin/systemctl restart squid`) e usamos no arquivo sudoers exatamente a mesma chamada de comando.  
+Geralmente o `visudo` faz este teste, mas um bom administrador que lida com muitas distros diferentes não tem como saber se a versão do sudoers de uma tem o mesmo comportamento da outra, então ele faz o teste com `command -v <comando>`  sempre.  
 
 As alterações em aquivos do **sudoers** passam a valer imediatamente.  
 
