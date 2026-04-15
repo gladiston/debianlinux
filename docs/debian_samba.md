@@ -159,7 +159,7 @@ sudo setfacl -R -m d:g:smbwork:rwx /home/w
 
 Verificar a Sintaxe da Configuração:   
 ```bash
-testparm
+sudo testparm
 ```
 Confirme que o `smb.conf` foi carregado sem erros. 
 
