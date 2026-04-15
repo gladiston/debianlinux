@@ -1,5 +1,7 @@
 # HABILITANDO AREA DE TRABALHO REMOTA
-Vez ou outra precisaremos acessar nossa area de trabalho, as mais experientes recomendarão usar o 'ssh -x' ou usar 'xserver' e logar-se no ip de nosso desktop, no entanto, isso não é tão simples para novos usuários do linux e também não permite o acesso onde a origem é um desktop Windows. Portanto, minha recomendação é instalar o xrdp, um protocolo de compartilhamento de sessões compativel com o 'rdp' da Microsoft e assim poderemos acessar nosso terminal Linux até mesmo de um Windows através do programa 'Remote Deskop'. Para instalar:  
+Vez ou outra precisaremos acessar nossa area de trabalho, as mais experientes recomendarão usar o 'ssh -x' ou usar 'xserver' e logar-se no ip de nosso desktop, no entanto, isso não é tão simples para novos usuários do linux e também não permite o acesso onde a origem é um desktop Windows. Portanto, no Debian, minha recomendação é instalar o xrdp, um protocolo de compartilhamento de sessões compativel com o 'rdp' da Microsoft e assim poderemos acessar nosso terminal Linux/Debian até mesmo de um Windows através do programa 'Remote Deskop'. 
+Se você é usuário do Ubuntu e seus _flavors_, não precisa seguir este tutorial, ele traz uma opção nativa em Settings > System > Remote Desktop que quando habilitado faz tudo que é preciso para acessar o desktop remotamente.  
+Então, este tutorial funciona apenas para o Debian e distros derivativas que não tenham essa opção nativamente, para instalar:  
 ```  
 sudo apt install -y xrdp 
 ```
