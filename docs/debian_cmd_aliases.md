@@ -1,22 +1,28 @@
 ## AJUSTANDO ALIASES PARA COMANDOS REPETITIVOS
+
 Aliases não são programas, e sim um recurso presente em praticamente todas as distribuições Linux que permite **abreviar ou simplificar comandos repetitivos**.  
 Por exemplo, se você quiser listar os arquivos de uma pasta com cores e tamanhos legíveis (KB, MB, GB), teria que digitar algo assim toda vez:
+
 ```bash
 ls -lh --color=auto
 ```
 
 Isso é muito comprido. Que tal digitar apenas `l` e o sistema entender o comando acima?  
 É exatamente isso que faremos agora. Edite o arquivo:
+
 ```bash
 editor ~/.bash_aliases
 ```
 
 O arquivo acima é executado automaticamente sempre que você abre um terminal **bash**.  
 Acrescente ao final deste arquivo seus **aliases** personalizados, por exemplo:
+
 ```bash
 alias l='ls -lh --color=auto'
 ```
+
 E então acrescente estas linhas no final do arquivo:  
+
 ```
 ###
 ### Meus aliases
@@ -59,9 +65,11 @@ Muito útil ter seus aliases, não é mesmo?
 Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).  
 
 Depois, **reinicie o terminal** e teste um dos aliases:
+
 ```bash
 c
 ```
+
 E ele limpará a tela, porque `c` é um alias para `clear`.
 
 Pronto — agora você tem **comandos mais breves e práticos** para as tarefas do dia a dia.  
@@ -69,7 +77,6 @@ Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
 
 > **Curiosidade histórica**:  
 > O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
-
 
 ----
 
