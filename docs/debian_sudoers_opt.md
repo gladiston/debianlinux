@@ -6,7 +6,7 @@ Diferentemente do Debian, no Ubuntu o usuário comum já é membro do grupo `sud
 Mas qualquer que seja sua distro, caso seja um desenvolvedor e pretenda relaxar um pouco o uso do 'SUDO' então podemos alterar o comportamento do `sudo` em relação a solicitação de senha. Se você usou Debian ou Ubuntu no passado, você talvez saiba que antigamentealterávamos o arquivo principal `/etc/sudoers` (ou sudo visudo), no entanto, hoje não é mais assim, alias até pode funcionar numa distro ou outra, mas o jeito certo agora é criar arquivos separados para cada ajuste e salvos em `/etc/sudoers.d/`. Essa mudança tem uma vantagem, caso aconteça alguma atualização do **sudoers** que sobreponha o arquivo de configuração principal, não perderá as modificações feitas. Então risca do seu hábito anterior o comando ~sudo visudo~, agora é:  
 
 ```bash
-sudo visudo -f /etc/sudoers.d/00-admin-permissive
+sudo visudo -f /etc/sudoers.d/ZZ-admin-permissive
 ```
 E então você coloca o que deseja, as regras recentes substituem as antigas, por exemplo, no `/etc/sudoers` tem a linha:  
 ```
@@ -20,8 +20,20 @@ Mas se em nosso `/etc/sudoers.d/00-admin-permissive` colocarmos:
 %admin  ALL=(ALL:ALL) NOPASSWD: ALL
 ```
 Isso substituirá a regra anterior.  
-Nosso exemplo acima é de uma regra permissiva, isto é, não pedirá senha. Você deve usar apenas se for desenvolvedor e sabe o que esta fazendo no computador.  
-
+Nosso exemplo acima é de uma regra permissiva, isto é, não pedirá senha. Você deve usar apenas se for desenvolvedor e sabe o que esta fazendo no computador. 
+O nome do arquivo comerçar com `ZZ` não é aleatório, pois se houver outros arquivos em `/etc/sudoers.d`, a ordem deles importa, veja:
+```bash
+ls -1 /etc/sudoers.d
+```
+E os arquivos listado forem:
+```
+antixers
+backlight-brightness-mx
+README
+sudo_password_display
+ZZ-admin-permissive
+```
+Será exatamente a ordem acima que será executada, então você precisa de um **prefixo** para suas configurações virem após a do sistema, isso impede que seus ajustes sejam sobrepostos.  
 Em servidores, muitas vezes precisamos executar comandos sem senha, mas quando precisamos fazer isso, precisamos determinar exatamente como o comando será executado, incluindo o seu path e parametros e então podemos criar algo assim:  
 ```bash
 sudo visudo -f /etc/sudoers.d/10-admin-basic
@@ -51,7 +63,17 @@ ALL ALL=NOPASSWD: /usr/bin/systemctl start squid
 ALL ALL=NOPASSWD: /usr/bin/systemctl stop squid
 ALL ALL=NOPASSWD: /usr/bin/systemctl restart squid
 ```
-Apenas um ponto de atenção, se a linha é `/usr/bin/systemctl restart squid`, não funcionará `systemctl restart squid`, mesmo que o comando `systemctl` esteja no $PATH. Isso é uma questão de segurança. Então para saber se um comando funcionará ou não usamos `command -v <comando>` (ex.: `command -v /usr/bin/systemctl restart squid`) . Geralmente o `visudo` faz este teste, mas um bom administrador que lida com muitas distros diferentes não tem como saber se a versão do sudoers de uma tem o mesmo comportamento da outra então ele faz o teste com `command -v <comando>`  sempre.  
+Apenas um ponto de atenção, se a linha se incluirmos no sudoers:
+```bash
+ALL ALL=NOPASSWD: /usr/bin/systemctl restart squid
+```
+Mas executarmos:
+```bash
+sudo systemctl restart squid
+```
+Não funcionará da mesma forma porque para o sudoers, as linhas são diferentes, mesmo que sua execução seja igual. Isso é uma questão de segurança.   
+Então para saber se um comando funcionará ou não, usamos `command -v <comando>` (ex.: `command -v /usr/bin/systemctl restart squid`) e usamos no arquivo sudoers exatamente a mesma chamada de comando.  
+Geralmente o `visudo` faz este teste, mas um bom administrador que lida com muitas distros diferentes não tem como saber se a versão do sudoers de uma tem o mesmo comportamento da outra, então ele faz o teste com `command -v <comando>`  sempre.  
 
 As alterações em aquivos do **sudoers** passam a valer imediatamente.  
 

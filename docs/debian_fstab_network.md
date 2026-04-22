@@ -50,20 +50,20 @@ sudo editor /etc/fstab
 E adicione a linha:
 | `/etc/fstab` |
 |:--|
-| `//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,auto,nosuid,nodev,file_mode=0777,dir_mode=0777` |
+| `//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto 0 0` |
 
 Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).  
 
 Agora você pode simplesmente, executar no terminal:  
 ```bash
-mount /media/pub
+sudo mount /media/pub
 ```
 E nem precisa mais de usar o `sudo` por causa da diretiva **users** usada no fstab. Mas você percebeu um problema?, sim,  **usuário e senha ficam expostos** e não é uma boa ideia deixar assim, então, vamos melhorar isso.
 
 Substitua a linha anterior por esta:
 ```
 # Montagem da pasta pub 
-//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.vidycorp.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,noauto 0 0
+//nas01/pub /home/gsantana/mnt/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto 0 0
 ```
 Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).   
 
@@ -94,7 +94,7 @@ cat: /etc/cifs-credentials.gsantana.localdomain.lan: Permissão negada
 Para saber se as credenciais estão certas, é recomendado executar o terminal exatamente o que você incluiu no /etc/fstab, veja:
 ```bash
 sudo systemctl daemon-reload
-sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto
 ```
 
 Se tudo correu bem, o conteúdo da pasta **/media/pub** será o mesmo do compartilhamento **//nas01/pub**.

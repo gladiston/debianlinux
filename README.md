@@ -34,7 +34,8 @@ Para visualizar este documento em formato markdown corretamente, use o programa 
 flatpak install flathub com.github.marktext.marktext
 ```
 
-Depois execute o marktext e abra este arquivo.
+Depois execute o `marktext` e abra este arquivo.
+A propósito, sinta-se à vontade para **adaptar os scripts ao seu cenário** pulando o que for indesejado.  
 
 ---
 
@@ -207,13 +208,37 @@ Quebrando o paradigma, a Microsoft mantém um repositório oficial para distribu
 Aprenda como adicionar este repositório confiável, descubra o que a Microsoft está compartilhando e prepare seu sistema para uma nova gama de aplicações no link a seguir:  
 [Incluindo repositório da Microsoft](docs/debian_repo_microsoft.md)
 
----
 
-## NOBREAK RAGTECH EASY PRO
+---  
+## ATIVE O SUPORTE A FLATPAK CENTRAL
+
+Flatpak é um sistema de empacotamento e distribuição de aplicativos para Linux que permite instalar programas de forma isolada do restante do sistema, em um sandbox. Isso garante maior segurança e compatibilidade entre diferentes distribuições (como Debian, Fedora, Ubuntu, etc.), já que o aplicativo traz junto todas as suas dependências e Flathub é o repositório oficial e mais popular de aplicativos distribuídos via Flatpak.
+Não são todas as distros que habilitam este repositório, especialmente o Ubuntu.   
+
+Para habilitá-lo, siga estas instruções:  
+[Instalando e habilitando o suporte a flatpak](docs/debian_flatpak.md)  
+
+---
+## BASICO PARA IDENTIFICAÇÃO DE HARDWARE
+Alguns programas são instalados automaticamente em seu sistema para identificar o hardware presente, mas nem todos.  
+Se você usa o KDE System Information, um programa para KDE que mostra várias informações sobre o computador, vocÊ precisa que tenha sido instalado os seguintes programas:
+```bash
+sudo apt install aha fwupd -y
+sudo apt install mesa-utils vulkan-tools clinfo mesa-vulkan-drivers -y
+sudo apt install pciutils usbutils smartmontools dmidecode -y
+```
+Para identificar informações do monitor, infelizmente há um bug no KDE 6.3 onde ele precisa do pacote `edid-decode`, mas ele o chama de `di-edid-decode`. Isso é corrigido da seguinte forma:
+```bash
+sudo apt install edid-decode -y
+! [ -f /usr/bin/di-edid-decode ] && sudo ln -s /usr/bin/edid-decode /usr/bin/di-edid-decode
+```
+
+---
+## UPS(NO-BREAK) RAGTECH EASY PRO
 
 Se você tem esse nobreak(UPS) complicado no mundo Linux, há esperança. Sistemas UPS baseados em HUD são plug'n play e simplsmente de serem configurados no linux, mas o modelo 'ragtech ease pro' é um dispositivo USB camuflado, pois é de leitura serial. E por isso, não é tão simples assim, mas leia com cuidado o link a seguir e saberá como instalá-lo em seu sistema:
 
-[NOBREAK RAGTECH EASY PR](docs/debian_xdg_bin.md)
+[NOBREAK RAGTECH EASY PR](docs/debian_ups_regtech_easepro.md)
 
 ---  
 
@@ -361,7 +386,14 @@ sudo apt install -y libavcodec-extra ffmpeg
 
 **Observação**: Depois instale o `vlc`, preferencialmente do repositório flathub.  
 
+---
+## COMPLETANDO O IDIOMA PORTUGUÊS
+
+O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
+[Completando o idioma português do Brasil](docs/debian_pt_br.md).   
+
 ---  
+
 
 ## INSTALANDO O STRACE
 
@@ -474,16 +506,6 @@ Para instalá-las, siga estas instruções:
 
 ---  
 
-## ATIVE O SUPORTE A FLATPAK CENTRAL
-
-Flatpak é um sistema de empacotamento e distribuição de aplicativos para Linux que permite instalar programas de forma isolada do restante do sistema, em um sandbox. Isso garante maior segurança e compatibilidade entre diferentes distribuições (como Debian, Fedora, Ubuntu, etc.), já que o aplicativo traz junto todas as suas dependências e Flathub é o repositório oficial e mais popular de aplicativos distribuídos via Flatpak.
-Não são todas as distros que habilitam este repositório, especialmente o Ubuntu.   
-
-Para habilitá-lo, siga estas instruções:  
-[Instalando e habilitando o suporte a flatpak](docs/debian_flatpak.md)  
-
----  
-
 ## INSTALANDO O VSCODE
 
 O **Visual Studio Code (VS Code)** é uma IDE leve, poderosa e multiplataforma desenvolvida pela Microsoft.  
@@ -568,11 +590,6 @@ O **tuned** é um programa que permite trocar, em tempo real, o perfil de desemp
 Por exemplo, você pode usar o perfil **balanceado** enquanto navega na internet e, em seguida, alternar para o perfil **realtime** quando quiser maximizar a performance.  
 Para instalar e entender melho, siga as orientações no link abaixo:  
 [Instalando e usufruindo de perfis de performance](docs/debian_performance_tuned.md).
-
-## COMPLETANDO O IDIOMA PORTUGUÊS
-
-O idioma português-brasil não está completamente instalado, e nem o corretor ortográfico. Vamos corrigir isso, siga o link abaixo:  
-[Completando o idioma português do Brasil](docs/debian_pt_br.md).  
 
 ---  
 

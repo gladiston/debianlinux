@@ -20,6 +20,7 @@ O **NUT** é o conjunto de ferramentas que gerencia a comunicação e o desligam
 
 ```bash
 sudo apt update && sudo apt install -y nut nut-client nut-server psmisc
+sudo systemctl restart nut-server nut-client
 ```
 
 ### 2. Identificação do Dispositivo
@@ -125,7 +126,7 @@ sudo editor /etc/nut/ups.conf
 
 ```
 
-Apague o que estiver lá e cole este conteúdo:
+Este arquivo geralmente está todo comentado e não há linhas configuradas. então cole no final deste arquivo o conteúdo abaixo:
 
 ```text
 [meunobreak]
@@ -140,25 +141,29 @@ Apague o que estiver lá e cole este conteúdo:
 ### 6. Configurando o Modo e o Monitoramento
 
 Avise ao NUT que ele operará em modo **Standalone** (uso local) no arquivo `/etc/nut/nut.conf`:
-
+```bash
+sudo editor  /etc/nut/nut.conf
+```
+E então procure a linha `MODE=`, que talvez esteja assim:
+```text
+MODE=none
+```
+Comente a linha acima acrescentando "#" no inicio da linha, e acrescente abaixo dela:
 ```text
 MODE=standalone
-
-
 ```
+Talvez a linha acima esteja comentada, neste caso, apenas acrescente abaixo dela, o conteúdo acima.  
 
 Agora, vamos editar o arquivo `/etc/nut/upsmon.conf`, execute:
 
 ```bash
 sudo editor /etc/nut/upsmon.conf
-
 ```
 
 E acrescente esta linha ao final do arquivo, mas atente-se para adaptá-la conforme a explicação seguinte:
 
 ```text
 MONITOR meunobreak@localhost 1 monuser sua_senha_secreta master
-
 ```
 
 **Entenda os parâmetros:**
@@ -177,15 +182,12 @@ Reinicie os serviços para carregar as configurações:
 
 ```bash
 sudo systemctl restart nut-server nut-client
-
-
 ```
 
 Consulte os dados reais do aparelho:
 
 ```bash
 upsc meunobreak@localhost
-
 ```
 O resultado esperado é uma lista de informações técnica como:
 ```text

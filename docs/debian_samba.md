@@ -125,9 +125,9 @@ Se você tiver um dominio em sua rede, troque **WORKGROUP** pelo nome do seu dom
 Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
 ```ini
-[work]
-   comment = Pasta de Trabalho do gsantana
-   path = /home/gsantana/work
+[w]
+   comment = Pasta de Trabalho
+   path = /home/w
    browseable = yes
    read only = no
    writable = yes
@@ -145,27 +145,21 @@ Depois salve o arquivo e saia do editor.
 
 Ajuste a permissão da pasta:
 ```bash
-sudo chown -R gsantana:smbwork /home/gsantana/work
-sudo chmod -R 2770 /home/gsantana/work
+sudo chown -R gsantana:smbwork /home/w
 ```
 
 Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
 Define gsantana como dono (se necessário):  
 ```bash
-sudo setfacl -R -m g:smbwork:rwx /home/gsantana/work
-sudo setfacl -R -m d:g:smbwork:rwx /home/gsantana/work
-```
-
-Se precisar que mais pessoas tenham acesso, recomendo:  
-```
-sudo chmod -R 1777 /home/gsantana/work
+sudo setfacl -R -m g:smbwork:rwx /home/w
+sudo setfacl -R -m d:g:smbwork:rwx /home/w
 ```
 
 ### Reinício e Teste do Serviço
 
 Verificar a Sintaxe da Configuração:   
 ```bash
-testparm
+sudo testparm
 ```
 Confirme que o `smb.conf` foi carregado sem erros. 
 
@@ -181,7 +175,7 @@ sudo systemctl enable smbd
     
 Para testar o acesso localmente (Opcional):  
 ```bash
-smbclient //localhost/work -U gsantana
+smbclient //localhost/w -U gsantana
 ```
 Você terá de fornecerr a senha do `gsantana` que criamos nos passos anteriores e se estiver correta, o prompt `smb: \>` confirmará a conexão bem-sucedida e se quiser usar alguns comandos, tente o `ls` para listar arquivos e depois o `quit` para sair dele.  
     
@@ -192,7 +186,7 @@ Após a configuração no Debian, o compartilhamento pode ser acessado em qualqu
 
 Obtenha o **Endereço IP** do seu servidor Debian/Ubuntu (e.g., usando `ip a` no terminal Linux), neste teste, não use o nome do host ainda, afinal queremos apenas testar o compartilhamento do jeito mais crús que existir, e se funcionar então podemos testar com o nome do host. No Windows, pressione **`Win + R`** para abrir o **Executar** e depois no Explorer, o caminho UNC do compartilhamento:
 ```
-\\192.168.1.50\work
+\\192.168.1.50\w
 ```
 Quando questionado, forneça seu nome de usuário `gsantana` e a senha que criamos para ele e também marque a opção para lembrar das credenciais.
 

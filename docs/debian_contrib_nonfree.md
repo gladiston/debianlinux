@@ -41,6 +41,37 @@ deb http://security.debian.org/debian-security trixie/updates main contrib non-f
 
 Salve o arquivo (`Ctrl+O`, `Enter`) e saia (`Ctrl+X`).
 
+Caso seu source.list esteja vázio, provavelmente ele foi transferido para `/etc/apt/sources.list.d/debian.sources` e neste caso, seu conteúdo seria:  
+```
+Types: deb
+Enabled: yes
+URIs: http://ftp.ee.debian.org/debian/
+Suites: trixie
+Components: main  contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+Enabled: yes
+URIs: http://security.debian.org/debian-security/
+Suites: trixie-security
+Components: main  contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+Enabled: no
+URIs: http://ftp.ee.debian.org/debian/
+Suites: trixie-backports
+Components: main  contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+
+Types: deb
+Enabled: yes
+URIs: http://ftp.ee.debian.org/debian/
+Suites: trixie-updates
+Components: main contrib non-free non-free-firmware
+Signed-By: /usr/share/keyrings/debian-archive-keyring.gpg
+```
+
 ### 2\. Atualizar a Lista de Pacotes
 
 Para que o APT reconheça os novos repositórios e seus pacotes, é necessário executar o comando de atualização:

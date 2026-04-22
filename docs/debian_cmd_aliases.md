@@ -64,8 +64,16 @@ alias v='vim'                  # Abre o Vim rapidamente
 Muito útil ter seus aliases, não é mesmo?  
 Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).  
 
+<<<<<<< HEAD
 Depois, **reinicie o terminal** e teste um dos aliases:
 
+=======
+Depois, **reinicie o terminal** :
+```bash
+source ~/.bash_aliases
+```
+E faça o teste com um dos aliases:
+>>>>>>> 0f25b9641296d8ddaa5c3166d25ab6b9eb0582fb
 ```bash
 c
 ```
