@@ -49,7 +49,7 @@ cd /pasta/do/projeto
 git pull
 ```
 E  então forneça seu **username** e sua **senha** (Cole seu Token github_pat_... aqui).
-Você fornecerá seu **username** e sua **senha** uma única vez, nós próximos comandos, a senha e usuário não serão mais questionados.  
+Você fornecerá seu **username** e sua **senha** uma única vez, nas próximas vezes, a senha e usuário não serão mais questionados.  
 
 
 
