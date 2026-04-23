@@ -1,6 +1,7 @@
 # KDE – Ajustes básicos no Dolphin
 
 ## Introdução
+
 Este artigo descreve configurações do gerenciador de arquivos **Dolphin** que contribuem para evitar problemas recorrentes no ambiente KDE Plasma, além de apresentar ajustes recomendados para usuários avançados que necessitam de maior estabilidade e previsibilidade no uso do sistema.
 
 ---
@@ -8,6 +9,7 @@ Este artigo descreve configurações do gerenciador de arquivos **Dolphin** que 
 ## Dolphin – Desligar “Recentes”
 
 ### Por que isso é indicado
+
 Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10 e Plasma 6.x, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
 O sintoma mais frequente é a exibição de uma janela de diálogo vazia, sem listagem de arquivos, acompanhada da indicação de que a aplicação “não está respondendo”.
 
@@ -18,6 +20,7 @@ Quando algum desses caminhos deixa de existir ou não responde, o diálogo de ar
 Aplicações desenvolvidas com Electron, como as IDEs VS Code e Cursor, são particularmente sensíveis a esse comportamento.
 
 A desativação dessa funcionalidade é especialmente recomendada para:
+
 - usuários que utilizam mounts temporários (`/mnt/backup`, `/mnt/nfs-*`);
 - ambientes com NFS ou compartilhamentos que nem sempre estão disponíveis;
 - estações de trabalho técnicas, servidores ou máquinas de desenvolvimento;
@@ -50,10 +53,12 @@ Essas alterações afetam todos os diálogos de arquivos do sistema, não apenas
 ## Dolphin – Lista detalhada de arquivos
 
 ### Por que isso é indicado para usuários avançados
+
 Ao configurar o Dolphin para utilizar a visualização **Lista detalhada**, o usuário obtém maior controle e previsibilidade na navegação entre diretórios.  
 Esse modo reduz a dependência de metadados adicionais (como miniaturas, pré-visualizações e consultas extras), tornando o carregamento das pastas mais simples e menos suscetível a bloqueios quando existem caminhos lentos ou problemáticos.
 
 Para usuários que trabalham com:
+
 - `/mnt`, NFS, CIFS ou dispositivos removíveis;
 - grandes hierarquias de diretórios;
 - pastas que nem sempre estão disponíveis;
@@ -77,16 +82,45 @@ essa configuração diminui significativamente a possibilidade de o diálogo de 
    - Usar estilo de exibição comum para todas as pastas
    - Abrir arquivos compactados como pastas
    - Abrir pastas durante as operações de arrastar  
-   Em seguida, clique em **Aplicar** e depois em **OK**
+     Em seguida, clique em **Aplicar** e depois em **OK**
 
 Essa configuração passa a ser utilizada automaticamente também nos diálogos de abrir e salvar arquivos do sistema.
 
 ---
 
+## Cadê a opção de lembrar a senha?
+
+Em algumas distribuições derivadas do Debian nem sempre aparece a opção (checkbox) "Lembrar a senha", o motivo disso é a falta de atenção ao programa **KDE Wallet** que é esquecido na remasterização. E o resultado disso é que se você usar o Dolphin para acessar um endereço de rede, por exemplo:
+
+![](../img/kde_password_remember-01.png)
+
+A opção de lembrar a senha não lhe é oferecida.  
+Isso geralmente ocorre por uma mudança na forma como o KDE lida com a carteira de senhas ou pela falta de integração com o serviço de armazenamento seguro.
+
+O Dolphin depende do KWallet para armazenar senhas de rede de forma segura. Se o subsistema do KWallet estiver desativado ou não houver uma carteira padrão criada, a opção de memorizar não será exibida.
+
+Abra o menu do sistema e procure por "Carteira do KDE" (ou kwalletmanager5).
+
+Certifique-se de que a opção "Habilitar o subsistema de carteira do KDE" está marcada.
+
+Verifique se existe uma carteira padrão (geralmente chamada kdewallet):
+![](../img/kde_password_remember-02.png)
+Se não houver nenhuma carteira então crie uma, escolha o nome de `kdewallet`, pois é o nome padrão usado nas distros onde este item já vem pré-configurado e então clique em **OK** para salvar este ajuste.  
+
+
+
+Depois desse ajuste, protocolos como `smb://` , `sftp://`  e outros passarão a dar a opção de **Lembrar a senha**:
+
+![](../img/kde_password_remember-03.png)
+
+
+
 ## Conclusão
+
 Travamentos no diálogo **Abrir pasta** raramente decorrem de falhas na aplicação em si. Na maioria dos casos, o problema está associado ao histórico de caminhos que o sistema tenta resolver automaticamente, incluindo diretórios inexistentes ou temporariamente indisponíveis.
 
 Ao:
+
 - utilizar a visualização em **lista detalhada**;
 - desativar a funcionalidade **Recentes**;
 

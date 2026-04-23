@@ -8,22 +8,20 @@ ls -lh --color=auto
 ```
 
 Isso é muito comprido. Que tal digitar apenas `l` e o sistema entender o comando acima?  
-É exatamente isso que faremos agora. Edite o arquivo:
+É exatamente isso que faremos agora.
+
+### Aliases globais (para todos os usuários)
+
+A forma mais simples e “padrão de Debian” para tornar aliases globais é criar um arquivo em `/etc/profile.d/`.  
+Tudo que você colocar ali será carregado por shells “de login” (e também por muitas sessões gráficas que inicializam o ambiente via `profile`).
 
 ```bash
-editor ~/.bash_aliases
+sudo editor /etc/profile.d/aliases.sh
 ```
 
-O arquivo acima é executado automaticamente sempre que você abre um terminal **bash**.  
-Acrescente ao final deste arquivo seus **aliases** personalizados, por exemplo:
+Cole o conteúdo abaixo (pode ajustar à vontade):
 
-```bash
-alias l='ls -lh --color=auto'
-```
-
-E então acrescente estas linhas no final do arquivo:  
-
-```
+```text
 ###
 ### Meus aliases
 ### 
@@ -48,7 +46,7 @@ alias du='du -h -d 1'                                   # Mostra tamanho de past
 alias free='free -h'                                    # Memória RAM legível
 
 # Rede
-alias ping='ping -c 5'             # Faz 5 pings e para
+alias ping='ping -c 5'             # Faz 5 pings ao inves de indefinido
 alias myip='curl ifconfig.me'      # Mostra seu IP público
 alias ports='sudo netstat -tulanp' # Lista portas em uso
 
@@ -62,18 +60,15 @@ alias v='vim'                  # Abre o Vim rapidamente
 ```
 
 Muito útil ter seus aliases, não é mesmo?  
-Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).  
+Agora **salve** o arquivo e feche o editor.
 
-<<<<<<< HEAD
-Depois, **reinicie o terminal** e teste um dos aliases:
+Depois, **abra um novo terminal** (recomendado) ou recarregue a sessão atual:
 
-=======
-Depois, **reinicie o terminal** :
 ```bash
-source ~/.bash_aliases
+source /etc/profile
 ```
+
 E faça o teste com um dos aliases:
->>>>>>> 0f25b9641296d8ddaa5c3166d25ab6b9eb0582fb
 ```bash
 c
 ```
@@ -82,6 +77,16 @@ E ele limpará a tela, porque `c` é um alias para `clear`.
 
 Pronto — agora você tem **comandos mais breves e práticos** para as tarefas do dia a dia.  
 Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
+
+### Observações importantes
+
+- **Bash não-login (muito comum)**: em alguns fluxos, o Bash pode não carregar `/etc/profile`. Se você notar que os aliases globais não entram em vigor em terminais “normais”, adicione esta linha ao final de `/etc/bash.bashrc`:
+
+```bash
+if [ -f /etc/profile ]; then . /etc/profile; fi
+```
+
+- **Zsh**: se você usa Zsh, verifique se a sua sessão carrega `/etc/profile` (normalmente carrega). Se não carregar, você pode fazer o mesmo ajuste no arquivo global apropriado (ex.: `/etc/zsh/zshrc`) para “sourcear” o `/etc/profile`.
 
 > **Curiosidade histórica**:  
 > O uso de aliases e comandos curtos vem dos primeiros sistemas Unix, em que as conexões remotas eram muito lentas — cada caractere digitado economizava tempo e largura de banda. Essa cultura de abreviar comandos (como ls, cp, mv, rm) se manteve até hoje, por eficiência e praticidade.
