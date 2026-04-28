@@ -80,9 +80,10 @@ E veja o resultado:
 Agora, como pode notar, o driver em uso é `amdgpu`.
 
 **CONCLUSÃO**  
-A placa de vídeo mencionada Radeon R7 240/340/550 e similares - tem também a Oland PRO entram numa "zona cinzenta" do Linux. 
+A placa de vídeo mencionada Radeon R7 240/340/550 e similares como a Oland PRO - entram numa "zona cinzenta" do Linux. 
 O driver `readon` é o padrão por questões históricas, mas o `amdgpu` é o que recebe atualizações de performance. 
 Ao desativar o suporte no `radeon` e ativar no `amdgpu`, nós obrigamos o sistema a usar o driver moderno.  
+A partir do kernel 7, finalmente o driver **amdgpu** já é o padrão e as instruções acima não são mais necessárias.  
 
 
 
