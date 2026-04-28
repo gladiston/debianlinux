@@ -80,11 +80,16 @@ Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
 
 ### Observações importantes
 
-- **Bash não-login (muito comum)**: em alguns fluxos, o Bash pode não carregar `/etc/profile`. Se você notar que os aliases globais não entram em vigor em terminais “normais”, adicione esta linha ao final de `/etc/bash.bashrc`:
+- **Bash não-login (muito comum)**: em alguns fluxos, o Bash pode não carregar `/etc/profile`. Se você notar que os aliases globais não entram em vigor em terminais “normais”, é bom adicionar esta linha ao final de `/etc/bash.bashrc` que em algumas distros como Debian e Ubuntu já vem comentadas e neste caso, basta descomentá-las:
 
 ```bash
-if [ -f /etc/profile ] ; then 
-  . /etc/profile
+if [ -d /etc/profile.d ]; then
+  for _i in /etc/profile.d/*.sh; do
+    if [ -r $_i ]; then
+      . $_i
+    fi
+  done
+  unset _i
 fi
 ```
 
