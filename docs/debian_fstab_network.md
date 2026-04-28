@@ -30,7 +30,7 @@ sudo mkdir -p /media/pub
 Conceda acesso à pasta para você mesmo, com o bit *setgid* (`2`) para que subpastas herdem as permissões da pasta-pai:
 ```bash
 sudo chown $USER:$USER /media/pub 
-sudo chmod 2777 /media/pub
+sudo chmod 1777 /media/pub
 ```
 
 Agora, monte o compartilhamento manualmente:
