@@ -21,11 +21,21 @@ A tabela a seguir detalha a função primária de cada pacote instalado:
 | `cabextract` | Utilitário para extração de arquivos `.cab` (Microsoft Cabinet). |
 
 ## GUI para compactar/descompactar
-Ambientes de desktop como KDE, GNOME e outros tem ferramentas próprias para compactar e descompactar arquivos. Essas ferramentas são fáceis e intuitivas, no entando elas são um wrapper para as ferramentas de backend que instalamos acima, por exemplo, o Ark (o gerenciador de arquivos do KDE) não "lê" o arquivo .7z nativamente. Ele faz um `7z l` em background, captura o output de texto, faz o parsing (processamento do texto) e então preenche a lista na interface gráfica e no GNOME, o File-Roller faz a mesma coisa. Nestes ambientes gráficos, cada vez que você clica em uma pasta compactada, ele pode estar reexecutando comandos para atualizar a visão. Então precisamos de um programa gráfico para substituir estes programas e que faça essas operações nativamente como WinRAR ou 7-Zip faz no Windows, e é aqui que recomendo a instalação do `PeaZip`, ele é encontrado na loja Flathub via flatpak, então procure-o por lá. Caso queira instalar via terminal:  
+Ambientes de desktop como KDE, GNOME e outros tem ferramentas próprias para compactar e descompactar arquivos. Essas ferramentas são fáceis e intuitivas, no entando elas são um wrapper para as ferramentas de backend que instalamos acima, por exemplo, o `Ark` (o gerenciador de arquivos do KDE) não "lê" o arquivo .7z nativamente. Ele faz um `7z l` em background, captura o output de texto, faz o parsing (processamento do texto) e então preenche a lista na interface gráfica e no GNOME, o `File-Roller` faz a mesma coisa. Nestes ambientes gráficos, cada vez que você clica em uma pasta compactada, ele pode estar reexecutando comandos para atualizar a visão. Então precisamos de um programa gráfico para substituir estes programas e que faça essas operações nativamente como WinRAR ou 7-Zip faz no Windows, e é aqui que recomendo a instalação do `PeaZip`, ele é encontrado em alguns repositórios Debian, tente instalar pelo instalar:
+```bash
+sudo apt install peazip -y
+```
+E caso sua distro não tenha ele nos repositórios - Ubuntu, por exemplo - , poderá fazer o download [do .deb aqui](https://peazip.github.io/peazip-linux.html) e dar um duplo clique e seguir as orientações na tela.
+
+Se desejar a versão em flatpak, execute:  
 ```bash
 flatpak install flathub io.github.peazip.PeaZip
 ```
-Caso queira instalar uma versão .deb, [poderá fazer o download aqui](https://peazip.github.io/peazip-linux.html).  
+
+Se estiver usando o KDE acesse o link abaixo para instalar uma extensão para gerenciador de arquivos:  
+[Peazip Compress Decompress Menu - Quick Simple Install](https://store.kde.org/p/1290372)  
+Nele, instalará um complemento chamado **Peazip Compress Decompress Menu - Quick Simple Install** que adiciona compactar/descompactar ao menu de contexto do gerenciador de arquivos.    
+
 A diferença entre o PeaZip com o Ark(KDE) ou File Roller(GNOME) é da agua para o vinho em velocidade. Me faz pensar que KDE e GNOME deveriam descontinuar suas ferramentas de compactação e descompactação. Sério, é muita diferença de tempo mesmo! Lembre-se de que as ferramentas de terminal são muito rápidas, o problema mesmo é usá-las como frontend do gerenciador de arquivos no KDE/GNOME.  
 
 ## Cópia e sincronização de arquivos
@@ -37,15 +47,7 @@ Um outro motivo para instalá-lo é que o `rsync` é backend para muitos outros 
 
 ---
 ## INTEGRAÇÃO COM O SISTEMA DE ARQUIVOS DE SEU SISTEMA
-Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, GNOME e KDE usam os utilitários de linha de comando para compactar e descompactar e quando se trata de pastas inteiras não há problemas. Mas quando o objetivo é apenas observar seu conteúdo e possivelmente extrair um conteúdo parcial então vem um problema sério, eles usam a linha de comando para listar e exportar para dentro de um arquivo .txt e depois fazer o que chamamos de _parse_ e isso é MUITO LENTO e fica mais lento ainda quando tal arquivo está num ponto de montagem lento.   
-No Windows, o WinRAR, 7Zip e outros fazem isso nativamente, geralmente arquivos compactados tem um HEADER que tornam a listagem do conteúdo praticamente instantaneo sem precisar varrer o arquivo inteiro. Infelizmente, no Linux, eu só conheço um programa que faz este tipo de acesso nativo: **PezZip**. 
-Para instalar via repositório:  
-```bash
-sudo apt install peazip -y
-```
-Ao instalar pelo repositório, se estiver usando o KDE acesse o link:  
-[Peazip Compress Decompress Menu - Quick Simple Install](https://store.kde.org/p/1290372)  
-Nele, instalará um complemento chamado **Peazip Compress Decompress Menu - Quick Simple Install** que adiciona compactar/descompactar ao menu de contexto do gerenciador de arquivos.    
+Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, 
 
 
 
