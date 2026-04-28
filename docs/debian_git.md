@@ -12,9 +12,11 @@ Vamos ajustar nosso ambiente com o GIT com os comandos:
 > git config --global user.email "seu.email@dominio.com"   
 
 Recentemente, o github fez alterações em seu sistema onde a instrução:
-> rm ~/.git-credentials  
-> git config --global --unset-all credential.helper  
-> git config --global credential.helper store  
+```bash
+rm ~/.git-credentials  # nem sempre existe
+git config --global --unset-all credential.helper  
+git config --global credential.helper store  
+```
 
 Será ignorada completamente ou terminará em erro e a tentativa de login resultará neste erro:
 **Fatal Authentication Failed for: site.com.br**
