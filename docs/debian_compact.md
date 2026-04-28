@@ -37,7 +37,7 @@ Um outro motivo para instalá-lo é que o `rsync` é backend para muitos outros 
 
 ---
 ## INTEGRAÇÃO COM O SISTEMA DE ARQUIVOS DE SEU SISTEMA
-Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, tanto o GNOME, quanto o KDE usam os utilitários acima para compactar ou descompactar e quando se trata de pastas inteiras não há problemas. Mas quando o objetivo é observar seu conteúdo de um arquivo compactado e/ou extrair apenas conteúdo parcial então vem um problema, neste caso, eles usam os utilitarios acima para listar o conteúdo inteiro para dentro de um arquivo .txt e depois fazer o que chamamos de scrap que é ler o .txt e de acordo com o conteúdo então construir a exibição na tela e isso é MUITO LENTO e fica mais lento ainda quando tal arquivo está numa rede local ou num ponto de montagem lento.   
+Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, GNOME e KDE usam os utilitários de linha de comando para compactar e descompactar e quando se trata de pastas inteiras não há problemas. Mas quando o objetivo é apenas observar seu conteúdo e possivelmente extrair um conteúdo parcial então vem um problema sério, eles usam a linha de comando para listar e exportar para dentro de um arquivo .txt e depois fazer o que chamamos de _parse_ e isso é MUITO LENTO e fica mais lento ainda quando tal arquivo está num ponto de montagem lento.   
 No Windows, o WinRAR, 7Zip e outros fazem isso nativamente, geralmente arquivos compactados tem um HEADER que tornam a listagem do conteúdo praticamente instantaneo sem precisar varrer o arquivo inteiro. Infelizmente, no Linux, eu só conheço um programa que faz este tipo de acesso nativo: **PezZip**. 
 Para instalar via repositório:  
 ```bash
