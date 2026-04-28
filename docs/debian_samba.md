@@ -95,7 +95,7 @@ sudo smbpasswd -e gsantana
 ```
 Crie um grupo para compartilhamento e acrescente este mesmo usuário mesmo ao grupo:
 ```bash
-sudo groupadd sambashare
+sudo groupadd -f sambashare
 sudo usermod -aG sambashare gsantana
 ```
 
@@ -126,17 +126,27 @@ Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **f
 
 ```ini
 [w]
-   comment = Pasta de Trabalho
-   path = /home/w
-   browseable = yes
-   read only = no
-   writable = yes
+    comment = Pasta de Trabalho
+    path = /home/w
+    browseable = yes
+    read only = no
+    # Permite acesso ao usuário e também a membros do grupo sambashare
+    valid users = gsantana @sambashare
+    public = no
+    writable = yes
+    follow symlinks = yes
+    wide links = yes
 
-   create mask = 0660
-   directory mask = 2770
+    # Máscaras de permissão
+    create mask = 0660
+    directory mask = 2770
+    force create mode = 0660
+    force directory mode = 2770
 
-   force group = sambashare
-   inherit permissions = yes
+    # Configurações de segurança para mapeamento de usuário
+    force user = gsantana
+    force group = sambashare
+    inherit permissions = yes
 ```
 A pasta e o nome do compartilhamnento você pode ficar a vontade para modificar.  
 Depois salve o arquivo e saia do editor.  
