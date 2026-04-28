@@ -30,7 +30,14 @@ editor ~/.vimrc
 ```
 
 E adicione as linhas:
+```yaml
+if has('mouse')
+  set mouse=
+endif
 ```
+Caso não funcione, é provável que alguma configuração pré-carregada do vim, esteja bloqueando o comando acima, então nessa situação você trocar o comando acima por:
+
+```yaml
 " Impede o carregamento das configurações padrão do sistema
 let g:skip_defaults_vim = 1
 
