@@ -13,12 +13,11 @@ Execute:
 lspci -k |grep -A 3 -E "VGA|3D"
 ```
 E veja o resultado:
-```
-06:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Oland PRO [Radeon R7 240/340 / Radeon 520]
-        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0000
-        Kernel driver in use: radeon
-        Kernel modules: radeon, amdgpu
-```
+> 06:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Oland PRO [Radeon R7 240/340 / Radeon 520]  
+>        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0000  
+>        **Kernel driver in use: radeon**  
+>        Kernel modules: radeon, amdgpu  
+
 Agora que sabemos o modelo podemos resolver o problema.  
 
 ## Radeon R7 240/340 / Radeon 520
@@ -27,15 +26,14 @@ Uma vez que tenha identificado como `Radeon R7 240/340 / Radeon 520`, vamos aos 
 lspci -k |grep -A 3 -E "VGA|3D"
 ```
 E veja o resultado:
-```
-06:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Oland PRO [Radeon R7 240/340 / Radeon 520]
-        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0000
-        Kernel driver in use: radeon
-        Kernel modules: radeon, amdgpu
-```
+> 06:00.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI] Oland PRO [Radeon R7 240/340 / Radeon 520]  
+>        Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0000  
+>        **Kernel driver in use: radeon**  
+>        Kernel modules: radeon, amdgpu  
+
 Note a frase:  
 > Kernel driver in use: radeon
-> Kernel modules: radeon, amdgpu  
+> Kernel modules: **radeon**, **amdgpu**  
 
 Isso significa que há dois modulos, porém o que o kernel decidiu usar foi o `radeon` que não é muito recomendado para aceleração de hardware, precisaremos trocar para `amdgpu`.  
 Precisaremos dizer ao sistema para não carregar o suporte antigo para essa arquitetura chamada Southrn Islands/Sea Islands.  
