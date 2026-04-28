@@ -45,19 +45,6 @@ sudo apt install -y rsync
 ```
 Um outro motivo para instalá-lo é que o `rsync` é backend para muitos outros programas. Se você não instalá-lo, é muito provavel que o instalará mais tarde como dependencia de outro.  
 
----
-## INTEGRAÇÃO COM O SISTEMA DE ARQUIVOS DE SEU SISTEMA
-Cuidado ao usar compactar/descompactar pastas usando o gerenciador de arquivos, 
-
-
-
-Para instalar via flathub:  
-```bash
-flatpak install flathub io.github.peazip.PeaZip
-```
-
-
-
 ----
 
 [Clique aqui para retornar a página principal](../README.md#instalando-compactadoresdescompactadores-de-arquivos)
