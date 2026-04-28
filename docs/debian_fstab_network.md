@@ -6,18 +6,16 @@ Vamos considerar agora alguns tipos de compartilhamentos.
 ## ACESSAR COMPARTILHAMENTOS NA REDE VIA GESTOR DE ARQUIVOS
 Os gerenciadores de arquivos no Linux acessam **redes remotas** de diferentes tipos através de prefixos no início da URI.  
 Por exemplo, para compartilhamentos **SMB/CIFS**:
-```
-smb://nas01/pub
-# ou com autenticação:
-smb://gsantana[:senha]@nas01/pub
-```
+> smb://nas01/pub  
+Ou com autenticação:
+> smb://gsantana[:senha]@nas01/pub  
+
 
 E não seria diferente com outros protocolos como **FTP**, **SFTP (FTP sobre SSH)** ou **NFS**, por exemplo:
-```
-sftp://nas01/mnt/po_nas01/pub
-# ou
-sftp://gsantana[:senha]@nas01/mnt/po_nas01/pub
-```
+> sftp://nas01/mnt/po_nas01/pub  
+Ou:
+> sftp://gsantana[:senha]@nas01/mnt/po_nas01/pub  
+
 Se você usa KDE ou GNOME, acesse via URI as suas pastas na rede e crie bookmarks delas, os gestores de arquivos desses ambientes tem esse recurso e fazem o mapeamento apenas quando você tenta acessá-las.
 
 ## ACESSAR COMPARTILHAMENTOS NA REDE VIA TERMINAL
@@ -27,7 +25,7 @@ Simples — basta criar um ponto de montagem, ou seja, uma pasta onde o conteúd
 sudo mkdir -p /media/pub
 ```
 
-Conceda acesso à pasta para você mesmo, com o bit *setgid* (`2`) para que subpastas herdem as permissões da pasta-pai:
+Conceda acesso à pasta para você mesmo, com o bit *setgid* (`1`) para que subpastas herdem as permissões da pasta-pai:
 ```bash
 sudo chown $USER:$USER /media/pub 
 sudo chmod 1777 /media/pub
@@ -35,10 +33,10 @@ sudo chmod 1777 /media/pub
 
 Agora, monte o compartilhamento manualmente:
 ```bash
-sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777
+sudo mount -t cifs //nas01/pub /media/pub -o username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=666,dir_mode=1777,iocharset=utf8,vers=3.0,_netdev
 ```
 
-Esse comando funciona bem, mas é um tanto **longo** para digitar toda vez.  
+Esse comando funciona bem, mas é um tanto **longo** para digitar toda vez e para ser sicenro, fui rigoroso nas opções porque cada distro baseada em Debian pode ter padrões diferentes.    
 Como a pasta será usada com frequência, o ideal é torná-la permanente no **/etc/fstab**.
 
 ### ACESSAR COMPARTILHAMENTOS NA REDE VIA TERMINAL - Montagem via `/etc/fstab`
@@ -47,12 +45,10 @@ Deixar programado pastas que apontem diretamente para uma unidade de rede nos pe
 sudo editor /etc/fstab
 ```
 
-E adicione a linha:
-| `/etc/fstab` |
-|:--|
-| `//nas01/pub /media/pub cifs -o username=gsantana,password=suasenha,domain=localdomain.lan,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto 0 0` |
+E adicione ao `/etc/fstab` a seguinte linha(única linha):  
+> //nas01/pub /mnt/pub cifs username=gsantana,password=suasenha,domain=localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,noauto,x-systemd.automount,x-systemd.mount-timeout=10s 0 0
 
-Agora **salve** o arquivo e feche o editor (`Ctrl+O`, `Enter`, `Ctrl+X`).  
+Agora **salve** o arquivo e saia do editor.  
 
 Agora você pode simplesmente, executar no terminal:  
 ```bash
@@ -63,9 +59,9 @@ E nem precisa mais de usar o `sudo` por causa da diretiva **users** usada no fst
 Substitua a linha anterior por esta:
 ```
 # Montagem da pasta pub 
-//nas01/pub /home/gsantana/mnt/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto 0 0
+//nas01/pub /home/gsantana/mnt/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=1777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto 0 0
 ```
-Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).   
+Agora **salve** o arquivo e saia do editor.  
 
 No lugar do usuário e senha dentro do `fstab`, informamos um **arquivo externo para autenticação**.  
 Vamos criá-lo:
@@ -79,7 +75,7 @@ username=gsantana
 password=suasenha
 domain=localdomain
 ```
-Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).   
+Agora **salve** o arquivo e saia do editor.   
 
 Agora, proteja esse arquivo, impedindo que outros leiam suas credenciais:
 ```bash
@@ -94,7 +90,7 @@ cat: /etc/cifs-credentials.gsantana.localdomain.lan: Permissão negada
 Para saber se as credenciais estão certas, é recomendado executar o terminal exatamente o que você incluiu no /etc/fstab, veja:
 ```bash
 sudo systemctl daemon-reload
-sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,x-systemd.automount,x-systemd.mount-timeout=10,noauto
+sudo mount -t cifs //nas01/pub /media/pub -o credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=1777,iocharset=utf8,vers=3.0,_netdev
 ```
 
 Se tudo correu bem, o conteúdo da pasta **/media/pub** será o mesmo do compartilhamento **//nas01/pub**.
@@ -137,7 +133,7 @@ Isso evita que o boot demore caso o servidor esteja desligado ou fora da rede.
 Para configurar, edite novamente o `/etc/fstab` e adicione a opção `x-systemd.automount`, assim:
 ```
 # Montagem sob demanda da pasta pub
-//nas01/pub /media/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,noauto,nosuid,nodev,file_mode=0777,dir_mode=0777,x-systemd.automount 0 0
+//nas01/pub /mnt/pub cifs credentials=/etc/cifs-credentials.gsantana.localdomain.lan,users,rw,nosuid,nodev,file_mode=0777,dir_mode=0777,iocharset=utf8,vers=3.0,_netdev,noauto,x-systemd.automount,x-systemd.mount-timeout=10s 0 0
 ```
 
 Depois ative o comportamento:
@@ -152,19 +148,27 @@ Com isso, seu sistema acessará compartilhamentos de rede de forma **segura, aut
 O único problema dessa solução é que ambientes como KDE e GNOME fazem a leitura do /etc/fstab e testam a acessibilidade e então mostram na arvore do gestor de arquivos estas pastas como disponíveis e com isso, não-intencionalmente, fazem a montagem. Sob estas condições, é melhor "favoritar" endereços de rede no próprio gestor de arquivos.
 
 
-### Explicando os parâmetros de montagem mais utilizados:  
-|Parametro|Explicação|
-|:--|:--|
-|users|Permite que usuários normais montem e desmontem o compartilhamento, não apenas o superusuário (root).|
-|rw|Especifica que o compartilhamento deve ser montado com permissões de leitura e escrita.|
-|nosuid|Impede a execução de arquivos com permissões suid (Set User ID), o que pode ser um risco de segurança em compartilhamentos de rede.|
-|nodev|Impede a criação de arquivos de dispositivo no compartilhamento montado.|
-|file_mode=0777|Define as permissões para arquivos dentro do compartilhamento montado como 0777, o que concede permissões totais (read/write/execute) para todos os usuários.|
-|dir_mode=0777|Define as permissões para diretórios dentro do compartilhamento montado como 0777, também concedendo permissões totais para todos os usuários.|
-|auto|Faz a montagem diretamente no boot|
-|noauto|Não faz a montagem automática durante o boot|
-|x-systemd.automount|Faz a montagem sob demanda|
-|zero e zero no final da linha|Desativa dump e fsck automático.|
+### Documentação dos Parâmetros de Montagem (fstab/CIFS)
+| Parâmetro | Explicação |
+| :--- | :--- |
+| **//nas01/pub** | Caminho de origem (UNC) do compartilhamento no servidor NAS. |
+| **/mnt/pub** | Ponto de montagem local onde os arquivos ficarão acessíveis. |
+| **cifs** | Protocolo de rede utilizado (Common Internet File System / SMB). |
+| **credentials=...** | Caminho para o arquivo que armazena usuário e senha de forma protegida. |
+| **users** | Permite que usuários comuns realizem a montagem e desmontagem. |
+| **rw** | Permite leitura e escrita (**read-write**). |
+| **nosuid** | Impede que programas com o bit SUID sejam executados com privilégios do dono. |
+| **nodev** | Não permite a criação/interpretação de arquivos de dispositivos. |
+| **file_mode=0777** | Atribui permissões totais (leitura/escrita/execução) para arquivos. |
+| **dir_mode=1777** | Define permissões totais, mas com o **Sticky Bit** (o "1"). Isso garante que apenas o dono de um arquivo (ou o root) possa excluí-lo ou renomeá-lo dentro do diretório, mesmo que outros tenham permissão de escrita. |
+| **iocharset=utf8** | Define o conjunto de caracteres como UTF-8 para suportar acentuação. |
+| **vers=3.0** | Especifica a versão 3.0 do protocolo SMB (segurança e performance melhoradas). |
+| **_netdev** | Adia a montagem até que a pilha de rede do sistema esteja ativa. |
+| **noauto** | Indica que o dispositivo não deve ser montado automaticamente no boot. |
+| **x-systemd.automount** | Ativa a montagem sob demanda (o sistema monta ao acessar a pasta). |
+| **x-systemd.mount-timeout=10s** | Define um limite de 10 segundos para tentativas de conexão antes de falhar. |
+| **0** (quinto campo) | **Dump**: Desativa o backup automático pelo utilitário dump. |
+| **0** (sexto campo) | **Fsck**: Ignora a verificação de integridade do disco na inicialização. |
 
 
 ----
