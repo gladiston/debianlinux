@@ -144,7 +144,8 @@ sudo touch /usr/local/bin/menu-tuned.sh
 sudo chmod a+x /usr/local/bin/menu-tuned.sh
 sudo touch /usr/share/applications/tuned-gui.desktop
 sudo chmod a+x /usr/share/applications/tuned-gui.desktop
-``
+```
+
 Estes arquivos foram criados vazios, vamos agora dar vida para eles, execute:
 ```bash
 sudo editor /usr/local/bin/menu-tuned.sh
