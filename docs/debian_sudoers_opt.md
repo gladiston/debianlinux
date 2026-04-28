@@ -27,16 +27,14 @@ ls -1 /etc/sudoers.d
 ```
 E os arquivos listado forem:
 ```
-antixers
-backlight-brightness-mx
+10-installer
 README
-sudo_password_display
 ZZ-admin-permissive
 ```
-Será exatamente a ordem acima que será executada, então você precisa de um **prefixo** para suas configurações virem após a do sistema, isso impede que seus ajustes sejam sobrepostos.  
+O conteúdo acima pode ser diferente em cada distro, mas será ordem alfabética que será seguida e executada, então você precisa de um **prefixo** para suas configurações virem após a do sistema, isso impede que seus ajustes sejam sobrepostos.  
 Em servidores, muitas vezes precisamos executar comandos sem senha, mas quando precisamos fazer isso, precisamos determinar exatamente como o comando será executado, incluindo o seu path e parametros e então podemos criar algo assim:  
 ```bash
-sudo visudo -f /etc/sudoers.d/10-admin-basic
+sudo visudo -f /etc/sudoers.d/20-admin-basic
 ```
 E colar o conteúdo assim:  
 ```
