@@ -29,8 +29,12 @@ Para tornar essa configuração permanente, edite (ou crie) o arquivo de configu
 editor ~/.vimrc
 ```
 
-E adicione a linha:
+E adicione as linhas:
 ```
+" Impede o carregamento das configurações padrão do sistema
+let g:skip_defaults_vim = 1
+
+" Sua configuração de mouse
 set mouse=
 ```
 
