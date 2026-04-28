@@ -83,7 +83,9 @@ Reinicie a sessão para que todos os aliases entrem em ação permanentemente.
 - **Bash não-login (muito comum)**: em alguns fluxos, o Bash pode não carregar `/etc/profile`. Se você notar que os aliases globais não entram em vigor em terminais “normais”, adicione esta linha ao final de `/etc/bash.bashrc`:
 
 ```bash
-if [ -f /etc/profile ]; then . /etc/profile; fi
+if [ -f /etc/profile ]; then 
+  . /etc/profile; 
+fi
 ```
 
 - **Zsh**: se você usa Zsh, verifique se a sua sessão carrega `/etc/profile` (normalmente carrega). Se não carregar, você pode fazer o mesmo ajuste no arquivo global apropriado (ex.: `/etc/zsh/zshrc`) para “sourcear” o `/etc/profile`.
