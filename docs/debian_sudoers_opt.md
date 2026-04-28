@@ -6,7 +6,7 @@ Diferentemente do Debian, no Ubuntu o usuário comum já é membro do grupo `sud
 Mas qualquer que seja sua distro, caso seja um desenvolvedor e pretenda relaxar um pouco o uso do 'SUDO' então podemos alterar o comportamento do `sudo` em relação a solicitação de senha. Se você usou Debian ou Ubuntu no passado, você talvez saiba que antigamentealterávamos o arquivo principal `/etc/sudoers` (ou sudo visudo), no entanto, hoje não é mais assim, alias até pode funcionar numa distro ou outra, mas o jeito certo agora é criar arquivos separados para cada ajuste e salvos em `/etc/sudoers.d/`. Essa mudança tem uma vantagem, caso aconteça alguma atualização do **sudoers** que sobreponha o arquivo de configuração principal, não perderá as modificações feitas. Então risca do seu hábito anterior o comando ~sudo visudo~, agora é:  
 
 ```bash
-sudo visudo -f /etc/sudoers.d/ZZ-admin-permissive
+sudo visudo -f /etc/sudoers.d/99-admin-permissive
 ```
 E então você coloca o que deseja, as regras recentes substituem as antigas, por exemplo, no `/etc/sudoers` tem a linha:  
 ```
@@ -29,7 +29,7 @@ E os arquivos listado forem:
 ```
 10-installer
 README
-ZZ-admin-permissive
+99-admin-permissive
 ```
 O conteúdo acima pode ser diferente em cada distro, mas será ordem alfabética que será seguida e executada, então você precisa de um **prefixo** para suas configurações virem após a do sistema, isso impede que seus ajustes sejam sobrepostos.  
 Em servidores, muitas vezes precisamos executar comandos sem senha, mas quando precisamos fazer isso, precisamos determinar exatamente como o comando será executado, incluindo o seu path e parametros e então podemos criar algo assim:  
@@ -48,7 +48,7 @@ Cmnd_Alias BASIC = /usr/bin/mount, /usr/bin/umount, /usr/bin/mkdir, /bin/rm, /bi
 ```
 Em desktops, dificilmente usariamos um arquivo como o acima, mas em servidores isso é comum, imagine a instalação de um servidor cujo menu de administração seja uma página web onde os cgi façam isso de comandos no prompt e isso acontece muito, por exemplo, um servidor de proxy squid e você quer colocar uma página web para que o administrador possa reiniciar o computador e também o serviço então seria mais ou menos assim:
 ```bash
-sudo visudo -f /etc/sudoers.d/10-admin-squid-server
+sudo visudo -f /etc/sudoers.d/30-admin-squid-server
 ```
 Com o conteúdo de comandos que os cgi's fariam uso no computador:  
 ```
