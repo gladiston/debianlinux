@@ -43,7 +43,7 @@ Agora, você precisa saber que o método de autenticação mudou, você não usa
 Vá até uma pasta gerenciada por você usando o github:
 ```bash
 cd /pasta/do/projeto
-git pull
+git push  # forçando o envio de 'nada'
 ```
 E  então forneça seu **username** e sua **senha** (Cole seu Token github_pat_... aqui).
 Você fornecerá seu **username** e sua **senha** uma única vez, nas próximas vezes, a senha e usuário não serão mais questionados.  
