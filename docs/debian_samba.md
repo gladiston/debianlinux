@@ -158,11 +158,13 @@ Ajuste a permissão da pasta:
 sudo chown -R gsantana:sambashare /home/w
 ```
 
-Confirme se o usuário `gsantana` possui as permissões corretas no sistema de arquivos para a pasta a ser compartilhada.
-Define gsantana como dono (se necessário):  
+Após definir gsantana como dono e sambashare como grupo, então aplicamos ao que já existe (-R recursivo, -m modificar): 
 ```bash
 sudo setfacl -R -m g:sambashare:rwx /home/w
-sudo setfacl -R -m d:g:sambashare:rwx /home/w
+```
+Depois, define o "Default" (-d), garantindo a herança para novos arquivos/pastas
+```bash
+sudo setfacl -R -d -m g:sambashare:rwx /home/w
 ```
 
 ### Reinício e Teste do Serviço
