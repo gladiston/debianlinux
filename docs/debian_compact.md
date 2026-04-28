@@ -5,7 +5,7 @@ Por padrão, o sistema operacional possui suporte limitado a formatos de compres
 Execute o comando a seguir para instalar todos os *utilities* necessários:
 
 ```bash
-sudo apt install -y tar zip unzip p7zip-full p7zip-rar rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract arc
+sudo apt install tar zip unzip p7zip-full rar unrar lzip lzma xz-utils bzip2 gzip squashfs-tools cabextract arc -y
 ```
 
 A tabela a seguir detalha a função primária de cada pacote instalado:
