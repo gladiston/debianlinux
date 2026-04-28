@@ -26,6 +26,7 @@ Após a instalação, você pode ajustar o arquivo `~/.config/Cursor/User/settin
 
 ```json
 {
+  "files.autoSave": "afterDelay"
   "editor.formatOnSave": true,
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -33,9 +34,8 @@ Após a instalação, você pode ajustar o arquivo `~/.config/Cursor/User/settin
   "code-runner.executorMap": {
     "bash": "bash"
   },
-  "shellformat.flag": "-i 2"
+  "shellformat.flag": "-i 2"    
 }
-
 ```
 
 Essas opções ativam:
