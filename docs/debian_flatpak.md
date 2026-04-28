@@ -10,12 +10,12 @@ sudo apt install -y flatpak
 
 Para o ambiente **GNOME**, instale também:
 ```bash
-sudo apt install -y gnome-software-plugin-flatpak
+sudo apt install -y gnome-software-plugin-flatpak # Não faça isso no KDE
 ```
 
 Para o ambiente **KDE** e usando sistema Debian, instale também:
 ```bash
-sudo apt install plasma-discover-backend-flatpak # Não faça isso no Ubuntu 24+
+sudo apt install plasma-discover-backend-flatpak # Não faça isso no GNOME
 ```
 Depois disso, adicione o repositório **Flathub**:
 ```bash
