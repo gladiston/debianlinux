@@ -38,7 +38,7 @@ let g:skip_defaults_vim = 1
 set mouse=
 ```
 
-Salve e feche o arquivo (`Ctrl+O`, `Enter`, `Ctrl+X`).  
+Salve e saia da edição do arquivo.  
 Pronto — agora o mouse não interferirá mais ao usar o Vim.
 
 ----
