@@ -8,18 +8,13 @@ Primeiro vamos conferir se o git foi instalado, caso não tenha sido, instalamos
 sudo apt install -y git
 ```
 Vamos ajustar nosso ambiente com o GIT com os comandos:
-```bash
-git config --global user.name "Seu nome completo"
-git config --global user.email "seu.email@dominio.com"
-```
+> git config --global user.name "Seu nome completo"   
+> git config --global user.email "seu.email@dominio.com"   
 
 Recentemente, o github fez alterações em seu sistema onde a instrução:
-```bash
-# git config --global credential.helper 'cache --timeout=28800'  (errata)
-rm ~/.git-credentials
-git config --global --unset-all credential.helper
-git config --global credential.helper store
-```
+> rm ~/.git-credentials  
+> git config --global --unset-all credential.helper  
+> git config --global credential.helper store  
 
 Será ignorada completamente ou terminará em erro e a tentativa de login resultará neste erro:
 **Fatal Authentication Failed for: site.com.br**
