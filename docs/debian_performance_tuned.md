@@ -136,13 +136,6 @@ flatpak install flathub org.easycoding.TunedSwitcher
 ```
 
 Depois da instalação, é possível abrir o `Tuned Switcher` pelo menu de aplicativos e fixar o ícone na bandeja para facilitar o uso diário.  
-Se vocÊ gostar, poderá acrescentá-lo no inicializador de sessão basta executar:  
-```bash
-mkdir -p ~/.config/autostart/
-cp /var/lib/flatpak/exports/share/applications/org.easycoding.TunedSwitcher.desktop ~/.config/autostart/
-```
-Estes comandos irão copiar o atalho do programa TunedSwitcher para autoinicialização junto com a sessão.  
-
 
 ### Alternativa usando script com tecla de atalho
 Se você preferir algo ainda mais integrado ao seu ambiente, pode criar um pequeno script que usa um seletor de menus (por exemplo, `zenity`, `rofi` etc.) para listar perfis disponíveis e permitir a escolha visual, como:
