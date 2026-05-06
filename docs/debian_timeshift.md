@@ -30,13 +30,13 @@ sudo apt install -y timeshift
 
 ### Executando o Timeshift
 
-Após a instalação, inicie a aplicação com privilégios administrativos:
+Após a instalação, inicie o aplicativo com privilégios administrativos:
 
 ```bash
 sudo timeshift-gtk
 ```
 
-Ou procure por **"Timeshift"** no menu de aplicações de sua distribuição.
+Ou procure por **"Timeshift"** no menu de aplicativos da sua distribuição.
 
 ---
 

@@ -18,7 +18,7 @@ sudo apt install gnome-shell-extension-manager
 Abra o Extension Manager, clique na pequena "lupa" e busque pelos nomes a seguir e clique em **Instalar..** :  
    * **Dash to Panel**: Um painel para minimizar/restaurar programas em uso e outras funcionalidades. Se usa o Ubuntu, não é muito diferente daquela barra lateral;     
    * **Clipboard history**: Para ter um histórico da clipboard;  
-   * **Lock Keys**: apenas se voce usa teclado sem fio ou algum modelo de teclado que não tem indicador de caps lock, num lock e scroll lock;  
+   * **Lock Keys**: apenas se você usa teclado sem fio ou algum modelo de teclado que não tem indicador de caps lock, num lock e scroll lock;  
    * **Tile assistent**: para usar a comodidate de ajuste automático de janelas.
    * **User Themes**: Libera o uso de temas personalizados.
    * **Force Quit**: Quem trabalha com programação sabe o quanto é ruim quando um programa trava, então essa extensão permite abortá-la quando não está mais respondendo.  
@@ -38,7 +38,7 @@ Existem muitos outros ajustes, mas estes eu considero essencais.
 
 ### Clipboard history
 O desenvolvedor médio copia e cola centenas de trechos de código, comandos e URLs diariamente. Um histórico de clipboard não é um luxo, é uma necessidade.
-Um applet no painel aparecerá e ali aparecerá todos os seus `ctrl+c` (copiar) para que possa acessar o histórico e recuperar qualquer um deles. Recomendo que use a tecla de atalho dele, `Ctrl+Super+V`. Voce até pode trocar por outro atalho, mas não deve usar o `Super+V` que é o padrão do Windows porque essa combinação já está em uso pelo painel superior do GNOME.
+Um applet no painel aparecerá e ali aparecerá todos os seus `ctrl+c` (copiar) para que possa acessar o histórico e recuperar qualquer um deles. Recomendo que use a tecla de atalho dele, `Ctrl+Super+V`. Você até pode trocar por outro atalho, mas não deve usar o `Super+V` que é o padrão do Windows porque essa combinação já está em uso pelo painel superior do GNOME.
 
 ### Lock Keys
 Alguns teclados sem fio e de notebook podem não ter os leds indicadores de `Caps Lock`,`Num Lock` e `Scroll Lock`  então nessa situação, esta extesão ela é importante porque mostra estado dessas teclas diretamente no painel.
@@ -84,17 +84,17 @@ Esse painel no topo em algumas versões do Debian foi removido ficando apenas a 
 Mas olha a situação do Ubuntu, a Dock fica ao lado e no topo o painel do GNOME e ainda por cima da largura do monitor apenas para mostrar hora e alguns botões estreitos! Se você achar isso um desperdicio de espaço, vamos mudar isso.
 Execute o gerenciador de extensões, vá em mnavegar e procure e instale as extensções:  
 * **App Icons TaskBar**:  Ela traz os seus favoritos e taskbar para o painel superior.   
-* **AppsMenu**: Ele traz um menu para voce encontrar as aplicações de que precisa sem precisar usar a tecla Super.  
+* **AppsMenu**: Ele traz um menu para você encontrar os aplicativos de que precisa sem precisar usar a tecla Super.  
 * **Move date menu to the right**: Como o próprio nome sugere, muda a posição de data/hora para o lado direito.
-* **Status Tray**:  Se você remover o Dock, seja ele o _Dash To Dock_, _Ubuntu Dock_ ou qualquer outro, você remove também a bandeja do sistema e algumas aplicações não terão mais onde ficarem e alguns até mesmo deixam de funcionar, então você precisa obrigatoriamente duma bandeja ativa no seu sistema então voce precisará dessa extensão para não ficar sem bandeja.  
+* **Status Tray**:  Se você remover o Dock, seja ele o _Dash To Dock_, _Ubuntu Dock_ ou qualquer outro, você remove também a bandeja do sistema e alguns aplicativos não terão mais onde ficar e alguns até mesmo deixam de funcionar, então você precisa obrigatoriamente de uma bandeja ativa no seu sistema então você precisará dessa extensão para não ficar sem bandeja.  
 
 ### Ubuntu
 Depois, no caso do Ubuntu, você deve ir na guia de **Instalados** e desativar as extensões:  
 * **Ubuntu AppIndicators**:  Ela traz os seus favoritos e taskbar para o painel superior.   
-* **Ubuntu Dock**: Ele traz um menu para voce encontrar as aplicações de que precisa sem precisar usar a tecla Super.  
+* **Ubuntu Dock**: Ele traz um menu para você encontrar os aplicativos de que precisa sem precisar usar a tecla Super.  
 
 ### Debian
-Caso voce tenha o painel do GNOME lá em cima, a extensão **Dash to Panel** perde sua necessidade porque a extensão **App Icons TaskBar** fará a mesma coisa no painel do GNOME, então sugiro desativá-la. Mas se quiser mantê-la por causa da aparência, ótimo, também tá valendo.  
+Caso você tenha o painel do GNOME lá em cima, a extensão **Dash to Panel** perde sua necessidade porque a extensão **App Icons TaskBar** fará a mesma coisa no painel do GNOME, então sugiro desativá-la. Mas se quiser mantê-la por causa da aparência, ótimo, também tá valendo.  
 
 ---
 

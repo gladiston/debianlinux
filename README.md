@@ -749,9 +749,9 @@ RemoteApps são aplicativos que são instalados num servidor ou Desktop Windows 
 
 ---  
 
-## INSTALANDO O CLIENTE DE MENSAGERIA 'TELEGRAM'
+## INSTALANDO O CLIENTE DE MENSAGENS (TELEGRAM)
 
-O Telegram é um aplicativo de mensageria instantânea baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
+O Telegram é um aplicativo de mensagens instantâneas baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
 
 Neste guia, utilizaremos a distribuição Flathub para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.  
 

@@ -51,7 +51,7 @@ O G'MIC (GREYC's Magic for Image Computing) é uma biblioteca de filtros e efeit
 Os plugins originais que você mencionou têm as seguintes equivalências ou status dentro do ambiente Flatpak mais atual:
 
 | Plugin Original                | Função                                    | Status / Equivalência no Flatpak                                                                        |
-|:------------------------------ |:----------------------------------------- |:------------------------------------------------------------------------------------------------------- |
+| :------------------------------ | :----------------------------------------- | :------------------------------------------------------------------------------------------------------- |
 | **BIMP**                       | Operações em *batch* (lote).              | Geralmente, requer instalação externa ou uso da biblioteca **G'MIC** para automação de algumas tarefas. |
 | **FocusBlur**                  | Efeito de Profundidade.                   | **Incluído** na maioria das versões GIMP 2.10.x. Não é necessário instalar à parte.                     |
 | **LiquidRescale**              | Redimensionamento consciente de conteúdo. | Geralmente, requer instalação externa.                                                                  |

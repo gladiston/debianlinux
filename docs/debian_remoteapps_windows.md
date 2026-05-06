@@ -4,7 +4,7 @@ Hoje é o seu dia de sorte! O que vou explicar aqui é um material difícil de e
 **Primeiro, o que são RemoteApps?**  
 Para explicar melhor, vamos a um cenário real. É comum que empresas queiram controle sobre certos aplicativos críticos, como um ERP. Eu poderia tranquilamente instalar a parte "cliente" do software em cada computador. Mas computadores falham, e quando isso acontece, o colaborador fica parado.
 
-A solução ideal é ter um **Servidor de Aplicação**: um único computador robusto com todos os programas licenciados instalados. As estações de trabalho usam o protocolo **RDP** para executar essas aplicações remotamente. A "mágica" é que o processamento (CPU e Memória) ocorre no servidor, não no desktop do usuário. Se o equipamento do usuário quebrar, ele pula para outro, cria um atalho e volta a trabalhar imediatamente, sem precisar reinstalar nada. Essa é a ideia do RemoteApp.
+A solução ideal é ter um **Servidor de aplicativos**: um único computador robusto com todos os programas licenciados instalados. As estações de trabalho usam o protocolo **RDP** para executar esses aplicativos remotamente. A "mágica" é que o processamento (CPU e Memória) ocorre no servidor, não no desktop do usuário. Se o equipamento do usuário quebrar, ele pula para outro, cria um atalho e volta a trabalhar imediatamente, sem precisar reinstalar nada. Essa é a ideia do RemoteApp.
 
 Você poderia acessar a **Área de Trabalho** (Desktop) inteira do servidor? Sim. Mas, nos dias atuais, isso é perigoso. Se um usuário fizer algo que trave a máquina ou, inadvertidamente, desligar o servidor, **todos** os outros usuários param. É uma tremenda dor de cabeça. Por isso, a solução mais profissional é exportar para os desktops apenas as janelas dos aplicativos, sem acesso à barra de tarefas ou ao botão iniciar do servidor.
 
@@ -22,13 +22,13 @@ RemoteApps podem ser implementados usando diversas soluções, mas neste guia fo
 Em vez disso, você deve seguir este processo no **Gerenciador de Servidores**:
 
 1.  **Publicação:** Você precisa publicar o programa (**IBExpert**) através da sua **Coleção de Sessão** do RDS.
-2.  **Alias:** Durante a publicação, o Windows Server cria automaticamente um **Alias** (apelido) para a aplicação, por exemplo, `IBExpert`, e associa esse nome ao caminho físico (`C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe`).
+2.  **Alias:** Durante a publicação, o Windows Server cria automaticamente um **Alias** (apelido) para o aplicativo, por exemplo, `IBExpert`, e associa esse nome ao caminho físico (`C:\Program Files (x86)\HK-Software\IBExpert\IBExpert.exe`).
 3.  **Execução:** Quando o usuário for rodá-lo via atalho ou linha de comando (`xfreerdp3`), ele apenas precisa solicitar o **Alias** (o nome como foi publicado), e o Windows se encarrega de:
     * Autenticar o usuário.
     * Abrir uma sessão RDP.
     * Executar o aplicativo no modo **Seamless**.
 
-O ponto chave é que a aplicação só estará disponível após ser publicada na coleção do RDS.
+O ponto chave é que o aplicativo só estará disponível após ser publicada na coleção do RDS.
 
 Aqui está o passo a passo exato para encontrar o nome que o Linux precisa:
 
@@ -64,7 +64,7 @@ Se o programa não aparecer na lista do Passo 2, o Windows recusa a conexão por
 
 ## Linux: Acesso a RemoteApps via FreeRDP
 
-Para rodar aplicações Windows integradas ao Linux (modo Seamless/RemoteApp), a melhor solução é utilizar o cliente **freerdp3** em sua versão X11 (via XWayland), que oferece melhor recorte de janela e compatibilidade que o Remmina ou o cliente Wayland nativo.
+Para rodar aplicativos Windows integradas ao Linux (modo Seamless/RemoteApp), a melhor solução é utilizar o cliente **freerdp3** em sua versão X11 (via XWayland), que oferece melhor recorte de janela e compatibilidade que o Remmina ou o cliente Wayland nativo.
 
 ### 1\. Instalação
 
@@ -76,26 +76,26 @@ sudo apt install -y freerdp3-x11
 
 ### 2\. O Cenário
 
-Utilizaremos o `xfreerdp3` para rodar aplicações centralizadas em um servidor Windows. Exemplo: `IBExpert`.
-A estação Windows atua como um servidor de aplicações, onde programas licenciados ou exclusivos (AutoCAD, ERPs, Ferramentas de BD) estão instalados. O objetivo é rodá-los no Linux como se fossem locais.
+Utilizaremos o `xfreerdp3` para rodar aplicativos centralizados em um servidor Windows. Exemplo: `IBExpert`.
+A estação Windows atua como um servidor de aplicativos, onde programas licenciados ou exclusivos (AutoCAD, ERPs, Ferramentas de BD) estão instalados. O objetivo é rodá-los no Linux como se fossem locais.
 
 ### 3\. Parâmetros Essenciais do xfreerdp3
 
 Abaixo estão os parâmetros obrigatórios para a nova sintaxe do FreeRDP v3.x.  
 
-| Parâmetro | Função | Exemplo | Nota Importante |  
-| :--- | :--- | :--- | :--- |  
-| **Executável** | O cliente RDP. | `xfreerdp3` | Usamos a versão X11 pela estabilidade visual. |  
-| **`/v:`** | **Servidor** (IP/DNS). | `/v:192.168.1.11` | Endereço do Windows Server. |  
-| **`/u:`** | **Usuário**. | `/u:gsantana` | Seu login de rede. |  
-| **`/p:`** | **Senha**. | `/p:'Senha#123'` | **Atenção:** Use **aspas simples** `'` se a senha tiver caracteres especiais (\#, \!, @). |  
-| **`/app:`** | Modo **RemoteApp**. | `/app:program:"\|\|IBExpert"` | Use `program:"||Alias"`. As duas barras `||` indicam que é um apelido publicado no servidor. |  
-| **`/gdi:sw`** | **Renderização**. | `/gdi:sw` | **Crucial:** Força renderização por software. Corrige telas pretas, fantasmas e recortes errados no Linux. |  
-| **`/tls:seclevel:0`** | **Compatibilidade**. | `/tls:seclevel:0` | Necessário no Debian 13+ para aceitar a criptografia de servidores Windows antigos. |  
+| Parâmetro | Função | Exemplo | Nota Importante |
+| :--- | :--- | :--- | :--- |
+| **Executável** | O cliente RDP. | `xfreerdp3` | Usamos a versão X11 pela estabilidade visual. |
+| **`/v:`** | **Servidor** (IP/DNS). | `/v:192.168.1.11` | Endereço do Windows Server. |
+| **`/u:`** | **Usuário**. | `/u:gsantana` | Seu login de rede. |
+| **`/p:`** | **Senha**. | `/p:'Senha#123'` | **Atenção:** Use **aspas simples** `'` se a senha tiver caracteres especiais (\#, \!, @). |
+| **`/app:`** | Modo **RemoteApp**. | `/app:program:"\|\|IBExpert"` | Use `program:"||Alias"`. As duas barras `||` indicam que é um apelido publicado no servidor. |
+| **`/gdi:sw`** | **Renderização**. | `/gdi:sw` | **Crucial:** Força renderização por software. Corrige telas pretas, fantasmas e recortes errados no Linux. |
+| **`/tls:seclevel:0`** | **Compatibilidade**. | `/tls:seclevel:0` | Necessário no Debian 13+ para aceitar a criptografia de servidores Windows antigos. |
 
 -----
 
-### 4\. Executando a Aplicação (Comando Final)
+### 4\. Executando o aplicativo (Comando Final)
 
 Baseado nas configurações acima, o comando completo para rodar o **IBExpert** é:
 
@@ -143,7 +143,7 @@ flatpak install --system com.thincast.client
 
 Após instalar, nas configurações da conexão, ele tem caixas de seleção específicas para "RemoteApp" e opções avançadas para forçar o TLS e renderização. Mas não funcionará sem TLS habilitado no servidor.  
 
-A Thincast fornece seu cliente gratuitamente porque ela visa o solução paga dela que envolve as mesmas coisas que o serviço RDS da Microsoft fornece só que mais(bem mais) barato, incluindo rodar seus aplicativos via navegador, sim, a solução dela permite que voce possa criar um portal com os aplicativos exportados e rodar ele via navegador, maiores informações você obtêmn diretamente do site deles:   
+A Thincast fornece seu cliente gratuitamente porque visa a solução paga da empresa que envolve as mesmas coisas que o serviço RDS da Microsoft fornece só que mais (bem mais) barato, incluindo rodar seus aplicativos via navegador, sim, a solução dela permite que você possa criar um portal com os aplicativos exportados e rodar ele via navegador, maiores informações você obtém diretamente do site deles:   
 [https://thincast.com/en](https://thincast.com/en)  
 
 

@@ -78,7 +78,7 @@ Se você receber mensagem como:
 > Failed to start smbd.service: Unit smbd.service not found.  
 > Failed to start nmbd.service: Unit nmbd.service not found.  
 
-È porque o SAMBA não foi instalado, isso aconteceu com o Ubuntu 25+, então volte aos passos anteriores e inclua a instalação do meta-pacote 'samba'.  
+É porque o SAMBA não foi instalado, isso aconteceu com o Ubuntu 25+, então volte aos passos anteriores e inclua a instalação do meta-pacote 'samba'.  
 
 ## Compartilhando minhas pastas
 O Samba pode ter suas contas integradas ao Active Directory e com isso não é necessário nem mesmo digitar a senha para acessar compartilhamentos externos. E sem a integração, você será forçado a digitar a senha, caso a mesma não seja memorizada.  
@@ -89,7 +89,7 @@ Use o comando `smbpasswd -a` para adicionar o usuário `gsantana` ao banco de da
 ```bash
 sudo smbpasswd -a gsantana
 ```
-Depois voce deverá fornecer e confirmar a nova senha do `gsantana`, e se isso não acontecer, então execute:  
+Depois você deverá fornecer e confirmar a nova senha do `gsantana`, e se isso não acontecer, então execute:  
 ```bash
 sudo smbpasswd -e gsantana
 ```
@@ -113,14 +113,15 @@ sudo editor /etc/samba/smb.conf
 
 Vamos eliminar os atributos que somente o Linux enxergaria, isso mesmo, a incompatibilidade na visualização de pastas ou arquivos dentro do Windows ocorre frequentemente quando o Samba encontra **links simbólicos** que apontam para fora do diretório compartilhado. Por padrão, o Samba tenta aplicar as extensões e atributos de segurança do UNIX (permissões, proprietário, grupo) à conexão SMB/CIFS, o que pode confundir clientes Windows.     
 Para garantir que links simbólicos funcionem e que o Windows consiga interpretar corretamente os atributos das pastas e arquivos:, adicione a diretiva `unix extensions = no` na seção `[global]` do arquivo `/etc/samba/smb.conf`. Esta linha desabilita a tentativa do Samba de usar atributos de arquivo UNIX, melhorando a compatibilidade com o Windows, especialmente ao lidar com links simbólicos:  
-```Ini, TOML
+```ini
     [global]
         (...)
         workgroup = WORKGROUP
         unix extensions = no    ; <<< Adicionar esta linha
         (...)
-```  
-Se você tiver um dominio em sua rede, troque **WORKGROUP** pelo nome do seu dominio, ex **LOCALDOMAIN**. Isso acelera nosso trabalho porque ao mapear unidades não precisamos informar o usuário desse jeito **localdomain\gsantana**, apenas **gsantana** será suficiente.      
+```
+
+Se você tiver um domínio em sua rede, troque **WORKGROUP** pelo nome do seu domínio, ex **LOCALDOMAIN**. Isso acelera nosso trabalho porque ao mapear unidades não precisamos informar o usuário desse jeito **localdomain\gsantana**, apenas **gsantana** será suficiente.      
 
 Agora, vamos ao compartilhamento em si mesmo, adicione a seção a seguir ao **final** do arquivo. Ela restringe o acesso ao usuário `gsantana` e permite leitura/escrita.
 
@@ -189,7 +190,7 @@ Para testar o acesso localmente (Opcional):
 ```bash
 smbclient //localhost/w -U gsantana
 ```
-Você terá de fornecerr a senha do `gsantana` que criamos nos passos anteriores e se estiver correta, o prompt `smb: \>` confirmará a conexão bem-sucedida e se quiser usar alguns comandos, tente o `ls` para listar arquivos e depois o `quit` para sair dele.  
+Você terá de fornecer a senha do `gsantana` que criamos nos passos anteriores e se estiver correta, o prompt `smb: \>` confirmará a conexão bem-sucedida e se quiser usar alguns comandos, tente o `ls` para listar arquivos e depois o `quit` para sair dele.  
     
 
 ## Acesso e Mapeamento no Cliente Windows

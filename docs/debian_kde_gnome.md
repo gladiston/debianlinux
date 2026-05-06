@@ -5,7 +5,7 @@
 Em sistemas Linux, o **ambiente de trabalho** (ou **Desktop Environment - DE**) é a camada gráfica que interage diretamente com o usuário. Diferentemente do Windows ou macOS, que possuem uma interface fixa, **Linux oferece múltiplas opções de ambientes gráficos**, cada um com filosofia, funcionalidade e estética próprias.
 
 Um ambiente de trabalho gerencia elementos como:
-- **Painel de tarefas** e menu de aplicações
+- **Painel de tarefas** e menu de aplicativos
 - **Gerenciador de janelas** (posicionamento e redimensionamento)
 - **Aplicativos integrados** (gerenciador de arquivos, leitor de PDF, configurações do sistema)
 - **Temas e customização visual**
@@ -45,7 +45,7 @@ Para administradores de sistemas, desenvolvedores e profissionais de TI, **KDE P
 ### Comparação de Aplicativos Essenciais
 
 | Componente | GNOME | KDE | Vencedor |
-|-----------|-------|-----|---------|
+| :--- | :--- | :--- | :--- |
 | **Gerenciador de arquivos** | Nautilus (básico) | Dolphin (avançado) | **KDE** |
 | **Leitor de PDF** | Evince (simples) | Okular (robusto) | **KDE** |
 | **Gerenciamento de rede** | Limitado | NetworkManager GUI completa | **KDE** |

@@ -1,6 +1,6 @@
 # ESPELHAMENTO DE CELULAR (SCRCPY)
 
-O **scrcpy** (Screen Copy) é uma aplicação de código aberto que permite espelhar e controlar dispositivos Android (celular ou tablet) em um desktop Linux, macOS ou Windows. O programa foca em **desempenho** e **baixa latência**, fornecendo controle total do dispositivo via teclado e mouse sem a necessidade de *root*.
+O **scrcpy** (Screen Copy) é um aplicativo de código aberto que permite espelhar e controlar dispositivos Android (celular ou tablet) em um desktop Linux, macOS ou Windows. O programa foca em **desempenho** e **baixa latência**, fornecendo controle total do dispositivo via teclado e mouse sem a necessidade de *root*.
 
 Este tutorial demonstra a instalação e uso no Linux, focando em distribuições baseadas em **Debian** e **Ubuntu** (que utilizam o gerenciador de pacotes `apt`):
 

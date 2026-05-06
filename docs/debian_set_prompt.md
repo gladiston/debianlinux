@@ -14,7 +14,7 @@ Veremos o conteúdo dessa váriavel:
 ```
 \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$
 ```
-Esse é um conjunto de escapes com codigos de cores ANSI para deixar o terminal colorido, voce poderá entender melhor lendo este artigo:  
+Esse é um conjunto de escapes com códigos de cores ANSI para deixar o terminal colorido, você poderá entender melhor lendo este artigo:  
 [https://www.ibm.com/developerworks/linux/library/l-tip-prompt/](https://www.ibm.com/developerworks/linux/library/l-tip-prompt/)  
 
 Por hora, basta saber que podemos modificá-la, por exemplo, ao inves do nosso prompt mostrar `$` no final, podemos fazer mostrar o `> `, basta trocar no final da string:  

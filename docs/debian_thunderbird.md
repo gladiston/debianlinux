@@ -29,13 +29,13 @@ flatpak install flathub org.mozilla.Thunderbird -y
 
 ### Executando o Thunderbird
 
-Após a instalação, inicie a aplicação:
+Após a instalação, inicie o aplicativo:
 
 ```bash
 flatpak run org.mozilla.Thunderbird
 ```
 
-Ou simplesmente procure por **"Thunderbird"** no menu de aplicações de sua distribuição.
+Ou simplesmente procure por **"Thunderbird"** no menu de aplicativos da sua distribuição.
 
 ---
 

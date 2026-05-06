@@ -9,7 +9,7 @@ sudo apt install -y git
 ```
 Vamos ajustar nosso ambiente com o GIT com os comandos:
 > git config --global user.name "Seu nome completo"   
-> git config --global user.email "seu.email@dominio.com"   
+> git config --global user.email "seu.email@exemplo.com"   
 
 Recentemente, o github fez alterações em seu sistema onde a instrução:
 ```bash

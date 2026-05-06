@@ -35,7 +35,7 @@ Se você tiver uma cópia do Microsoft Edge em algum outro computador, você o c
 ```
 do computador antigo para o novo, exatamente o mesmo lugar.   
 Funciona? Sim, desde que sejam a mesma versão e o mesmo perfil, mas requeirerá as autenticações, aparentemente os cookies são invalidados.   
-Este navegador quando é executado pela primeira vez, se apercebe da instalação anterior e faz upgrade, depois disso, não adianta mais fazer a cópia substituindo a configuração anterior, há alguma inteligência que bloqueia repetir o processo várias vezes, então a primeira cópia sempre funciona, as demais, nem sempre.  
+Quando este navegador é executado pela primeira vez, ele detecta a instalação anterior e faz a atualização, depois disso, não adianta mais fazer a cópia substituindo a configuração anterior, há alguma inteligência que bloqueia repetir o processo várias vezes, então a primeira cópia sempre funciona, as demais, nem sempre.  
 
 ----
 

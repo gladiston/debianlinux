@@ -13,7 +13,7 @@ Durante a instalação do Debian/Ubuntu, você define como o disco será organiz
 A instalação do Debian/Ubuntu não tem grandes mistérios — o ponto mais delicado é mesmo o **particionamento do disco**. Abaixo segue uma sugestão baseada em experiência profissional:
 
 | Sistema | Ponto de Montagem | Rótulo | Tamanho |
-|---------|-------------------|--------|---------|
+| :--- | :--- | :--- | :--- |
 | FAT32 | `/boot/efi` | Nenhum | 1 GB |
 | SWAP | Nenhum | Nenhum | Conforme RAM |
 | ext4 | `/boot` | #boot | 1 GB |
@@ -34,7 +34,7 @@ Se irá usar virtualização qemu+kvm e entende dos beneficios do particionament
 
 ### Por que SWAP é Necessário?
 
-Sem SWAP, quando a RAM se esgota completamente, o sistema **trava** e pode apresentar comportamentos impreditíveis — aplicações podem fechar abruptamente ou o sistema congelar. O SWAP oferece um "colchão de segurança", permitindo que o SO continue operacional mesmo em situações de pressão de memória.
+Sem SWAP, quando a RAM se esgota completamente, o sistema **trava** e pode apresentar comportamentos imprevisíveis — aplicativos podem fechar abruptamente ou o sistema congelar. O SWAP oferece um "colchão de segurança", permitindo que o SO continue operacional mesmo em situações de pressão de memória.
 
 ### Performance vs Necessidade
 

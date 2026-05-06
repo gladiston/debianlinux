@@ -1,6 +1,6 @@
 # INSTALANDO O CLIENTE DE ACESSO REMOTO 'REMMINA'
 
-O Remmina é um cliente de acesso remoto versátil e leve, desenvolvido em GTK+, que suporta múltiplos protocolos de conexão remota (RDP, SSH, VNC, SPICE, X2Go, entre outros). Para ambientes corporativos que necessitam gerenciar múltiplas sessões remotas a partir de uma única aplicação, o Remmina oferece uma solução integrada e de fácil configuração. Se você é um administrador de sistemas ou desenvolvedor que precisa acessar outras máquinas seja Windows ou Linux, o Remmina é indispensável.
+O Remmina é um cliente de acesso remoto versátil e leve, desenvolvido em GTK+, que suporta múltiplos protocolos de conexão remota (RDP, SSH, VNC, SPICE, X2Go, entre outros). Para ambientes corporativos que necessitam gerenciar múltiplas sessões remotas a partir de uma único aplicativo, o Remmina oferece uma solução integrada e de fácil configuração. Se você é um administrador de sistemas ou desenvolvedor que precisa acessar outras máquinas seja Windows ou Linux, o Remmina é indispensável.
 
 Neste guia, utilizaremos a distribuição **Flathub** para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos de dependências com o sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.
 
@@ -29,13 +29,13 @@ flatpak install flathub org.remmina.Remmina -y
 
 ### Executando o Remmina
 
-Após a instalação, inicie a aplicação:
+Após a instalação, inicie o aplicativo:
 
 ```bash
 flatpak run org.remmina.Remmina
 ```
 
-Ou simplesmente procure por **"Remmina"** no menu de aplicações de sua distribuição.
+Ou simplesmente procure por **"Remmina"** no menu de aplicativos da sua distribuição.
 
 ---
 

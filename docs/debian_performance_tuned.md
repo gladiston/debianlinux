@@ -4,11 +4,14 @@ Por exemplo, você pode usar o perfil **balanceado** enquanto navega na internet
 
 Há outros perfis prontos para uso — voltados para **máquinas virtuais**, **economia de energia**, **servidores** e muito mais.   
 O programa oferece uma grande variedade de perfis e é altamente recomendado para quem deseja ajustar o comportamento do sistema conforme a necessidade, vamos à instalação:
-```
+
+```bash
 sudo apt install -y tuned
 ```
+
 Liste os perfís de otimização existentes:
-```
+
+```bash
 sudo tuned-adm list
 ```
 Observe as opções listadas:  
@@ -56,20 +59,25 @@ Available profiles:
 Current active profile: balanced
 ```
 No exemplo acima, estou usando o perfil 'balanced', caso ele não apareça, use:
-```
+
+```bash
 sudo tuned-adm active
 ```
 Observe o resultado do comando:  
 > Current active profile: balanced  
 
-O modo 'balanceado' é o modo não especializado, se desejar especializar seu computador em algo, por exemplo, para usar o desktop, execute:  
+O modo 'balanceado' é o modo não especializado, se desejar especializar seu computador em algo, por exemplo, para usar o desktop, execute:
+
+```bash
+sudo tuned-adm profile desktop
 ```
-sudo tuned-adm profile desktop  
-```  
+
 O sistema poderá ser configurado para diferentes finalidades, como por exemplo, otimizado para uso como desktop. É fundamental escolher o perfil correto, pois carregar um perfil inadequado compromete todo o desempenho.
+
+```bash
+sudo tuned-adm profile virtual-guest
 ```
-sudo tuned-adm profile virtual-guest  
-```
+
 No exemplo acima, você estará aplicando um perfil voltado para máquinas virtuais então as VM serão bem mais rápidas, no entanto, caso nenhuma VM esteja sendo usada, isso resultará em uma queda perceptível de performance no ambiente gráfico — seja KDE, GNOME ou outro —, deixando tudo mais lento do que deveria.
 
 Portanto, se optar por usar o tuned, é importante adotar o hábito de alternar o perfil conforme o seu uso atual.
@@ -96,7 +104,7 @@ Ideal para uso em viagens, reuniões ou campo.
 *Objetivo*: garantir resposta consistente, mesmo com maior consumo de energia.  
 *Ajustes típicos*: Desativa CPU frequency scaling → clock fixo máximo. Desativa C-states profundos e economias de energia. Ajusta IRQs e afinidade de CPU para reduzir jitter. Mantém memória e dispositivos em estado ativo constante.  
 *Resumo*: máxima estabilidade e latência previsível, sem foco em economia.  
-Ideal para bancos de dados, servidores de aplicações ou jogos que exigem resposta constante.  
+Ideal para bancos de dados, servidores de aplicação ou jogos que exigem resposta constante.  
 
 Outros perfis muito uteis para desenvolvedores são:
 **realtime** - “Optimize for realtime workloads”  
@@ -112,9 +120,7 @@ Exemplo de uso: estações de áudio profissional (JACK), robótica, processamen
 **realtime-virtual-host** - “Optimize for KVM guests running realtime workloads”
 *Uso*: no host KVM que executa VMs que, por sua vez, têm workloads de tempo real.
 *O que faz*: Garante que as VMs de tempo real recebam CPU e I/O com mínima latência. Usa CPU pinning e isolcpus para isolar núcleos destinados às VMs RT. Minimiza a interferência do host em threads de tempo real. 
-*Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.  
-
-Claro! Aqui está o **conteúdo em formato Markdown** que você pode **copiar e colar no seu arquivo `debian_performance_tuned.md`**, com o tópico novo **“Usando o tuned no ambiente gráfico”** e as informações que conversamos:
+*Exemplo*: servidor KVM que hospeda várias VMs RT, como sistemas de automação ou simulações científicas críticas.
 
 ## Selecionando perfis do tuned no ambiente gráfico
 

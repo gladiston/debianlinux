@@ -39,7 +39,7 @@ O Ubuntu é uma derivação do Debian otimizada para **desktops e usuários meno
 ### Diferenças Práticas
 
 | Aspecto | Debian 13 | Ubuntu LTS |
-|---------|-----------|-----------|
+| :--- | :--- | :--- |
 | **Firewall padrão** | iptables (apenas CLI, muito técnico) | ufw (com GUI integrada no GNOME/KDE) |
 | **Configuração de rede** | `/etc/network/interfaces` (tradicional) | netplan (moderno) |
 | **Drivers proprietários** | Instalação manual | Pré-integrados (impressoras, Bluetooth, WiFi) |
@@ -54,7 +54,7 @@ Tenho uma **GPU nVIDIA**. No Ubuntu, é reconhecida automaticamente e até suger
 ## Minha Recomendação
 
 | Cenário | Recomendação | Motivo |
-|---------|--------------|--------|
+| :--- | :--- | :--- |
 | **Ambiente corporativo/servidor** | Debian 13 ou Ubuntu LTS (indiferente) | Ambas igualmente estáveis e confiáveis |
 | **Desktop pessoal/doméstico** | **Ubuntu LTS** | Melhor reconhecimento de hardware, menos configuração manual |
 

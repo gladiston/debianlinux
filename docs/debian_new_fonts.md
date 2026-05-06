@@ -20,7 +20,7 @@ O pacote instalado acima complementa as **fontes Microsoft**, que podem ser nece
 
 ## INSTALAÇÃO DA FONTE "Segoe UI" (OPCIONAL)
 O Linux não possui a fonte **Segoe UI**, e talvez você não goste da **fonts-noto-ui**, e prefere a fonte idealizada pela Microsoft para o sistema Windows. Essa fonte é realmente muito bela para ser usada em interfaces gráficas (UI) de aplicativos.  
-Não está claro que a Segoe UI possa ser licenciado para uso independente em Linux ou para redistribuição ou incorporação em aplicações fora do ecossistema Microsoft. Um blog afirma: “Segoe UI … is considered exclusive to Microsoft products and operating systems. … you cannot simply buy a commercial license … to embed it on your website.”, ou seja, para  alguns é claro que o uso dessa fonte é exclusiva para quem tem licença de Windows.  
+Não está claro que a Segoe UI possa ser licenciado para uso independente em Linux ou para redistribuição ou incorporação em aplicativos fora do ecossistema Microsoft. Um blog afirma: “Segoe UI … is considered exclusive to Microsoft products and operating systems. … you cannot simply buy a commercial license … to embed it on your website.”, ou seja, para  alguns é claro que o uso dessa fonte é exclusiva para quem tem licença de Windows.  
 Mas se você - para uso pessoal - desejar tê-lo em seu Windows para ter compatibilidade total com produtos usando o WINE ou para outros fins, existe uma solução, simplesmente copiá-las apra seu computador.  As instruções a seguir foram tiradas [deste repositório](https://github.com/mrbvrz/segoe-ui-linux) então assuma seu próprio risco, as instruções são:  
 ```bash
 cd /tmp
@@ -57,7 +57,7 @@ Testing internet connectivity on interface: enp8s0
 
  Do you want to install Segoe-UI Font? (y)es, (n)o :
 ```
-**Novamente fica o aviso**: Não há uma licença pública da Microsoft que permita livre uso da Segoe UI em sistemas Linux ou para redistribuição / embutimento em aplicações cross-platform sem contato direto/licenciamento especial com a Microsoft ou seus parceiros. Se você fizer isso, há risco de violação de licença.
+**Novamente fica o aviso**: Não há uma licença pública da Microsoft que permita livre uso da Segoe UI em sistemas Linux ou para redistribuição / embutimento em aplicativos multiplataforma sem contato direto/licenciamento especial com a Microsoft ou seus parceiros. Se você fizer isso, há risco de violação de licença.
 
 ## INSTALANDO A FONTE "CONSOLAS"
 A fonte “consolas” é uma interessante fonte para ser usada tanto em desenvolvimento de aplicativos como também no ambiente de terminal. Ela é de propriedade de terceiros e por isso não vem acompanhada dentro das distribuições Linux, mas é possível instalá-las. Para instalar siga as instruções:

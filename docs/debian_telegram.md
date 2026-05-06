@@ -1,6 +1,6 @@
-# INSTALANDO O CLIENTE DE MENSAGERIA 'TELEGRAM'
+# INSTALANDO O CLIENTE DE MENSAGENS (TELEGRAM)
 
-O Telegram é um aplicativo de mensageria instantânea baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
+O Telegram é um aplicativo de mensagens instantâneas baseado em nuvem, reconhecido por sua segurança, velocidade e recursos avançados de comunicação. Para administradores de sistemas, desenvolvedores e equipes de TI, o Telegram oferece canais, grupos privados e bots automatizados que facilitam a colaboração, notificações de sistemas e automação de processos operacionais. A compatibilidade multiplataforma (Windows, macOS, Linux, iOS e Android) o torna uma solução ideal para comunicação corporativa distribuída.
 
 Neste guia, utilizaremos a distribuição **Flathub** para a instalação, garantindo uma versão atualizada e isolada em containerização, evitando conflitos com dependências do sistema base do Debian. Além disso, abordaremos a migração de configurações de instalações anteriores.
 
@@ -29,13 +29,13 @@ flatpak install flathub org.telegram.desktop -y
 
 ### Executando o Telegram
 
-Após a instalação, inicie a aplicação:
+Após a instalação, inicie o aplicativo:
 
 ```bash
 flatpak run org.telegram.desktop
 ```
 
-Ou simplesmente procure por **"Telegram"** no menu de aplicações de sua distribuição.
+Ou simplesmente procure por **"Telegram"** no menu de aplicativos da sua distribuição.
 
 ---
 
@@ -76,7 +76,7 @@ Caso você possua uma instalação anterior do Telegram em outro perfil de usuá
 
 ## Conclusão
 
-Com o Telegram instalado e configurado via Flatpak, você dispõe de um cliente de mensageria moderno, seguro e isolado em seu ambiente Debian. A containerização via Flatpak garante compatibilidade com múltiplas distribuições Linux e evita conflitos com dependências do sistema base, facilitando a manutenção e atualizações futuras.
+Com o Telegram instalado e configurado via Flatpak, você dispõe de um cliente de mensagens moderno, seguro e isolado em seu ambiente Debian. A containerização via Flatpak garante compatibilidade com múltiplas distribuições Linux e evita conflitos com dependências do sistema base, facilitando a manutenção e atualizações futuras.
 
 Caso tenha migrado configurações de uma instalação anterior, sua conta, chats, contatos e preferências de notificação estarão disponíveis imediatamente. O Telegram está pronto para gerenciar comunicações corporativas, receber notificações de monitoramento de sistemas via bots customizados e facilitar a colaboração em tempo real com sua equipe de TI.
 
@@ -85,4 +85,4 @@ Para próximas etapas de automação e integração, considere explorar recursos
 
 ----
 
-[Clique aqui para retornar a página principal](../README.md#instalando-o-cliente-de-mensageria-telegram)
+[Clique aqui para retornar a página principal](../README.md#instalando-o-cliente-de-mensagens-telegram)

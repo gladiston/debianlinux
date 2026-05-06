@@ -39,7 +39,7 @@ Nele, instalará um complemento chamado **Peazip Compress Decompress Menu - Quic
 A diferença entre o PeaZip com o Ark(KDE) ou File Roller(GNOME) é da agua para o vinho em velocidade. Me faz pensar que KDE e GNOME deveriam descontinuar suas ferramentas de compactação e descompactação. Sério, é muita diferença de tempo mesmo! Lembre-se de que as ferramentas de terminal são muito rápidas, o problema mesmo é usá-las como frontend do gerenciador de arquivos no KDE/GNOME.  
 
 ## Cópia e sincronização de arquivos
-Fazer backups, transferencia de arquivos, sincronização e outros tipos de operação é uma tarefa que seria complicada em o uso do `rsync`. Vamos instalá0lo:  
+Fazer backups, transferência de arquivos, sincronização e outros tipos de operação é uma tarefa que seria complicada sem o `rsync`. Vamos instalá-lo:  
 ```bash
 sudo apt install -y rsync
 ```

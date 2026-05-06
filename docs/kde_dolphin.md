@@ -10,8 +10,8 @@ Este artigo descreve configurações do gerenciador de arquivos **Dolphin** que 
 
 ### Por que isso é indicado
 
-Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10 e Plasma 6.x, é relativamente comum que aplicações baseadas em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
-O sintoma mais frequente é a exibição de uma janela de diálogo vazia, sem listagem de arquivos, acompanhada da indicação de que a aplicação “não está respondendo”.
+Em ambientes KDE Plasma, especialmente em versões recentes como o Kubuntu 25.10 e Plasma 6.x, é relativamente comum que aplicativos baseados em Electron (como editores e IDEs) apresentem travamentos ao abrir o diálogo **Arquivo → Abrir pasta**.  
+O sintoma mais frequente é a exibição de uma janela de diálogo vazia, sem listagem de arquivos, acompanhada da indicação de que o aplicativo “não está respondendo”.
 
 Na prática, esse comportamento está quase sempre relacionado a **caminhos inexistentes ou indisponíveis** (por exemplo, `/mnt`, NFS, discos externos ou diretórios removidos) que permanecem registrados no histórico do sistema. O diálogo de arquivos tenta resolver automaticamente esses locais, o que pode resultar no bloqueio da interface.
 
@@ -24,9 +24,9 @@ A desativação dessa funcionalidade é especialmente recomendada para:
 - usuários que utilizam mounts temporários (`/mnt/backup`, `/mnt/nfs-*`);
 - ambientes com NFS ou compartilhamentos que nem sempre estão disponíveis;
 - estações de trabalho técnicas, servidores ou máquinas de desenvolvimento;
-- uso frequente de aplicações baseadas em Electron, como VS Code e Cursor.
+- uso frequente de aplicativos baseados em Electron, como VS Code e Cursor.
 
-O principal benefício dessa configuração é o aumento da **estabilidade e previsibilidade** do sistema, em detrimento de um recurso voltado principalmente ao uso doméstico.
+O principal benefício dessa configuração é o aumento da **estabilidade e previsibilidade** do sistema, em troca de um recurso voltado principalmente ao uso doméstico.
 
 ### Como configurar (KDE Plasma 6.4.5)
 
@@ -46,7 +46,7 @@ A partir do KDE Plasma 6, o controle da funcionalidade **Recentes** deixou de se
     Na seção **Interface**, em **Mostrar ao iniciar**, altere a opção de *Pastas, abas e estado das janelas da última vez* para a pasta utilizada com mais frequência, normalmente o diretório `$HOME` (`/home/fulano`), e confirme em **OK**
 11. Encerre a sessão do usuário (logout) e efetue novo login
 
-Essas alterações afetam todos os diálogos de arquivos do sistema, não apenas o Dolphin, incluindo aplicações baseadas em Electron.
+Essas alterações afetam todos os diálogos de arquivos do sistema, não apenas o Dolphin, incluindo aplicativos baseados em Electron.
 
 ---
 
@@ -117,7 +117,7 @@ Depois desse ajuste, protocolos como `smb://` , `sftp://`  e outros passarão a 
 
 ## Conclusão
 
-Travamentos no diálogo **Abrir pasta** raramente decorrem de falhas na aplicação em si. Na maioria dos casos, o problema está associado ao histórico de caminhos que o sistema tenta resolver automaticamente, incluindo diretórios inexistentes ou temporariamente indisponíveis.
+Travamentos no diálogo **Abrir pasta** raramente resultam de falhas no aplicativo em si. Na maioria dos casos, o problema está associado ao histórico de caminhos que o sistema tenta resolver automaticamente, incluindo diretórios inexistentes ou temporariamente indisponíveis.
 
 Ao:
 
@@ -126,7 +126,7 @@ Ao:
 
 o ambiente KDE passa a apresentar um comportamento mais robusto e previsível, especialmente em cenários avançados que envolvem mounts, rede e armazenamento externo.
 
-Essas configurações simples eliminam uma das principais causas de travamentos em aplicações Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico. Os demais ajustes mencionados são de caráter cosmético e podem ser adotados conforme a necessidade de cada usuário.
+Essas configurações simples eliminam uma das principais causas de travamentos em aplicativos Electron no KDE e são altamente recomendadas para ambientes de desenvolvimento e uso técnico. Os demais ajustes mencionados são de caráter cosmético e podem ser adotados conforme a necessidade de cada usuário.
 
 ----
 
